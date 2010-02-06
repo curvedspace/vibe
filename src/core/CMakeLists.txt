@@ -1,6 +1,9 @@
 project(QubeCore)
 
+add_definitions(-DQUBE_CORE_LIB)
+
+include_directories(${QT_INCLUDES})
+
 install(FILES
 	qube_global.h
-	QubeGlobal
 DESTINATION ${INCLUDE_INSTALL_DIR}/QubeCore COMPONENT Devel)
