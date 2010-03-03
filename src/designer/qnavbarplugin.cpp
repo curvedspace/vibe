@@ -70,3 +70,5 @@ QString QNavBarPlugin::includeFile() const
 }
 
 Q_EXPORT_PLUGIN2(qnavbarplugin, QNavBarPlugin)
+
+#include "qnavbarplugin.moc"

@@ -1,7 +1,7 @@
 #ifndef QNAVBARPLUGIN_H
 #define QNAVBARPLUGIN_H
 
-#include <QDesignerCustomWidgetInterface>
+#include <QtDesigner/QDesignerCustomWidgetInterface>
 
 class QNavBarPlugin : public QObject, public QDesignerCustomWidgetInterface
 {

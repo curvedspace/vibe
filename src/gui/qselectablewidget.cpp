@@ -78,3 +78,5 @@ void QSelectableWidget::mouseReleaseEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton)
         select(!d->isSelected);
 }
+
+#include "qselectablewidget.moc"

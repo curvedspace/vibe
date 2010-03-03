@@ -171,3 +171,5 @@ void QNavBar::onGroupExpanded(QNavBarGroup *group)
     Q_UNUSED(group)
     update();
 }
+
+#include "qnavbar.moc"

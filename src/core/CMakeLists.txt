@@ -2,8 +2,11 @@ project(QubeCore)
 
 add_definitions(-DQUBE_CORE_LIB)
 
-include_directories(${QT_INCLUDES})
+include_directories(${QT_INCLUDE_DIR})
+include_directories(${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR})
 
-install(FILES
-	qube_global.h
-DESTINATION ${INCLUDE_INSTALL_DIR}/QubeCore COMPONENT Devel)
+set(QubeCoreHeaders
+    qube_global.h
+)
+
+install(FILES ${QubeCoreHeaders} DESTINATION ${INCLUDE_INSTALL_DIR}/QubeCore COMPONENT Devel)

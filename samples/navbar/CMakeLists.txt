@@ -1,8 +1,20 @@
 project(NavbarExample)
 
-set(QT_USE_QTGUI, TRUE)
-include(${QT_USE_FILE})
+include_directories(${QT_INCLUDE_DIR})
+include_directories(${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR})
+include_directories(${CMAKE_SOURCE_DIR}/src/core ${CMAKE_SOURCE_DIR}/headers/QubeCore)
+include_directories(${CMAKE_SOURCE_DIR}/src/gui ${CMAKE_SOURCE_DIR}/headers/QubeGui)
 
-set(NavBarSources main.cpp)
+set(NavbarSources
+    main.cpp
+)
+
+set(NavbarResources
+    navbar.qrc
+)
+
 qt4_automoc(${NavbarSources})
+qt4_add_resources(NavbarResourceFiles ${NavbarResources})
 
+add_executable(navbar ${NavbarSources} ${NavbarResourceFiles})
+target_link_libraries(navbar ${QT_LIBRARIES} QubeGui)

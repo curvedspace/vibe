@@ -137,3 +137,5 @@ void QNavBarItem::setTextColor (const QColor& color) {
 	palette.setColor(QPalette::WindowText, color);
 	d->labelText->setPalette(palette);
 }
+
+#include "qnavbaritem.moc"

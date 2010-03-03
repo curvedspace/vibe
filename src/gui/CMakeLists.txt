@@ -2,9 +2,11 @@ project(QubeGui)
 
 add_definitions(-DQUBE_GUI_LIB)
 
-set(QT_USE_QTGUI, TRUE)
-include(${QT_USE_FILE})
-include_directories(../core ${QT_QTGUI_INCLUDE_DIR})
+include_directories(${QT_INCLUDE_DIR})
+include_directories(${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR})
+include_directories(${CMAKE_SOURCE_DIR}/src/core ${CMAKE_SOURCE_DIR}/headers/QubeCore)
+include_directories(${CMAKE_SOURCE_DIR}/src/gui ${CMAKE_SOURCE_DIR}/headers/QubeGui)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(QubeGuiSources
 	qclickablelabel.cpp
@@ -12,6 +14,14 @@ set(QubeGuiSources
 	qnavbargroup.cpp
 	qnavbaritem.cpp
 	qselectablewidget.cpp
+)
+
+set(QubeGuiHeaders
+    qclickablelabel.h
+    qnavbar.h
+    qnavbargroup.h
+    qnavbaritem.h
+    qselectablewidget.h
 )
 
 qt4_automoc(${QubeGuiSources})
@@ -24,10 +34,4 @@ set_target_properties(QubeGui PROPERTIES
 	VERSION 0.0.0
 	SOVERSION 0.0.0)
 
-install(FILES
-	qclickablelabel.h
-	qnavbar.h
-	qnavbargroup.h
-	qnavbaritem.h
-	qselectablewidget.h
-DESTINATION ${INCLUDE_INSTALL_DIR}/QubeGui COMPONENT Devel)
+install(FILES ${QubeGuiHeaders} DESTINATION ${INCLUDE_INSTALL_DIR}/QubeGui COMPONENT Devel)

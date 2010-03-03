@@ -241,3 +241,5 @@ void QNavBarGroup::onTitleClicked()
     if (!d->isStatic)
         expand(!d->isExpanded);
 }
+
+#include "qnavbargroup.moc"
