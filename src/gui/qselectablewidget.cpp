@@ -28,7 +28,8 @@ public:
 };
 
 QSelectableWidget::QSelectableWidget(QWidget *parent)
-    : QWidget(parent), d(new QSelectableWidget::Private)
+    : QWidget(parent),
+    d(new QSelectableWidget::Private())
 {
     d->isSelected = false;
 }

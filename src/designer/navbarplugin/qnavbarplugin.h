@@ -5,14 +5,17 @@
 
 class QNavBarPlugin : public QObject, public QDesignerCustomWidgetInterface
 {
-    Q_OBJECT
-    Q_INTERFACES(QDesignerCustomWidgetInterface)
-
+Q_OBJECT
+Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    QNavBarPlugin(QObject *parent = 0);
+    explicit QNavBarPlugin(const QIcon &icon, QObject *parent = 0);
 
-    bool isContainer() const;
+    void initialize(QDesignerFormEditorInterface *formEditor);
     bool isInitialized() const;
+    bool isContainer() const;
+
+    QWidget *createWidget(QWidget *parent);
+
     QIcon icon() const;
     QString domXml() const;
     QString group() const;
@@ -20,11 +23,10 @@ public:
     QString name() const;
     QString toolTip() const;
     QString whatsThis() const;
-    QWidget *createWidget(QWidget *parent);
-    void initialize(QDesignerFormEditorInterface *core);
 
 private:
     bool m_initialized;
+    QIcon m_icon;
 };
 
-#endif
+#endif // QNAVBARPLUGIN_H

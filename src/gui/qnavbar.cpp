@@ -81,11 +81,36 @@ QNavBarGroup *QNavBar::addGroup(const QString& title)
     return group;
 }
 
+void QNavBar::addGroups(QList<QNavBarGroup *>groups)
+{
+    for (int i = 0; i < groups.count(); ++i)
+        addGroup(groups.at(i));
+}
+
+void QNavBar::removeGroup(QNavBarGroup *group)
+{
+    d->layout->removeWidget(group);
+}
+
+void QNavBar::clear()
+{
+    for (int i = 0; i < d->layout->count(); ++i) {
+        QWidget *widget = d->layout->itemAt(i)->widget();
+        d->layout->removeWidget(widget);
+    }
+}
+
+QList<QNavBarGroup *> QNavBar::groups() const
+{
+    QList<QNavBarGroup *> list;
+
+    for (int i = 0; i < d->layout->count(); ++i)
+        list.append(qobject_cast<QNavBarGroup *>(d->layout->itemAt(i)->widget()));
+}
+
 bool QNavBar::containsGroup(QNavBarGroup *group)
 {
-    int itemCount = d->layout->count();
-
-    for (int i = 0; i < itemCount; ++i) {
+    for (int i = 0; i < d->layout->count(); ++i) {
         QWidget *widget = d->layout->itemAt(i)->widget();
         if (widget == group)
             return true;

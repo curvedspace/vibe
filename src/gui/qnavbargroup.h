@@ -66,9 +66,6 @@ signals:
 public slots:
     void expand(bool expand);
 
-protected:
-    void paintEvent(QPaintEvent *event);
-
 private slots:
     void onItemSelected(QSelectableWidget *item);
     void onTitleClicked();

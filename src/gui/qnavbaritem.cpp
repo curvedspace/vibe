@@ -45,7 +45,7 @@ void QNavBarItem::Private::initialize (QNavBarItem *item) {
 
 	// Setup Font
         QFont font = labelText->font();
-	font.setPixelSize(10);
+        font.setPointSizeF(font.pointSizeF() * 0.75f);
 	labelText->setFont(font);
 
 	// Add Items to Layout

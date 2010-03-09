@@ -9,4 +9,4 @@ set(QubeCoreHeaders
     qube_global.h
 )
 
-install(FILES ${QubeCoreHeaders} DESTINATION ${INCLUDE_INSTALL_DIR}/QubeCore COMPONENT Devel)
+install(FILES ${QubeCoreHeaders} DESTINATION ${QT_INCLUDE_DIR}/Qube/QubeCore COMPONENT Devel)

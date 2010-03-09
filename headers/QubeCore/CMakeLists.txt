@@ -1,5 +1,7 @@
 project(QubeCoreHeaders)
 
-install(FILES
-	QubeGlobal
-DESTINATION ${INCLUDE_INSTALL_DIR}/QubeCore COMPONENT Devel)
+set(QubeCoreHeaderFiles
+    QubeGlobal
+)
+
+install(FILES ${QubeCoreHeaderFiles} DESTINATION ${QT_INCLUDE_DIR}/Qube/QubeCore COMPONENT Devel)

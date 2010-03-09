@@ -20,7 +20,7 @@
 #ifndef NAVBAR_H_
 #define NAVBAR_H_
 
-#include <QWidget>
+#include <QtGui/QWidget>
 
 #include "qube_global.h"
 #include "qnavbargroup.h"
@@ -38,7 +38,13 @@ public:
     // Methods - Groups Related
     void addGroup(QNavBarGroup *group);
     QNavBarGroup *addGroup(const QString& title);
+    void addGroups(QList<QNavBarGroup *> groups);
 
+    void removeGroup(QNavBarGroup *group);
+
+    void clear();
+
+    QList<QNavBarGroup *> groups() const;
     bool containsGroup(QNavBarGroup *group);
 
     // GET Properties

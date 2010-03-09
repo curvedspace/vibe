@@ -21,20 +21,89 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QPaintEvent>
+#include <QtGui/QPainter>
+#include <QtGui/QStyle>
+#include <QtGui/QStyleOption>
 
 // Quartica Headers
 #include "qclickablelabel.h"
 #include "qnavbargroup.h"
 
-// =============================================================================
-//  NavBarGroup: PRIVATE Class
-// =============================================================================
+class ArrowLabel : public QClickableLabel
+{
+public:
+    ArrowLabel(bool isStatic)
+        : QClickableLabel(),
+        m_isStatic(isStatic),
+        m_arrow(QStyle::PE_IndicatorArrowDown)
+    {
+        QFont f = font();
+        f.setBold(true);
+        f.setPointSizeF(f.pointSizeF() * 0.75f);
+        setFont(f);
+    }
+
+    bool isStatic() const
+    {
+        return m_isStatic;
+    }
+
+    void setStatic(bool flag)
+    {
+        m_isStatic = flag;
+    }
+
+protected:
+    void paintEvent(QPaintEvent *)
+    {
+        QPainter painter(this);
+        const unsigned int arrowSize = contentsRect().height();
+
+        // Set text and arrow's color
+        QBrush brush = palette().brush(QPalette::WindowText);
+        painter.setBrush(brush);
+
+        // Draw arrow from style
+        QStyleOption opt;
+        opt.init(this);
+        if (isEnabled())
+            opt.state |= QStyle::State_Enabled;
+        opt.rect = QRect(0, 0, arrowSize, arrowSize);
+        style()->drawPrimitive(m_arrow, &opt, &painter, this);
+
+        // Draw text
+        QRect r = contentsRect();
+        r.adjust(arrowSize + 2, 0, arrowSize + 2, 0);
+        style()->drawItemText(&painter, r, 0, palette(), isEnabled(),
+                              text(), QPalette::WindowText);
+    }
+
+    void mouseReleaseEvent(QMouseEvent *event)
+    {
+        QClickableLabel::mouseReleaseEvent(event);
+
+        // Can't continue if static
+        if (m_isStatic)
+            return;
+
+        // Change arrow
+        if (m_arrow == QStyle::PE_IndicatorArrowDown)
+            m_arrow = QStyle::PE_IndicatorArrowRight;
+        else
+            m_arrow = QStyle::PE_IndicatorArrowDown;
+    }
+
+private:
+    bool m_isStatic;
+    QStyle::PrimitiveElement m_arrow;
+};
+
 class QNavBarGroup::Private {
 	public:
                 QList<QNavBarItem *> listItems;
-                QClickableLabel *labelTitle;
+                ArrowLabel *labelTitle;
 		QVBoxLayout *layout;
-		bool isExpanded;
+                bool isExpanded;
                 bool isStatic;
 
 	public:
@@ -43,24 +112,17 @@ class QNavBarGroup::Private {
 
 void QNavBarGroup::Private::initialize (QNavBarGroup *group) {
 	// Initialize Members
-	layout = new QVBoxLayout;
-        labelTitle = new QClickableLabel;
+        layout = new QVBoxLayout();
+        labelTitle = new ArrowLabel(false);
 
         // Set expanded flag
 	isExpanded = true;
 
-        // Set static flag
-        isStatic = false;
-
 	// Add Layout Items
-	layout->addWidget(labelTitle);
+        layout->addWidget(labelTitle);
 
-        // Set label title
-        QFont font = labelTitle->font();
-	font.setBold(true);
-	font.setPixelSize(10);
-	labelTitle->setFont(font);
-	labelTitle->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+        // Set label title alignment
+        labelTitle->setAlignment(Qt::AlignTop | Qt::AlignLeft);
 
 	// Setup Layout
 	layout->setSpacing(1);
@@ -75,21 +137,21 @@ QNavBarGroup::QNavBarGroup (QWidget *parent)
         : QWidget(parent), d(new QNavBarGroup::Private)
 {
 	d->initialize(this);
-        setStatic(false);
 
 	// Add Events
-	connect(d->labelTitle, SIGNAL(clicked()), this, SLOT(onTitleClicked()));
+        connect(d->labelTitle, SIGNAL(clicked()),
+                this, SLOT(onTitleClicked()));
 }
 
 QNavBarGroup::QNavBarGroup (const QString& title, QWidget *parent)
         : QWidget(parent), d(new QNavBarGroup::Private)
 {
 	d->initialize(this);
-	d->labelTitle->setText(title);
-        setStatic(false);
+        d->labelTitle->setText(title);
 
 	// Add Events
-	connect(d->labelTitle, SIGNAL(clicked()), this, SLOT(onTitleClicked()));
+        connect(d->labelTitle, SIGNAL(clicked()),
+                this, SLOT(onTitleClicked()));
 }
 
 QNavBarGroup::~QNavBarGroup() {
@@ -170,7 +232,7 @@ bool QNavBarGroup::isExpanded() const
 
 bool QNavBarGroup::isStatic() const
 {
-    return d->isStatic;
+    return d->labelTitle->isStatic();
 }
 
 // =============================================================================
@@ -192,25 +254,14 @@ void QNavBarGroup::setStatic(bool flag)
     if (flag)
         expand(true);
 
-    d->isStatic = flag;
-}
-
-void QNavBarGroup::paintEvent(QPaintEvent *event)
-{
-    QWidget::paintEvent(event);
-#if 0
-    if (flag)
-        d->labelTitle->setPixmap(QPixmap());
-    else {
-        QPixmap pix(":/icons/z_apple.png");
-        d->labelTitle->setPixmap(pix);
-    }
-#endif
+    d->labelTitle->setStatic(flag);
 }
 
 void QNavBarGroup::expand(bool expand)
 {
     if (d->isExpanded == expand)
+        return;
+    if (d->isStatic)
         return;
 
     if (expand) {
@@ -238,7 +289,7 @@ void QNavBarGroup::onItemSelected(QSelectableWidget *item)
 
 void QNavBarGroup::onTitleClicked()
 {
-    if (!d->isStatic)
+    if (!d->labelTitle->isStatic())
         expand(!d->isExpanded);
 }
 
