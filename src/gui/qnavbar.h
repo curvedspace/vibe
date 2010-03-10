@@ -28,9 +28,6 @@
 class QUBESHARED_EXPORT QNavBar : public QWidget
 {
 Q_OBJECT
-
-Q_PROPERTY(QColor selectionColor READ selectionColor WRITE setSelectionColor)
-Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
 public:
     QNavBar(QWidget *parent = 0);
     ~QNavBar();
@@ -46,14 +43,6 @@ public:
 
     QList<QNavBarGroup *> groups() const;
     bool containsGroup(QNavBarGroup *group);
-
-    // GET Properties
-    QColor selectionColor(void) const;
-    QColor backgroundColor(void) const;
-
-    // SET Properties
-    void setBackgroundColor(const QColor& bgColor);
-    void setSelectionColor(const QColor& selectionColor);
 
 protected:
     void paintEvent (QPaintEvent *event);
