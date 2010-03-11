@@ -37,7 +37,6 @@ namespace Qube
 	Q_DECLARE_PRIVATE(MimeType)
     public:
 	explicit MimeType(const QString &mimeType = QString::null, QObject *parent = 0);
-	~MimeType();
 
 	bool fromFileName(const QString& fileName);
 	bool fromFile(QFile *file);
@@ -63,6 +62,8 @@ namespace Qube
 	bool checkMatch(const QDomElement &matchNode, QFile *file);
 
     private:
+	MimeTypePrivate *d_ptr;
+
 	bool checkMagicString(const QString &offset, const QByteArray &value,
 			      const QByteArray &mask, QFile *file);
     };

@@ -21,7 +21,6 @@
 #include <QtCore/QStringList>
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
-#include <QDebug>
 
 #include "mimetype.h"
 
@@ -223,21 +222,14 @@ namespace Qube
     class MimeTypePrivate
     {
     public:
-	MimeTypePrivate()
-	{
-	}
-
-	~MimeTypePrivate()
-	{
-	}
-
 	QString mimeType;
 	QDomDocument xmlDocument;
 	QDomElement mimeNode;
     };
 
     MimeType::MimeType(const QString &mimeType, QObject *parent) :
-	    QObject(parent)
+	    QObject(parent),
+	    d_ptr(new MimeTypePrivate())
     {
 	Q_D(MimeType);
 
@@ -250,10 +242,6 @@ namespace Qube
 	    d->xmlDocument.setContent(&xml);
 	    xml.close();
 	}
-    }
-
-    MimeType::~MimeType()
-    {
     }
 
     bool MimeType::fromFileName(const QString &fileName)
