@@ -21,6 +21,7 @@
 #include <QtCore/QStringList>
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
+#include <QDebug>
 
 #include "mimetype.h"
 
