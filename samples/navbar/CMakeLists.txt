@@ -17,4 +17,4 @@ qt4_automoc(${NavbarSources})
 qt4_add_resources(NavbarResourceFiles ${NavbarResources})
 
 add_executable(navbar ${NavbarSources} ${NavbarResourceFiles})
-target_link_libraries(navbar ${QT_LIBRARIES} QubeGui)
+target_link_libraries(navbar QubeGui)
