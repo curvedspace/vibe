@@ -1,25 +1,24 @@
-/* 
- *  This file is part of Quartica.
+/****************************************************************************
  *
- *  Copyright (c) 2008 Matteo Bertozzi <theo.bertozzi@gmail.com>
+ * Copyright (c) 2010 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ * Copyright (c) 2008 Matteo Bertozzi <theo.bertozzi@gmail.com>
+ * All rights reserved.
  *
- *  Quartica is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ * Contact: Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
- *  Quartica is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * GNU Lesser General Public License Usage
+ * This file may be used under the terms of the GNU Lesser
+ * General Public License version 2.1 as published by the Free Software
+ * Foundation and appearing in the file LICENSE.LGPL included in the
+ * packaging of this file.  Please review the following information to
+ * ensure the GNU Lesser General Public License version 2.1 requirements
+ * will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with Quartica.  If not, see <http://www.gnu.org/licenses/>.
- */
+ ***************************************************************************/
 
-#include <QPaintEvent>
-#include <QVBoxLayout>
-#include <QPainter>
+#include <QtGui/QPaintEvent>
+#include <QtGui/QPainter>
+#include <QtGui/QVBoxLayout>
 
 #include "qnavbar.h"
 
@@ -28,7 +27,7 @@ class QNavBar::Private
 public:
     QVBoxLayout *layout;
 
-    // Current Selection
+    // Current selection
     QNavBarGroup *groupSelected;
     QNavBarItem *itemSelected;
 };
@@ -37,7 +36,7 @@ QNavBar::QNavBar(QWidget *parent)
     : QWidget(parent),
     d(new QNavBar::Private)
 {
-    // Initialize Members
+    // Initialize members
     d->layout = new QVBoxLayout();
     d->itemSelected = NULL;
     d->groupSelected = NULL;
@@ -50,19 +49,18 @@ QNavBar::QNavBar(QWidget *parent)
 QNavBar::~QNavBar()
 {
     delete d;
-    d = NULL;
 }
 
 void QNavBar::addGroup(QNavBarGroup *group)
 {
-    // Set Font
+    // Set font
     group->setTitleColor(QColor(0x65, 0x71, 0x80));
 
-    // Add Events
+    // Add events
     connect(group, SIGNAL(selected(QNavBarGroup *, QNavBarItem *)),
-            this, SLOT(onItemSelected(QNavBarGroup *, QNavBarItem *)));
+            this, SLOT(itemSelected(QNavBarGroup *, QNavBarItem *)));
 
-    // Add to Layout
+    // Add to layout
     d->layout->insertWidget(d->layout->count() - 1, group);
 }
 
@@ -121,7 +119,6 @@ void QNavBar::paintEvent(QPaintEvent *event)
 
     //QColor colorBackground = palette().color(QPalette::Midlight);
     QColor colorBackground(0xdf, 0xe4, 0xea);
-    QColor colorSelection = palette().color(QPalette::Highlight);
 
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
@@ -132,6 +129,7 @@ void QNavBar::paintEvent(QPaintEvent *event)
         QPoint pos = d->groupSelected->pos() + d->itemSelected->pos();
         int width = geometry().width();
 
+        QColor colorSelection = palette().color(QPalette::Highlight);
         int r = colorSelection.red();
         int g = colorSelection.green();
         int b = colorSelection.blue();
@@ -147,7 +145,7 @@ void QNavBar::paintEvent(QPaintEvent *event)
     p.end();
 }
 
-void QNavBar::onItemSelected(QNavBarGroup *group, QNavBarItem *item)
+void QNavBar::itemSelected(QNavBarGroup *group, QNavBarItem *item)
 {
     if (d->itemSelected != NULL && d->itemSelected != item) {
         d->itemSelected->setFont(item->font());
@@ -167,9 +165,8 @@ void QNavBar::onItemSelected(QNavBarGroup *group, QNavBarItem *item)
     update();
 }
 
-void QNavBar::onGroupExpanded(QNavBarGroup *group)
+void QNavBar::groupExpanded(QNavBarGroup *)
 {
-    Q_UNUSED(group)
     update();
 }
 

@@ -1,26 +1,25 @@
-/* 
- *  This file is part of Quartica.
+/****************************************************************************
  *
- *  Copyright (c) 2008 Matteo Bertozzi <theo.bertozzi@gmail.com>
+ * Copyright (c) 2010 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ * Copyright (c) 2008 Matteo Bertozzi <theo.bertozzi@gmail.com>
+ * All rights reserved.
  *
- *  Quartica is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ * Contact: Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
- *  Quartica is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * GNU Lesser General Public License Usage
+ * This file may be used under the terms of the GNU Lesser
+ * General Public License version 2.1 as published by the Free Software
+ * Foundation and appearing in the file LICENSE.LGPL included in the
+ * packaging of this file.  Please review the following information to
+ * ensure the GNU Lesser General Public License version 2.1 requirements
+ * will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with Quartica.  If not, see <http://www.gnu.org/licenses/>.
- */
+ ***************************************************************************/
 
-#ifndef NAVBARGROUP_H
-#define NAVBARGROUP_H
+#ifndef QNAVBARGROUP_H
+#define QNAVBARGROUP_H
 
-#include <QWidget>
+#include <QtGui/QWidget>
 
 #include "qube_global.h"
 #include "qnavbaritem.h"
@@ -28,36 +27,32 @@
 class QUBESHARED_EXPORT QNavBarGroup : public QWidget
 {
 Q_OBJECT
-
 Q_PROPERTY(QString title READ title WRITE setTitle)
 Q_PROPERTY(bool isStatic READ isStatic WRITE setStatic)
 Q_PROPERTY(bool isExpanded READ isExpanded WRITE expand)
 public:
-    QNavBarGroup(QWidget *parent = 0);
-    QNavBarGroup(const QString& title, QWidget *parent = 0);
+    explicit QNavBarGroup(QWidget *parent = 0);
+    QNavBarGroup(const QString &title, QWidget *parent = 0);
     ~QNavBarGroup();
 
-    // Methods - Add Item
     void addItem(QNavBarItem *item);
     void addItem(QNavBarItem *item, int index);
 
-    // Methods - Create and Add Item
-    QNavBarItem *addItem(const QString& text);
-    QNavBarItem *addItem(const QPixmap& icon, const QString& text);
-    QNavBarItem *addItem(const QPixmap& icon, const QString& text, int index);
+    QNavBarItem *addItem(const QString &text);
+    QNavBarItem *addItem(const QPixmap &icon, const QString &text);
+    QNavBarItem *addItem(const QPixmap &icon, const QString &text, int index);
 
-    // Methods
     bool containsItem(QNavBarItem *item);
 
-    // GET Properties
     QString title() const;
-    bool isStatic() const;
+    void setTitle(const QString &title);
+
     bool isExpanded() const;
 
-    // SET Properties
-    void setTitle(const QString& title);
-    void setTitleColor(const QColor& color);
+    bool isStatic() const;
     void setStatic(bool flag);
+
+    void setTitleColor(const QColor &color);
 
 signals:
     void selected(QNavBarGroup *group, QNavBarItem *item);
@@ -67,12 +62,12 @@ public slots:
     void expand(bool expand);
 
 private slots:
-    void onItemSelected(QSelectableWidget *item);
-    void onTitleClicked();
+    void itemSelected(QSelectableWidget *item);
+    void titleClicked();
 
 private:
     class Private;
     Private *d;
 };
 
-#endif  // NAVBARGROUP_H
+#endif // QNAVBARGROUP_H

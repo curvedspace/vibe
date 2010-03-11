@@ -1,31 +1,28 @@
-/* 
- *  This file is part of Quartica.
+/****************************************************************************
  *
- *  Copyright (c) 2008 Matteo Bertozzi <theo.bertozzi@gmail.com>
+ * Copyright (c) 2010 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ * Copyright (c) 2008 Matteo Bertozzi <theo.bertozzi@gmail.com>
+ * All rights reserved.
  *
- *  Quartica is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ * Contact: Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
- *  Quartica is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * GNU Lesser General Public License Usage
+ * This file may be used under the terms of the GNU Lesser
+ * General Public License version 2.1 as published by the Free Software
+ * Foundation and appearing in the file LICENSE.LGPL included in the
+ * packaging of this file.  Please review the following information to
+ * ensure the GNU Lesser General Public License version 2.1 requirements
+ * will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with Quartica.  If not, see <http://www.gnu.org/licenses/>.
- */
+ ***************************************************************************/
 
-// Qt4 Headers
-#include <QVBoxLayout>
-#include <QLabel>
-#include <QPaintEvent>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QPaintEvent>
 #include <QtGui/QPainter>
 #include <QtGui/QStyle>
 #include <QtGui/QStyleOption>
 
-// Quartica Headers
 #include "qclickablelabel.h"
 #include "qnavbargroup.h"
 
@@ -98,154 +95,142 @@ private:
     QStyle::PrimitiveElement m_arrow;
 };
 
-class QNavBarGroup::Private {
-	public:
-                QList<QNavBarItem *> listItems;
-                ArrowLabel *labelTitle;
-		QVBoxLayout *layout;
-                bool isExpanded;
-                bool isStatic;
+class QNavBarGroup::Private
+{
+public:
+    QList<QNavBarItem *> listItems;
+    ArrowLabel *labelTitle;
+    QVBoxLayout *layout;
+    bool isExpanded;
+    bool isStatic;
 
-	public:
-                void initialize (QNavBarGroup *group);
+    void initialize(QNavBarGroup *group);
 };
 
-void QNavBarGroup::Private::initialize (QNavBarGroup *group) {
-	// Initialize Members
-        layout = new QVBoxLayout();
-        labelTitle = new ArrowLabel(false);
-
-        // Set expanded flag
-	isExpanded = true;
-
-	// Add Layout Items
-        layout->addWidget(labelTitle);
-
-        // Set label title alignment
-        labelTitle->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-
-	// Setup Layout
-	layout->setSpacing(1);
-	layout->setContentsMargins(0, 0, 0, 0);
-	group->setLayout(layout);
-}
-
-// =============================================================================
-//  NavBarGroup: PUBLIC Constructors/Destructors
-// =============================================================================
-QNavBarGroup::QNavBarGroup (QWidget *parent)
-        : QWidget(parent), d(new QNavBarGroup::Private)
+void QNavBarGroup::Private::initialize(QNavBarGroup *group)
 {
-	d->initialize(this);
+    // Initialize members
+    layout = new QVBoxLayout();
+    labelTitle = new ArrowLabel(false);
 
-	// Add Events
-        connect(d->labelTitle, SIGNAL(clicked()),
-                this, SLOT(onTitleClicked()));
+    // Set expanded flag
+    isExpanded = true;
+
+    // Set static flag
+    isStatic = false;
+
+    // Add layout items
+    layout->addWidget(labelTitle);
+
+    // Set label title alignment
+    labelTitle->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+
+    // Setup layout
+    layout->setSpacing(1);
+    layout->setContentsMargins(0, 0, 0, 0);
+    group->setLayout(layout);
 }
 
-QNavBarGroup::QNavBarGroup (const QString& title, QWidget *parent)
-        : QWidget(parent), d(new QNavBarGroup::Private)
+QNavBarGroup::QNavBarGroup(QWidget *parent)
+    : QWidget(parent),
+    d(new QNavBarGroup::Private)
 {
-	d->initialize(this);
-        d->labelTitle->setText(title);
+    d->initialize(this);
 
-	// Add Events
-        connect(d->labelTitle, SIGNAL(clicked()),
-                this, SLOT(onTitleClicked()));
+    connect(d->labelTitle, SIGNAL(clicked()),
+            this, SLOT(titleClicked()));
 }
 
-QNavBarGroup::~QNavBarGroup() {
-	delete d;
-	d = NULL;
+QNavBarGroup::QNavBarGroup(const QString &title, QWidget *parent)
+        : QWidget(parent),
+        d(new QNavBarGroup::Private)
+{
+    d->initialize(this);
+    d->labelTitle->setText(title);
+
+    connect(d->labelTitle, SIGNAL(clicked()),
+            this, SLOT(titleClicked()));
 }
 
-// =============================================================================
-//  NavBarGroup: PUBLIC Methods - Add Item
-// =============================================================================
-void QNavBarGroup::addItem (QNavBarItem *item) {
-	// Insert Item Space
-	item->insertSpacing(0, 10);
-
-	// Insert Item into Item List
-	d->listItems.append(item);
-
-	// Add Item to Layout
-	d->layout->addWidget(item);
-
-	// Add Event
-        connect(item, SIGNAL(selected(QSelectableWidget *)),
-                        this, SLOT(onItemSelected(QSelectableWidget *)));
+QNavBarGroup::~QNavBarGroup()
+{
+    delete d;
 }
 
-void QNavBarGroup::addItem (QNavBarItem *item, int index) {
-	// Insert Item Space
-	item->insertSpacing(0, 20);
+void QNavBarGroup::addItem(QNavBarItem *item)
+{
+    // Insert item space
+    item->insertSpacing(0, 10);
 
-	// Insert Item into Item List
-	d->listItems.insert(index, item);
+    // Insert item into item list
+    d->listItems.append(item);
 
-	// Add Item to Layout
-	d->layout->insertWidget(index, item);
+    // Add item to Layout
+    d->layout->addWidget(item);
 
-	// Add Event
-        connect(item, SIGNAL(selected(QSelectableWidget *)),
-                        this, SLOT(onItemSelected(QSelectableWidget *)));
+    connect(item, SIGNAL(selected(QSelectableWidget *)),
+            this, SLOT(itemSelected(QSelectableWidget *)));
 }
 
-// =============================================================================
-//  NavBarGroup: PUBLIC Methods - Create and Add Item
-// =============================================================================
-QNavBarItem *QNavBarGroup::addItem (const QString& text) {
-        QNavBarItem *item = new QNavBarItem(text);
-	addItem(item);
-	return(item);
+void QNavBarGroup::addItem(QNavBarItem *item, int index)
+{
+    // Insert item space
+    item->insertSpacing(0, 20);
+
+    // Insert item into item list
+    d->listItems.insert(index, item);
+
+    // Add item to layout
+    d->layout->insertWidget(index, item);
+
+    connect(item, SIGNAL(selected(QSelectableWidget *)),
+            this, SLOT(itemSelected(QSelectableWidget *)));
 }
 
-QNavBarItem *QNavBarGroup::addItem (const QPixmap& icon, const QString& text) {
-        QNavBarItem *item = new QNavBarItem(icon, text);
-	addItem(item);
-	return(item);
+QNavBarItem *QNavBarGroup::addItem(const QString &text)
+{
+    QNavBarItem *item = new QNavBarItem(text);
+    addItem(item);
+    return item;
 }
 
-QNavBarItem *QNavBarGroup::addItem (const QPixmap& icon, const QString& text, int index) {
-        QNavBarItem *item = new QNavBarItem(icon, text);
-	addItem(item, index);	
-	return(item);
+QNavBarItem *QNavBarGroup::addItem(const QPixmap &icon, const QString &text)
+{
+    QNavBarItem *item = new QNavBarItem(icon, text);
+    addItem(item);
+    return item;
 }
 
-// =============================================================================
-//  NavBarGroup: PUBLIC Methods
-// =============================================================================
-bool QNavBarGroup::containsItem (QNavBarItem *item) {
-	return(d->listItems.contains(item));
+QNavBarItem *QNavBarGroup::addItem(const QPixmap &icon, const QString &text, int index)
+{
+    QNavBarItem *item = new QNavBarItem(icon, text);
+    addItem(item, index);
+    return item;
+}
+
+bool QNavBarGroup::containsItem(QNavBarItem *item)
+{
+    return d->listItems.contains(item);
 }
 
 QString QNavBarGroup::title() const
 {
-        return d->labelTitle->text();
+    return d->labelTitle->text();
+}
+
+void QNavBarGroup::setTitle(const QString &title)
+{
+    d->labelTitle->setText(title);
 }
 
 bool QNavBarGroup::isExpanded() const
 {
-        return d->isExpanded;
+    return d->isExpanded;
 }
 
 bool QNavBarGroup::isStatic() const
 {
     return d->labelTitle->isStatic();
-}
-
-// =============================================================================
-//  NavBarGroup: PUBLIC Set Properties
-// =============================================================================
-void QNavBarGroup::setTitle (const QString& title) {
-	d->labelTitle->setText(title);
-}
-
-void QNavBarGroup::setTitleColor (const QColor& color) {
-	QPalette palette = d->labelTitle->palette();
-	palette.setColor(QPalette::WindowText, color);
-	d->labelTitle->setPalette(palette);
 }
 
 void QNavBarGroup::setStatic(bool flag)
@@ -255,6 +240,13 @@ void QNavBarGroup::setStatic(bool flag)
         expand(true);
 
     d->labelTitle->setStatic(flag);
+}
+
+void QNavBarGroup::setTitleColor (const QColor &color)
+{
+    QPalette palette = d->labelTitle->palette();
+    palette.setColor(QPalette::WindowText, color);
+    d->labelTitle->setPalette(palette);
 }
 
 void QNavBarGroup::expand(bool expand)
@@ -278,16 +270,16 @@ void QNavBarGroup::expand(bool expand)
 
     d->isExpanded = expand;
 
-    // Raise Expanded Event
+    // Raise expanded event
     emit expanded(this);
 }
 
-void QNavBarGroup::onItemSelected(QSelectableWidget *item)
+void QNavBarGroup::itemSelected(QSelectableWidget *item)
 {
     emit selected(this, (QNavBarItem *)item);
 }
 
-void QNavBarGroup::onTitleClicked()
+void QNavBarGroup::titleClicked()
 {
     if (!d->labelTitle->isStatic())
         expand(!d->isExpanded);

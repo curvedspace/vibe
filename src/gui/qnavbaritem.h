@@ -1,26 +1,25 @@
-/* 
- *  This file is part of Quartica.
+/****************************************************************************
  *
- *  Copyright (c) 2008 Matteo Bertozzi <theo.bertozzi@gmail.com>
+ * Copyright (c) 2010 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ * Copyright (c) 2008 Matteo Bertozzi <theo.bertozzi@gmail.com>
+ * All rights reserved.
  *
- *  Quartica is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ * Contact: Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
- *  Quartica is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * GNU Lesser General Public License Usage
+ * This file may be used under the terms of the GNU Lesser
+ * General Public License version 2.1 as published by the Free Software
+ * Foundation and appearing in the file LICENSE.LGPL included in the
+ * packaging of this file.  Please review the following information to
+ * ensure the GNU Lesser General Public License version 2.1 requirements
+ * will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with Quartica.  If not, see <http://www.gnu.org/licenses/>.
- */
+ ***************************************************************************/
 
-#ifndef NAVBARITEM_H
-#define NAVBARITEM_H
+#ifndef QNAVBARITEM_H
+#define QNAVBARITEM_H
 
-#include <QWidget>
+#include <QtGui/QWidget>
 
 #include "qube_global.h"
 #include "qselectablewidget.h"
@@ -28,34 +27,30 @@
 class QUBESHARED_EXPORT QNavBarItem : public QSelectableWidget
 {
 Q_OBJECT
-
 Q_PROPERTY(QString text READ text WRITE setText)
 Q_PROPERTY(QPixmap icon READ icon WRITE setIcon)
 public:
-    QNavBarItem(QWidget *parent = 0);
-    QNavBarItem(const QString& text, QWidget *parent = 0);
-    QNavBarItem(const QPixmap& icon, const QString& text, QWidget *parent = 0);
+    explicit QNavBarItem(QWidget *parent = 0);
+    QNavBarItem(const QString &text, QWidget *parent = 0);
+    QNavBarItem(const QPixmap &icon, const QString &text, QWidget *parent = 0);
     ~QNavBarItem();
 
-    // Methods
     void addSpacing(int size);
     void addWidget(QWidget *widget, int stretch = 0);
 
     void insertSpacing(int index, int size);
     void insertWidget(int index, QWidget *widget, int stretch = 0);
 
-    // GET Properties
     QString text() const;
-    const QPixmap *icon() const;
+    void setText(const QString &text);
+    void setTextColor(const QColor &color);
 
-    // SET Properties
-    void setIcon(const QPixmap& icon);
-    void setText(const QString& text);
-    void setTextColor(const QColor& color);
+    const QPixmap *icon() const;
+    void setIcon(const QPixmap &icon);
 
 private:
     class Private;
     Private *d;
 };
 
-#endif  // NAVBARITEM_H
+#endif // QNAVBARITEM_H

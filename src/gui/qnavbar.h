@@ -1,24 +1,23 @@
-/* 
- *  This file is part of Quartica.
+/****************************************************************************
  *
- *  Copyright (c) 2008 Matteo Bertozzi <theo.bertozzi@gmail.com>
+ * Copyright (c) 2010 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ * Copyright (c) 2008 Matteo Bertozzi <theo.bertozzi@gmail.com>
+ * All rights reserved.
  *
- *  Quartica is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ * Contact: Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
- *  Quartica is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * GNU Lesser General Public License Usage
+ * This file may be used under the terms of the GNU Lesser
+ * General Public License version 2.1 as published by the Free Software
+ * Foundation and appearing in the file LICENSE.LGPL included in the
+ * packaging of this file.  Please review the following information to
+ * ensure the GNU Lesser General Public License version 2.1 requirements
+ * will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with Quartica.  If not, see <http://www.gnu.org/licenses/>.
- */
+ ***************************************************************************/
 
-#ifndef NAVBAR_H_
-#define NAVBAR_H_
+#ifndef QNAVBAR_H
+#define QNAVBAR_H
 
 #include <QtGui/QWidget>
 
@@ -29,10 +28,9 @@ class QUBESHARED_EXPORT QNavBar : public QWidget
 {
 Q_OBJECT
 public:
-    QNavBar(QWidget *parent = 0);
+    explicit QNavBar(QWidget *parent = 0);
     ~QNavBar();
 
-    // Methods - Groups Related
     void addGroup(QNavBarGroup *group);
     QNavBarGroup *addGroup(const QString& title);
     void addGroups(QList<QNavBarGroup *> groups);
@@ -48,12 +46,12 @@ protected:
     void paintEvent (QPaintEvent *event);
 
 private slots:
-    void onGroupExpanded(QNavBarGroup *group);
-    void onItemSelected(QNavBarGroup *group, QNavBarItem *item);
+    void itemSelected(QNavBarGroup *group, QNavBarItem *item);
+    void groupExpanded(QNavBarGroup *);
 
 private:
     class Private;
     Private *d;
 };
 
-#endif  // NAVBAR_H_
+#endif // QNAVBAR_H
