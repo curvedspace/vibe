@@ -28,4 +28,4 @@ qt4_wrap_ui(TrackerUiFiles ${TrackerUis})
 qt4_add_resources(TrackerResourceFiles ${TrackerResources})
 
 add_executable(tracker ${TrackerSources} ${TrackerMocSources} ${TrackerUiFiles} ${TrackerResourceFiles})
-target_link_libraries(tracker ${QT_LIBRARIES} QubeGui)
+target_link_libraries(tracker QubeGui)
