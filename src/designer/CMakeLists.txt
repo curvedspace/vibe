@@ -9,7 +9,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 add_definitions(${QT_DEFINITIONS})
 add_definitions(-DQT_PLUGIN -DQT_NO_DEBUG -DQT_SHARED)
 
-set(QubeWidgetsMocSources
+set(QubeWidgetsSources
     qubewidgets.cpp
     navbarplugin/qnavbarplugin.cpp
     #navbarplugin/qnavbarplugintaskmenu.cpp
@@ -17,10 +17,10 @@ set(QubeWidgetsMocSources
     #navbarplugin/qnavbarplugindialog.cpp
 )
 
-qt4_automoc(${QubeWidgetsMocSources})
+qt4_automoc(${QubeWidgetsSources})
 qt4_add_resources(QubeWidgetsResourceFiles icons.qrc)
 
-add_library(QubeWidgetsPlugin SHARED ${QubeWidgetsMocSources} ${QubeWidgetsResourceFiles})
+add_library(QubeWidgetsPlugin SHARED ${QubeWidgetsSources} ${QubeWidgetsResourceFiles})
 
 target_link_libraries(QubeWidgetsPlugin ${QT_QTDESIGNER_LIBRARY} QubeGui)
 

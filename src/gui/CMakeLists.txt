@@ -8,7 +8,7 @@ include_directories(${CMAKE_SOURCE_DIR}/src/core ${CMAKE_SOURCE_DIR}/headers/Qub
 include_directories(${CMAKE_SOURCE_DIR}/src/gui ${CMAKE_SOURCE_DIR}/headers/QubeGui)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-set(QubeGuiMocSources
+set(QubeGuiSources
 	qclickablelabel.cpp
 	qnavbar.cpp
 	qnavbargroup.cpp
@@ -24,14 +24,14 @@ set(QubeGuiHeaders
     qselectablewidget.h
 )
 
-qt4_automoc(${QubeGuiMocSources})
+qt4_automoc(${QubeGuiSources})
 
-add_library(QubeGui SHARED ${QubeGuiMocSources})
+add_library(QubeGui SHARED ${QubeGuiSources})
 
 target_link_libraries(QubeGui
-        LINK_INTERFACE_LIBRARIES ${QT_QTGUI_LIBRARY})
+	LINK_INTERFACE_LIBRARIES ${QT_QTGUI_LIBRARY} QubeCore)
 set_target_properties(QubeGui PROPERTIES
-        VERSION ${QUBE_VERSION}
+	VERSION ${QUBE_VERSION}
 	SOVERSION 0.0.0)
 
 install(FILES ${QubeGuiHeaders} DESTINATION ${QT_INCLUDE_DIR}/Qube/QubeGui COMPONENT Devel)
