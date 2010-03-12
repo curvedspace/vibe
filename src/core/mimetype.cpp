@@ -217,7 +217,7 @@ static QByteArray parse_string_mask(const char *mask, int len)
     return parsed_mask;
 }
 
-namespace Qube
+namespace QubeCore
 {
     class MimeTypePrivate
     {
@@ -288,7 +288,6 @@ namespace Qube
 		return getMimeNode();
 	    }
 	}
-	// TODO: inode/blockdevice, inode/chardevice, inode/fifo, inode/mount-point, inode/socket
 
 	// Search by glob
 	QDomElement root = d->xmlDocument.documentElement();
@@ -343,6 +342,10 @@ namespace Qube
 
 	// Search by glob
 	return fromFileName(file->fileName());
+    }
+
+    QString MimeType::iconName() const
+    {
     }
 
     QString MimeType::mimeType() const

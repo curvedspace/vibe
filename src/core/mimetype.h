@@ -28,7 +28,7 @@ class QStringList;
 class QDomElement;
 class QDomNodeList;
 
-namespace Qube
+namespace QubeCore
 {
     class MimeTypePrivate;
 
@@ -40,6 +40,8 @@ namespace Qube
 
 	bool fromFileName(const QString& fileName);
 	bool fromFile(QFile *file);
+
+	QString iconName() const;
 
 	QString mimeType() const;
 	QString subClassOf() const;

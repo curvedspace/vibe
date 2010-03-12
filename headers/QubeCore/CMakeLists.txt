@@ -2,6 +2,7 @@ project(QubeCoreHeaders)
 
 set(QubeCoreHeaderFiles
     QubeGlobal
+    QubeCoreGlobals
     MimeType
 )
 

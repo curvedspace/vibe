@@ -8,11 +8,13 @@ include_directories(${CMAKE_SOURCE_DIR}/src/core ${CMAKE_SOURCE_DIR}/headers/Qub
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(QubeCoreSources
+    qubecoreglobals.cpp
     mimetype.cpp
 )
 
 set(QubeCoreHeaders
     qube_global.h
+    qubecoreglobals.h
     mimetype.h
 )
 

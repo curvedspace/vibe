@@ -9,14 +9,16 @@ include_directories(${CMAKE_SOURCE_DIR}/src/gui ${CMAKE_SOURCE_DIR}/headers/Qube
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(QubeGuiSources
-	qclickablelabel.cpp
-	qnavbar.cpp
-	qnavbargroup.cpp
-	qnavbaritem.cpp
-	qselectablewidget.cpp
+    colorscheme.cpp
+    qclickablelabel.cpp
+    qnavbar.cpp
+    qnavbargroup.cpp
+    qnavbaritem.cpp
+    qselectablewidget.cpp
 )
 
 set(QubeGuiHeaders
+    colorscheme.h
     qclickablelabel.h
     qnavbar.h
     qnavbargroup.h
