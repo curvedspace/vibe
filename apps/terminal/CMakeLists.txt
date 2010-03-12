@@ -8,11 +8,10 @@ include_directories(${CMAKE_SOURCE_DIR}/headers)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(TerminalSources
-    main.cpp
+    mainwindow.cpp
 )
 
-set(TerminalMocSources
-    mainwindow.cpp
+set(TerminalHeaders
 )
 
 set(TerminalUis
@@ -23,9 +22,10 @@ set(TerminalResources
     terminal.qrc
 )
 
-qt4_automoc(${TerminalMocSources})
+qt4_automoc(${TerminalSources})
 qt4_wrap_ui(TerminalUiFiles ${TrackerUis})
 qt4_add_resources(TerminalResourceFiles ${TrackerResources})
 
-add_executable(terminal ${TerminalSources} ${TrackerMocSources} ${TrackerUiFiles} ${TrackerResourceFiles})
-target_link_libraries(terminal ${QT_LIBRARIES} QubeGui)
+add_executable(terminal ${TerminalSources} ${TrackerUiFiles} ${TrackerResourceFiles})
+
+target_link_libraries(terminal QubeGui TermWidget)
