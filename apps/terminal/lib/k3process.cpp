@@ -1050,4 +1050,4 @@ bool K3ShellProcess::start(RunMode runmode, Communication comm)
 }
 
 
-//#include "moc_k3process.cpp"
+#include "k3process.moc"

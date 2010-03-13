@@ -1018,4 +1018,4 @@ void SessionGroup::disconnectPair(Session* master , Session* other)
     }
 }
 
-//#include "moc_Session.cpp"
+#include "Session.moc"

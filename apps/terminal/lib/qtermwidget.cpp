@@ -218,5 +218,5 @@ void QTermWidget::sessionFinished()
 }
 
 	
-//#include "moc_consoleq.cpp"
+#include "qtermwidget.moc"
 

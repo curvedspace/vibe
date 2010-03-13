@@ -317,4 +317,4 @@ int Pty::foregroundProcessGroup() const
     return 0;
 }
 
-//#include "moc_Pty.cpp"
+#include "Pty.moc"

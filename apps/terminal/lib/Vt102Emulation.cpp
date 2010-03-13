@@ -36,7 +36,7 @@
 #undef HAVE_XKB
 #endif
 
-// Standard 
+// Standard
 #include <stdio.h>
 #include <unistd.h>
 #include <assert.h>
@@ -85,7 +85,7 @@ using namespace Konsole;
 /* ------------------------------------------------------------------------- */
 
 
-Vt102Emulation::Vt102Emulation() 
+Vt102Emulation::Vt102Emulation()
     : Emulation(),
      _titleUpdateTimer(new QTimer(this))
 {
@@ -105,7 +105,7 @@ void Vt102Emulation::clearEntireScreen()
 {
   _currentScreen->clearEntireScreen();
 
-  bufferedUpdate(); 
+  bufferedUpdate();
 }
 
 void Vt102Emulation::reset()
@@ -125,7 +125,7 @@ void Vt102Emulation::reset()
   //kDebug(1211)<<"Vt102Emulation::reset() setCodec()";
   setCodec(LocaleCodec);
   //kDebug(1211)<<"Vt102Emulation::reset() done";
- 
+
   bufferedUpdate();
 }
 
@@ -174,10 +174,10 @@ void Vt102Emulation::reset()
    - CSI_PR     - Escape codes of the form <ESC>'[' '?' {Pn} ';' ...  C
    - CSI_PE     - Escape codes of the form <ESC>'[' '!' {Pn} ';' ...  C
    - VT52       - VT52 escape codes
-                  - <ESC><Chr>
-                  - <ESC>'Y'{Pc}{Pc}
+		  - <ESC><Chr>
+		  - <ESC>'Y'{Pc}{Pc}
    - XTE_HA     - Xterm hacks              <ESC>`]' {Pn} `;' {Text} <BEL>
-                  note that this is handled differently
+		  note that this is handled differently
 
    The last two forms allow list of arguments. Since the elements of
    the lists are treated individually the same way, they are passed
@@ -293,7 +293,7 @@ void Vt102Emulation::initTokenizer()
 // process an incoming unicode character
 
 void Vt102Emulation::receiveChar(int cc)
-{ 
+{
   int i;
   if (cc == 127) return; //VT100: ignore.
 
@@ -357,7 +357,7 @@ void Vt102Emulation::receiveChar(int cc)
     if (lec(2,1,'Y'))                                                      return;
     if (lec(3,1,'Y'))                                                      return;
     if (p < 4)        { tau( TY_VT52(s[1]   ),   0,  0); resetToken(); return; }
-                        tau( TY_VT52(s[1]   ), s[2],s[3]); resetToken(); return;
+			tau( TY_VT52(s[1]   ), s[2],s[3]); resetToken(); return;
   }
 }
 
@@ -369,7 +369,7 @@ void Vt102Emulation::XtermHack()
   QChar *str = new QChar[ppos-i-2];
   for (int j = 0; j < ppos-i-2; j++) str[j] = pbuf[i+1+j];
   QString unistr(str,ppos-i-2);
-  
+
   // arg == 1 doesn't change the title. In XTerm it only changes the icon name
   // (btw: arg=0 changes title and icon, arg=1 only icon, arg=2 only title
 //  emit changeTitle(arg,unistr);
@@ -384,10 +384,10 @@ void Vt102Emulation::updateTitle()
 	QListIterator<int> iter( _pendingTitleUpdates.keys() );
 	while (iter.hasNext()) {
 		int arg = iter.next();
-		emit titleChanged( arg , _pendingTitleUpdates[arg] );	
+		emit titleChanged( arg , _pendingTitleUpdates[arg] );
 	}
 
-    _pendingTitleUpdates.clear();	
+    _pendingTitleUpdates.clear();
 }
 
 // Interpreting Codes ---------------------------------------------------------
@@ -416,29 +416,29 @@ int A = (token>>8)&0xff;
 switch( N )
 {
    case 0: printf("%c", (p < 128) ? p : '?');
-           break;
+	   break;
    case 1: if (A == 'J') printf("\r");
-           else if (A == 'M') printf("\n");
-           else printf("CTL-%c ", (token>>8)&0xff);
-           break;
+	   else if (A == 'M') printf("\n");
+	   else printf("CTL-%c ", (token>>8)&0xff);
+	   break;
    case 2: printf("ESC-%c ", (token>>8)&0xff);
-           break;
+	   break;
    case 3: printf("ESC_CS-%c-%c ", (token>>8)&0xff, (token>>16)&0xff);
-           break;
+	   break;
    case 4: printf("ESC_DE-%c ", (token>>8)&0xff);
-           break;
+	   break;
    case 5: printf("CSI-PS-%c-%d", (token>>8)&0xff, (token>>16)&0xff );
-           break;
+	   break;
    case 6: printf("CSI-PN-%c [%d]", (token>>8)&0xff, p);
-           break;
+	   break;
    case 7: printf("CSI-PR-%c-%d", (token>>8)&0xff, (token>>16)&0xff );
-           break;
+	   break;
    case 8: printf("VT52-%c", (token>>8)&0xff);
-           break;
+	   break;
    case 9: printf("CSI-PG-%c", (token>>8)&0xff);
-           break;
+	   break;
    case 10: printf("CSI-PE-%c", (token>>8)&0xff);
-           break;
+	   break;
 }
 #endif
 
@@ -457,7 +457,7 @@ switch( N )
     case TY_CTL('E'      ) :      reportAnswerBack     (          ); break; //VT100
     case TY_CTL('F'      ) : /* ACK: ignored                      */ break;
     case TY_CTL('G'      ) : emit stateSet(NOTIFYBELL);
-                                break; //VT100
+				break; //VT100
     case TY_CTL('H'      ) : _currentScreen->BackSpace            (          ); break; //VT100
     case TY_CTL('I'      ) : _currentScreen->Tabulate             (          ); break; //VT100
     case TY_CTL('J'      ) : _currentScreen->NewLine              (          ); break; //VT100
@@ -520,11 +520,11 @@ switch( N )
     case TY_ESC_CS('%', 'G') :      setCodec             (Utf8Codec   ); break; //LINUX
     case TY_ESC_CS('%', '@') :      setCodec             (LocaleCodec ); break; //LINUX
 
-    case TY_ESC_DE('3'      ) : /* Double height line, top half    */ 
+    case TY_ESC_DE('3'      ) : /* Double height line, top half    */
 								_currentScreen->setLineProperty( LINE_DOUBLEWIDTH , true );
 								_currentScreen->setLineProperty( LINE_DOUBLEHEIGHT , true );
 									break;
-    case TY_ESC_DE('4'      ) : /* Double height line, bottom half */ 
+    case TY_ESC_DE('4'      ) : /* Double height line, bottom half */
 								_currentScreen->setLineProperty( LINE_DOUBLEWIDTH , true );
 								_currentScreen->setLineProperty( LINE_DOUBLEHEIGHT , true );
 									break;
@@ -532,8 +532,8 @@ switch( N )
 								_currentScreen->setLineProperty( LINE_DOUBLEWIDTH , false);
 								_currentScreen->setLineProperty( LINE_DOUBLEHEIGHT , false);
 								break;
-    case TY_ESC_DE('6'      ) : /* Double width, single height line*/ 
-							    _currentScreen->setLineProperty( LINE_DOUBLEWIDTH , true);	
+    case TY_ESC_DE('6'      ) : /* Double width, single height line*/
+							    _currentScreen->setLineProperty( LINE_DOUBLEWIDTH , true);
 								_currentScreen->setLineProperty( LINE_DOUBLEHEIGHT , false);
 								break;
     case TY_ESC_DE('8'      ) : _currentScreen->helpAlign            (          ); break;
@@ -715,14 +715,14 @@ switch( N )
     // SET_BTN_EVENT_MOUSE         1002
     // SET_ANY_EVENT_MOUSE         1003
     //
-    
+
     //Note about mouse modes:
     //There are four mouse modes which xterm-compatible terminals can support - 1000,1001,1002,1003
     //Konsole currently supports mode 1000 (basic mouse press and release) and mode 1002 (dragging the mouse).
-    //TODO:  Implementation of mouse modes 1001 (something called hilight tracking) and 
+    //TODO:  Implementation of mouse modes 1001 (something called hilight tracking) and
     //1003 (a slight variation on dragging the mouse)
     //
- 
+
     case TY_CSI_PR('h', 1000) :          setMode      (MODE_Mouse1000); break; //XTERM
     case TY_CSI_PR('l', 1000) :        resetMode      (MODE_Mouse1000); break; //XTERM
     case TY_CSI_PR('s', 1000) :         saveMode      (MODE_Mouse1000); break; //XTERM
@@ -789,9 +789,9 @@ switch( N )
 
 void Vt102Emulation::clearScreenAndSetColumns(int columnCount)
 {
-    setImageSize(_currentScreen->getLines(),columnCount); 
+    setImageSize(_currentScreen->getLines(),columnCount);
     clearEntireScreen();
-    setDefaultMargins(); 
+    setDefaultMargins();
     _currentScreen->setCursorYX(0,0);
 }
 
@@ -801,7 +801,7 @@ void Vt102Emulation::clearScreenAndSetColumns(int columnCount)
 /*                                                                           */
 /* ------------------------------------------------------------------------- */
 
-/* 
+/*
    Outgoing bytes originate from several sources:
 
    - Replies to Enquieries.
@@ -861,7 +861,7 @@ void Vt102Emulation::reportSecondaryAttributes()
     sendString("\033[>0;115;0c"); // Why 115?  ;)
   else
     sendString("\033/Z");         // FIXME I don't think VT52 knows about it but kept for
-                                  // konsoles backward compatibility.
+				  // konsoles backward compatibility.
 }
 
 void Vt102Emulation::reportTerminalParms(int p)
@@ -900,7 +900,7 @@ void Vt102Emulation::reportAnswerBack()
 
     `x',`y' are 1-based.
     `ev' (event) indicates the button pressed (0-2)
-                 or a general mouse release (3).
+		 or a general mouse release (3).
 
     eventType represents the kind of mouse action that occurred:
     	0 = Mouse button press or release
@@ -930,10 +930,10 @@ void Vt102Emulation::sendMouseEvent( int cb, int cx, int cy , int eventType )
 void Vt102Emulation::sendText( const QString& text )
 {
   if (!text.isEmpty()) {
-    QKeyEvent event(QEvent::KeyPress, 
-                    0, 
-                    Qt::NoModifier, 
-                    text);
+    QKeyEvent event(QEvent::KeyPress,
+		    0,
+		    Qt::NoModifier,
+		    text);
     sendKeyEvent(&event); // expose as a big fat keypress event
   }
 
@@ -953,53 +953,53 @@ void Vt102Emulation::sendKeyEvent( QKeyEvent* event )
     // lookup key binding
     if ( _keyTranslator )
     {
-    KeyboardTranslator::Entry entry = _keyTranslator->findEntry( 
-                                                event->key() , 
-                                                modifiers,
-                                                states );
+    KeyboardTranslator::Entry entry = _keyTranslator->findEntry(
+						event->key() ,
+						modifiers,
+						states );
 
-        // send result to terminal
-        QByteArray textToSend;
+	// send result to terminal
+	QByteArray textToSend;
 
-        // special handling for the Alt (aka. Meta) modifier.  pressing
-        // Alt+[Character] results in Esc+[Character] being sent
-        // (unless there is an entry defined for this particular combination
-        //  in the keyboard modifier)
-        bool wantsAltModifier = entry.modifiers() & entry.modifierMask() & Qt::AltModifier;
+	// special handling for the Alt (aka. Meta) modifier.  pressing
+	// Alt+[Character] results in Esc+[Character] being sent
+	// (unless there is an entry defined for this particular combination
+	//  in the keyboard modifier)
+	bool wantsAltModifier = entry.modifiers() & entry.modifierMask() & Qt::AltModifier;
 		bool wantsAnyModifier = entry.state() & entry.stateMask() & KeyboardTranslator::AnyModifierState;
 
-        if ( modifiers & Qt::AltModifier && !(wantsAltModifier || wantsAnyModifier) 
-             && !event->text().isEmpty() )
-        {
-            textToSend.prepend("\033");
-        }
+	if ( modifiers & Qt::AltModifier && !(wantsAltModifier || wantsAnyModifier)
+	     && !event->text().isEmpty() )
+	{
+	    textToSend.prepend("\033");
+	}
 
-        if ( entry.command() != KeyboardTranslator::NoCommand )
-        {
+	if ( entry.command() != KeyboardTranslator::NoCommand )
+	{
 			if (entry.command() & KeyboardTranslator::EraseCommand)
 				textToSend += getErase();
-            // TODO command handling
-        }
-        else if ( !entry.text().isEmpty() ) 
-        {
-            textToSend += _codec->fromUnicode(entry.text(true,modifiers));
-        }
-        else
-            textToSend += _codec->fromUnicode(event->text());
+	    // TODO command handling
+	}
+	else if ( !entry.text().isEmpty() )
+	{
+	    textToSend += _codec->fromUnicode(entry.text(true,modifiers));
+	}
+	else
+	    textToSend += _codec->fromUnicode(event->text());
 
-        sendData( textToSend.constData() , textToSend.length() );
+	sendData( textToSend.constData() , textToSend.length() );
     }
     else
     {
-        // print an error message to the terminal if no key translator has been
-        // set
-        QString translatorError =  ("No keyboard translator available.  "
-                                         "The information needed to convert key presses "
-                                         "into characters to send to the terminal " 
-                                         "is missing.");
+	// print an error message to the terminal if no key translator has been
+	// set
+	QString translatorError =  ("No keyboard translator available.  "
+					 "The information needed to convert key presses "
+					 "into characters to send to the terminal "
+					 "is missing.");
 
-        reset();
-        receiveData( translatorError.toAscii().constData() , translatorError.count() );
+	reset();
+	receiveData( translatorError.toAscii().constData() , translatorError.count() );
     }
 }
 
@@ -1011,7 +1011,7 @@ void Vt102Emulation::sendKeyEvent( QKeyEvent* event )
 
 // Character Set Conversion ------------------------------------------------ --
 
-/* 
+/*
    The processing contains a VT100 specific code translation layer.
    It's still in use and mainly responsible for the line drawing graphics.
 
@@ -1022,7 +1022,7 @@ void Vt102Emulation::sendKeyEvent( QKeyEvent* event )
    in the pipeline. It only applies to tokens, which represent
    plain characters.
 
-   This conversion it eventually continued in TerminalDisplay.C, since 
+   This conversion it eventually continued in TerminalDisplay.C, since
    it might involve VT100 enhanced fonts, which have these
    particular glyphs allocated in (0x00-0x1f) in their code page.
 */
@@ -1151,11 +1151,11 @@ void Vt102Emulation::setMode(int m)
     case MODE_Mouse1001:
     case MODE_Mouse1002:
     case MODE_Mouse1003:
- 	    emit programUsesMouseChanged(false); 
+	    emit programUsesMouseChanged(false);
     break;
 
     case MODE_AppScreen : _screen[1]->clearSelection();
-                          setScreen(1);
+			  setScreen(1);
     break;
   }
   if (m < MODES_SCREEN || m == MODE_NewLine)
@@ -1170,15 +1170,15 @@ void Vt102Emulation::resetMode(int m)
   _currParm.mode[m] = false;
   switch (m)
   {
-    case MODE_Mouse1000 : 
+    case MODE_Mouse1000 :
     case MODE_Mouse1001 :
     case MODE_Mouse1002 :
     case MODE_Mouse1003 :
-	    emit programUsesMouseChanged(true); 
+	    emit programUsesMouseChanged(true);
     break;
 
     case MODE_AppScreen : _screen[0]->clearSelection();
-                          setScreen(0);
+			  setScreen(0);
     break;
   }
   if (m < MODES_SCREEN || m == MODE_NewLine)
@@ -1195,9 +1195,9 @@ void Vt102Emulation::saveMode(int m)
 
 void Vt102Emulation::restoreMode(int m)
 {
-  if (_saveParm.mode[m]) 
-      setMode(m); 
-  else 
+  if (_saveParm.mode[m])
+      setMode(m);
+  else
       resetMode(m);
 }
 
@@ -1209,9 +1209,9 @@ bool Vt102Emulation::getMode(int m)
 char Vt102Emulation::getErase() const
 {
   KeyboardTranslator::Entry entry = _keyTranslator->findEntry(
-                                            Qt::Key_Backspace,
-                                            0,
-                                            0);
+					    Qt::Key_Backspace,
+					    0,
+					    0);
   if ( entry.text().count() > 0 )
       return entry.text()[0];
   else
@@ -1262,5 +1262,4 @@ void Vt102Emulation::ReportErrorToken()
 #endif
 }
 
-//#include "moc_Vt102Emulation.cpp"
-
+#include "Vt102Emulation.moc"

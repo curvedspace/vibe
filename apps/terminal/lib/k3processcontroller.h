@@ -23,7 +23,7 @@
 #define K3PROCCTRL_H
 
 #include <QtCore/QList>
-#include <k3process.h>
+#include "k3process.h"
 
 
 /**

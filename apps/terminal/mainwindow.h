@@ -15,14 +15,33 @@
  *
  ***************************************************************************/
 
-#include <QtGui/QApplication>
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
-#include "mainwindow.h"
+#include <QtGui/QMainWindow>
 
-int main(int argc, char *argv[])
-{
-    QApplication app(argc, argv);
-    MainWindow *mainWindow = new MainWindow();
-    mainWindow->show();
-    return app.exec();
+namespace Ui {
+    class MainWindow;
 }
+
+class MainWindow : public QMainWindow {
+    Q_OBJECT
+public:
+    MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+
+protected:
+    void changeEvent(QEvent *e);
+
+private:
+    Ui::MainWindow *ui;
+
+private slots:
+    void newTab();
+    void newWindow();
+    void openFileManager();
+    void closeCurrentTab();
+    void closeTab(int index);
+};
+
+#endif // MAINWINDOW_H
