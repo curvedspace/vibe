@@ -37,10 +37,8 @@ QClickableLabel::~QClickableLabel()
 void QClickableLabel::mouseReleaseEvent(QMouseEvent *event)
 {
     QLabel::mouseReleaseEvent(event);
-
     // Accept event
     event->setAccepted(true);
-
     // Raise clicked event
     emit clicked();
     emit clicked(this);

@@ -37,20 +37,16 @@ void QNavBarItem::Private::initialize(QNavBarItem *item)
     layout = new QHBoxLayout();
     labelIcon = new QLabel();
     labelText = new QLabel();
-
     // Setup text label
     labelText->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     labelIcon->setFixedWidth(18);
-
     // Setup font
     QFont font = labelText->font();
     font.setPointSizeF(font.pointSizeF() * 0.75f);
     labelText->setFont(font);
-
     // Add items to layout
     layout->addWidget(labelIcon);
     layout->addWidget(labelText);
-
     // Setup layout
     layout->setContentsMargins(1, 1, 1, 1);
     item->setLayout(layout);
@@ -76,7 +72,6 @@ QNavBarItem::QNavBarItem(const QPixmap &icon, const QString &text, QWidget *pare
       d(new QNavBarItem::Private())
 {
     d->initialize(this);
-
     setIcon(icon);
     d->labelText->setText(text);
 }
@@ -129,7 +124,7 @@ void QNavBarItem::setText(const QString &text)
     d->labelText->setText(text);
 }
 
-void QNavBarItem::setTextColor (const QColor &color)
+void QNavBarItem::setTextColor(const QColor &color)
 {
     QPalette palette = d->labelText->palette();
     palette.setColor(QPalette::WindowText, color);

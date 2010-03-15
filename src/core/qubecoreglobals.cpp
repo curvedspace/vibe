@@ -25,8 +25,8 @@ namespace QubeCore
 }
 
 extern "C" {
-    static void qubecore_init() __attribute__ ((constructor));
-    static void qubecore_fini() __attribute__ ((destructor));
+    static void qubecore_init() __attribute__((constructor));
+    static void qubecore_fini() __attribute__((destructor));
 
     void qubecore_init()
     {

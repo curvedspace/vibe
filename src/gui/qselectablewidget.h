@@ -30,7 +30,7 @@ class QUBESHARED_EXPORT QSelectableWidget : public QWidget
 
     Q_PROPERTY(bool isSelected READ isSelected WRITE select)
 public:
-    QSelectableWidget (QWidget *parent = 0);
+    QSelectableWidget(QWidget *parent = 0);
     ~QSelectableWidget();
 
     bool isSelected() const;

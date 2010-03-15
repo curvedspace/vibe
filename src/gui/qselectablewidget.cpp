@@ -54,15 +54,12 @@ void QSelectableWidget::select(bool isSelected)
 {
     if (d->isSelected == isSelected)
         return;
-
     d->isSelected = isSelected;
-
     // if is selected raise event
     if (isSelected) {
         emit selected();
         emit selected(this);
     }
-
     update();
 }
 
@@ -74,7 +71,6 @@ void QSelectableWidget::unselect()
 void QSelectableWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     QWidget::mouseReleaseEvent(event);
-
     // Left Click, Select/Unselect Item
     if (event->button() == Qt::LeftButton)
         select(!d->isSelected);

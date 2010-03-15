@@ -14,9 +14,7 @@ QObject *QNavBarPluginTaskMenuFactory::createExtension(QObject *object,
 {
     if (iid != Q_TYPEID(QDesignerTaskMenuExtension))
         return 0;
-
     if (QNavBar *navBar = qobject_cast<QNavBar *>(object))
         return new QNavBarPluginTaskMenu(navBar, parent);
-
     return 0;
 }

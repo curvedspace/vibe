@@ -35,17 +35,14 @@ namespace QubeGui
         ColorSchemePrivate(const QString &name) {
             // TODO: Look from user's directory then system-wide
             QString fileName = name;
-
             // Force to INI file format
             colorScheme = new QSettings(fileName, QSettings::IniFormat);
             colorScheme->beginGroup("Color Scheme");
-
             // Load the palette
             QStringList keys = colorScheme->childKeys();
             for (int i = 0; i < keys.size(); i++) {
                 QString key = keys.at(i);
                 QPalette::ColorGroup group;
-
                 // Convert group name to its value
                 if (key.startsWith("Active"))
                     group = QPalette::Active;
@@ -53,19 +50,16 @@ namespace QubeGui
                     group = QPalette::Disabled;
                 else if (key.startsWith("Inactive"))
                     group = QPalette::Inactive;
-
                 // Appen to colors list
                 QRegExp regExp("(?:Active|Disabled|Inactive)(.+)");
                 if (regExp.exactMatch(key)) {
                     ColorSchemePrivate::Entry entry;
                     ColorSchemePrivate::Color color;
-
                     entry.first = group;
                     entry.second = regExp.capturedTexts()[0];
                     color.first = entry;
                     color.second = QColor(colorScheme->value(key, QColor()).toString());
                     colors.append(color);
-
                     // Now add this color to the palette
                     QPalette::ColorRole role;
                     if (key == "Background")
@@ -97,11 +91,9 @@ namespace QubeGui
             for (int i = 0; i < colors.size(); i++) {
                 ColorSchemePrivate::Color color = colors.at(i);
                 ColorSchemePrivate::Entry entry = color.first;
-
                 if (entry.first == group && entry.second == name)
                     return color.second;
             }
-
             return QColor();
         }
     };
@@ -114,7 +106,6 @@ namespace QubeGui
     QString ColorScheme::name() const
     {
         Q_D(const ColorScheme);
-
         QLocale locale;
         return d->colorScheme->value("Name[" + locale.name().split('_')[0] + "]",
                                      d->colorScheme->value("Name")).toString();
@@ -123,7 +114,6 @@ namespace QubeGui
     QString ColorScheme::comment() const
     {
         Q_D(const ColorScheme);
-
         QLocale locale;
         return d->colorScheme->value("Comment[" + locale.name().split('_')[0] + "]",
                                      d->colorScheme->value("Comment")).toString();

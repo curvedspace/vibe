@@ -17,15 +17,12 @@ void QNavBarPlugin::initialize(QDesignerFormEditorInterface *formEditor)
 {
     if (m_initialized)
         return;
-
     QExtensionManager *manager = formEditor->extensionManager();
     Q_ASSERT(manager != 0);
-
 #if 0
     manager->registerExtensions(new QNavBarPluginTaskMenuFactory(manager),
                                 Q_TYPEID(QDesignerTaskMenuExtension));
 #endif
-
     m_initialized = true;
 }
 

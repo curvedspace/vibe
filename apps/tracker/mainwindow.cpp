@@ -10,14 +10,12 @@ MainWindow::MainWindow(QWidget *parent)
       ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     // Set actions
     QActionGroup viewMode(this);
     viewMode.addAction(ui->actionAs_Icons);
     viewMode.addAction(ui->actionAs_List);
     viewMode.addAction(ui->actionAs_Tree);
     viewMode.addAction(ui->actionAs_Columns);
-
     connect(ui->actionAs_Icons, SIGNAL(triggered()),
             this, SLOT(viewAsIcons()));
     connect(ui->actionAs_List, SIGNAL(triggered()),
@@ -30,35 +28,29 @@ MainWindow::MainWindow(QWidget *parent)
             this, SLOT(goBack()));
     connect(ui->actionForward, SIGNAL(triggered()),
             this, SLOT(goForward()));
-
     // Set views
     m_model = new QFileSystemModel(this);
     m_model->setReadOnly(false);
     ui->listView->setModel(m_model);
     ui->treeView->setModel(m_model);
     ui->columnView->setModel(m_model);
-
     QModelIndex root = m_model->setRootPath(QDir::homePath());
     ui->listView->setRootIndex(root);
     ui->treeView->setRootIndex(root);
     ui->columnView->setRootIndex(root);
-
     connect(ui->listView, SIGNAL(doubleClicked(QModelIndex)),
             this, SLOT(doubleClicked(QModelIndex)));
     connect(ui->treeView, SIGNAL(doubleClicked(QModelIndex)),
             this, SLOT(doubleClicked(QModelIndex)));
     connect(ui->columnView, SIGNAL(doubleClicked(QModelIndex)),
             this, SLOT(doubleClicked(QModelIndex)));
-
     // Set navigation bar (devices);
     QNavBarGroup *devices = ui->navbar->addGroup(tr("DEVICES"));
-
     // Set navigation bar (locations)
     QHash<QDesktopServices::StandardLocation, QString> locationsHash;
     locationsHash[QDesktopServices::DesktopLocation] = tr("Desktop");
     locationsHash[QDesktopServices::HomeLocation] = tr("Home");
     locationsHash[QDesktopServices::DocumentsLocation] = tr("Documents");
-
     QNavBarGroup *locations = ui->navbar->addGroup(tr("LOCATIONS"));
     QHashIterator<QDesktopServices::StandardLocation, QString>
     locationsIterator(locationsHash);

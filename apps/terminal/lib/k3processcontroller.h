@@ -1,30 +1,28 @@
-/* This file is part of the KDE libraries
-    Copyright (C) 1997 Christian Czezakte (e9025461@student.tuwien.ac.at)
-
-    Rewritten for QT4 by e_k <e_k at users.sourceforge.net>, Copyright (C)2008
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
-
-    You should have received a copy of the GNU Library General Public License
-    along with this library; see the file COPYING.LIB.  If not, write to
-    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301, USA.
-*/
+/****************************************************************************
+ *
+ * Copyright (c) 2010 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ * Copyright (c) 1997 Christian Czezakte <e9025461@student.tuwien.ac.at>
+ * Copyright (c) 2008 e_k <e_k@users.sourceforge.net>
+ *
+ * All rights reserved.
+ * Contact: Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *
+ * GNU General Public License Usage
+ * This file may be used under the terms of the GNU General Public
+ * License version 2 as published by the Free Software Foundation
+ * and appearing in the file LICENSE.GPL included in the packaging
+ * of this file.  Please review the following information to
+ * ensure the GNU General Public License version 2 requirements
+ * will be met: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html.
+ *
+ ***************************************************************************/
 
 #ifndef K3PROCCTRL_H
 #define K3PROCCTRL_H
 
 #include <QtCore/QList>
-#include "k3process.h"
 
+#include "k3process.h"
 
 /**
  * @short Used internally by K3Process
@@ -66,7 +64,7 @@ public:
      * returned by sigaction().
      * @internal
      */
-    static void theSigCHLDHandler(int signal); // KDE4: private
+    static void theSigCHLDHandler(int signal);  // KDE4: private
 
     /**
      * Wait for any process to exit and handle their exit without
@@ -102,15 +100,15 @@ public:
     /**
      * @internal
      */
-    void addKProcess( K3Process * );
+    void addKProcess(K3Process *);
     /**
      * @internal
      */
-    void removeKProcess( K3Process * );
+    void removeKProcess(K3Process *);
     /**
      * @internal
      */
-    void addProcess( int pid );
+    void addProcess(int pid);
 
 private Q_SLOTS:
     void slotDoHousekeeping();
@@ -126,8 +124,8 @@ private:
     ~K3ProcessController();
 
     // Disallow assignment and copy-construction
-    K3ProcessController( const K3ProcessController & );
-    K3ProcessController &operator= ( const K3ProcessController & );
+    K3ProcessController(const K3ProcessController &);
+    K3ProcessController &operator= (const K3ProcessController &);
 
     class Private;
     Private *const d;

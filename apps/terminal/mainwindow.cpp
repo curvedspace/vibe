@@ -17,14 +17,13 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "qtermwidget.h"
+#include "termwidget.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     // Connect signals
     connect(ui->actionNew_Tab, SIGNAL(triggered()),
             this, SLOT(newTab()));
@@ -38,7 +37,6 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(close()));
     connect(ui->tabWidget, SIGNAL(tabCloseRequested(int)),
             this, SLOT(closeTab(int)));
-
     // Start with a tab
     newTab();
 }
@@ -62,8 +60,8 @@ void MainWindow::changeEvent(QEvent *e)
 
 void MainWindow::newTab()
 {
-    QTermWidget *console = new QTermWidget();
-    console->setScrollBarPosition(QTermWidget::ScrollBarRight);
+    Terminal::TermWidget *console = new Terminal::TermWidget();
+    console->setScrollBarPosition(Terminal::TermWidget::ScrollBarRight);
     ui->tabWidget->addTab(console, "Shell");
     ui->tabWidget->setCurrentWidget(console);
     connect(console, SIGNAL(finished()),
@@ -81,7 +79,6 @@ void MainWindow::openFileManager()
 void MainWindow::closeCurrentTab()
 {
     ui->tabWidget->removeTab(ui->tabWidget->currentIndex());
-
     if (ui->tabWidget->count() == 0)
         close();
 }

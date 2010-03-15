@@ -1,8 +1,6 @@
 /****************************************************************************
  *
  * Copyright (c) 2010 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
- * Copyright (c) 2008 e_k <e_k@users.sourceforge.net>
- * Copyright (c) 2003-2007 Oswald Buddenhagen <ossi@kde.org>
  *
  * All rights reserved.
  * Contact: Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
@@ -17,25 +15,22 @@
  *
  ***************************************************************************/
 
-#ifndef KPTYP_H
-#define KPTYP_H
+/* Markus Kuhn -- 2001-01-12 -- public domain */
+/* Adaptions for KDE by Waldo Bastian <bastian@kde.org> */
+/*
+    Rewritten for QT4 by e_k <e_k at users.sourceforge.net>
+*/
 
-#include <QtCore/QByteArray>
+#ifndef	WCWIDTH_H
+#define WCWIDTH_H
 
-#include "kpty.h"
+#include <QtCore/QBool>
+#include <QtCore/QString>
 
-struct KPtyPrivate {
-    Q_DECLARE_PUBLIC(KPty)
+int terminal_wcwidth(quint16 ucs);
+#if 0
+int terminal_wcwidth_cjk(quint16 ucs);
+#endif
+int string_width(const QString &txt);
 
-    KPtyPrivate();
-    bool chownpty(bool grant);
-
-    int masterFd;
-    int slaveFd;
-
-    QByteArray ttyName;
-
-    KPty *q_ptr;
-};
-
-#endif // KPTYP_H
+#endif // WCWIDTH_H

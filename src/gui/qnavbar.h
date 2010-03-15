@@ -43,7 +43,7 @@ public:
     bool containsGroup(QNavBarGroup *group);
 
 protected:
-    void paintEvent (QPaintEvent *event);
+    void paintEvent(QPaintEvent *event);
 
 private slots:
     void itemSelected(QNavBarGroup *group, QNavBarItem *item);

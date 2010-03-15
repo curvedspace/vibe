@@ -40,7 +40,6 @@ QNavBar::QNavBar(QWidget *parent)
     d->layout = new QVBoxLayout();
     d->itemSelected = NULL;
     d->groupSelected = NULL;
-
     // Setup Layout
     d->layout->addStretch(2);
     setLayout(d->layout);
@@ -55,11 +54,9 @@ void QNavBar::addGroup(QNavBarGroup *group)
 {
     // Set font
     group->setTitleColor(QColor(0x65, 0x71, 0x80));
-
     // Add events
     connect(group, SIGNAL(selected(QNavBarGroup *, QNavBarItem *)),
             this, SLOT(itemSelected(QNavBarGroup *, QNavBarItem *)));
-
     // Add to layout
     d->layout->insertWidget(d->layout->count() - 1, group);
 }
@@ -93,7 +90,6 @@ void QNavBar::clear()
 QList<QNavBarGroup *> QNavBar::groups() const
 {
     QList<QNavBarGroup *> list;
-
     for (int i = 0; i < d->layout->count(); ++i)
         list.append(qobject_cast<QNavBarGroup *>(d->layout->itemAt(i)->widget()));
 }
@@ -105,43 +101,34 @@ bool QNavBar::containsGroup(QNavBarGroup *group)
         if (widget == group)
             return true;
     }
-
     return false;
 }
 
 void QNavBar::paintEvent(QPaintEvent *event)
 {
     QWidget::paintEvent(event);
-
     // Recall Update() if painter area is not complete!
     if (event->rect().x() > 0 || event->rect().y() > 0)
         update();
-
     //QColor colorBackground = palette().color(QPalette::Midlight);
     QColor colorBackground(0xdf, 0xe4, 0xea);
-
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
     p.fillRect(event->rect(), colorBackground);
-
     // Draw Selection
     if (d->groupSelected != NULL && d->groupSelected->isExpanded() && d->itemSelected != NULL) {
         QPoint pos = d->groupSelected->pos() + d->itemSelected->pos();
         int width = geometry().width();
-
         QColor colorSelection = palette().color(QPalette::Highlight);
         int r = colorSelection.red();
         int g = colorSelection.green();
         int b = colorSelection.blue();
-
         p.fillRect(0, pos.y() - 1, width, 1, QColor(r - 0x26, g - 0x26, b - 0x26));
-
         QLinearGradient linearGrad(QPointF(0, pos.y()), QPointF(0, pos.y() + d->itemSelected->height()));
         linearGrad.setColorAt(0, colorSelection);
         linearGrad.setColorAt(1, QColor(r - 0x3b, g - 0x3b, b - 0x3b));
         p.fillRect(0, pos.y(), width, d->itemSelected->height(), linearGrad);
     }
-
     p.end();
 }
 
@@ -152,16 +139,13 @@ void QNavBar::itemSelected(QNavBarGroup *group, QNavBarItem *item)
         d->itemSelected->setTextColor(palette().color(QPalette::WindowText));
         d->itemSelected->unselect();
     }
-
     d->groupSelected = group;
     d->itemSelected = item;
-
     QFont font = d->itemSelected->font();
     font.setPointSizeF(font.pointSizeF() * 0.65f);
     font.setBold(true);
     d->itemSelected->setFont(font);
     d->itemSelected->setTextColor(palette().color(QPalette::HighlightedText));
-
     update();
 }
 

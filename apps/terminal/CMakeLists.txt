@@ -12,50 +12,50 @@ add_definitions(-DHAVE_POSIX_OPENPT)
 #add_definitions(-DHAVE_GETPT)
 
 set(TermWidgetSources
-    lib/TerminalCharacterDecoder.cpp
-    lib/KeyboardTranslator.cpp
-    lib/Screen.cpp
-    lib/History.cpp
-    lib/BlockArray.cpp
-    lib/konsole_wcwidth.cpp
-    lib/ScreenWindow.cpp
-    lib/Emulation.cpp
-    lib/Vt102Emulation.cpp
-    lib/TerminalDisplay.cpp
-    lib/Filter.cpp
-    lib/Pty.cpp
+    lib/terminalcharacterdecoder.cpp
+    lib/keyboardtranslator.cpp
+    lib/screen.cpp
+    lib/history.cpp
+    lib/blockarray.cpp
+    lib/wcwidth.cpp
+    lib/screenwindow.cpp
+    lib/emulation.cpp
+    lib/vt102emulation.cpp
+    lib/terminaldisplay.cpp
+    lib/filter.cpp
+    lib/pty.cpp
     lib/kpty.cpp
     lib/k3process.cpp
     lib/k3processcontroller.cpp
-    lib/Session.cpp
-    lib/ShellCommand.cpp
-    lib/qtermwidget.cpp
+    lib/session.cpp
+    lib/shellcommand.cpp
+    lib/termwidget.cpp
 )
 
 set(TermWidgetHeaders
-    lib/TerminalCharacterDecoder.h
-    lib/Character.h
-    lib/CharacterColor.h
-    lib/KeyboardTranslator.h
-    lib/ExtendedDefaultTranslator.h
-    lib/Screen.h
-    lib/History.h
-    lib/BlockArray.h
-    lib/konsole_wcwidth.h
-    lib/ScreenWindow.h
-    lib/Emulation.h
-    lib/Vt102Emulation.h
-    lib/TerminalDisplay.h
-    lib/Filter.h
-    lib/LineFont.h
-    lib/Pty.h
+    lib/terminalcharacterdecoder.h
+    lib/character.h
+    lib/charactercolor.h
+    lib/keyboardtranslator.h
+    lib/extendeddefaulttranslator.h
+    lib/screen.h
+    lib/history.h
+    lib/blockarray.h
+    lib/wcwidth.h
+    lib/screenwindow.h
+    lib/emulation.h
+    lib/vt102emulation.h
+    lib/terminaldisplay.h
+    lib/filter.h
+    lib/linefont.h
+    lib/pty.h
     lib/kpty.h
     lib/kpty_p.h
     lib/k3process.h
     lib/k3processcontroller.h
-    lib/Session.h
-    lib/ShellCommand.h
-    lib/qtermwidget.h
+    lib/session.h
+    lib/shellcommand.h
+    lib/termwidget.h
 )
 
 set(TerminalSources

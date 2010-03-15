@@ -1,33 +1,32 @@
-/* This file is part of the KDE libraries
-    Copyright (C) 1997 Christian Czezakte (e9025461@student.tuwien.ac.at)
-
-    Rewritten for QT4 by e_k <e_k at users.sourceforge.net>, Copyright (C)2008
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
-
-    You should have received a copy of the GNU Library General Public License
-    along with this library; see the file COPYING.LIB.  If not, write to
-    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301, USA.
-*/
+/****************************************************************************
+ *
+ * Copyright (c) 2010 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ * Copyright (c) 1997 Christian Czezakte <e9025461@student.tuwien.ac.at>
+ * Copyright (c) 2008 e_k <e_k@users.sourceforge.net>
+ *
+ * All rights reserved.
+ * Contact: Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *
+ * GNU General Public License Usage
+ * This file may be used under the terms of the GNU General Public
+ * License version 2 as published by the Free Software Foundation
+ * and appearing in the file LICENSE.GPL included in the packaging
+ * of this file.  Please review the following information to
+ * ensure the GNU General Public License version 2 requirements
+ * will be met: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html.
+ *
+ ***************************************************************************/
 
 #ifndef K3PROCESS_H
 #define K3PROCESS_H
 
-#include <QtCore/QObject>
-
-#include <sys/types.h> // for pid_t
+#include <sys/types.h>
 #include <sys/wait.h>
+
 #include <signal.h>
 #include <unistd.h>
+
+#include <QtCore/QObject>
 
 class QSocketNotifier;
 class K3ProcessPrivate;
@@ -147,14 +146,14 @@ public:
         AllOutput = 6, /**< Connects to all output channels. */
         All = 7, /**< Connects to all channels. */
         NoRead = 8, /**< If specified with Stdout, no data is actually read from stdout,
-                    * only the signal receivedStdout(int fd, int &len) is emitted. */
+		    * only the signal receivedStdout(int fd, int &len) is emitted. */
         CTtyOnly = NoRead, /**< Tells setUsePty() to create a PTY for the process
-                           * and make it the process' controlling TTY, but does not
-                           * redirect any I/O channel to the PTY. */
+			   * and make it the process' controlling TTY, but does not
+			   * redirect any I/O channel to the PTY. */
         MergedStderr = 16  /**< If specified with Stdout, the process' stderr will be
-                           * redirected onto the same file handle as its stdout, i.e.,
-                           * all error output will be signalled with receivedStdout().
-                           * Don't specify Stderr if you specify MergedStderr. */
+			   * redirected onto the same file handle as its stdout, i.e.,
+			   * all error output will be signalled with receivedStdout().
+			   * Don't specify Stderr if you specify MergedStderr. */
     };
 
     Q_DECLARE_FLAGS(Communication, CommunicationFlag)
@@ -186,7 +185,7 @@ public:
     /**
      * Constructor
      */
-    explicit K3Process( QObject *parent=0L );
+    explicit K3Process(QObject *parent = 0L);
 
     /**
      *Destructor:
@@ -211,17 +210,17 @@ public:
      * @param arg the argument to add
      * @return a reference to this K3Process
      **/
-    K3Process &operator<<(const QString &arg);
+    K3Process &operator<< (const QString &arg);
     /**
      * Similar to previous method, takes a char *, supposed to be in locale 8 bit already.
      */
-    K3Process &operator<<(const char *arg);
+    K3Process &operator<< (const char *arg);
     /**
      * Similar to previous method, takes a QByteArray, supposed to be in locale 8 bit already.
      * @param arg the argument to add
      * @return a reference to this K3Process
      */
-    K3Process &operator<<(const QByteArray &arg);
+    K3Process &operator<< (const QByteArray &arg);
 
     /**
      * Sets the executable and the command line argument list for this process,
@@ -229,7 +228,7 @@ public:
      * @param args the arguments to add
      * @return a reference to this K3Process
      **/
-    K3Process &operator<<(const QStringList &args);
+    K3Process &operator<< (const QStringList &args);
 
     /**
      * Clear a command line argument list that has been set by using
@@ -588,7 +587,7 @@ Q_SIGNALS:
      * @param len the number of bytes that have been read from @p fd must
      *  be written here
      **/
-    void receivedStdout(int fd, int &len); // KDE4: change, broken API
+    void receivedStdout(int fd, int &len);  // KDE4: change, broken API
 
 
     /**
@@ -871,7 +870,7 @@ public:
      *
      * If no shellname is specified, the user's default shell is used.
      */
-    explicit K3ShellProcess(const char *shellname=0);
+    explicit K3ShellProcess(const char *shellname = 0);
 
     /**
      * Destructor.

@@ -51,11 +51,9 @@ protected:
     void paintEvent(QPaintEvent *) {
         QPainter painter(this);
         const unsigned int arrowSize = contentsRect().height();
-
         // Set text and arrow's color
         QBrush brush = palette().brush(QPalette::WindowText);
         painter.setBrush(brush);
-
         // Draw arrow from style
         QStyleOption opt;
         opt.init(this);
@@ -63,7 +61,6 @@ protected:
             opt.state |= QStyle::State_Enabled;
         opt.rect = QRect(0, 0, arrowSize, arrowSize);
         style()->drawPrimitive(m_arrow, &opt, &painter, this);
-
         // Draw text
         QRect r = contentsRect();
         r.adjust(arrowSize + 2, 0, arrowSize + 2, 0);
@@ -73,11 +70,9 @@ protected:
 
     void mouseReleaseEvent(QMouseEvent *event) {
         QClickableLabel::mouseReleaseEvent(event);
-
         // Can't continue if static
         if (m_isStatic)
             return;
-
         // Change arrow
         if (m_arrow == QStyle::PE_IndicatorArrowDown)
             m_arrow = QStyle::PE_IndicatorArrowRight;
@@ -107,19 +102,14 @@ void QNavBarGroup::Private::initialize(QNavBarGroup *group)
     // Initialize members
     layout = new QVBoxLayout();
     labelTitle = new ArrowLabel(false);
-
     // Set expanded flag
     isExpanded = true;
-
     // Set static flag
     isStatic = false;
-
     // Add layout items
     layout->addWidget(labelTitle);
-
     // Set label title alignment
     labelTitle->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-
     // Setup layout
     layout->setSpacing(1);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -131,7 +121,6 @@ QNavBarGroup::QNavBarGroup(QWidget *parent)
       d(new QNavBarGroup::Private)
 {
     d->initialize(this);
-
     connect(d->labelTitle, SIGNAL(clicked()),
             this, SLOT(titleClicked()));
 }
@@ -142,7 +131,6 @@ QNavBarGroup::QNavBarGroup(const QString &title, QWidget *parent)
 {
     d->initialize(this);
     d->labelTitle->setText(title);
-
     connect(d->labelTitle, SIGNAL(clicked()),
             this, SLOT(titleClicked()));
 }
@@ -156,13 +144,10 @@ void QNavBarGroup::addItem(QNavBarItem *item)
 {
     // Insert item space
     item->insertSpacing(0, 10);
-
     // Insert item into item list
     d->listItems.append(item);
-
     // Add item to Layout
     d->layout->addWidget(item);
-
     connect(item, SIGNAL(selected(QSelectableWidget *)),
             this, SLOT(itemSelected(QSelectableWidget *)));
 }
@@ -171,13 +156,10 @@ void QNavBarGroup::addItem(QNavBarItem *item, int index)
 {
     // Insert item space
     item->insertSpacing(0, 20);
-
     // Insert item into item list
     d->listItems.insert(index, item);
-
     // Add item to layout
     d->layout->insertWidget(index, item);
-
     connect(item, SIGNAL(selected(QSelectableWidget *)),
             this, SLOT(itemSelected(QSelectableWidget *)));
 }
@@ -233,11 +215,10 @@ void QNavBarGroup::setStatic(bool flag)
     // Static navbar groups are always expanded
     if (flag)
         expand(true);
-
     d->labelTitle->setStatic(flag);
 }
 
-void QNavBarGroup::setTitleColor (const QColor &color)
+void QNavBarGroup::setTitleColor(const QColor &color)
 {
     QPalette palette = d->labelTitle->palette();
     palette.setColor(QPalette::WindowText, color);
@@ -250,21 +231,18 @@ void QNavBarGroup::expand(bool expand)
         return;
     if (d->isStatic)
         return;
-
     if (expand) {
-        foreach (QNavBarItem *item, d->listItems) {
+        foreach(QNavBarItem *item, d->listItems) {
             d->layout->addWidget(item);
             item->show();
         }
     } else {
-        foreach (QNavBarItem *item, d->listItems) {
+        foreach(QNavBarItem *item, d->listItems) {
             d->layout->removeWidget(item);
             item->hide();
         }
     }
-
     d->isExpanded = expand;
-
     // Raise expanded event
     emit expanded(this);
 }
