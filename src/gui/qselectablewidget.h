@@ -1,4 +1,4 @@
-/* 
+/*
  *  This file is part of Quartica.
  *
  *  Copyright (c) 2008 Matteo Bertozzi <theo.bertozzi@gmail.com>
@@ -26,9 +26,9 @@
 
 class QUBESHARED_EXPORT QSelectableWidget : public QWidget
 {
-Q_OBJECT
+    Q_OBJECT
 
-Q_PROPERTY(bool isSelected READ isSelected WRITE select)
+    Q_PROPERTY(bool isSelected READ isSelected WRITE select)
 public:
     QSelectableWidget (QWidget *parent = 0);
     ~QSelectableWidget();

@@ -26,10 +26,10 @@
 
 class QUBESHARED_EXPORT QNavBarGroup : public QWidget
 {
-Q_OBJECT
-Q_PROPERTY(QString title READ title WRITE setTitle)
-Q_PROPERTY(bool isStatic READ isStatic WRITE setStatic)
-Q_PROPERTY(bool isExpanded READ isExpanded WRITE expand)
+    Q_OBJECT
+    Q_PROPERTY(QString title READ title WRITE setTitle)
+    Q_PROPERTY(bool isStatic READ isStatic WRITE setStatic)
+    Q_PROPERTY(bool isExpanded READ isExpanded WRITE expand)
 public:
     explicit QNavBarGroup(QWidget *parent = 0);
     QNavBarGroup(const QString &title, QWidget *parent = 0);

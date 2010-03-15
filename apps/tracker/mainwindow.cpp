@@ -5,9 +5,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent),
+      ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
@@ -19,17 +19,17 @@ MainWindow::MainWindow(QWidget *parent) :
     viewMode.addAction(ui->actionAs_Columns);
 
     connect(ui->actionAs_Icons, SIGNAL(triggered()),
-	    this, SLOT(viewAsIcons()));
+            this, SLOT(viewAsIcons()));
     connect(ui->actionAs_List, SIGNAL(triggered()),
-	    this, SLOT(viewAsList()));
+            this, SLOT(viewAsList()));
     connect(ui->actionAs_Tree, SIGNAL(triggered()),
-	    this, SLOT(viewAsTree()));
+            this, SLOT(viewAsTree()));
     connect(ui->actionAs_Columns, SIGNAL(triggered()),
-	    this, SLOT(viewAsColumns()));
+            this, SLOT(viewAsColumns()));
     connect(ui->actionBack, SIGNAL(triggered()),
-	    this, SLOT(goBack()));
+            this, SLOT(goBack()));
     connect(ui->actionForward, SIGNAL(triggered()),
-	    this, SLOT(goForward()));
+            this, SLOT(goForward()));
 
     // Set views
     m_model = new QFileSystemModel(this);
@@ -44,11 +44,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->columnView->setRootIndex(root);
 
     connect(ui->listView, SIGNAL(doubleClicked(QModelIndex)),
-	    this, SLOT(doubleClicked(QModelIndex)));
+            this, SLOT(doubleClicked(QModelIndex)));
     connect(ui->treeView, SIGNAL(doubleClicked(QModelIndex)),
-	    this, SLOT(doubleClicked(QModelIndex)));
+            this, SLOT(doubleClicked(QModelIndex)));
     connect(ui->columnView, SIGNAL(doubleClicked(QModelIndex)),
-	    this, SLOT(doubleClicked(QModelIndex)));
+            this, SLOT(doubleClicked(QModelIndex)));
 
     // Set navigation bar (devices);
     QNavBarGroup *devices = ui->navbar->addGroup(tr("DEVICES"));
@@ -61,13 +61,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QNavBarGroup *locations = ui->navbar->addGroup(tr("LOCATIONS"));
     QHashIterator<QDesktopServices::StandardLocation, QString>
-	    locationsIterator(locationsHash);
+    locationsIterator(locationsHash);
     while (locationsIterator.hasNext()) {
-	locationsIterator.next();
-	QString path = QDesktopServices::storageLocation(locationsIterator.key());
-	QModelIndex index = m_model->index(path);
-	QPixmap pixmap = m_model->fileIcon(index).pixmap(QSize(48, 48), QIcon::Normal, QIcon::On);
-	locations->addItem(pixmap, locationsIterator.value());
+        locationsIterator.next();
+        QString path = QDesktopServices::storageLocation(locationsIterator.key());
+        QModelIndex index = m_model->index(path);
+        QPixmap pixmap = m_model->fileIcon(index).pixmap(QSize(48, 48), QIcon::Normal, QIcon::On);
+        locations->addItem(pixmap, locationsIterator.value());
     }
 }
 
@@ -81,11 +81,11 @@ void MainWindow::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);
     switch (e->type()) {
-    case QEvent::LanguageChange:
-	ui->retranslateUi(this);
-	break;
-    default:
-	break;
+        case QEvent::LanguageChange:
+            ui->retranslateUi(this);
+            break;
+        default:
+            break;
     }
 }
 
@@ -123,7 +123,7 @@ void MainWindow::viewAsColumns()
 void MainWindow::goBack()
 {
     if (m_prevRoot.isValid())
-	setRootPath(m_model->filePath(m_prevRoot));
+        setRootPath(m_model->filePath(m_prevRoot));
 }
 
 void MainWindow::goForward()

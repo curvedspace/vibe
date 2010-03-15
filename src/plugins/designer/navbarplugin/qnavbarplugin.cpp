@@ -8,7 +8,7 @@
 
 QNavBarPlugin::QNavBarPlugin(const QIcon &icon, QObject *parent)
     : QObject(parent),
-    m_icon(icon)
+      m_icon(icon)
 {
     m_initialized = false;
 }
@@ -76,18 +76,18 @@ QString QNavBarPlugin::whatsThis() const
 QString QNavBarPlugin::domXml() const
 {
     return QLatin1String(""
-"<ui language=\"c++\">"
-"    <widget class=\"QNavBar\" name=\"navBar\">"
-"        <property name=\"geometry\">"
-"            <rect>"
-"                <x>0</x>"
-"                <y>0</y>"
-"                <width>100</width>"
-"                <height>80</height>"
-"            </rect>"
-"        </property>"
-"    </widget>"
-"</ui>");
+                         "<ui language=\"c++\">"
+                         "    <widget class=\"QNavBar\" name=\"navBar\">"
+                         "        <property name=\"geometry\">"
+                         "            <rect>"
+                         "                <x>0</x>"
+                         "                <y>0</y>"
+                         "                <width>100</width>"
+                         "                <height>80</height>"
+                         "            </rect>"
+                         "        </property>"
+                         "    </widget>"
+                         "</ui>");
 }
 
 QString QNavBarPlugin::includeFile() const

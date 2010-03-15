@@ -26,13 +26,13 @@
 
 class QUBESHARED_EXPORT QNavBar : public QWidget
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     explicit QNavBar(QWidget *parent = 0);
     ~QNavBar();
 
     void addGroup(QNavBarGroup *group);
-    QNavBarGroup *addGroup(const QString& title);
+    QNavBarGroup *addGroup(const QString &title);
     void addGroups(QList<QNavBarGroup *> groups);
 
     void removeGroup(QNavBarGroup *group);

@@ -11,7 +11,7 @@ class QNavBar;
 
 class QNavBarPluginTaskMenuFactory : public QExtensionFactory
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     explicit QNavBarPluginTaskMenuFactory(QExtensionManager *parent = 0);
 

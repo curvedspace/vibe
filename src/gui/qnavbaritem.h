@@ -26,9 +26,9 @@
 
 class QUBESHARED_EXPORT QNavBarItem : public QSelectableWidget
 {
-Q_OBJECT
-Q_PROPERTY(QString text READ text WRITE setText)
-Q_PROPERTY(QPixmap icon READ icon WRITE setIcon)
+    Q_OBJECT
+    Q_PROPERTY(QString text READ text WRITE setText)
+    Q_PROPERTY(QPixmap icon READ icon WRITE setIcon)
 public:
     explicit QNavBarItem(QWidget *parent = 0);
     QNavBarItem(const QString &text, QWidget *parent = 0);

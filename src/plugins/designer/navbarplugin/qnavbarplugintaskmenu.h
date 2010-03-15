@@ -11,8 +11,8 @@ class QNavBar;
 
 class QNavBarPluginTaskMenu : public QObject, QDesignerTaskMenuExtension
 {
-Q_OBJECT
-Q_INTERFACES(QDesignerTaskMenuExtension)
+    Q_OBJECT
+    Q_INTERFACES(QDesignerTaskMenuExtension)
 public:
     explicit QNavBarPluginTaskMenu(QNavBar *navBar, QObject *parent);
 

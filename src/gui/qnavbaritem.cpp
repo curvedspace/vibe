@@ -58,14 +58,14 @@ void QNavBarItem::Private::initialize(QNavBarItem *item)
 
 QNavBarItem::QNavBarItem(QWidget *parent)
     : QSelectableWidget(parent),
-    d(new QNavBarItem::Private())
+      d(new QNavBarItem::Private())
 {
     d->initialize(this);
 }
 
 QNavBarItem::QNavBarItem(const QString &text, QWidget *parent)
     : QSelectableWidget(parent),
-    d(new QNavBarItem::Private())
+      d(new QNavBarItem::Private())
 {
     d->initialize(this);
     d->labelText->setText(text);
@@ -73,7 +73,7 @@ QNavBarItem::QNavBarItem(const QString &text, QWidget *parent)
 
 QNavBarItem::QNavBarItem(const QPixmap &icon, const QString &text, QWidget *parent)
     : QSelectableWidget(parent),
-    d(new QNavBarItem::Private())
+      d(new QNavBarItem::Private())
 {
     d->initialize(this);
 

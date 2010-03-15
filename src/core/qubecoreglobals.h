@@ -23,7 +23,7 @@ namespace QubeCore
     class Globals
     {
     public:
-	Globals();
+        Globals();
     };
 }
 

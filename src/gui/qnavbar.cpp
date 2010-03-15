@@ -34,7 +34,7 @@ public:
 
 QNavBar::QNavBar(QWidget *parent)
     : QWidget(parent),
-    d(new QNavBar::Private)
+      d(new QNavBar::Private)
 {
     // Initialize members
     d->layout = new QVBoxLayout();
@@ -64,7 +64,7 @@ void QNavBar::addGroup(QNavBarGroup *group)
     d->layout->insertWidget(d->layout->count() - 1, group);
 }
 
-QNavBarGroup *QNavBar::addGroup(const QString& title)
+QNavBarGroup *QNavBar::addGroup(const QString &title)
 {
     QNavBarGroup *group = new QNavBarGroup(title);
     addGroup(group);
@@ -105,7 +105,7 @@ bool QNavBar::containsGroup(QNavBarGroup *group)
         if (widget == group)
             return true;
     }
-	
+
     return false;
 }
 

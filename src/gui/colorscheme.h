@@ -26,28 +26,28 @@ namespace QubeGui
 
     class ColorScheme
     {
-	Q_DECLARE_PRIVATE(ColorScheme)
+        Q_DECLARE_PRIVATE(ColorScheme)
     public:
-	ColorScheme(const QString &name);
+        ColorScheme(const QString &name);
 
-	QString name() const;
-	QString comment() const;
+        QString name() const;
+        QString comment() const;
 
-	QPalette palette() const;
+        QPalette palette() const;
 
-	QColor background(QPalette::ColorGroup group) const;
-	QColor foreground(QPalette::ColorGroup group) const;
-	QColor base(QPalette::ColorGroup group) const;
-	QColor text(QPalette::ColorGroup group) const;
-	QColor button(QPalette::ColorGroup group) const;
-	QColor buttonText(QPalette::ColorGroup group) const;
-	QColor link(QPalette::ColorGroup group) const;
-	QColor linkVisited(QPalette::ColorGroup group) const;
-	QColor highlight(QPalette::ColorGroup group) const;
-	QColor highlightedText(QPalette::ColorGroup group) const;
+        QColor background(QPalette::ColorGroup group) const;
+        QColor foreground(QPalette::ColorGroup group) const;
+        QColor base(QPalette::ColorGroup group) const;
+        QColor text(QPalette::ColorGroup group) const;
+        QColor button(QPalette::ColorGroup group) const;
+        QColor buttonText(QPalette::ColorGroup group) const;
+        QColor link(QPalette::ColorGroup group) const;
+        QColor linkVisited(QPalette::ColorGroup group) const;
+        QColor highlight(QPalette::ColorGroup group) const;
+        QColor highlightedText(QPalette::ColorGroup group) const;
 
     private:
-	ColorSchemePrivate *d_ptr;
+        ColorSchemePrivate *d_ptr;
     };
 }
 

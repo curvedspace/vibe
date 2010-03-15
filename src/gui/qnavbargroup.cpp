@@ -31,28 +31,24 @@ class ArrowLabel : public QClickableLabel
 public:
     ArrowLabel(bool isStatic)
         : QClickableLabel(),
-        m_isStatic(isStatic),
-        m_arrow(QStyle::PE_IndicatorArrowDown)
-    {
+          m_isStatic(isStatic),
+          m_arrow(QStyle::PE_IndicatorArrowDown) {
         QFont f = font();
         f.setBold(true);
         f.setPointSizeF(f.pointSizeF() * 0.75f);
         setFont(f);
     }
 
-    bool isStatic() const
-    {
+    bool isStatic() const {
         return m_isStatic;
     }
 
-    void setStatic(bool flag)
-    {
+    void setStatic(bool flag) {
         m_isStatic = flag;
     }
 
 protected:
-    void paintEvent(QPaintEvent *)
-    {
+    void paintEvent(QPaintEvent *) {
         QPainter painter(this);
         const unsigned int arrowSize = contentsRect().height();
 
@@ -75,8 +71,7 @@ protected:
                               text(), QPalette::WindowText);
     }
 
-    void mouseReleaseEvent(QMouseEvent *event)
-    {
+    void mouseReleaseEvent(QMouseEvent *event) {
         QClickableLabel::mouseReleaseEvent(event);
 
         // Can't continue if static
@@ -133,7 +128,7 @@ void QNavBarGroup::Private::initialize(QNavBarGroup *group)
 
 QNavBarGroup::QNavBarGroup(QWidget *parent)
     : QWidget(parent),
-    d(new QNavBarGroup::Private)
+      d(new QNavBarGroup::Private)
 {
     d->initialize(this);
 
@@ -142,8 +137,8 @@ QNavBarGroup::QNavBarGroup(QWidget *parent)
 }
 
 QNavBarGroup::QNavBarGroup(const QString &title, QWidget *parent)
-        : QWidget(parent),
-        d(new QNavBarGroup::Private)
+    : QWidget(parent),
+      d(new QNavBarGroup::Private)
 {
     d->initialize(this);
     d->labelTitle->setText(title);

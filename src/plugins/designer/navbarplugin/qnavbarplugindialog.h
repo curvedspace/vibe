@@ -11,7 +11,7 @@ class QNavBar;
 
 class QNavBarPluginDialog : public QDialog
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     explicit QNavBarPluginDialog(QNavBar *plugin = 0, QWidget *parent = 0);
 

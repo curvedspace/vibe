@@ -1,38 +1,30 @@
-/*
-    This file is part of Konsole, an X terminal.
-    Copyright (C) 2000 by Stephan Kulow <coolo@kde.org>
+/****************************************************************************
+ *
+ * Copyright (c) 2010 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ * Copyright (c) 2008 e_k <e_k at users.sourceforge.net>
+ * Copyright (c) 2000 Stephan Kulow <coolo@kde.org>
+ *
+ * All rights reserved.
+ * Contact: Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *
+ * GNU General Public License Usage
+ * This file may be used under the terms of the GNU General Public
+ * License version 2 as published by the Free Software Foundation
+ * and appearing in the file LICENSE.GPL included in the packaging
+ * of this file.  Please review the following information to
+ * ensure the GNU General Public License version 2 requirements
+ * will be met: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html.
+ *
+ ***************************************************************************/
 
-    Rewritten for QT4 by e_k <e_k at users.sourceforge.net>, Copyright (C)2008
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-    02110-1301  USA.
-
-*/
-
-// Own
 #include "BlockArray.h"
 
-#include <QtCore>
 
-// System
 #include <assert.h>
 #include <sys/mman.h>
 #include <sys/param.h>
 #include <unistd.h>
 #include <stdio.h>
-
 
 using namespace Konsole;
 
@@ -68,8 +60,18 @@ size_t BlockArray::append(Block *block)
     if (current >= size) current = 0;
 
     int rc;
-    rc = lseek(ion, current * blocksize, SEEK_SET); if (rc < 0) { perror("HistoryBuffer::add.seek"); setHistorySize(0); return size_t(-1); }
-    rc = write(ion, block, blocksize); if (rc < 0) { perror("HistoryBuffer::add.write"); setHistorySize(0); return size_t(-1); }
+    rc = lseek(ion, current * blocksize, SEEK_SET);
+    if (rc < 0) {
+        perror("HistoryBuffer::add.seek");
+        setHistorySize(0);
+        return size_t(-1);
+    }
+    rc = write(ion, block, blocksize);
+    if (rc < 0) {
+        perror("HistoryBuffer::add.write");
+        setHistorySize(0);
+        return size_t(-1);
+    }
 
     length++;
     if (length > size) length = size;
@@ -107,7 +109,7 @@ bool BlockArray::has(size_t i) const
     return true;
 }
 
-const Block* BlockArray::at(size_t i)
+const Block *BlockArray::at(size_t i)
 {
     if (i == index + 1)
         return lastblock;
@@ -119,20 +121,23 @@ const Block* BlockArray::at(size_t i)
         qDebug() << "BlockArray::at() i > index\n";
         return 0;
     }
-    
-//     if (index - i >= length) {
-//         kDebug(1211) << "BlockArray::at() index - i >= length\n";
-//         return 0;
-//     }
+
+    //     if (index - i >= length) {
+    //         kDebug(1211) << "BlockArray::at() index - i >= length\n";
+    //         return 0;
+    //     }
 
     size_t j = i; // (current - (index - i) + (index/size+1)*size) % size ;
 
     assert(j < size);
     unmap();
 
-    Block *block = (Block*)mmap(0, blocksize, PROT_READ, MAP_PRIVATE, ion, j * blocksize);
+    Block *block = (Block *)mmap(0, blocksize, PROT_READ, MAP_PRIVATE, ion, j * blocksize);
 
-    if (block == (Block*)-1) { perror("mmap"); return 0; }
+    if (block == (Block *)-1) {
+        perror("mmap");
+        return 0;
+    }
 
     lastmap = block;
     lastmap_index = i;
@@ -143,7 +148,7 @@ const Block* BlockArray::at(size_t i)
 void BlockArray::unmap()
 {
     if (lastmap) {
-        int res = munmap((char*)lastmap, blocksize);
+        int res = munmap((char *)lastmap, blocksize);
         if (res < 0) perror("munmap");
     }
     lastmap = 0;
@@ -157,7 +162,7 @@ bool BlockArray::setSize(size_t newsize)
 
 bool BlockArray::setHistorySize(size_t newsize)
 {
-//    kDebug(1211) << "setHistorySize " << size << " " << newsize;
+    //    kDebug(1211) << "setHistorySize " << size << " " << newsize;
 
     if (size == newsize)
         return false;
@@ -174,7 +179,7 @@ bool BlockArray::setHistorySize(size_t newsize)
     }
 
     if (!size) {
-        FILE* tmp = tmpfile();
+        FILE *tmp = tmpfile();
         if (!tmp) {
             perror("konsole: cannot open temp file.\n");
         } else {
@@ -295,14 +300,13 @@ void BlockArray::increaseBuffer()
     FILE *fion = fdopen(dup(ion), "w+b");
     if (!fion) {
         perror("fdopen/dup");
-	delete [] buffer1;
-	delete [] buffer2;
+        delete [] buffer1;
+        delete [] buffer2;
         return;
     }
 
     int res;
-    for (int i = 0; i < runs; i++)
-    {
+    for (int i = 0; i < runs; i++) {
         // free one block in chain
         int firstblock = (offset + i) % size;
         res = fseek(fion, firstblock * blocksize, SEEK_SET);
@@ -312,8 +316,7 @@ void BlockArray::increaseBuffer()
         if (res != 1)
             perror("fread");
         int newpos = 0;
-        for (int j = 1, cursor=firstblock; j < bpr; j++)
-        {
+        for (int j = 1, cursor=firstblock; j < bpr; j++) {
             cursor = (cursor + offset) % size;
             newpos = (cursor - offset + size) % size;
             moveBlock(fion, cursor, newpos, buffer2);

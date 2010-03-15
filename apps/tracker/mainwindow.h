@@ -4,7 +4,8 @@
 #include <QtCore/QModelIndex>
 #include <QtGui/QMainWindow>
 
-namespace Ui {
+namespace Ui
+{
     class MainWindow;
 }
 
@@ -12,7 +13,7 @@ class QFileSystemModel;
 
 class MainWindow : public QMainWindow
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -25,7 +26,7 @@ private:
     QFileSystemModel *m_model;
     QModelIndex m_prevRoot;
 
-    void setRootPath(const QString& rootPath);
+    void setRootPath(const QString &rootPath);
 
 private slots:
     void viewAsIcons();

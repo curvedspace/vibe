@@ -5,8 +5,8 @@
 
 class QubeWidgets : public QObject, QDesignerCustomWidgetCollectionInterface
 {
-Q_OBJECT
-Q_INTERFACES(QDesignerCustomWidgetCollectionInterface)
+    Q_OBJECT
+    Q_INTERFACES(QDesignerCustomWidgetCollectionInterface)
 public:
     explicit QubeWidgets(QObject *parent = 0);
 

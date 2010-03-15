@@ -34,40 +34,40 @@ namespace QubeCore
 
     class QUBESHARED_EXPORT MimeType : public QObject
     {
-	Q_DECLARE_PRIVATE(MimeType)
+        Q_DECLARE_PRIVATE(MimeType)
     public:
-	explicit MimeType(const QString &mimeType = QString::null, QObject *parent = 0);
+        explicit MimeType(const QString &mimeType = QString::null, QObject *parent = 0);
 
-	bool fromFileName(const QString& fileName);
-	bool fromFile(QFile *file);
+        bool fromFileName(const QString &fileName);
+        bool fromFile(QFile *file);
 
-	QString iconName() const;
+        QString iconName() const;
 
-	QString mimeType() const;
-	QString subClassOf() const;
+        QString mimeType() const;
+        QString subClassOf() const;
 
-	QString comment() const;
-	QString genericIconName() const;
+        QString comment() const;
+        QString genericIconName() const;
 
-	QString acronym() const;
-	QString expandedAcronym() const;
+        QString acronym() const;
+        QString expandedAcronym() const;
 
-	QStringList aliases() const;
+        QStringList aliases() const;
 
-	QStringList globs() const;
+        QStringList globs() const;
 
     protected:
-	bool getMimeNode();
-	bool checkMagic(const QDomElement &magicNode, QFile *file);
-	bool checkMagic(const QDomNodeList &matchList, QFile *file);
-	bool checkSubMagic(const QDomNodeList &matchList, QFile *file);
-	bool checkMatch(const QDomElement &matchNode, QFile *file);
+        bool getMimeNode();
+        bool checkMagic(const QDomElement &magicNode, QFile *file);
+        bool checkMagic(const QDomNodeList &matchList, QFile *file);
+        bool checkSubMagic(const QDomNodeList &matchList, QFile *file);
+        bool checkMatch(const QDomElement &matchNode, QFile *file);
 
     private:
-	MimeTypePrivate *d_ptr;
+        MimeTypePrivate *d_ptr;
 
-	bool checkMagicString(const QString &offset, const QByteArray &value,
-			      const QByteArray &mask, QFile *file);
+        bool checkMagicString(const QString &offset, const QByteArray &value,
+                              const QByteArray &mask, QFile *file);
     };
 }
 

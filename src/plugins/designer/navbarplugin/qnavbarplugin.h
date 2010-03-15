@@ -5,8 +5,8 @@
 
 class QNavBarPlugin : public QObject, public QDesignerCustomWidgetInterface
 {
-Q_OBJECT
-Q_INTERFACES(QDesignerCustomWidgetInterface)
+    Q_OBJECT
+    Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
     explicit QNavBarPlugin(const QIcon &icon, QObject *parent = 0);
 

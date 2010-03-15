@@ -1,4 +1,4 @@
-/* 
+/*
  *  This file is part of Quartica.
  *
  *  Copyright (c) 2008 Matteo Bertozzi <theo.bertozzi@gmail.com>
@@ -29,7 +29,7 @@ public:
 
 QSelectableWidget::QSelectableWidget(QWidget *parent)
     : QWidget(parent),
-    d(new QSelectableWidget::Private())
+      d(new QSelectableWidget::Private())
 {
     d->isSelected = false;
 }

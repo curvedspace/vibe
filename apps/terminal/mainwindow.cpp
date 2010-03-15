@@ -27,17 +27,17 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Connect signals
     connect(ui->actionNew_Tab, SIGNAL(triggered()),
-	    this, SLOT(newTab()));
+            this, SLOT(newTab()));
     connect(ui->actionNew_Window, SIGNAL(triggered()),
-	    this, SLOT(newWindow()));
+            this, SLOT(newWindow()));
     connect(ui->action_Close_Tab, SIGNAL(triggered()),
-	    this, SLOT(closeCurrentTab()));
+            this, SLOT(closeCurrentTab()));
     connect(ui->action_Open_File_Manager, SIGNAL(triggered()),
-	    this, SLOT(openFileManager()));
+            this, SLOT(openFileManager()));
     connect(ui->action_Quit, SIGNAL(triggered()),
-	    this, SLOT(close()));
+            this, SLOT(close()));
     connect(ui->tabWidget, SIGNAL(tabCloseRequested(int)),
-	    this, SLOT(closeTab(int)));
+            this, SLOT(closeTab(int)));
 
     // Start with a tab
     newTab();
@@ -52,11 +52,11 @@ void MainWindow::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);
     switch (e->type()) {
-    case QEvent::LanguageChange:
-	ui->retranslateUi(this);
-	break;
-    default:
-	break;
+        case QEvent::LanguageChange:
+            ui->retranslateUi(this);
+            break;
+        default:
+            break;
     }
 }
 
@@ -67,7 +67,7 @@ void MainWindow::newTab()
     ui->tabWidget->addTab(console, "Shell");
     ui->tabWidget->setCurrentWidget(console);
     connect(console, SIGNAL(finished()),
-	    this, SLOT(closeCurrentTab()));
+            this, SLOT(closeCurrentTab()));
 }
 
 void MainWindow::newWindow()
@@ -83,14 +83,14 @@ void MainWindow::closeCurrentTab()
     ui->tabWidget->removeTab(ui->tabWidget->currentIndex());
 
     if (ui->tabWidget->count() == 0)
-	close();
+        close();
 }
 
 void MainWindow::closeTab(int index)
 {
     ui->tabWidget->removeTab(index);
     if (ui->tabWidget->count() == 0)
-	close();
+        close();
 }
 
 #include "mainwindow.moc"
