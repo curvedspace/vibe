@@ -24,9 +24,29 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
-      ui(new Ui::MainWindow)
+      ui(new Ui::MainWindow())
 {
     ui->setupUi(this);
+
+    // Set icons
+    ui->actionNew_Window->setIcon(QIcon::fromTheme("window-new"));
+    ui->actionNew_Tab->setIcon(QIcon::fromTheme("tab-new"));
+    ui->actionNew_Folder->setIcon(QIcon::fromTheme("folder-new"));
+    //ui->actionNew_Smart_Folder
+    //ui->actionNew_Burning_Folder
+    ui->actionOpen->setIcon(QIcon::fromTheme("document-open"));
+    ui->actionPrint->setIcon(QIcon::fromTheme("document-print"));
+    ui->actionClose->setIcon(QIcon::fromTheme("window-close"));
+    ui->actionGet_Information->setIcon(QIcon::fromTheme("documentinfo"));
+    ui->actionEject->setIcon(QIcon::fromTheme("media-eject"));
+    ui->actionUndo->setIcon(QIcon::fromTheme("edit-undo"));
+    ui->actionRedo->setIcon(QIcon::fromTheme("edit-redo"));
+    ui->actionCut->setIcon(QIcon::fromTheme("edit-cut"));
+    ui->actionCopy->setIcon(QIcon::fromTheme("edit-copy"));
+    ui->actionPaste->setIcon(QIcon::fromTheme("edit-paste"));
+    ui->actionSelect_All->setIcon(QIcon::fromTheme("edit-select-all"));
+    ui->actionBack->setIcon(QIcon::fromTheme("draw-arrow-back"));
+    ui->actionForward->setIcon(QIcon::fromTheme("draw-arrow-forward"));
 
     // Set actions
     QActionGroup viewMode(this);
