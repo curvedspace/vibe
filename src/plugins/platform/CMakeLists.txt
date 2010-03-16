@@ -15,8 +15,8 @@ set(QubeGuiPlatformSources
 
 qt4_automoc(${QubeGuiPlatformSources})
 
-add_library(QubeGuiPlatformPlugin SHARED ${QubeGuiPlatformSources})
+add_library(qube SHARED ${QubeGuiPlatformSources})
 
-target_link_libraries(QubeGuiPlatformPlugin ${QT_QTGUI_LIBRARY})
+target_link_libraries(qube ${QT_QTGUI_LIBRARY})
 
-install(TARGETS QubeGuiPlatformPlugin LIBRARY DESTINATION ${QT_PLUGINS_DIR}/gui_platform COMPONENT Framework)
+install(TARGETS qube LIBRARY DESTINATION ${QT_PLUGINS_DIR}/gui_platform COMPONENT Framework)
