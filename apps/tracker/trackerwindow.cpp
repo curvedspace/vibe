@@ -19,12 +19,12 @@
 #include <QtGui/QDesktopServices>
 #include <QtGui/QFileSystemModel>
 
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "trackerwindow.h"
+#include "ui_trackerwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
+TrackerWindow::TrackerWindow(QWidget *parent)
     : QMainWindow(parent),
-      ui(new Ui::MainWindow())
+      ui(new Ui::TrackerWindow())
 {
     ui->setupUi(this);
 
@@ -47,6 +47,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionSelect_All->setIcon(QIcon::fromTheme("edit-select-all"));
     ui->actionBack->setIcon(QIcon::fromTheme("draw-arrow-back"));
     ui->actionForward->setIcon(QIcon::fromTheme("draw-arrow-forward"));
+    ui->actionComputer->setIcon(QIcon::fromTheme("computer"));
+    ui->actionParentFolder->setIcon(QIcon::fromTheme("go-parent-folder"));
+    ui->actionAs_Icons->setIcon(QIcon::fromTheme("view-list-icons"));
+    ui->actionAs_List->setIcon(QIcon::fromTheme("view-list-details"));
+    ui->actionAs_Tree->setIcon(QIcon::fromTheme("view-list-tree"));
+    ui->actionAs_Columns->setIcon(QIcon::fromTheme("view-file-columns"));
 
     // Set actions
     QActionGroup viewMode(this);
@@ -104,15 +110,16 @@ MainWindow::MainWindow(QWidget *parent)
     }
 }
 
-MainWindow::~MainWindow()
+TrackerWindow::~TrackerWindow()
 {
     delete ui;
     delete m_model;
 }
 
-void MainWindow::changeEvent(QEvent *e)
+void TrackerWindow::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);
+
     switch (e->type()) {
 	case QEvent::LanguageChange:
 	    ui->retranslateUi(this);
@@ -122,7 +129,7 @@ void MainWindow::changeEvent(QEvent *e)
     }
 }
 
-void MainWindow::setRootPath(const QString &rootPath)
+void TrackerWindow::setRootPath(const QString &rootPath)
 {
     m_prevRoot = m_model->index(m_model->rootPath());
     QModelIndex root = m_model->setRootPath(rootPath);
@@ -131,41 +138,41 @@ void MainWindow::setRootPath(const QString &rootPath)
     ui->columnView->setRootIndex(root);
 }
 
-void MainWindow::viewAsIcons()
+void TrackerWindow::viewAsIcons()
 {
     ui->listView->setViewMode(QListView::IconMode);
     ui->stackedWidget->setCurrentIndex(0);
 }
 
-void MainWindow::viewAsList()
+void TrackerWindow::viewAsList()
 {
     ui->listView->setViewMode(QListView::ListMode);
     ui->stackedWidget->setCurrentIndex(0);
 }
 
-void MainWindow::viewAsTree()
+void TrackerWindow::viewAsTree()
 {
     ui->stackedWidget->setCurrentIndex(1);
 }
 
-void MainWindow::viewAsColumns()
+void TrackerWindow::viewAsColumns()
 {
     ui->stackedWidget->setCurrentIndex(2);
 }
 
-void MainWindow::goBack()
+void TrackerWindow::goBack()
 {
     if (m_prevRoot.isValid())
 	setRootPath(m_model->filePath(m_prevRoot));
 }
 
-void MainWindow::goForward()
+void TrackerWindow::goForward()
 {
 }
 
-void MainWindow::doubleClicked(QModelIndex index)
+void TrackerWindow::doubleClicked(QModelIndex index)
 {
     setRootPath(m_model->filePath(index));
 }
 
-#include "mainwindow.moc"
+#include "trackerwindow.moc"

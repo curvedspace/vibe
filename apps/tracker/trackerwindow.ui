@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>TrackerWindow</class>
+ <widget class="QMainWindow" name="TrackerWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>798</width>
-    <height>598</height>
+    <width>794</width>
+    <height>594</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -149,7 +149,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>798</width>
+     <width>794</width>
      <height>24</height>
     </rect>
    </property>
@@ -212,7 +212,7 @@
     </property>
     <addaction name="actionBack"/>
     <addaction name="actionForward"/>
-    <addaction name="actionFolder"/>
+    <addaction name="actionParentFolder"/>
     <addaction name="separator"/>
     <addaction name="actionComputer"/>
    </widget>
@@ -291,7 +291,7 @@
     <string>Print</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+P</string>
+    <string>Meta+P</string>
    </property>
   </action>
   <action name="actionClose">
@@ -299,7 +299,7 @@
     <string>Close</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+W</string>
+    <string>Meta+W</string>
    </property>
   </action>
   <action name="actionGet_Information">
@@ -387,6 +387,11 @@
     <string>As Columns</string>
    </property>
   </action>
+  <action name="actionAs_Tree">
+   <property name="text">
+    <string>As Tree</string>
+   </property>
+  </action>
   <action name="actionRearrange">
    <property name="text">
     <string>Rearrange</string>
@@ -402,19 +407,20 @@
     <string>Forward</string>
    </property>
   </action>
-  <action name="actionFolder">
+  <action name="actionParentFolder">
    <property name="text">
-    <string>Folder</string>
+    <string>Parent Folder</string>
+   </property>
+   <property name="toolTip">
+    <string>Go to parent folder</string>
    </property>
   </action>
   <action name="actionComputer">
    <property name="text">
     <string>Computer</string>
    </property>
-  </action>
-  <action name="actionAs_Tree">
-   <property name="text">
-    <string>As Tree</string>
+   <property name="toolTip">
+    <string>Go to computer</string>
    </property>
   </action>
  </widget>

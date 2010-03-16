@@ -23,23 +23,23 @@
 
 namespace Ui
 {
-    class MainWindow;
+    class TrackerWindow;
 }
 
 class QFileSystemModel;
 
-class MainWindow : public QMainWindow
+class TrackerWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    TrackerWindow(QWidget *parent = 0);
+    ~TrackerWindow();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
-    Ui::MainWindow *ui;
+    Ui::TrackerWindow *ui;
     QFileSystemModel *m_model;
     QModelIndex m_prevRoot;
 

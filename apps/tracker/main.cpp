@@ -17,13 +17,13 @@
 
 #include <QtGui/QApplication>
 
-#include "mainwindow.h"
+#include "trackerwindow.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    MainWindow *mainWindow = new MainWindow();
+    TrackerWindow *mainWindow = new TrackerWindow();
     mainWindow->show();
 
     return app.exec();

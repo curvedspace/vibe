@@ -9,11 +9,11 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(TrackerSources
     main.cpp
-    mainwindow.cpp
+    trackerwindow.cpp
 )
 
 set(TrackerUis
-    mainwindow.ui
+    trackerwindow.ui
 )
 
 set(TrackerResources
