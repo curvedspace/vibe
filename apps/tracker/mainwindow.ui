@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>798</width>
+    <height>598</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QNavBar" name="navbar"/>
+      <widget class="QubeGui::NavBar" name="navbar" native="true"/>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
         <number>0</number>
@@ -149,8 +149,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>27</height>
+     <width>798</width>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -420,9 +420,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QNavBar</class>
+   <class>QubeGui::NavBar</class>
    <extends>QWidget</extends>
-   <header>QubeGui/QNavBar</header>
+   <header>QubeGui/NavBar</header>
   </customwidget>
  </customwidgets>
  <resources/>

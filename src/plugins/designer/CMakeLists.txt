@@ -11,10 +11,10 @@ add_definitions(-DQT_PLUGIN -DQT_NO_DEBUG -DQT_SHARED)
 
 set(QubeWidgetsSources
     qubewidgets.cpp
-    navbarplugin/qnavbarplugin.cpp
-    #navbarplugin/qnavbarplugintaskmenu.cpp
-    #navbarplugin/qnavbarplugintaskmenufactory.cpp
-    #navbarplugin/qnavbarplugindialog.cpp
+    navbarplugin/navbarplugin.cpp
+    #navbarplugin/navbarplugintaskmenu.cpp
+    #navbarplugin/navbarplugintaskmenufactory.cpp
+    #navbarplugin/navbarplugindialog.cpp
 )
 
 qt4_automoc(${QubeWidgetsSources})

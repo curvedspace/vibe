@@ -16,32 +16,29 @@
  *
  ***************************************************************************/
 
-#include <QtGui/QMouseEvent>
+#ifndef CLICKABLELABEL_H
+#define CLICKABLELABEL_H
 
-#include "qclickablelabel.h"
+#include <QtGui/QLabel>
 
-QClickableLabel::QClickableLabel(QWidget *parent, Qt::WindowFlags f)
-    : QLabel(parent, f)
+#include "qube_global.h"
+
+namespace QubeGui
 {
+    class QUBESHARED_EXPORT ClickableLabel : public QLabel
+    {
+        Q_OBJECT
+    public:
+        explicit ClickableLabel(QWidget *parent = 0, Qt::WindowFlags f = 0);
+        ClickableLabel(const QString &text, QWidget *parent = 0, Qt::WindowFlags f = 0);
+
+    signals:
+        void clicked();
+        void clicked(ClickableLabel *label);
+
+    protected:
+        void mouseReleaseEvent(QMouseEvent *event);
+    };
 }
 
-QClickableLabel::QClickableLabel(const QString &text, QWidget *parent, Qt::WindowFlags f)
-    : QLabel(text, parent, f)
-{
-}
-
-QClickableLabel::~QClickableLabel()
-{
-}
-
-void QClickableLabel::mouseReleaseEvent(QMouseEvent *event)
-{
-    QLabel::mouseReleaseEvent(event);
-    // Accept event
-    event->setAccepted(true);
-    // Raise clicked event
-    emit clicked();
-    emit clicked(this);
-}
-
-#include "qclickablelabel.moc"
+#endif // CLICKABLELABEL_H

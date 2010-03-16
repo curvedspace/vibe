@@ -16,27 +16,46 @@
  *
  ***************************************************************************/
 
-#ifndef QCLICKABLELABEL_H
-#define QCLICKABLELABEL_H
+#ifndef NAVBAR_H
+#define NAVBAR_H
 
-#include <QtGui/QLabel>
+#include <QtGui/QWidget>
 
 #include "qube_global.h"
+#include "navbargroup.h"
 
-class QUBESHARED_EXPORT QClickableLabel : public QLabel
+namespace QubeGui
 {
-    Q_OBJECT
-public:
-    explicit QClickableLabel(QWidget *parent = 0, Qt::WindowFlags f = 0);
-    QClickableLabel(const QString &text, QWidget *parent = 0, Qt::WindowFlags f = 0);
-    ~QClickableLabel();
+    class NavBarPrivate;
 
-signals:
-    void clicked();
-    void clicked(QClickableLabel *label);
+    class QUBESHARED_EXPORT NavBar : public QWidget
+    {
+	Q_OBJECT
+	Q_DECLARE_PRIVATE(NavBar)
+    public:
+	explicit NavBar(QWidget *parent = 0);
 
-protected:
-    void mouseReleaseEvent(QMouseEvent *event);
-};
+	void addGroup(NavBarGroup *group);
+	NavBarGroup *addGroup(const QString &title);
+	void addGroups(QList<NavBarGroup *> groups);
 
-#endif // QCLICKABLELABEL_H
+	void removeGroup(NavBarGroup *group);
+
+	void clear();
+
+	QList<NavBarGroup *> groups() const;
+	bool containsGroup(NavBarGroup *group);
+
+    protected:
+	void paintEvent(QPaintEvent *event);
+
+    private slots:
+	void itemSelected(NavBarGroup *group, NavBarItem *item);
+	void groupExpanded(NavBarGroup *);
+
+    private:
+	NavBarPrivate *d_ptr;
+    };
+}
+
+#endif // NAVBAR_H

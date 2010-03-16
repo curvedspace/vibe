@@ -15,35 +15,35 @@
  *
  ***************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef NAVBARPLUGIN_H
+#define NAVBARPLUGIN_H
 
-#include <QtGui/QMainWindow>
+#include <QtDesigner/QDesignerCustomWidgetInterface>
 
-namespace Ui
-{
-    class MainWindow;
-}
-
-class MainWindow : public QMainWindow
+class NavBarPlugin : public QObject, public QDesignerCustomWidgetInterface
 {
     Q_OBJECT
+    Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    explicit NavBarPlugin(const QIcon &icon, QObject *parent = 0);
 
-protected:
-    void changeEvent(QEvent *e);
+    void initialize(QDesignerFormEditorInterface *formEditor);
+    bool isInitialized() const;
+    bool isContainer() const;
+
+    QWidget *createWidget(QWidget *parent);
+
+    QIcon icon() const;
+    QString domXml() const;
+    QString group() const;
+    QString includeFile() const;
+    QString name() const;
+    QString toolTip() const;
+    QString whatsThis() const;
 
 private:
-    Ui::MainWindow *ui;
-
-private slots:
-    void newTab();
-    void newWindow();
-    void openFileManager();
-    void closeCurrentTab();
-    void closeTab(int index);
+    bool m_initialized;
+    QIcon m_icon;
 };
 
-#endif // MAINWINDOW_H
+#endif // NAVBARPLUGIN_H

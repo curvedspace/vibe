@@ -10,20 +10,20 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(QubeGuiSources
     colorscheme.cpp
-    qclickablelabel.cpp
-    qnavbar.cpp
-    qnavbargroup.cpp
-    qnavbaritem.cpp
-    qselectablewidget.cpp
+    clickablelabel.cpp
+    navbar.cpp
+    navbargroup.cpp
+    navbaritem.cpp
+    selectablewidget.cpp
 )
 
 set(QubeGuiHeaders
     colorscheme.h
-    qclickablelabel.h
-    qnavbar.h
-    qnavbargroup.h
-    qnavbaritem.h
-    qselectablewidget.h
+    clickablelabel.h
+    navbar.h
+    navbargroup.h
+    navbaritem.h
+    selectablewidget.h
 )
 
 qt4_automoc(${QubeGuiSources})
