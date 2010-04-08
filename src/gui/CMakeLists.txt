@@ -9,6 +9,7 @@ include_directories(${CMAKE_SOURCE_DIR}/src/gui ${CMAKE_SOURCE_DIR}/headers/Qube
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(QubeGuiSources
+#    aboutdialog.cpp
     colorscheme.cpp
     clickablelabel.cpp
     navbar.cpp
@@ -18,6 +19,7 @@ set(QubeGuiSources
 )
 
 set(QubeGuiHeaders
+#    aboutdialog.h
     colorscheme.h
     clickablelabel.h
     navbar.h
@@ -26,9 +28,14 @@ set(QubeGuiHeaders
     selectablewidget.h
 )
 
-qt4_automoc(${QubeGuiSources})
+set(QubeGuiUis
+#    aboutdialog.ui
+)
 
-add_library(QubeGui SHARED ${QubeGuiSources})
+qt4_automoc(${QubeGuiSources})
+qt4_wrap_ui(QubeGuiUiFiles ${QubeGuiUis})
+
+add_library(QubeGui SHARED ${QubeGuiSources} ${QubeGuiUiFiles})
 
 target_link_libraries(QubeGui
 	LINK_INTERFACE_LIBRARIES ${QT_QTGUI_LIBRARY} QubeCore)
