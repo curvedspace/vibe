@@ -42,14 +42,12 @@ private:
     Ui::TrackerWindow *ui;
     QFileSystemModel *m_model;
     QModelIndex m_prevRoot;
+    QModelIndex m_forwRoot;
 
     void setRootPath(const QString &rootPath);
 
 private slots:
-    void viewAsIcons();
-    void viewAsList();
-    void viewAsTree();
-    void viewAsColumns();
+    void viewModeSelected(QAction*);
     void goBack();
     void goForward();
     void doubleClicked(QModelIndex);

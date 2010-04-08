@@ -24,7 +24,7 @@
 
 TrackerWindow::TrackerWindow(QWidget *parent)
     : QMainWindow(parent),
-      ui(new Ui::TrackerWindow())
+    ui(new Ui::TrackerWindow())
 {
     ui->setupUi(this);
 
@@ -55,19 +55,14 @@ TrackerWindow::TrackerWindow(QWidget *parent)
     ui->actionAs_Columns->setIcon(QIcon::fromTheme("view-file-columns"));
 
     // Set actions
-    QActionGroup viewMode(this);
-    viewMode.addAction(ui->actionAs_Icons);
-    viewMode.addAction(ui->actionAs_List);
-    viewMode.addAction(ui->actionAs_Tree);
-    viewMode.addAction(ui->actionAs_Columns);
-    connect(ui->actionAs_Icons, SIGNAL(triggered()),
-	    this, SLOT(viewAsIcons()));
-    connect(ui->actionAs_List, SIGNAL(triggered()),
-	    this, SLOT(viewAsList()));
-    connect(ui->actionAs_Tree, SIGNAL(triggered()),
-	    this, SLOT(viewAsTree()));
-    connect(ui->actionAs_Columns, SIGNAL(triggered()),
-	    this, SLOT(viewAsColumns()));
+    QActionGroup *viewMode = new QActionGroup(this);
+    viewMode->setExclusive(true);
+    viewMode->addAction(ui->actionAs_Icons);
+    viewMode->addAction(ui->actionAs_List);
+    viewMode->addAction(ui->actionAs_Tree);
+    viewMode->addAction(ui->actionAs_Columns);
+    connect(viewMode, SIGNAL(selected(QAction*)),
+	    this, SLOT(viewModeSelected(QAction*)));
     connect(ui->actionBack, SIGNAL(triggered()),
 	    this, SLOT(goBack()));
     connect(ui->actionForward, SIGNAL(triggered()),
@@ -79,10 +74,7 @@ TrackerWindow::TrackerWindow(QWidget *parent)
     ui->listView->setModel(m_model);
     ui->treeView->setModel(m_model);
     ui->columnView->setModel(m_model);
-    QModelIndex root = m_model->setRootPath(QDir::homePath());
-    ui->listView->setRootIndex(root);
-    ui->treeView->setRootIndex(root);
-    ui->columnView->setRootIndex(root);
+    setRootPath(QDir::homePath());
     connect(ui->listView, SIGNAL(doubleClicked(QModelIndex)),
 	    this, SLOT(doubleClicked(QModelIndex)));
     connect(ui->treeView, SIGNAL(doubleClicked(QModelIndex)),
@@ -100,7 +92,7 @@ TrackerWindow::TrackerWindow(QWidget *parent)
     locationsHash[QDesktopServices::DocumentsLocation] = tr("Documents");
     QubeGui::NavBarGroup *locations = ui->navbar->addGroup(tr("LOCATIONS"));
     QHashIterator<QDesktopServices::StandardLocation, QString>
-    locationsIterator(locationsHash);
+	    locationsIterator(locationsHash);
     while (locationsIterator.hasNext()) {
 	locationsIterator.next();
 	QString path = QDesktopServices::storageLocation(locationsIterator.key());
@@ -121,11 +113,11 @@ void TrackerWindow::changeEvent(QEvent *e)
     QMainWindow::changeEvent(e);
 
     switch (e->type()) {
-	case QEvent::LanguageChange:
-	    ui->retranslateUi(this);
-	    break;
-	default:
-	    break;
+    case QEvent::LanguageChange:
+	ui->retranslateUi(this);
+	break;
+    default:
+	break;
     }
 }
 
@@ -136,38 +128,38 @@ void TrackerWindow::setRootPath(const QString &rootPath)
     ui->listView->setRootIndex(root);
     ui->treeView->setRootIndex(root);
     ui->columnView->setRootIndex(root);
+    setWindowTitle(rootPath);
 }
 
-void TrackerWindow::viewAsIcons()
+void TrackerWindow::viewModeSelected(QAction *action)
 {
-    ui->listView->setViewMode(QListView::IconMode);
-    ui->stackedWidget->setCurrentIndex(0);
-}
-
-void TrackerWindow::viewAsList()
-{
-    ui->listView->setViewMode(QListView::ListMode);
-    ui->stackedWidget->setCurrentIndex(0);
-}
-
-void TrackerWindow::viewAsTree()
-{
-    ui->stackedWidget->setCurrentIndex(1);
-}
-
-void TrackerWindow::viewAsColumns()
-{
-    ui->stackedWidget->setCurrentIndex(2);
+    if (action->objectName() == "actionAs_Icons") {
+	ui->listView->setViewMode(QListView::IconMode);
+	ui->stackedWidget->setCurrentIndex(0);
+    } else if (action->objectName() == "actionAs_List") {
+	ui->listView->setViewMode(QListView::ListMode);
+	ui->stackedWidget->setCurrentIndex(0);
+    } else if (action->objectName() == "actionAs_Tree")
+	ui->stackedWidget->setCurrentIndex(1);
+    else if (action->objectName() == "actionAs_Columns")
+	ui->stackedWidget->setCurrentIndex(2);
 }
 
 void TrackerWindow::goBack()
 {
-    if (m_prevRoot.isValid())
+    if (m_prevRoot.isValid()) {
+	m_forwRoot = m_model->index(m_model->rootPath());
 	setRootPath(m_model->filePath(m_prevRoot));
+	m_prevRoot = QModelIndex();
+    }
 }
 
 void TrackerWindow::goForward()
 {
+    if (m_forwRoot.isValid()) {
+	setRootPath(m_model->filePath(m_forwRoot));
+	m_forwRoot = QModelIndex();
+    }
 }
 
 void TrackerWindow::doubleClicked(QModelIndex index)

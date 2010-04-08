@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>794</width>
-    <height>594</height>
+    <width>792</width>
+    <height>592</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -60,7 +60,7 @@
             <bool>true</bool>
            </property>
            <property name="spacing">
-            <number>10</number>
+            <number>20</number>
            </property>
            <property name="viewMode">
             <enum>QListView::IconMode</enum>
@@ -96,6 +96,12 @@
            </property>
            <property name="selectionMode">
             <enum>QAbstractItemView::ExtendedSelection</enum>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>48</width>
+             <height>48</height>
+            </size>
            </property>
            <property name="textElideMode">
             <enum>Qt::ElideMiddle</enum>
@@ -135,6 +141,12 @@
            <property name="alternatingRowColors">
             <bool>true</bool>
            </property>
+           <property name="iconSize">
+            <size>
+             <width>48</width>
+             <height>48</height>
+            </size>
+           </property>
           </widget>
          </item>
         </layout>
@@ -149,7 +161,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>794</width>
+     <width>792</width>
      <height>24</height>
     </rect>
    </property>
@@ -195,6 +207,16 @@
     <addaction name="actionPaste"/>
     <addaction name="actionSelect_All"/>
    </widget>
+   <widget class="QMenu" name="menuGo">
+    <property name="title">
+     <string>Go</string>
+    </property>
+    <addaction name="actionBack"/>
+    <addaction name="actionForward"/>
+    <addaction name="actionParentFolder"/>
+    <addaction name="separator"/>
+    <addaction name="actionComputer"/>
+   </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
      <string>View</string>
@@ -205,16 +227,6 @@
     <addaction name="actionAs_Columns"/>
     <addaction name="separator"/>
     <addaction name="actionRearrange"/>
-   </widget>
-   <widget class="QMenu" name="menuGo">
-    <property name="title">
-     <string>Go</string>
-    </property>
-    <addaction name="actionBack"/>
-    <addaction name="actionForward"/>
-    <addaction name="actionParentFolder"/>
-    <addaction name="separator"/>
-    <addaction name="actionComputer"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -237,6 +249,7 @@
    </attribute>
    <addaction name="actionBack"/>
    <addaction name="actionForward"/>
+   <addaction name="separator"/>
    <addaction name="actionAs_Icons"/>
    <addaction name="actionAs_List"/>
    <addaction name="actionAs_Tree"/>
@@ -373,21 +386,36 @@
    </property>
   </action>
   <action name="actionAs_Icons">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>As Icons</string>
    </property>
   </action>
   <action name="actionAs_List">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>As List</string>
    </property>
   </action>
   <action name="actionAs_Columns">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>As Columns</string>
    </property>
   </action>
   <action name="actionAs_Tree">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>As Tree</string>
    </property>
@@ -398,11 +426,17 @@
    </property>
   </action>
   <action name="actionBack">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Back</string>
    </property>
   </action>
   <action name="actionForward">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Forward</string>
    </property>
@@ -428,7 +462,7 @@
   <customwidget>
    <class>QubeGui::NavBar</class>
    <extends>QWidget</extends>
-   <header>QubeGui/NavBar</header>
+   <header location="global">QubeGui/NavBar</header>
   </customwidget>
  </customwidgets>
  <resources/>
