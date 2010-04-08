@@ -1,2 +1,2 @@
+add_subdirectory(panel)
 add_subdirectory(tracker)
-add_subdirectory(terminal)
