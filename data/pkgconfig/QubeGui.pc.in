@@ -1,0 +1,11 @@
+prefix=@CMAKE_PREFIX@
+exec_prefix=${prefix}
+libdir=@QT_LIBRARY_DIR@
+includedir=@QT_INCLUDE_DIR@/Qube/QubeGui
+
+Name: QubeGui
+Description: QubeGui Library
+Version: @QUBE_VERSION@
+Libs: -L${libdir} -lQubeGui
+Requires: QtGui >= 4.6.0
+Cflags: -I@QT_INCLUDE_DIR@/Qube -I${includedir}

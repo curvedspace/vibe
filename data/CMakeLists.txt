@@ -1,1 +1,1 @@
-project(QubeData)
+add_subdirectory(pkgconfig)
