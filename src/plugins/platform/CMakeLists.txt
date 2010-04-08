@@ -10,7 +10,7 @@ add_definitions(${QT_DEFINITIONS})
 add_definitions(-DQT_PLUGIN -DQT_NO_DEBUG -DQT_SHARED)
 
 set(QubeGuiPlatformSources
-	qubeguiplatform.cpp
+    qubeguiplatform.cpp
 )
 
 qt4_automoc(${QubeGuiPlatformSources})

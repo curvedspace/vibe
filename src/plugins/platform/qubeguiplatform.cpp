@@ -31,6 +31,7 @@ QStringList QubeGuiPlatform::keys() const
 
 QString QubeGuiPlatform::styleName()
 {
+    return QLatin1String("Classic");
 }
 
 QPalette QubeGuiPlatform::palette()
@@ -39,6 +40,7 @@ QPalette QubeGuiPlatform::palette()
 
 QString QubeGuiPlatform::systemIconThemeName()
 {
+    return QLatin1String("Humanity");
 }
 
 QStringList QubeGuiPlatform::iconThemeSearchPaths()
@@ -55,3 +57,5 @@ QIcon QubeGuiPlatform::fileSystemIcon(const QFileInfo &info)
 int QubeGuiPlatform::platformHint(PlatformHint hint)
 {
 }
+
+Q_EXPORT_PLUGIN2(QubeGuiPlatform, QubeGuiPlatform)
