@@ -28,11 +28,13 @@ set(cmakeFiles
     FindSane.cmake
     FindSharedMimeInfo.cmake
     FindUSB.cmake
+    HandleImportedTargetsInCMakeRequiredLibraries.cmake
     MacroAddCompileFlags.cmake
     MacroAddLinkFlags.cmake
     MacroEnsureOutOfSourceBuild.cmake
     MacroEnsureVersion.cmake
     MacroLibrary.cmake
+    MacroPushRequiredVars.cmake
     Qt4ConfigDependentSettings.cmake
     Qt4Macros.cmake
 )
