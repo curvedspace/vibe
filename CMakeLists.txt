@@ -23,11 +23,9 @@ set(QUBE_VERSION "${QUBE_VERSION_MAJOR}.${QUBE_VERSION_MINOR}.${QUBE_VERSION_REL
 
 # Include important macros
 include(ConfigureChecks.cmake)
-include(FindQt4)
 
 # Find Qt
-set(QT_MIN_VERSION "4.6.0")
-find_package(Qt4 ${QT_MIN_VERSION} COMPONENTS QtCore QtGui REQUIRED)
+find_package(Qt4 "4.7.0" COMPONENTS QtCore QtGui REQUIRED)
 
 # Set paths variables
 set(QUBE_USERS_DIR "${CMAKE_PREFIX}/Users")
