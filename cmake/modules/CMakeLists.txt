@@ -1,7 +1,5 @@
 project(QubeCmakeModules)
 
-set(module_install_dir ${DATA_INSTALL_DIR}/cmake/modules)
-
 set(cmakeFiles
     CheckCXXSourceCompiles.cmake
     CheckCXXSourceRuns.cmake
@@ -39,4 +37,5 @@ set(cmakeFiles
     Qt4Macros.cmake
 )
 
-install(FILES ${cmakeFiles} DESTINATION ${QT_LIBRARY_DIR}/Qube/${module_install_dir})
+install(FILES ${cmakeFiles}
+    DESTINATION ${QUBE_DEVELOPMENT_CMAKE_DIR}/Modules)

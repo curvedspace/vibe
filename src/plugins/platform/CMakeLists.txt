@@ -19,4 +19,5 @@ add_library(qube SHARED ${QubeGuiPlatformSources})
 
 target_link_libraries(qube ${QT_QTGUI_LIBRARY})
 
-install(TARGETS qube LIBRARY DESTINATION ${QT_PLUGINS_DIR}/gui_platform COMPONENT Framework)
+install(TARGETS qube LIBRARY
+    DESTINATION ${QUBE_PLUGIN_DIR}/gui_platform COMPONENT Framework)

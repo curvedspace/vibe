@@ -6,4 +6,5 @@ set(QubeCoreHeaderFiles
     MimeType
 )
 
-install(FILES ${QubeCoreHeaderFiles} DESTINATION ${QT_INCLUDE_DIR}/Qube/QubeCore COMPONENT Devel)
+install(FILES ${QubeCoreHeaderFiles}
+    DESTINATION ${QUBE_DEVELOPMENT_INCLUDE_DIR}/Qube/QubeCore COMPONENT Devel)

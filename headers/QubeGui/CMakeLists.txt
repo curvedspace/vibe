@@ -8,4 +8,5 @@ set(QubeGuiHeaderFiles
     SelectableWidget
 )
 
-install(FILES ${QubeGuiHeaderFiles} DESTINATION ${QT_INCLUDE_DIR}/Qube/QubeGui COMPONENT Devel)
+install(FILES ${QubeGuiHeaderFiles}
+    DESTINATION ${QUBE_DEVELOPMENT_INCLUDE_DIR}/Qube/QubeGui COMPONENT Devel)
