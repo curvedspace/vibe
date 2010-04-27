@@ -30,7 +30,7 @@ target_link_libraries(settings-server
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/settingsinterface.h
     DESTINATION ${QUBE_DEVELOPMENT_INCLUDE_DIR}/Qube/QubeServices COMPONENT Devel)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/settings-server
+install(TARGETS settings-server
     DESTINATION ${QUBE_SYSTEM_SERVERS_DIR} COMPONENT Servers)
 install(FILES org.qubeos.Settings.xml
     DESTINATION ${DBUS_SESSION_BUS_SERVICES_DIR} COMPONENT Services)
