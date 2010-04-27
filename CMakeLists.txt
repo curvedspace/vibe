@@ -35,6 +35,7 @@ execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=session_bus_services
 if (_failed)
     message(FATAL_ERROR "Cannot find session_bus_services_dir propery from DBus: ${_failed}")
 endif (_failed)
+string(REGEX REPLACE "[ \t\n]+" \; DBUS_SESSION_BUS_SERVICES_DIR "${DBUS_SESSION_BUS_SERVICES_DIR}")
 
 # Set paths variables
 set(QUBE_USERS_DIR "${CMAKE_PREFIX}/home")
@@ -46,11 +47,14 @@ set(QUBE_DEVELOPMENT_INCLUDE_DIR "${CMAKE_PREFIX}/develop/include")
 set(QUBE_DEVELOPMENT_LIB_DIR "${CMAKE_PREFIX}/develop/lib")
 set(QUBE_DEVELOPMENT_CMAKE_DIR "${CMAKE_PREFIX}/develop/cmake")
 set(QUBE_DEVELOPMENT_PKGCONFIG_DIR "${CMAKE_PREFIX}/develop/pkgconfig")
-set(QUBE_BINARY_DIR "${CMAKE_PREFIX}/bin")
-set(QUBE_LIBRARY_DIR "${CMAKE_PREFIX}/lib")
-set(QUBE_PLUGINS_DIR "${CMAKE_PREFIX}/plugins")
 set(QUBE_SETTINGS_DIR "${CMAKE_PREFIX}/settings")
+set(QUBE_COMMON_BINARY_DIR "${CMAKE_PREFIX}/common/bin")
+set(QUBE_COMMON_LIBRARY_DIR "${CMAKE_PREFIX}/common/lib")
+set(QUBE_COMMON_PLUGINS_DIR "${CMAKE_PREFIX}/common/plugins")
 set(QUBE_COMMON_SERVERS_DIR "${CMAKE_PREFIX}/common/servers")
+set(QUBE_SYSTEM_BINARY_DIR "${CMAKE_PREFIX}/system/bin")
+set(QUBE_SYSTEM_LIBRARY_DIR "${CMAKE_PREFIX}/system/lib")
+set(QUBE_SYSTEM_PLUGINS_DIR "${CMAKE_PREFIX}/system/plugins")
 set(QUBE_SYSTEM_SERVERS_DIR "${CMAKE_PREFIX}/system/servers")
 
 # Subdirectories

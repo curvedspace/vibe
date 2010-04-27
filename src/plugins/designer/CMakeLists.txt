@@ -25,4 +25,4 @@ add_library(QubeWidgetsPlugin SHARED ${QubeWidgetsSources} ${QubeWidgetsResource
 target_link_libraries(QubeWidgetsPlugin ${QT_QTDESIGNER_LIBRARY} QubeGui)
 
 install(TARGETS QubeWidgetsPlugin LIBRARY
-    DESTINATION ${QUBE_PLUGINS_DIR}/qube/designer COMPONENT Devel)
+    DESTINATION ${QUBE_SYSTEM_PLUGINS_DIR}/designer COMPONENT Devel)

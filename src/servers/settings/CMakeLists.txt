@@ -28,9 +28,9 @@ add_executable(settings-server ${Sources} ${AdaptorSources} ${ProxySources})
 target_link_libraries(settings-server
     ${QT_QTGUI_LIBRARY} ${QT_QTDBUS_LIBRARY})
 
-install(FILES settingsinterface.h
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/settingsinterface.h
     DESTINATION ${QUBE_DEVELOPMENT_INCLUDE_DIR}/Qube/QubeServices COMPONENT Devel)
-install(FILES settings-server
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/settings-server
     DESTINATION ${QUBE_SYSTEM_SERVERS_DIR} COMPONENT Servers)
 install(FILES org.qubeos.Settings.xml
-    DESTINATION ${DBUS_SESSION_BUS_SERVICES_DIR} COMPONENT Servers)
+    DESTINATION ${DBUS_SESSION_BUS_SERVICES_DIR} COMPONENT Services)

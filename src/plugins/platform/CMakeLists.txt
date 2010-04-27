@@ -23,4 +23,4 @@ add_dependencies(qube settings-server)
 target_link_libraries(qube ${QT_QTGUI_LIBRARY} ${QT_QTDBUS_LIBRARY})
 
 install(TARGETS qube LIBRARY
-    DESTINATION ${QUBE_PLUGINS_DIR}/qube/gui_platform COMPONENT Framework)
+    DESTINATION ${QUBE_SYSTEM_PLUGINS_DIR}/gui_platform COMPONENT Framework)
