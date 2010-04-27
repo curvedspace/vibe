@@ -3,42 +3,23 @@
 <node name="/org/qubeos/settings_server">
     <interface name="org.qubeos.Settings">
         <method name="plainFont">
-            <annotation name="com.trolltech.QtDBus.QtTypeName.Out0" value="QFont" />
-            <arg name="font" type="v" direction="out" />
+            <arg name="font" type="s" direction="out" />
         </method>
         <method name="setPlainFont">
-            <annotation name="com.trolltech.QtDBus.QtTypeName.In0" value="QFont" />
-            <arg name="font" type="v" direction="in" />
+            <arg name="font" type="s" direction="in" />
         </method>
         <signal name="plainFontChanged">
-            <annotation name="com.trolltech.QtDBus.QtTypeName.Out0" value="QFont" />
-            <arg name="font" type="v" direction="out" />
-        </signal>
-
-        <method name="boldFont">
-            <annotation name="com.trolltech.QtDBus.QtTypeName.Out0" value="QFont" />
-            <arg name="font" type="v" direction="out" />
-        </method>
-        <method name="setBoldFont">
-            <annotation name="com.trolltech.QtDBus.QtTypeName.In0" value="QFont" />
-            <arg name="font" type="v" direction="in" />
-        </method>
-        <signal name="boldFontChanged">
-            <annotation name="com.trolltech.QtDBus.QtTypeName.Out0" value="QFont" />
-            <arg name="font" type="v" direction="out" />
+            <arg name="font" type="s" direction="out" />
         </signal>
 
         <method name="fixedSizeFont">
-            <annotation name="com.trolltech.QtDBus.QtTypeName.Out0" value="QFont" />
-            <arg name="font" type="v" direction="out" />
+            <arg name="font" type="s" direction="out" />
         </method>
         <method name="setFixedSizeFont">
-            <annotation name="com.trolltech.QtDBus.QtTypeName.In0" value="QFont" />
-            <arg name="font" type="v" direction="in" />
+            <arg name="font" type="s" direction="in" />
         </method>
         <signal name="fixedSizeFontChanged">
-            <annotation name="com.trolltech.QtDBus.QtTypeName.Out0" value="QFont" />
-            <arg name="font" type="v" direction="out" />
+            <arg name="font" type="s" direction="out" />
         </signal>
 
         <method name="style">

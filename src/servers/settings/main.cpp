@@ -15,13 +15,15 @@
  *
  ***************************************************************************/
 
+#include <QtGui/QApplication>
+
 #include "settingsserver.h"
 #include "settingsadaptor.h"
 
 int
 main(int argc, char *argv[])
 {
-    QCoreApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     SettingsServer *server = new SettingsServer();
     (void)new SettingsAdaptor(server);

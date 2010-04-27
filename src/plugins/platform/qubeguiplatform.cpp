@@ -20,6 +20,7 @@
 #include <QtDBus/QDBusConnection>
 #include <QtGui/QApplication>
 #include <QtGui/QDesktopServices>
+#include <QtGui/QFont>
 #include <QtGui/QIcon>
 #include <QtGui/QToolBar>
 #include <QtGui/QToolButton>
@@ -28,6 +29,10 @@
 #include "colorscheme.h"
 #include "mimetype.h"
 
+#ifdef Q_WS_X11
+extern void qt_x11_apply_settings_in_all_apps();
+#endif
+
 QubeGuiPlatform::QubeGuiPlatform()
 {
     QDBusConnection connection = QDBusConnection::sessionBus();
@@ -35,6 +40,10 @@ QubeGuiPlatform::QubeGuiPlatform()
             new org::qubeos::Settings(
                     "org.qubeos.Settings", "/", connection);
 
+    connect(m_settings, SIGNAL(plainFontChanged(QString)),
+            this, SLOT(updateFonts()));
+    connect(m_settings, SIGNAL(fixedSizeFontChanged(QString)),
+            this, SLOT(updateFonts()));
     connect(m_settings, SIGNAL(styleChanged(QString)),
             this, SLOT(updateWidgetStyle()));
     connect(m_settings, SIGNAL(iconThemeChanged(QString)),
@@ -54,7 +63,7 @@ QubeGuiPlatform::~QubeGuiPlatform()
 
 QStringList QubeGuiPlatform::keys() const
 {
-    return QStringList() << "qube";
+    return QStringList() << "default";
 }
 
 QString QubeGuiPlatform::styleName()
@@ -77,9 +86,9 @@ QString QubeGuiPlatform::systemIconThemeName()
 QStringList QubeGuiPlatform::iconThemeSearchPaths()
 {
     return QStringList()
-           << "/data/themes/icons"
-           << QDesktopServices::storageLocation(QDesktopServices::HomeLocation) +
-           "/.data/themes/icons";
+            << "/usr/share/icons" << "/data/themes/icons"
+            << QDesktopServices::storageLocation(QDesktopServices::HomeLocation) +
+               "/.data/themes/icons";
 }
 
 QIcon QubeGuiPlatform::fileSystemIcon(const QFileInfo &info)
@@ -103,28 +112,55 @@ int QubeGuiPlatform::platformHint(PlatformHint hint)
     return QGuiPlatformPlugin::platformHint(hint);
 }
 
+void QubeGuiPlatform::updateFonts()
+{
+    QFont font;
+    if (font.fromString(m_settings->plainFont())) {
+        QApplication::setFont(font);
+
+#ifdef Q_WS_X11
+        qt_x11_apply_settings_in_all_apps();
+#endif
+    }
+}
+
 void QubeGuiPlatform::updateWidgetStyle()
 {
-    if (qApp)
-        qApp->setStyle(styleName());
+    QApplication::setStyle(styleName());
+
+#ifdef Q_WS_X11
+    qt_x11_apply_settings_in_all_apps();
+#endif
 }
 
 void QubeGuiPlatform::updateIconTheme()
 {
+#if 0
     QWidgetList widgets = QApplication::allWidgets();
     foreach(QWidget *widget, widgets) {
         QEvent event(QEvent::StyleChange);
         QApplication::sendEvent(widget, &event);
     }
+#else
+    QIcon::setThemeName(systemIconThemeName());
+#endif
+
+#ifdef Q_WS_X11
+    qt_x11_apply_settings_in_all_apps();
+#endif
 }
 
 void QubeGuiPlatform::updateColorScheme()
 {
     QWidgetList widgets = QApplication::allWidgets();
     foreach(QWidget *widget, widgets) {
-        QEvent event(QEvent::StyleChange);
+        QEvent event(QEvent::PaletteChange);
         QApplication::sendEvent(widget, &event);
     }
+
+#ifdef Q_WS_X11
+    qt_x11_apply_settings_in_all_apps();
+#endif
 }
 
 void QubeGuiPlatform::updateToolBarIconSize()
@@ -132,10 +168,14 @@ void QubeGuiPlatform::updateToolBarIconSize()
     QWidgetList widgets = QApplication::allWidgets();
     foreach(QWidget *widget, widgets) {
         if (qobject_cast<QToolBar *>(widget)) {
-            QEvent event(QEvent::StyleChange);
+            QEvent event(QEvent::ToolBarChange);
             QApplication::sendEvent(widget, &event);
         }
     }
+
+#ifdef Q_WS_X11
+    qt_x11_apply_settings_in_all_apps();
+#endif
 }
 
 void QubeGuiPlatform::updateToolButtonStyle()
@@ -147,6 +187,10 @@ void QubeGuiPlatform::updateToolButtonStyle()
             QApplication::sendEvent(widget, &event);
         }
     }
+
+#ifdef Q_WS_X11
+    qt_x11_apply_settings_in_all_apps();
+#endif
 }
 
 Q_EXPORT_PLUGIN2(QubeGuiPlatform, QubeGuiPlatform)

@@ -37,6 +37,7 @@ public:
     virtual int platformHint(PlatformHint hint);
 
 private slots:
+    void updateFonts();
     void updateWidgetStyle();
     void updateIconTheme();
     void updateColorScheme();

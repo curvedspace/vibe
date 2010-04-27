@@ -15,97 +15,94 @@
  *
  ***************************************************************************/
 
+#include <QtGui/QApplication>
+#include <QtGui/QIcon>
+#include <QtGui/QStyleFactory>
+
 #include "settingsserver.h"
+
+const QFont defaultPlainFont("Droid Sans", 10);
+const QFont defaultFixedFont("Droid Sans Mono", 10);
+const QString defaultStyle("Qube");
+const QString defaultIconTheme("Qube");
+const QString defaultColorScheme("Qube");
+const int defaultToolBarIconSize = 24;
+const QString defaultToolButtonStyle("icononly");
 
 SettingsServer::SettingsServer(QObject *parent)
     : QObject(parent)
 {
     m_mutex = new QMutex();
-    m_settings = new QSettings("QubeOS", "Desktop");
 }
 
 SettingsServer::~SettingsServer()
 {
-    delete m_settings;
     delete m_mutex;
 }
 
-QDBusVariant &SettingsServer::plainFont() const
+QString SettingsServer::plainFont() const
 {
-    QDBusVariant v;
-
     m_mutex->lock();
-    QFont font("Droid Sans", 10);
-    m_settings->beginGroup("Fonts");
-    v = QDBusVariant(QVariant(m_settings->value("Plain", QVariant(font))));
+    QSettings settings(QLatin1String("Trolltech"));
+    settings.beginGroup(QLatin1String("Qt"));
+    QString v = settings.value(QLatin1String("font"),
+                               defaultPlainFont.toString()).toString();
     m_mutex->unlock();
 
     return v;
 }
 
-void SettingsServer::setPlainFont(const QDBusVariant &font)
+void SettingsServer::setPlainFont(const QString &font)
 {
     m_mutex->lock();
-    m_settings->beginGroup("Fonts");
-    m_settings->setValue("Plain", font.variant());
-    m_mutex->unlock();
 
-    emit plainFontChanged(font);
+    QFont f;
+    if (f.fromString(font)) {
+        QSettings settings(QLatin1String("Trolltech"));
+        settings.beginGroup(QLatin1String("Qt"));
+        settings.setValue(QLatin1String("font"), font);
+
+        emit plainFontChanged(font);
+    }
+
+    m_mutex->unlock();
 }
 
-QDBusVariant &SettingsServer::boldFont() const
-{
-    QDBusVariant v;
-
-    m_mutex->lock();
-    QFont font("Droid Sans", 10);
-    m_settings->beginGroup("Fonts");
-    v = QDBusVariant(QVariant(m_settings->value("Bold", QVariant(font))));
-    m_mutex->unlock();
-
-    return v;
-}
-
-void SettingsServer::setBoldFont(const QDBusVariant &font)
+QString SettingsServer::fixedSizeFont() const
 {
     m_mutex->lock();
-    m_settings->beginGroup("Fonts");
-    m_settings->setValue("Bold", font.variant());
-    m_mutex->unlock();
-
-    emit boldFontChanged(font);
-}
-
-QDBusVariant &SettingsServer::fixedSizeFont() const
-{
-    QDBusVariant v;
-
-    m_mutex->lock();
-    QFont font("Droid Sans Mono", 10);
-    m_settings->beginGroup("Fonts");
-    v = QDBusVariant(QVariant(m_settings->value("FixedSize", QVariant(font))));
+    QSettings settings(QLatin1String("Trolltech"));
+    settings.beginGroup(QLatin1String("Qt"));
+    QString v = settings.value(QLatin1String("Qube/fixedFont"),
+                               defaultFixedFont.toString()).toString();
     m_mutex->unlock();
 
     return v;
 }
 
-void SettingsServer::setFixedSizeFont(const QDBusVariant &font)
+void SettingsServer::setFixedSizeFont(const QString &font)
 {
     m_mutex->lock();
-    m_settings->beginGroup("Fonts");
-    m_settings->setValue("FixedSize", font.variant());
-    m_mutex->unlock();
 
-    emit fixedSizeFontChanged(font);
+    QFont f;
+    if (f.fromString(font)) {
+        QSettings settings(QLatin1String("Trolltech"));
+        settings.beginGroup(QLatin1String("Qt"));
+        settings.setValue(QLatin1String("Qube/fixedFont"), font);
+
+        emit fixedSizeFontChanged(font);
+    }
+
+    m_mutex->unlock();
 }
 
-QString &SettingsServer::style() const
+QString SettingsServer::style() const
 {
-    QString v;
-
     m_mutex->lock();
-    m_settings->beginGroup("Appearance");
-    v = m_settings->value("Style", QVariant("Qube")).toString();
+    QSettings settings(QLatin1String("Trolltech"));
+    settings.beginGroup(QLatin1String("Qt"));
+    QString v = settings.value(QLatin1String("style"),
+                               defaultStyle).toString();
     m_mutex->unlock();
 
     return v;
@@ -114,20 +111,25 @@ QString &SettingsServer::style() const
 void SettingsServer::setStyle(const QString &style)
 {
     m_mutex->lock();
-    m_settings->beginGroup("Appearance");
-    m_settings->setValue("Style", QVariant(style));
-    m_mutex->unlock();
 
-    emit styleChanged(style);
+    if (QStyleFactory::keys().contains(style)) {
+        QSettings settings(QLatin1String("Trolltech"));
+        settings.beginGroup(QLatin1String("Qt"));
+        settings.setValue(QLatin1String("style"), style);
+
+        emit styleChanged(style);
+    }
+
+    m_mutex->unlock();
 }
 
-QString &SettingsServer::iconTheme() const
+QString SettingsServer::iconTheme() const
 {
-    QString v;
-
     m_mutex->lock();
-    m_settings->beginGroup("Appearance");
-    v = m_settings->value("IconTheme", QVariant("Qube")).toString();
+    QSettings settings(QLatin1String("Trolltech"));
+    settings.beginGroup(QLatin1String("Qt"));
+    QString v = settings.value(QLatin1String("Qube/iconTheme"),
+                               defaultIconTheme).toString();
     m_mutex->unlock();
 
     return v;
@@ -136,20 +138,25 @@ QString &SettingsServer::iconTheme() const
 void SettingsServer::setIconTheme(const QString &iconTheme)
 {
     m_mutex->lock();
-    m_settings->beginGroup("Appearance");
-    m_settings->setValue("IconTheme", QVariant(iconTheme));
-    m_mutex->unlock();
 
-    emit iconThemeChanged(iconTheme);
+    if (QIcon::hasThemeIcon(iconTheme)) {
+        QSettings settings(QLatin1String("Trolltech"));
+        settings.beginGroup(QLatin1String("Qt"));
+        settings.setValue(QLatin1String("Qube/iconTheme"), iconTheme);
+
+        emit iconThemeChanged(iconTheme);
+    }
+
+    m_mutex->unlock();
 }
 
-QString &SettingsServer::colorScheme() const
+QString SettingsServer::colorScheme() const
 {
-    QString v;
-
     m_mutex->lock();
-    m_settings->beginGroup("Appearance");
-    v = m_settings->value("ColorScheme", QVariant("Qube")).toString();
+    QSettings settings(QLatin1String("Trolltech"));
+    settings.beginGroup(QLatin1String("Qt"));
+    QString v = settings.value(QLatin1String("Qube/colorScheme"),
+                               defaultColorScheme).toString();
     m_mutex->unlock();
 
     return v;
@@ -158,8 +165,9 @@ QString &SettingsServer::colorScheme() const
 void SettingsServer::setColorScheme(const QString &colorScheme)
 {
     m_mutex->lock();
-    m_settings->beginGroup("Appearance");
-    m_settings->setValue("ColorScheme", QVariant(colorScheme));
+    QSettings settings(QLatin1String("Trolltech"));
+    settings.beginGroup(QLatin1String("Qt"));
+    settings.setValue(QLatin1String("Qube/colorScheme"), colorScheme);
     m_mutex->unlock();
 
     emit colorSchemeChanged(colorScheme);
@@ -167,11 +175,11 @@ void SettingsServer::setColorScheme(const QString &colorScheme)
 
 int SettingsServer::toolBarIconSize() const
 {
-    int v;
-
     m_mutex->lock();
-    m_settings->beginGroup("ToolBar");
-    v = m_settings->value("IconSize", QVariant(24)).toInt();
+    QSettings settings(QLatin1String("Trolltech"));
+    settings.beginGroup(QLatin1String("Qt"));
+    int v = settings.value(QLatin1String("Qube/toolBarIconSize"),
+                           QVariant(defaultToolBarIconSize)).toInt();
     m_mutex->unlock();
 
     return v;
@@ -180,8 +188,9 @@ int SettingsServer::toolBarIconSize() const
 void SettingsServer::setToolBarIconSize(int size)
 {
     m_mutex->lock();
-    m_settings->beginGroup("ToolBar");
-    m_settings->setValue("IconSize", QVariant(size));
+    QSettings settings(QLatin1String("Trolltech"));
+    settings.beginGroup(QLatin1String("Qt"));
+    settings.setValue(QLatin1String("Qube/toolBarIconSize"), QVariant(size));
     m_mutex->unlock();
 
     emit toolBarIconSizeChanged(size);
@@ -192,9 +201,10 @@ int SettingsServer::toolButtonStyle() const
     int v;
 
     m_mutex->lock();
-    m_settings->beginGroup("ToolBar");
-
-    QString val = m_settings->value("Style", QVariant("IconOnly")).toString().toLower();
+    QSettings settings(QLatin1String("Trolltech"));
+    settings.beginGroup(QLatin1String("Qt"));
+    QString val = settings.value(QLatin1String("Qube/toolButtonStyle"),
+                                 defaultToolButtonStyle).toString();
     if (val == "icononly")
         v = Qt::ToolButtonIconOnly;
     else if (val == "textonly")
@@ -203,7 +213,6 @@ int SettingsServer::toolButtonStyle() const
         v = Qt::ToolButtonTextBesideIcon;
     else if (val == "textundericon")
         v = Qt::ToolButtonTextUnderIcon;
-
     m_mutex->unlock();
 
     return v;
@@ -212,9 +221,6 @@ int SettingsServer::toolButtonStyle() const
 void SettingsServer::setToolButtonStyle(int style)
 {
     QVariant v;
-
-    m_mutex->lock();
-    m_settings->beginGroup("ToolBar");
 
     switch (style) {
         case Qt::ToolButtonTextOnly:
@@ -228,10 +234,14 @@ void SettingsServer::setToolButtonStyle(int style)
             break;
         default:
             v = QVariant("IconOnly");
+            style = Qt::ToolButtonIconOnly;
             break;
     }
 
-    m_settings->setValue("Style", v);
+    m_mutex->lock();
+    QSettings settings(QLatin1String("Trolltech"));
+    settings.beginGroup(QLatin1String("Qt"));
+    settings.setValue(QLatin1String("Qube/toolButtonStyle"), v);
     m_mutex->unlock();
 
     emit toolButtonStyleChanged(style);

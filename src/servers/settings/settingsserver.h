@@ -22,6 +22,7 @@
 #include <QtCore/QMutex>
 #include <QtCore/QSettings>
 #include <QtDBus/QDBusVariant>
+#include <QtDBus/QDBusArgument>
 #include <QtGui/QFont>
 
 class SettingsServer : public QObject
@@ -32,9 +33,8 @@ public:
     ~SettingsServer();
 
 signals:
-    void plainFontChanged(const QDBusVariant &font);
-    void boldFontChanged(const QDBusVariant &font);
-    void fixedSizeFontChanged(const QDBusVariant &font);
+    void plainFontChanged(const QString &font);
+    void fixedSizeFontChanged(const QString &font);
     void styleChanged(const QString &style);
     void iconThemeChanged(const QString &iconTheme);
     void colorSchemeChanged(const QString &colorScheme);
@@ -42,22 +42,19 @@ signals:
     void toolButtonStyleChanged(int style);
 
 public slots:
-    QDBusVariant &plainFont() const;
-    void setPlainFont(const QDBusVariant &font);
+    QString plainFont() const;
+    void setPlainFont(const QString &font);
 
-    QDBusVariant &boldFont() const;
-    void setBoldFont(const QDBusVariant &font);
+    QString fixedSizeFont() const;
+    void setFixedSizeFont(const QString &font);
 
-    QDBusVariant &fixedSizeFont() const;
-    void setFixedSizeFont(const QDBusVariant &font);
-
-    QString &style() const;
+    QString style() const;
     void setStyle(const QString &style);
 
-    QString &iconTheme() const;
+    QString iconTheme() const;
     void setIconTheme(const QString &iconTheme);
 
-    QString &colorScheme() const;
+    QString colorScheme() const;
     void setColorScheme(const QString &colorScheme);
 
     int toolBarIconSize() const;

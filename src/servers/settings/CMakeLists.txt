@@ -15,21 +15,15 @@ set(Headers
     settingsserver.h
 )
 
-set_source_files_properties(org.qubeos.Settings.xml
-    PROPERTIES CLASSNAME SettingsInterface)
-
 qt4_automoc(${Sources})
 qt4_add_dbus_adaptor(AdaptorSources org.qubeos.Settings.xml
     settingsserver.h SettingsServer)
-qt4_add_dbus_interface(ProxySources
-    org.qubeos.Settings.xml settingsinterface)
 
-add_executable(settings-server ${Sources} ${AdaptorSources} ${ProxySources})
+add_executable(settings-server ${Sources} ${AdaptorSources})
+add_dependencies(settings-server QubeServices)
 target_link_libraries(settings-server
     ${QT_QTGUI_LIBRARY} ${QT_QTDBUS_LIBRARY})
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/settingsinterface.h
-    DESTINATION ${QUBE_DEVELOPMENT_INCLUDE_DIR}/Qube/QubeServices COMPONENT Devel)
 install(TARGETS settings-server
     DESTINATION ${QUBE_SYSTEM_SERVERS_DIR} COMPONENT Servers)
 install(FILES org.qubeos.Settings.xml
