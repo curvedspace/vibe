@@ -25,22 +25,33 @@ set(QUBE_VERSION "${QUBE_VERSION_MAJOR}.${QUBE_VERSION_MINOR}.${QUBE_VERSION_REL
 include(ConfigureChecks.cmake)
 
 # Find Qt
-find_package(Qt4 "4.7.0" COMPONENTS QtCore QtGui REQUIRED)
+find_package(Qt4 "4.6.2" COMPONENTS QtCore QtXml QtDBus QtGui REQUIRED)
+
+# Find DBus session bus services directory
+find_package(PkgConfig "0.22" REQUIRED)
+execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=session_bus_services_dir dbus-1
+    OUTPUT_VARIABLE DBUS_SESSION_BUS_SERVICES_DIR
+    RESULT_VARIABLE _failed)
+if (_failed)
+    message(FATAL_ERROR "Cannot find session_bus_services_dir propery from DBus: ${_failed}")
+endif (_failed)
 
 # Set paths variables
-set(QUBE_USERS_DIR "${CMAKE_PREFIX}/Users")
-set(QUBE_APPLICATIONS_DIR "${CMAKE_PREFIX}/Applications")
-set(QUBE_DATA_DIR "${CMAKE_PREFIX}/Data")
-set(QUBE_DATA_FONTS_DIR "${CMAKE_PREFIX}/Data/Fonts")
-set(QUBE_DEVELOPMENT_DIR "${CMAKE_PREFIX}/Development")
-set(QUBE_DEVELOPMENT_INCLUDE_DIR "${CMAKE_PREFIX}/Development/Include")
-set(QUBE_DEVELOPMENT_CMAKE_DIR "${CMAKE_PREFIX}/Development/CMake")
-set(QUBE_DEVELOPMENT_PKGCONFIG_DIR "${CMAKE_PREFIX}/Development/PkgConfig")
-set(QUBE_LIBRARY_DIR "${CMAKE_PREFIX}/Library")
-set(QUBE_PLUGIN_DIR "${CMAKE_PREFIX}/Plugin")
-set(QUBE_ETC_DIR "${CMAKE_PREFIX}/etc")
-set(QUBE_BIN_DIR "${CMAKE_PREFIX}/bin")
-set(QUBE_LIB_DIR "${CMAKE_PREFIX}/lib")
+set(QUBE_USERS_DIR "${CMAKE_PREFIX}/home")
+set(QUBE_APPLICATIONS_DIR "${CMAKE_PREFIX}/apps")
+set(QUBE_DATA_DIR "${CMAKE_PREFIX}/data")
+set(QUBE_DATA_FONTS_DIR "${CMAKE_PREFIX}/data/fonts")
+set(QUBE_DEVELOPMENT_DIR "${CMAKE_PREFIX}/develop")
+set(QUBE_DEVELOPMENT_INCLUDE_DIR "${CMAKE_PREFIX}/develop/include")
+set(QUBE_DEVELOPMENT_LIB_DIR "${CMAKE_PREFIX}/develop/lib")
+set(QUBE_DEVELOPMENT_CMAKE_DIR "${CMAKE_PREFIX}/develop/cmake")
+set(QUBE_DEVELOPMENT_PKGCONFIG_DIR "${CMAKE_PREFIX}/develop/pkgconfig")
+set(QUBE_BINARY_DIR "${CMAKE_PREFIX}/bin")
+set(QUBE_LIBRARY_DIR "${CMAKE_PREFIX}/lib")
+set(QUBE_PLUGINS_DIR "${CMAKE_PREFIX}/plugins")
+set(QUBE_SETTINGS_DIR "${CMAKE_PREFIX}/settings")
+set(QUBE_COMMON_SERVERS_DIR "${CMAKE_PREFIX}/common/servers")
+set(QUBE_SYSTEM_SERVERS_DIR "${CMAKE_PREFIX}/system/servers")
 
 # Subdirectories
 add_subdirectory(cmake)

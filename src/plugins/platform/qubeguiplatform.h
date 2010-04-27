@@ -19,12 +19,14 @@
 #define QUBEGUIPLATFORM_H
 
 #include "qguiplatformplugin_p.h"
+#include "settingsinterface.h"
 
 class QubeGuiPlatform : public QGuiPlatformPlugin
 {
     Q_OBJECT
 public:
     QubeGuiPlatform();
+    ~QubeGuiPlatform();
 
     virtual QStringList keys() const;
     virtual QString styleName();
@@ -33,6 +35,16 @@ public:
     virtual QStringList iconThemeSearchPaths();
     virtual QIcon fileSystemIcon(const QFileInfo &info);
     virtual int platformHint(PlatformHint hint);
+
+private slots:
+    void updateWidgetStyle();
+    void updateIconTheme();
+    void updateColorScheme();
+    void updateToolBarIconSize();
+    void updateToolButtonStyle();
+
+private:
+    org::qubeos::Settings *m_settings;
 };
 
 #endif // QUBEGUIPLATFORM_H

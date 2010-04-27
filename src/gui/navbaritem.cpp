@@ -26,127 +26,127 @@ namespace QubeGui
     class NavBarItemPrivate
     {
     public:
-	QHBoxLayout *layout;
-	QLabel *labelIcon;
-	QLabel *labelText;
+        QHBoxLayout *layout;
+        QLabel *labelIcon;
+        QLabel *labelText;
 
-	void initialize(NavBarItem *item);
+        void initialize(NavBarItem *item);
     };
 
     void NavBarItemPrivate::initialize(NavBarItem *item)
     {
-	// Initialize members
-	layout = new QHBoxLayout();
-	labelIcon = new QLabel();
-	labelText = new QLabel();
+        // Initialize members
+        layout = new QHBoxLayout();
+        labelIcon = new QLabel();
+        labelText = new QLabel();
 
-	// Setup text label
-	labelText->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-	labelIcon->setFixedWidth(18);
+        // Setup text label
+        labelText->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+        labelIcon->setFixedWidth(18);
 
-	// Setup font
-	QFont font = labelText->font();
-	font.setPointSizeF(font.pointSizeF() * 0.75f);
-	labelText->setFont(font);
+        // Setup font
+        QFont font = labelText->font();
+        font.setPointSizeF(font.pointSizeF() * 0.75f);
+        labelText->setFont(font);
 
-	// Add items to layout
-	layout->addWidget(labelIcon);
-	layout->addWidget(labelText);
+        // Add items to layout
+        layout->addWidget(labelIcon);
+        layout->addWidget(labelText);
 
-	// Setup layout
-	layout->setContentsMargins(1, 1, 1, 1);
-	item->setLayout(layout);
+        // Setup layout
+        layout->setContentsMargins(1, 1, 1, 1);
+        item->setLayout(layout);
     }
 
     NavBarItem::NavBarItem(QWidget *parent)
-	: SelectableWidget(parent),
-	  d_ptr(new NavBarItemPrivate())
+        : SelectableWidget(parent),
+          d_ptr(new NavBarItemPrivate())
     {
-	Q_D(NavBarItem);
+        Q_D(NavBarItem);
 
-	d->initialize(this);
+        d->initialize(this);
     }
 
     NavBarItem::NavBarItem(const QString &text, QWidget *parent)
-	: SelectableWidget(parent),
-	  d_ptr(new NavBarItemPrivate())
+        : SelectableWidget(parent),
+          d_ptr(new NavBarItemPrivate())
     {
-	Q_D(NavBarItem);
+        Q_D(NavBarItem);
 
-	d->initialize(this);
-	d->labelText->setText(text);
+        d->initialize(this);
+        d->labelText->setText(text);
     }
 
     NavBarItem::NavBarItem(const QPixmap &icon, const QString &text, QWidget *parent)
-	: SelectableWidget(parent),
-	  d_ptr(new NavBarItemPrivate())
+        : SelectableWidget(parent),
+          d_ptr(new NavBarItemPrivate())
     {
-	Q_D(NavBarItem);
+        Q_D(NavBarItem);
 
-	d->initialize(this);
-	setIcon(icon);
-	d->labelText->setText(text);
+        d->initialize(this);
+        setIcon(icon);
+        d->labelText->setText(text);
     }
 
     void NavBarItem::addSpacing(int size)
     {
-	Q_D(NavBarItem);
-	d->layout->addSpacing(size);
+        Q_D(NavBarItem);
+        d->layout->addSpacing(size);
     }
 
     void NavBarItem::addWidget(QWidget *widget, int stretch)
     {
-	Q_D(NavBarItem);
-	d->layout->addWidget(widget, stretch);
+        Q_D(NavBarItem);
+        d->layout->addWidget(widget, stretch);
     }
 
     void NavBarItem::insertSpacing(int index, int size)
     {
-	Q_D(NavBarItem);
-	d->layout->insertSpacing(index, size);
+        Q_D(NavBarItem);
+        d->layout->insertSpacing(index, size);
     }
 
     void NavBarItem::insertWidget(int index, QWidget *widget, int stretch)
     {
-	Q_D(NavBarItem);
-	d->layout->insertWidget(index, widget, stretch);
+        Q_D(NavBarItem);
+        d->layout->insertWidget(index, widget, stretch);
     }
 
     QString NavBarItem::text() const
     {
-	Q_D(const NavBarItem);
-	return d->labelText->text();
+        Q_D(const NavBarItem);
+        return d->labelText->text();
     }
 
     const QPixmap *NavBarItem::icon() const
     {
-	Q_D(const NavBarItem);
-	return d->labelIcon->pixmap();
+        Q_D(const NavBarItem);
+        return d->labelIcon->pixmap();
     }
 
     void NavBarItem::setIcon(const QPixmap &icon)
     {
-	Q_D(NavBarItem);
+        Q_D(NavBarItem);
 
-	if (icon.height() > 20)
-	    d->labelIcon->setPixmap(icon.scaledToHeight(20, Qt::SmoothTransformation));
-	else
-	    d->labelIcon->setPixmap(icon);
+        if (icon.height() > 20)
+            d->labelIcon->setPixmap(icon.scaledToHeight(20, Qt::SmoothTransformation));
+        else
+            d->labelIcon->setPixmap(icon);
     }
 
     void NavBarItem::setText(const QString &text)
     {
-	Q_D(NavBarItem);
-	d->labelText->setText(text);
+        Q_D(NavBarItem);
+        d->labelText->setText(text);
     }
 
     void NavBarItem::setTextColor(const QColor &color)
     {
-	Q_D(NavBarItem);
+        Q_D(NavBarItem);
 
-	QPalette palette = d->labelText->palette();
-	palette.setColor(QPalette::WindowText, color);
-	d->labelText->setPalette(palette);
+        QPalette palette = d->labelText->palette();
+        palette.setColor(QPalette::WindowText, color);
+        d->labelText->setPalette(palette);
     }
 }
 

@@ -16,6 +16,7 @@ set(QubeGuiSources
     navbargroup.cpp
     navbaritem.cpp
     selectablewidget.cpp
+    theme.cpp
 )
 
 set(QubeGuiHeaders
@@ -26,6 +27,7 @@ set(QubeGuiHeaders
     navbargroup.h
     navbaritem.h
     selectablewidget.h
+    theme.h
 )
 
 set(QubeGuiUis

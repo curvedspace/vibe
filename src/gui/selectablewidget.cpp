@@ -25,60 +25,60 @@ namespace QubeGui
     class SelectableWidgetPrivate
     {
     public:
-	bool isSelected;
+        bool isSelected;
     };
 
     SelectableWidget::SelectableWidget(QWidget *parent)
-	: QWidget(parent),
-	  d_ptr(new SelectableWidgetPrivate())
+        : QWidget(parent),
+          d_ptr(new SelectableWidgetPrivate())
     {
-	Q_D(SelectableWidget);
-	d->isSelected = false;
+        Q_D(SelectableWidget);
+        d->isSelected = false;
     }
 
     bool SelectableWidget::isSelected() const
     {
-	Q_D(const SelectableWidget);
-	return d->isSelected;
+        Q_D(const SelectableWidget);
+        return d->isSelected;
     }
 
     void SelectableWidget::select()
     {
-	select(true);
+        select(true);
     }
 
     void SelectableWidget::select(bool isSelected)
     {
-	Q_D(SelectableWidget);
+        Q_D(SelectableWidget);
 
-	if (d->isSelected == isSelected)
-	    return;
+        if (d->isSelected == isSelected)
+            return;
 
-	d->isSelected = isSelected;
+        d->isSelected = isSelected;
 
-	// If is selected raise event
-	if (isSelected) {
-	    emit selected();
-	    emit selected(this);
-	}
+        // If is selected raise event
+        if (isSelected) {
+            emit selected();
+            emit selected(this);
+        }
 
-	update();
+        update();
     }
 
     void SelectableWidget::unselect()
     {
-	select(false);
+        select(false);
     }
 
     void SelectableWidget::mouseReleaseEvent(QMouseEvent *event)
     {
-	Q_D(SelectableWidget);
+        Q_D(SelectableWidget);
 
-	QWidget::mouseReleaseEvent(event);
+        QWidget::mouseReleaseEvent(event);
 
-	// Left Click, Select/Unselect Item
-	if (event->button() == Qt::LeftButton)
-	    select(!d->isSelected);
+        // Left Click, Select/Unselect Item
+        if (event->button() == Qt::LeftButton)
+            select(!d->isSelected);
     }
 }
 

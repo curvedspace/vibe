@@ -4,6 +4,8 @@ include_directories(${QT_INCLUDE_DIR})
 include_directories(${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/src/core ${CMAKE_SOURCE_DIR}/headers/QubeCore)
 include_directories(${CMAKE_SOURCE_DIR}/src/gui ${CMAKE_SOURCE_DIR}/headers/QubeGui)
+include_directories(${CMAKE_SOURCE_DIR}/src/servers ${CMAKE_SOURCE_DIR}/headers/QubeServers)
+include_directories(${CMAKE_BINARY_DIR}/src/servers/settings)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_definitions(${QT_DEFINITIONS})
@@ -16,8 +18,9 @@ set(QubeGuiPlatformSources
 qt4_automoc(${QubeGuiPlatformSources})
 
 add_library(qube SHARED ${QubeGuiPlatformSources})
+add_dependencies(qube settings-server)
 
-target_link_libraries(qube ${QT_QTGUI_LIBRARY})
+target_link_libraries(qube ${QT_QTGUI_LIBRARY} ${QT_QTDBUS_LIBRARY})
 
 install(TARGETS qube LIBRARY
-    DESTINATION ${QUBE_PLUGIN_DIR}/gui_platform COMPONENT Framework)
+    DESTINATION ${QUBE_PLUGINS_DIR}/qube/gui_platform COMPONENT Framework)

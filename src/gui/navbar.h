@@ -30,31 +30,31 @@ namespace QubeGui
 
     class QUBESHARED_EXPORT NavBar : public QWidget
     {
-	Q_OBJECT
-	Q_DECLARE_PRIVATE(NavBar)
+        Q_OBJECT
+        Q_DECLARE_PRIVATE(NavBar)
     public:
-	explicit NavBar(QWidget *parent = 0);
+        explicit NavBar(QWidget *parent = 0);
 
-	void addGroup(NavBarGroup *group);
-	NavBarGroup *addGroup(const QString &title);
-	void addGroups(QList<NavBarGroup *> groups);
+        void addGroup(NavBarGroup *group);
+        NavBarGroup *addGroup(const QString &title);
+        void addGroups(QList<NavBarGroup *> groups);
 
-	void removeGroup(NavBarGroup *group);
+        void removeGroup(NavBarGroup *group);
 
-	void clear();
+        void clear();
 
-	QList<NavBarGroup *> groups() const;
-	bool containsGroup(NavBarGroup *group);
+        QList<NavBarGroup *> groups() const;
+        bool containsGroup(NavBarGroup *group);
 
     protected:
-	void paintEvent(QPaintEvent *event);
+        void paintEvent(QPaintEvent *event);
 
     private slots:
-	void itemSelected(NavBarGroup *group, NavBarItem *item);
-	void groupExpanded(NavBarGroup *);
+        void itemSelected(NavBarGroup *group, NavBarItem *item);
+        void groupExpanded(NavBarGroup *);
 
     private:
-	NavBarPrivate *d_ptr;
+        NavBarPrivate *d_ptr;
     };
 }
 

@@ -10,22 +10,24 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 set(QubeCoreSources
     qubecoreglobals.cpp
     mimetype.cpp
-)
+    singleton.h
+ )
 
 set(QubeCoreHeaders
     qube_global.h
     qubecoreglobals.h
     mimetype.h
+    singleton.h
 )
 
-set(QubeCoreResources
+set(QubeCoreQrcs
     core.qrc
 )
 
 qt4_automoc(${QubeCoreSources})
-qt4_add_resources(QubeCoreResourceFiles ${QubeCoreResources})
+qt4_add_resources(QubeCoreQrcFiles ${QubeCoreQrcs})
 
-add_library(QubeCore SHARED ${QubeCoreSources} ${QubeCoreResourceFiles})
+add_library(QubeCore SHARED ${QubeCoreSources} ${QubeCoreQrcFiles})
 
 target_link_libraries(QubeCore
 	LINK_INTERFACE_LIBRARIES ${QT_QTCORE_LIBRARY} ${QT_QTXML_LIBRARY})
