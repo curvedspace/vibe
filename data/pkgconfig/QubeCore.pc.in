@@ -1,14 +1,14 @@
 prefix=@CMAKE_PREFIX@
 exec_prefix=${prefix}
-bindir=@QUBE_BIN_DIR@
-etcdir=@QUBE_ETC_DIR@
-libdir=@QUBE_LIBRARY_DIR@
+bindir=@QUBE_SYSTEM_BINARY_DIR@
+etcdir=@QUBE_SETTINGS_DIR@
+libdir=@QUBE_SYSTEM_LIBRARY_DIR@
 includedir=@QUBE_DEVELOPMENT_INCLUDE_DIR@
 qtminver=@QT_MIN_VERSION@
 
 Name: QubeCore
 Description: QubeCore Library
 Version: @QUBE_VERSION@
-Libs: -L@QUBE_LIBRARY_DIR@ -lQubeCore
+Libs: -L@QUBE_SYSTEM_LIBRARY_DIR@ -lQubeCore
 Requires: QtCore >= @QT_MIN_VERSION@, QtXml >= @QT_MIN_VERSION@
 Cflags: -I${includedir}/Qube -I${includedir}/Qube/QubeCore
