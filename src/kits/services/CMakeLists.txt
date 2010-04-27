@@ -4,7 +4,7 @@ add_definitions(-DQUBE_SERVICES_LIB)
 
 include_directories(${QT_INCLUDE_DIR})
 include_directories(${QT_QTCORE_INCLUDE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/src/core ${CMAKE_SOURCE_DIR}/headers/QubeCore)
+include_directories(${CMAKE_SOURCE_DIR}/src/kits/core ${CMAKE_SOURCE_DIR}/headers/QubeCore)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(SettingsXml
