@@ -33,8 +33,7 @@ QubeGuiPlatform::QubeGuiPlatform()
     QDBusConnection connection = QDBusConnection::sessionBus();
     m_settings =
             new org::qubeos::Settings(
-                    "org.qubeos.Settings", "/org/qubeos/Settings",
-                    connection);
+                    "org.qubeos.Settings", "/", connection);
 
     connect(m_settings, SIGNAL(styleChanged(QString)),
             this, SLOT(updateWidgetStyle()));
