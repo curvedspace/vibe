@@ -19,8 +19,6 @@
 
 namespace QubeCore
 {
-
-
     Singleton::Singleton()
     {
     }

@@ -18,7 +18,7 @@
 #ifndef SINGLETON_H
 #define SINGLETON_H
 
-#include "qube_global.h"
+#include <QubeCore/qube_global.h>
 
 namespace QubeCore
 {

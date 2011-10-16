@@ -21,8 +21,8 @@
 
 #include <QtGui/QWidget>
 
-#include "qube_global.h"
-#include "selectablewidget.h"
+#include <Qube/QubeCore/QubeGlobal>
+#include <Qube/QubeGui/QSelectableWidget>
 
 namespace QubeGui
 {

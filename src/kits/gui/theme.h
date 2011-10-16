@@ -21,7 +21,7 @@
 #include <QtCore/QSettings>
 #include <QtCore/QString>
 
-#include "qube_global.h"
+#include <QubeCore/Global>
 
 namespace QubeGui
 {

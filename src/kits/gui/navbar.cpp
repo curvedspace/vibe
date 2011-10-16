@@ -179,5 +179,3 @@ namespace QubeGui
         update();
     }
 }
-
-#include "navbar.moc"

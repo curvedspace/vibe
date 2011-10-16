@@ -81,5 +81,3 @@ namespace QubeGui
             select(!d->isSelected);
     }
 }
-
-#include "selectablewidget.moc"

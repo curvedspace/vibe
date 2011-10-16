@@ -1,6 +1,4 @@
-project(QubeGuiHeaders)
-
-set(QubeGuiHeaderFiles
+set(HEADERS
     ClickableLabel
     NavBar
     NavBarGroup
@@ -8,5 +6,5 @@ set(QubeGuiHeaderFiles
     SelectableWidget
 )
 
-install(FILES ${QubeGuiHeaderFiles}
-    DESTINATION ${QUBE_DEVELOPMENT_INCLUDE_DIR}/Qube/QubeGui COMPONENT Devel)
+install(FILES ${HEADERS}
+    DESTINATION include/Qube/QubeGui COMPONENT Devel)

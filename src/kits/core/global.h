@@ -1,5 +1,5 @@
-#ifndef QUBE_GLOBAL_H
-#define QUBE_GLOBAL_H
+#ifndef GLOBAL_H
+#define GLOBAL_H
 
 #include <QtCore/qglobal.h>
 
@@ -9,4 +9,4 @@
 #  define QUBESHARED_EXPORT Q_DECL_IMPORT
 #endif
 
-#endif // QUBE_GLOBAL_H
+#endif // GLOBAL_H

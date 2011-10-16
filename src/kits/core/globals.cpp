@@ -15,7 +15,7 @@
  *
  ***************************************************************************/
 
-#include "qubecoreglobals.h"
+#include "globals.h"
 
 namespace QubeCore
 {

@@ -1,10 +1,9 @@
-project(QubeCoreHeaders)
-
-set(QubeCoreHeaderFiles
-    QubeGlobal
-    QubeCoreGlobals
+set(HEADERS
+    Global
+    Globals
     MimeType
+    Singleton
 )
 
-install(FILES ${QubeCoreHeaderFiles}
-    DESTINATION ${QUBE_DEVELOPMENT_INCLUDE_DIR}/Qube/QubeCore COMPONENT Devel)
+install(FILES ${HEADERS}
+    DESTINATION include/Qube/QubeCore COMPONENT Devel)

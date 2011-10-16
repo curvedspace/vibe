@@ -44,5 +44,3 @@ namespace QubeGui
         emit clicked(this);
     }
 }
-
-#include "clickablelabel.moc"

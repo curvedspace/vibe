@@ -1,32 +1,30 @@
-project(QubeCore)
-
 add_definitions(-DQUBE_CORE_LIB)
 
 include_directories(${QT_INCLUDE_DIR})
 include_directories(${QT_QTCORE_INCLUDE_DIR} ${QT_QTXML_INCLUDE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/headers/QubeCore ${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_SOURCE_DIR}/headers ${CMAKE_CURRENT_BINARY_DIR})
 
-set(QubeCoreSources
-    qubecoreglobals.cpp
+set(SOURCES
+    globals.cpp
     mimetype.cpp
     singleton.h
  )
 
-set(QubeCoreHeaders
-    qube_global.h
-    qubecoreglobals.h
+set(HEADERS
+    global.h
+    globals.h
     mimetype.h
     singleton.h
 )
 
-set(QubeCoreQrcs
+set(RESOURCES
     core.qrc
 )
 
-qt4_automoc(${QubeCoreSources})
-qt4_add_resources(QubeCoreQrcFiles ${QubeCoreQrcs})
+qt4_automoc(${SOURCES})
+qt4_add_resources(RESOURCES_RCC ${RESOURCES})
 
-add_library(QubeCore SHARED ${QubeCoreSources} ${QubeCoreQrcFiles})
+add_library(QubeCore SHARED ${SOURCES} ${RESOURCES_RCC})
 
 target_link_libraries(QubeCore
 	LINK_INTERFACE_LIBRARIES ${QT_QTCORE_LIBRARY} ${QT_QTXML_LIBRARY})
@@ -34,7 +32,7 @@ set_target_properties(QubeCore PROPERTIES
 	VERSION ${QUBE_VERSION}
 	SOVERSION 0.0.0)
 
-install(FILES ${QubeCoreHeaders}
-    DESTINATION ${QUBE_DEVELOPMENT_INCLUDE_DIR}/Qube/QubeCore COMPONENT Devel)
+install(FILES ${HEADERS}
+    DESTINATION include/Qube/QubeCore COMPONENT Devel)
 install(TARGETS QubeCore LIBRARY
-    DESTINATION ${QUBE_SYSTEM_LIBRARY_DIR} COMPONENT Framework)
+    DESTINATION lib COMPONENT Framework)

@@ -22,7 +22,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QFile>
 
-#include "qube_global.h"
+#include <QubeCore/Global>
 
 class QStringList;
 class QDomElement;

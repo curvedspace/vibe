@@ -1,8 +1,6 @@
-project(QubeServicesHeaders)
-
 set(QubeServicesHeaderFiles
-    SettingsInterface
+    QSettingsInterface
 )
 
 install(FILES ${QubeServicesHeaderFiles}
-    DESTINATION ${QUBE_DEVELOPMENT_INCLUDE_DIR}/Qube/QubeServices COMPONENT Devel)
+    DESTINATION include/Qube/QubeServices COMPONENT Devel)

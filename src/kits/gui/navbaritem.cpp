@@ -149,5 +149,3 @@ namespace QubeGui
         d->labelText->setPalette(palette);
     }
 }
-
-#include "navbaritem.moc"

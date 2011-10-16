@@ -307,5 +307,3 @@ namespace QubeGui
             expand(!d->isExpanded);
     }
 }
-
-#include "navbargroup.moc"
