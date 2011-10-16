@@ -7,10 +7,10 @@ set(SOURCES
 )
 
 set(RESOURCES
-    navbar.qrc
+    aboutdialog.qrc
 )
 
 qt4_add_resources(RESOURCES_RCC ${RESOURCES})
 
-add_executable(navbar ${SOURCES} ${RESOURCES_RCC})
-target_link_libraries(navbar QubeGui)
+add_executable(aboutdialog ${SOURCES} ${RESOURCES_RCC})
+target_link_libraries(aboutdialog QubeGui)

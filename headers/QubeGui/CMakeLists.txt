@@ -1,5 +1,7 @@
 set(HEADERS
+    AboutDialog
     ClickableLabel
+    ColorScheme
     NavBar
     NavBarGroup
     NavBarItem

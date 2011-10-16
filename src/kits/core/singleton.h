@@ -26,8 +26,7 @@ namespace QubeCore
     class QUBESHARED_EXPORT Singleton
     {
     public:
-        static T *instance()
-        {
+        static T *instance() {
             if (!m_instance)
                 m_instance = new T();
             return m_instance;

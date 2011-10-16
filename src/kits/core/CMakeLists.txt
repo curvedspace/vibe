@@ -21,10 +21,10 @@ set(RESOURCES
     core.qrc
 )
 
-qt4_automoc(${SOURCES})
+qt4_wrap_cpp(HEADERS_MOC ${HEADERS})
 qt4_add_resources(RESOURCES_RCC ${RESOURCES})
 
-add_library(QubeCore SHARED ${SOURCES} ${RESOURCES_RCC})
+add_library(QubeCore SHARED ${SOURCES} ${HEADERS_MOC} ${RESOURCES_RCC})
 
 target_link_libraries(QubeCore
 	LINK_INTERFACE_LIBRARIES ${QT_QTCORE_LIBRARY} ${QT_QTXML_LIBRARY})

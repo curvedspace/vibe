@@ -60,65 +60,65 @@ static QByteArray convert_string(const char *source)
     while ((c = *source++) != '\0') {
         if (c == '\\') {
             switch (c = *source++) {
-                case '\0':
-                    return value;
-                case 'n':
-                    value += '\n';
-                    break;
-                case 'r':
-                    value += '\r';
-                    break;
-                case 'b':
-                    value += '\b';
-                    break;
-                case 't':
-                    value += '\t';
-                    break;
-                case 'f':
-                    value += '\f';
-                    break;
-                case 'v':
-                    value += '\v';
-                    break;
-                    /* \ and up to 3 octal digits */
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                    val = c - '0';
-                    c = *source++;  /* try for 2 */
-                    if (c >= '0' && c <= '7') {
+            case '\0':
+                return value;
+            case 'n':
+                value += '\n';
+                break;
+            case 'r':
+                value += '\r';
+                break;
+            case 'b':
+                value += '\b';
+                break;
+            case 't':
+                value += '\t';
+                break;
+            case 'f':
+                value += '\f';
+                break;
+            case 'v':
+                value += '\v';
+                break;
+                /* \ and up to 3 octal digits */
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+                val = c - '0';
+                c = *source++;  /* try for 2 */
+                if (c >= '0' && c <= '7') {
+                    val = (val << 3) | (c - '0');
+                    c = *source++;  /* try for 3 */
+                    if (c >= '0' && c <= '7')
                         val = (val << 3) | (c - '0');
-                        c = *source++;  /* try for 3 */
-                        if (c >= '0' && c <= '7')
-                            val = (val << 3) | (c - '0');
-                        else
-                            --source;
-                    } else
+                    else
                         --source;
-                    value += val;
-                    break;
-                    /* \x and up to 2 hex digits */
-                case 'x':
-                    val = 'x';	/* Default if no digits */
-                    c = hex2int(*source++);	/* Get next char */
-                    if (c >= 0) {
-                        val = c;
-                        c = hex2int(*source++);
-                        if (c >= 0)
-                            val = (val << 4) + c;
-                        else
-                            --source;
-                    } else
+                } else
+                    --source;
+                value += val;
+                break;
+                /* \x and up to 2 hex digits */
+            case 'x':
+                val = 'x';	/* Default if no digits */
+                c = hex2int(*source++);	/* Get next char */
+                if (c >= 0) {
+                    val = c;
+                    c = hex2int(*source++);
+                    if (c >= 0)
+                        val = (val << 4) + c;
+                    else
                         --source;
-                    value += val;
-                    break;
-                default:
-                    value += c;
-                    break;
+                } else
+                    --source;
+                value += val;
+                break;
+            default:
+                value += c;
+                break;
             }
         } else {
             value += c;
@@ -152,7 +152,7 @@ static void parse_int_value(int bytes, const char *in, const char *in_mask,
         parsed_value->append((value >> shift) & 0xff);
     }
     if ((bytes == 1 && (value & ~0xff)) ||
-            (bytes == 2 && (value & ~0xffff))) {
+        (bytes == 2 && (value & ~0xffff))) {
         qWarning("Number out-of-range");
         return;
     }

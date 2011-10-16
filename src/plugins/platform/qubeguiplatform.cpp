@@ -26,8 +26,8 @@
 #include <QtGui/QToolButton>
 
 #include "qubeguiplatform.h"
-#include "colorscheme.h"
-#include "mimetype.h"
+#include <QubeCore/mimetype.h>
+#include <QubeGui/colorscheme.h>
 
 #ifdef Q_WS_X11
 extern void qt_x11_apply_settings_in_all_apps();

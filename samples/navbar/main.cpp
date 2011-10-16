@@ -17,7 +17,7 @@
 
 #include <QtGui/QApplication>
 
-#include "navbar.h"
+#include <QubeGui/NavBar>
 
 int main(int argc, char *argv[])
 {

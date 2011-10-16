@@ -4,20 +4,20 @@ include_directories(${CMAKE_SOURCE_DIR}/src/kits/core ${CMAKE_SOURCE_DIR}/header
 include_directories(${CMAKE_SOURCE_DIR}/src/kits/gui ${CMAKE_SOURCE_DIR}/headers/QubeGui)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
-set(Sources
+set(SOURCES
     main.cpp
     settingsserver.cpp
 )
 
-set(Headers
+set(HEADERS
     settingsserver.h
 )
 
-qt4_automoc(${Sources})
-qt4_add_dbus_adaptor(AdaptorSources org.qubeos.Settings.xml
+qt4_automoc(${SOURCES})
+qt4_add_dbus_adaptor(ADAPTOR_SOURCES org.qubeos.Settings.xml
     settingsserver.h SettingsServer)
 
-add_executable(settings-server ${Sources} ${AdaptorSources})
+add_executable(settings-server ${SOURCES} ${ADAPTOR_SOURCES})
 add_dependencies(settings-server QubeServices)
 target_link_libraries(settings-server
     ${QT_QTGUI_LIBRARY} ${QT_QTDBUS_LIBRARY})

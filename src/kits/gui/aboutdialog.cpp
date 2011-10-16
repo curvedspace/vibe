@@ -1,40 +1,72 @@
+
+#include <QtGui/QApplication>
+#include <QtGui/QLabel>
+
 #include "aboutdialog.h"
-#include "ui_aboutdialog.h"
+#include "aboutdialog_p.h"
 
-AboutDialog::AboutDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::AboutDialog)
+namespace QubeGui
 {
-    ui->setupUi(this);
+    AboutDialog::AboutDialog(QWidget *parent) :
+        QDialog(parent),
+        d_ptr(new AboutDialogPrivate(this))
+    {
+        setWindowTitle(QApplication::translate("AboutDialog", "About", 0, QApplication::UnicodeUTF8));
+    }
 
-    ui->logoLabel->setText(QString::null);
-    ui->appVerLabel->setText(QString("<strong>%1 %2</strong>")
-                             .arg(qApp->applicationName())
-                             .arg(qApp->applicationVersion()));
-    ui->copyrightLabel->setText(QString::null);
-}
+    AboutDialog::~AboutDialog()
+    {
+    }
 
-AboutDialog::~AboutDialog()
-{
-    delete ui;
-}
+    QPixmap *AboutDialog::logo() const
+    {
+        Q_D(const AboutDialog);
+        return const_cast<QPixmap *>(d->m_logoLabel->pixmap());
+    }
 
-QIcon AboutDialog::logoIcon() const
-{
-    return QIcon(ui->logoLabel->pixmap());
-}
+    void AboutDialog::setLogo(const QPixmap &pixmap)
+    {
+        Q_D(AboutDialog);
+        d->m_logoLabel->setPixmap(pixmap);
+    }
 
-void AboutDialog::setLogoIcon(const QIcon &icon)
-{
-    ui->logoLabel->setPixmap(icon);
-}
+    QString AboutDialog::description() const
+    {
+        Q_D(const AboutDialog);
+        return d->m_descrLabel->text();
+    }
 
-QString AboutDialog::copyright() const
-{
-    return ui->copyrightLabel->text();
-}
+    void AboutDialog::setDescription(const QString &descr)
+    {
+        Q_D(AboutDialog);
+        d->m_descrLabel->setText(descr);
+    }
 
-void AboutDialog::setCopyright(const QString &text)
-{
-    ui->copyrightLabel->setText(text);
+    QString AboutDialog::copyright() const
+    {
+        Q_D(const AboutDialog);
+        return d->m_copyrightLabel->text();
+    }
+
+    void AboutDialog::setCopyright(const QString &text)
+    {
+        Q_D(AboutDialog);
+        d->m_copyrightLabel->setText(text);
+    }
+
+    QString AboutDialog::licenseText() const
+    {
+    }
+
+    void AboutDialog::setLicenseText(const QString &text)
+    {
+    }
+
+    QStringList AboutDialog::authors() const
+    {
+    }
+
+    void AboutDialog::setAuthors(const QStringList &authors)
+    {
+    }
 }

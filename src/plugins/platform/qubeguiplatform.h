@@ -19,7 +19,7 @@
 #define QUBEGUIPLATFORM_H
 
 #include "qguiplatformplugin_p.h"
-#include "settingsinterface.h"
+//#include "settingsinterface.h"
 
 class QubeGuiPlatform : public QGuiPlatformPlugin
 {
