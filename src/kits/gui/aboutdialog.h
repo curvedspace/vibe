@@ -1,7 +1,8 @@
 #ifndef ABOUTDIALOG_H
 #define ABOUTDIALOG_H
 
-#include <QDialog>
+#include <QtCore/QUrl>
+#include <QtGui/QDialog>
 
 namespace QubeGui
 {
@@ -15,6 +16,7 @@ namespace QubeGui
         Q_PROPERTY(QString copyright READ copyright WRITE setCopyright)
         Q_PROPERTY(QString license READ licenseText WRITE setLicenseText)
         Q_PROPERTY(QStringList authors READ authors WRITE setAuthors)
+        Q_PROPERTY(QUrl link READ link WRITE setLink)
     public:
         explicit AboutDialog(QWidget *parent = 0);
         virtual ~AboutDialog();
@@ -33,6 +35,9 @@ namespace QubeGui
 
         QStringList authors() const;
         void setAuthors(const QStringList &authors);
+
+        QUrl link() const;
+        void setLink(const QUrl &url);
 
     protected:
         AboutDialogPrivate * const d_ptr;

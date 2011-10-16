@@ -25,10 +25,16 @@ int main(int argc, char *argv[])
     app.setApplicationName("Test Application");
     app.setApplicationVersion("42.0");
 
+    QStringList authors;
+    authors << QString("John Doe") << QString("Walter White") << QString("Jesse Pinkman");
+
     QubeGui::AboutDialog *dialog = new QubeGui::AboutDialog();
     dialog->setDescription("This is just a test application.");
-    dialog->setCopyright("Copyright (C) 2011 Pier Luigi Fiorini");
+    dialog->setCopyright("Copyright (C) 2010 John Doe\nCopyright (C) 2011 Walter White\nCopyright (C) 2011 Jesse Pinkman");
     dialog->setLogo(QPixmap(":/icons/app_icon.png"));
+    dialog->setAuthors(authors);
+    dialog->setLicenseText("License text goes here.");
+    dialog->setLink(QUrl("http://www.google.com/"));
     dialog->show();
 
     return app.exec();
