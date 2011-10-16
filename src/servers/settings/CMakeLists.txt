@@ -1,5 +1,3 @@
-project(SettingsServer)
-
 include_directories(${QT_INCLUDE_DIR})
 include_directories(${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/src/kits/core ${CMAKE_SOURCE_DIR}/headers/QubeCore)
@@ -25,6 +23,6 @@ target_link_libraries(settings-server
     ${QT_QTGUI_LIBRARY} ${QT_QTDBUS_LIBRARY})
 
 install(TARGETS settings-server
-    DESTINATION ${QUBE_SYSTEM_SERVERS_DIR} COMPONENT Servers)
+    RUNTIME DESTINATION bin COMPONENT Servers)
 install(FILES org.qubeos.Settings.xml
     DESTINATION ${DBUS_SESSION_BUS_SERVICES_DIR} COMPONENT Services)

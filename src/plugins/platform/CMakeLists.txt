@@ -1,5 +1,3 @@
-project(QubeGuiPlatform)
-
 include_directories(${QT_INCLUDE_DIR})
 include_directories(${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/src/kits/core ${CMAKE_SOURCE_DIR}/headers/QubeCore)
@@ -20,4 +18,4 @@ add_library(qube SHARED ${QubeGuiPlatformSources})
 target_link_libraries(qube ${QT_QTGUI_LIBRARY} QubeServices)
 
 install(TARGETS qube LIBRARY
-    DESTINATION ${QUBE_SYSTEM_PLUGINS_DIR}/gui_platform COMPONENT Framework)
+    DESTINATION ${QT_PLUGINS_DIR}/gui_platform COMPONENT Framework)

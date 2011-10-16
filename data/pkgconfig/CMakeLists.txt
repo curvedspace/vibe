@@ -1,5 +1,3 @@
-project(QubePkgConfig)
-
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/QubeCore.pc.in"
     "${CMAKE_CURRENT_BINARY_DIR}/QubeCore.pc"
@@ -10,6 +8,6 @@ configure_file(
     IMMEDIATE @ONLY)
 
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/QubeCore.pc"
-    DESTINATION ${QUBE_DEVELOPMENT_PKGCONFIG_DIR} COMPONENT Devel)
+    DESTINATION lib/pkgconfig COMPONENT Devel)
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/QubeGui.pc"
-    DESTINATION ${QUBE_DEVELOPMENT_PKGCONFIG_DIR} COMPONENT Devel)
+    DESTINATION lib/pkgconfig COMPONENT Devel)

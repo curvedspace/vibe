@@ -1,5 +1,3 @@
-project(QubeWidgets)
-
 include_directories(${QT_INCLUDE_DIR})
 include_directories(${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR} ${QT_QTDESIGNER_INCLUDE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/src/kits/core ${CMAKE_SOURCE_DIR}/headers/QubeCore)
@@ -25,4 +23,4 @@ add_library(QubeWidgetsPlugin SHARED ${QubeWidgetsSources} ${QubeWidgetsResource
 target_link_libraries(QubeWidgetsPlugin ${QT_QTDESIGNER_LIBRARY} QubeGui)
 
 install(TARGETS QubeWidgetsPlugin LIBRARY
-    DESTINATION ${QUBE_SYSTEM_PLUGINS_DIR}/designer COMPONENT Devel)
+    DESTINATION ${QT_PLUGINS_DIR}/designer COMPONENT Devel)

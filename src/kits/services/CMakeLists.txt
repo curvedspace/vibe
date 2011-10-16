@@ -1,5 +1,3 @@
-project(QubeServices)
-
 add_definitions(-DQUBE_SERVICES_LIB)
 
 include_directories(${QT_INCLUDE_DIR})
@@ -27,6 +25,6 @@ set_target_properties(QubeServices PROPERTIES
 	SOVERSION 0.0.0)
 
 install(FILES ${Headers}
-    DESTINATION ${QUBE_DEVELOPMENT_INCLUDE_DIR}/Qube/QubeServices COMPONENT Devel)
-install(TARGETS QubeServices LIBRARY
-    DESTINATION ${QUBE_SYSTEM_LIBRARY_DIR} COMPONENT Framework)
+    DESTINATION include/Qube/QubeServices COMPONENT Devel)
+install(TARGETS QubeServices
+    LIBRARY DESTINATION lib COMPONENT Framework)
