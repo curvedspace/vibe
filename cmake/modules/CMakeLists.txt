@@ -1,43 +1,25 @@
-project(QubeCmakeModules)
-
 set(cmakeFiles
-    CheckCXXSourceCompiles.cmake
-    CheckCXXSourceRuns.cmake
     CheckCXXSymbolExists.cmake
+    check_installed_exports_file.cmake
     CheckPointerMember.cmake
     CheckPrototypeExists.cmake
     CheckStructMember.cmake
-    FindACL.cmake
-    FindAlsa.cmake
-    FindAvahi.cmake
-    FindBlitz.cmake
-    FindBlueZ.cmake
-    FindFontconfig.cmake
-    FindFreetype.cmake
-    FindLCMS.cmake
-    FindLibraryWithDebug.cmake
-    FindLinuxWirelesstools.cmake
-    FindNetworkManager.cmake
-    FindPkgConfig.cmake
-    FindPopplerQt4.cmake
-    FindPulseAudio.cmake
-    FindQCA2.cmake
-    FindQImageBlitz.cmake
-    FindQt4.cmake
-    FindSamba.cmake
-    FindSane.cmake
     FindSharedMimeInfo.cmake
-    FindUSB.cmake
     HandleImportedTargetsInCMakeRequiredLibraries.cmake
     MacroAddCompileFlags.cmake
+    MacroAdditionalCleanFiles.cmake
     MacroAddLinkFlags.cmake
+    MacroAppendIf.cmake
+    MacroBoolTo01.cmake
     MacroEnsureOutOfSourceBuild.cmake
     MacroEnsureVersion.cmake
     MacroLibrary.cmake
+    MacroLogFeature.cmake
+    MacroOptionalAddSubdirectory.cmake
+    MacroOptionalDependPackage.cmake
+    MacroOptionalFindPackage.cmake
     MacroPushRequiredVars.cmake
-    Qt4ConfigDependentSettings.cmake
-    Qt4Macros.cmake
+    MacroWriteBasicCMakeVersionFile.cmake
 )
 
-install(FILES ${cmakeFiles}
-    DESTINATION ${QUBE_DEVELOPMENT_CMAKE_DIR}/Modules)
+install(FILES ${cmakeFiles} DESTINATION ${CMAKE_ROOT}/Modules)
