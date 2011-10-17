@@ -1,0 +1,14 @@
+prefix=@CMAKE_PREFIX@
+exec_prefix=${prefix}
+bindir=${prefix}/bin
+libdir=${prefix}/lib
+includedir=${prefix}/include
+qtminver=@QT_MIN_VERSION@
+target_link_libraries(QubeHardware ${QT_QTCORE_LIBRARY} ${QT_QTDBUS_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTGUI_LIBRARY} ${OPTIONAL_LIBS})
+
+Name: QubeHardware
+Description: Hardware abstraction library for Vision applications
+Version: @QUBE_VERSION@
+Libs: -L${libdir} -lQubeHardware
+Requires: QtCore >= @QT_MIN_VERSION@, QtDBus >= @QT_MIN_VERSION@, QtXml >= @QT_MIN_VERSION@, QtGui >= @QT_MIN_VERSION@
+Cflags: -I${includedir}/Qube -I${includedir}/Qube/QubeHardware

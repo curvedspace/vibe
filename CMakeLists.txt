@@ -21,8 +21,15 @@ set(QUBE_VERSION_MINOR 0)
 set(QUBE_VERSION_RELEASE 0)
 set(QUBE_VERSION "${QUBE_VERSION_MAJOR}.${QUBE_VERSION_MINOR}.${QUBE_VERSION_RELEASE}")
 
-# Include important macros
+# Configure checks
 include(ConfigureChecks.cmake)
+
+# Include important macros
+include(MacroOptionalFindPackage)
+include(MacroLogFeature)
+
+# Generate header files
+configure_file(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
 # Find Qt
 set(QT_MIN_VERSION "4.7.0")

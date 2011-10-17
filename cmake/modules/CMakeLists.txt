@@ -4,6 +4,10 @@ set(cmakeFiles
     CheckPointerMember.cmake
     CheckPrototypeExists.cmake
     CheckStructMember.cmake
+    FindFlex.cmake
+    FindHUpnp.cmake
+    FindUDev.cmake
+    FindQt4.cmake
     FindSharedMimeInfo.cmake
     HandleImportedTargetsInCMakeRequiredLibraries.cmake
     MacroAddCompileFlags.cmake
@@ -20,6 +24,8 @@ set(cmakeFiles
     MacroOptionalFindPackage.cmake
     MacroPushRequiredVars.cmake
     MacroWriteBasicCMakeVersionFile.cmake
+    Qt4ConfigDependentSettings.cmake
+    Qt4Macros.cmake
 )
 
 install(FILES ${cmakeFiles} DESTINATION ${CMAKE_ROOT}/Modules)
