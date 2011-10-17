@@ -21,7 +21,7 @@
 
 #include <QtGui/QLabel>
 
-#include <Qube/QubeCore/QubeGlobal>
+#include <QubeCore/Global>
 
 namespace QubeGui
 {

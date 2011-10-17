@@ -10,7 +10,7 @@ set(SOURCES
     singleton.h
  )
 
-set(HEADERS
+set(PUBLIC_HEADERS
     global.h
     globals.h
     mimetype.h
@@ -21,10 +21,9 @@ set(RESOURCES
     core.qrc
 )
 
-qt4_wrap_cpp(HEADERS_MOC ${HEADERS})
 qt4_add_resources(RESOURCES_RCC ${RESOURCES})
 
-add_library(QubeCore SHARED ${SOURCES} ${HEADERS_MOC} ${RESOURCES_RCC})
+add_library(QubeCore SHARED ${SOURCES} ${RESOURCES_RCC})
 
 target_link_libraries(QubeCore
 	LINK_INTERFACE_LIBRARIES ${QT_QTCORE_LIBRARY} ${QT_QTXML_LIBRARY})
@@ -32,7 +31,7 @@ set_target_properties(QubeCore PROPERTIES
 	VERSION ${QUBE_VERSION}
 	SOVERSION 0.0.0)
 
-install(FILES ${HEADERS}
+install(FILES ${PUBLIC_HEADERS}
     DESTINATION include/Qube/QubeCore COMPONENT Devel)
 install(TARGETS QubeCore LIBRARY
     DESTINATION lib COMPONENT Framework)

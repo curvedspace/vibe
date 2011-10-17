@@ -21,8 +21,8 @@
 
 #include <QtGui/QWidget>
 
-#include <Qube/QubeCore/QubeGlobal>
-#include <Qube/QubeGui/QNavBarItem>
+#include <QubeCore/Global>
+#include <QubeGui/NavBarItem>
 
 namespace QubeGui
 {

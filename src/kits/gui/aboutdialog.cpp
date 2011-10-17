@@ -12,6 +12,7 @@ namespace QubeGui
         d_ptr(new AboutDialogPrivate(this))
     {
         setWindowTitle(QApplication::translate("AboutDialog", "About", 0, QApplication::UnicodeUTF8));
+        setSizeGripEnabled(false);
     }
 
     AboutDialog::~AboutDialog()
