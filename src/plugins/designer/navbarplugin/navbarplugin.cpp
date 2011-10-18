@@ -18,7 +18,8 @@
 #include <QtDesigner/QDesignerFormEditorInterface>
 #include <QtDesigner/QExtensionManager>
 
-#include "navbar.h"
+#include <QubeGui/NavBar>
+
 #include "navbarplugin.h"
 #include "navbarplugintaskmenu.h"
 #include "navbarplugintaskmenufactory.h"
