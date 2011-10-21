@@ -18,7 +18,7 @@
 #ifndef SINGLETON_H
 #define SINGLETON_H
 
-#include <QubeCore/qube_global.h>
+#include <QubeCore/Global>
 
 namespace QubeCore
 {
@@ -33,9 +33,9 @@ namespace QubeCore
         }
 
     protected:
-        Singleton();
+        Singleton() {}
         Singleton(const Singleton<T> &);
-        virtual ~Singleton();
+        virtual ~Singleton() {}
 
         Singleton<T> &operator=(const Singleton<T> &);
 

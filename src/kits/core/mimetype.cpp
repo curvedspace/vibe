@@ -213,8 +213,10 @@ namespace QubeCore
         d_ptr(new MimeTypePrivate())
     {
         Q_D(MimeType);
+
         // Save MIME type if any
         d->mimeType = mimeType;
+
         // Open freedesktop.org database
         QFile xml(":/etc/freedesktop.org.xml");
         if (xml.open(QIODevice::ReadOnly)) {
@@ -226,7 +228,9 @@ namespace QubeCore
     bool MimeType::fromFileName(const QString &fileName)
     {
         Q_D(MimeType);
+
         QFileInfo info(fileName);
+
         // Is it a directory?
         if (info.isDir()) {
             if (access(fileName.toAscii().data(), R_OK) < 0)
@@ -235,11 +239,13 @@ namespace QubeCore
                 d->mimeType = "inode/directory";
             return getMimeNode();
         }
+
         // Is it a symlink?
         if (info.isSymLink()) {
             d->mimeType = "inode/symlink";
             return getMimeNode();
         }
+
         // Check whether it's a special file
         struct stat st;
         if (stat(fileName.toAscii().data(), &st) != -1) {
@@ -260,6 +266,7 @@ namespace QubeCore
                 return getMimeNode();
             }
         }
+
         // Search by glob
         QDomElement root = d->xmlDocument.documentElement();
         QDomNodeList globList = root.elementsByTagName("glob");
@@ -279,6 +286,7 @@ namespace QubeCore
     bool MimeType::fromFile(QFile *file)
     {
         Q_D(MimeType);
+
         // Search by magic pattern
         QDomElement root = d->xmlDocument.documentElement();
         QDomNodeList magicList = root.elementsByTagName("magic");
@@ -301,11 +309,16 @@ namespace QubeCore
                 return true;
             }
         }
+
         // Search by glob
         return fromFileName(file->fileName());
     }
 
     QString MimeType::iconName() const
+    {
+    }
+
+    QString MimeType::iconNameForUrl(const QUrl &url)
     {
     }
 

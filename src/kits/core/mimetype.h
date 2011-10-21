@@ -27,6 +27,7 @@
 class QStringList;
 class QDomElement;
 class QDomNodeList;
+class QUrl;
 
 namespace QubeCore
 {
@@ -42,6 +43,7 @@ namespace QubeCore
         bool fromFile(QFile *file);
 
         QString iconName() const;
+        static QString iconNameForUrl(const QUrl &url);
 
         QString mimeType() const;
         QString subClassOf() const;

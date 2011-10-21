@@ -7,14 +7,17 @@ include_directories(${CMAKE_SOURCE_DIR}/headers ${CMAKE_CURRENT_BINARY_DIR})
 set(SOURCES
     globals.cpp
     mimetype.cpp
-    singleton.h
- )
+    savefile.cpp
+    stringhandler.cpp
+)
 
 set(PUBLIC_HEADERS
     global.h
     globals.h
     mimetype.h
+    savefile.h
     singleton.h
+    stringhandler.h
 )
 
 set(RESOURCES

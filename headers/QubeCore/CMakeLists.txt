@@ -2,7 +2,9 @@ set(HEADERS
     Global
     Globals
     MimeType
+    SaveFile
     Singleton
+    StringHandler
 )
 
 install(FILES ${HEADERS}
