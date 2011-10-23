@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_IFACES_CAMERA_H
-#define SOLID_IFACES_CAMERA_H
+#ifndef QUBE_HARDWARE_IFACES_CAMERA_H
+#define QUBE_HARDWARE_IFACES_CAMERA_H
 
 #include <QtCore/QStringList>
 #include <ifaces/deviceinterface.h>

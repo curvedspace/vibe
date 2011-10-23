@@ -20,10 +20,9 @@
 
 #include "genericinterface.h"
 #include "genericinterface_p.h"
-#include "soliddefs_p.h"
+#include "call_p.h"
 
 #include <ifaces/genericinterface.h>
-
 
 Qube::Hardware::GenericInterface::GenericInterface(QObject *backendObject)
     : DeviceInterface(*new GenericInterfacePrivate(), backendObject)
@@ -45,17 +44,17 @@ Qube::Hardware::GenericInterface::~GenericInterface()
 QVariant Qube::Hardware::GenericInterface::property(const QString &key) const
 {
     Q_D(const GenericInterface);
-    return_SOLID_CALL(Ifaces::GenericInterface *, d->backendObject(), QVariant(), property(key));
+    return_QUBE_HARDWARE_CALL(Ifaces::GenericInterface *, d->backendObject(), QVariant(), property(key));
 }
 
 QMap<QString, QVariant> Qube::Hardware::GenericInterface::allProperties() const
 {
     Q_D(const GenericInterface);
-    return_SOLID_CALL(Ifaces::GenericInterface *, d->backendObject(), QVariantMap(), allProperties());
+    return_QUBE_HARDWARE_CALL(Ifaces::GenericInterface *, d->backendObject(), QVariantMap(), allProperties());
 }
 
 bool Qube::Hardware::GenericInterface::propertyExists(const QString &key) const
 {
     Q_D(const GenericInterface);
-    return_SOLID_CALL(Ifaces::GenericInterface *, d->backendObject(), false, propertyExists(key));
+    return_QUBE_HARDWARE_CALL(Ifaces::GenericInterface *, d->backendObject(), false, propertyExists(key));
 }

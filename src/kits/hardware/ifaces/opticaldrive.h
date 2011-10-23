@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_IFACE_OPTICALDRIVE_H
-#define SOLID_IFACE_OPTICALDRIVE_H
+#ifndef QUBE_HARDWARE_IFACE_OPTICALDRIVE_H
+#define QUBE_HARDWARE_IFACE_OPTICALDRIVE_H
 
 #include <QtCore/QList>
 
@@ -101,4 +101,4 @@ namespace Qube
 
 Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::OpticalDrive, "org.vision.Qube.Hardware.Ifaces.OpticalDrive/0.1")
 
-#endif // SOLID_IFACE_OPTICALDRIVE_H
+#endif // QUBE_HARDWARE_IFACE_OPTICALDRIVE_H

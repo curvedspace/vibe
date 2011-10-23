@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_BACKENDS_FSTAB_WATCHER_H
-#define SOLID_BACKENDS_FSTAB_WATCHER_H
+#ifndef QUBE_HARDWARE_BACKENDS_FSTAB_WATCHER_H
+#define QUBE_HARDWARE_BACKENDS_FSTAB_WATCHER_H
 
 #include <QObject>
 
@@ -59,4 +59,4 @@ namespace Qube
     }
 }
 
-#endif // SOLID_BACKENDS_FSTAB_WATCHER_H
+#endif // QUBE_HARDWARE_BACKENDS_FSTAB_WATCHER_H

@@ -21,7 +21,7 @@
 #include "networkinterface.h"
 #include "networkinterface_p.h"
 
-#include "soliddefs_p.h"
+#include "call_p.h"
 #include <ifaces/networkinterface.h>
 
 Qube::Hardware::NetworkInterface::NetworkInterface(QObject *backendObject)
@@ -37,23 +37,23 @@ Qube::Hardware::NetworkInterface::~NetworkInterface()
 QString Qube::Hardware::NetworkInterface::ifaceName() const
 {
     Q_D(const NetworkInterface);
-    return_SOLID_CALL(Ifaces::NetworkInterface *, d->backendObject(), QString(), ifaceName());
+    return_QUBE_HARDWARE_CALL(Ifaces::NetworkInterface *, d->backendObject(), QString(), ifaceName());
 }
 
 bool Qube::Hardware::NetworkInterface::isWireless() const
 {
     Q_D(const NetworkInterface);
-    return_SOLID_CALL(Ifaces::NetworkInterface *, d->backendObject(), false, isWireless());
+    return_QUBE_HARDWARE_CALL(Ifaces::NetworkInterface *, d->backendObject(), false, isWireless());
 }
 
 QString Qube::Hardware::NetworkInterface::hwAddress() const
 {
     Q_D(const NetworkInterface);
-    return_SOLID_CALL(Ifaces::NetworkInterface *, d->backendObject(), QString(), hwAddress());
+    return_QUBE_HARDWARE_CALL(Ifaces::NetworkInterface *, d->backendObject(), QString(), hwAddress());
 }
 
 qulonglong Qube::Hardware::NetworkInterface::macAddress() const
 {
     Q_D(const NetworkInterface);
-    return_SOLID_CALL(Ifaces::NetworkInterface *, d->backendObject(), 0, macAddress());
+    return_QUBE_HARDWARE_CALL(Ifaces::NetworkInterface *, d->backendObject(), 0, macAddress());
 }

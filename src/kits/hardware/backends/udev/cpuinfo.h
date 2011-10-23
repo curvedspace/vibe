@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_BACKENDS_UDEV_CPUINFO_H
-#define SOLID_BACKENDS_UDEV_CPUINFO_H
+#ifndef QUBE_HARDWARE_BACKENDS_UDEV_CPUINFO_H
+#define QUBE_HARDWARE_BACKENDS_UDEV_CPUINFO_H
 
 #include <QtCore/QString>
 
@@ -43,4 +43,4 @@ namespace Qube
     }
 }
 
-#endif // SOLID_BACKENDS_UDEV_CPUINFO_H
+#endif // QUBE_HARDWARE_BACKENDS_UDEV_CPUINFO_H

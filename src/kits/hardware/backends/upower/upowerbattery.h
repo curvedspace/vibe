@@ -19,8 +19,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_BACKENDS_UPOWER_BATTERY_H
-#define SOLID_BACKENDS_UPOWER_BATTERY_H
+#ifndef QUBE_HARDWARE_BACKENDS_UPOWER_BATTERY_H
+#define QUBE_HARDWARE_BACKENDS_UPOWER_BATTERY_H
 
 #include <ifaces/battery.h>
 #include "upowerdeviceinterface.h"
@@ -72,4 +72,4 @@ namespace Qube
     }
 }
 
-#endif // SOLID_BACKENDS_UPOWER_BATTERY_H
+#endif // QUBE_HARDWARE_BACKENDS_UPOWER_BATTERY_H

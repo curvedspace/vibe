@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_PREDICATE_H
-#define SOLID_PREDICATE_H
+#ifndef QUBE_HARDWARE_PREDICATE_H
+#define QUBE_HARDWARE_PREDICATE_H
 
 #include <QtCore/QVariant>
 #include <QtCore/QSet>

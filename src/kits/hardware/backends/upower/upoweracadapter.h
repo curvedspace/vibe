@@ -19,8 +19,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_BACKENDS_UPOWER_ACADAPTER_H
-#define SOLID_BACKENDS_UPOWER_ACADAPTER_H
+#ifndef QUBE_HARDWARE_BACKENDS_UPOWER_ACADAPTER_H
+#define QUBE_HARDWARE_BACKENDS_UPOWER_ACADAPTER_H
 
 #include <ifaces/acadapter.h>
 #include "upowerdeviceinterface.h"
@@ -60,4 +60,4 @@ namespace Qube
     }
 }
 
-#endif // SOLID_BACKENDS_UPOWER_ACADAPTER_H
+#endif // QUBE_HARDWARE_BACKENDS_UPOWER_ACADAPTER_H

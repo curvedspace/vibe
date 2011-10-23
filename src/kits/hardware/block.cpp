@@ -21,7 +21,7 @@
 #include "block.h"
 #include "block_p.h"
 
-#include "soliddefs_p.h"
+#include "call_p.h"
 #include <ifaces/block.h>
 
 Qube::Hardware::Block::Block(QObject *backendObject)
@@ -37,17 +37,17 @@ Qube::Hardware::Block::~Block()
 int Qube::Hardware::Block::deviceMajor() const
 {
     Q_D(const Block);
-    return_SOLID_CALL(Ifaces::Block *, d->backendObject(), 0, deviceMajor());
+    return_QUBE_HARDWARE_CALL(Ifaces::Block *, d->backendObject(), 0, deviceMajor());
 }
 
 int Qube::Hardware::Block::deviceMinor() const
 {
     Q_D(const Block);
-    return_SOLID_CALL(Ifaces::Block *, d->backendObject(), 0, deviceMinor());
+    return_QUBE_HARDWARE_CALL(Ifaces::Block *, d->backendObject(), 0, deviceMinor());
 }
 
 QString Qube::Hardware::Block::device() const
 {
     Q_D(const Block);
-    return_SOLID_CALL(Ifaces::Block *, d->backendObject(), QString(), device());
+    return_QUBE_HARDWARE_CALL(Ifaces::Block *, d->backendObject(), QString(), device());
 }

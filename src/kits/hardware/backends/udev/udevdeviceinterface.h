@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_BACKENDS_UDEV_DEVICEINTERFACE_H
-#define SOLID_BACKENDS_UDEV_DEVICEINTERFACE_H
+#ifndef QUBE_HARDWARE_BACKENDS_UDEV_DEVICEINTERFACE_H
+#define QUBE_HARDWARE_BACKENDS_UDEV_DEVICEINTERFACE_H
 
 #include <ifaces/deviceinterface.h>
 #include "udevdevice.h"

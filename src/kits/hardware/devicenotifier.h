@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_DEVICENOTIFIER_H
-#define SOLID_DEVICENOTIFIER_H
+#ifndef QUBE_HARDWARE_DEVICENOTIFIER_H
+#define QUBE_HARDWARE_DEVICENOTIFIER_H
 
 #include <QtCore/QObject>
 #include <QtCore/QList>

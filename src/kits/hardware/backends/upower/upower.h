@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_BACKENDS_UPOWER_H
-#define SOLID_BACKENDS_UPOWER_H
+#ifndef QUBE_HARDWARE_BACKENDS_UPOWER_H
+#define QUBE_HARDWARE_BACKENDS_UPOWER_H
 
 /* UPower */
 #define UP_DBUS_SERVICE           "org.freedesktop.UPower"
@@ -28,4 +28,4 @@
 #define UP_DBUS_INTERFACE_DEVICE  UP_DBUS_INTERFACE ".Device"
 #define UP_UDI_PREFIX             "/org/freedesktop/UPower"
 
-#endif // SOLID_BACKENDS_UPOWER_H
+#endif // QUBE_HARDWARE_BACKENDS_UPOWER_H

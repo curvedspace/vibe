@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_BACKENDS_UDEV_UDEVDEVICE_H
-#define SOLID_BACKENDS_UDEV_UDEVDEVICE_H
+#ifndef QUBE_HARDWARE_BACKENDS_UDEV_UDEVDEVICE_H
+#define QUBE_HARDWARE_BACKENDS_UDEV_UDEVDEVICE_H
 
 #include "udev.h"
 
@@ -80,4 +80,4 @@ namespace Qube
     }
 }
 
-#endif // SOLID_BACKENDS_UDEV_UDEVDEVICE_H
+#endif // QUBE_HARDWARE_BACKENDS_UDEV_UDEVDEVICE_H

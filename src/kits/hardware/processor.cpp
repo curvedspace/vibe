@@ -21,7 +21,7 @@
 #include "processor.h"
 #include "processor_p.h"
 
-#include "soliddefs_p.h"
+#include "call_p.h"
 #include <ifaces/processor.h>
 
 
@@ -38,23 +38,23 @@ Qube::Hardware::Processor::~Processor()
 int Qube::Hardware::Processor::number() const
 {
     Q_D(const Processor);
-    return_SOLID_CALL(Ifaces::Processor *, d->backendObject(), 0, number());
+    return_QUBE_HARDWARE_CALL(Ifaces::Processor *, d->backendObject(), 0, number());
 }
 
 int Qube::Hardware::Processor::maxSpeed() const
 {
     Q_D(const Processor);
-    return_SOLID_CALL(Ifaces::Processor *, d->backendObject(), 0, maxSpeed());
+    return_QUBE_HARDWARE_CALL(Ifaces::Processor *, d->backendObject(), 0, maxSpeed());
 }
 
 bool Qube::Hardware::Processor::canChangeFrequency() const
 {
     Q_D(const Processor);
-    return_SOLID_CALL(Ifaces::Processor *, d->backendObject(), false, canChangeFrequency());
+    return_QUBE_HARDWARE_CALL(Ifaces::Processor *, d->backendObject(), false, canChangeFrequency());
 }
 
 Qube::Hardware::Processor::InstructionSets Qube::Hardware::Processor::instructionSets() const
 {
     Q_D(const Processor);
-    return_SOLID_CALL(Ifaces::Processor *, d->backendObject(), InstructionSets(), instructionSets());
+    return_QUBE_HARDWARE_CALL(Ifaces::Processor *, d->backendObject(), InstructionSets(), instructionSets());
 }

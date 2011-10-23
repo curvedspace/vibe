@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_BACKENDS_SHARED_ROOT_DEVICE_H
-#define SOLID_BACKENDS_SHARED_ROOT_DEVICE_H
+#ifndef QUBE_HARDWARE_BACKENDS_SHARED_ROOT_DEVICE_H
+#define QUBE_HARDWARE_BACKENDS_SHARED_ROOT_DEVICE_H
 
 #include <ifaces/device.h>
 

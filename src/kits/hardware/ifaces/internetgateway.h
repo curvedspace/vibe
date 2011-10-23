@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_IFACES_INTERNETGATEWAY_H
-#define SOLID_IFACES_INTERNETGATEWAY_H
+#ifndef QUBE_HARDWARE_IFACES_INTERNETGATEWAY_H
+#define QUBE_HARDWARE_IFACES_INTERNETGATEWAY_H
 
 #include <QtCore/QStringList>
 
@@ -68,4 +68,4 @@ namespace Qube
 
 Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::InternetGateway, "org.vision.Qube.Hardware.Ifaces.InternetGateway/0.1")
 
-#endif // SOLID_IFACES_INTERNETGATEWAY_H
+#endif // QUBE_HARDWARE_IFACES_INTERNETGATEWAY_H

@@ -28,7 +28,7 @@
 #include <QtCore/QTextStream>
 #include <QtCore/QTime>
 
-#include "soliddefs_p.h"
+#include <Qube/Core/Global>
 
 #include <config.h>
 #include <stdlib.h>
@@ -105,7 +105,7 @@
 #endif
 
 typedef QMultiHash<QString, QString> QStringMultiHash;
-SOLID_GLOBAL_STATIC(QStringMultiHash, globalMountPointsCache)
+QUBE_GLOBAL_STATIC(QStringMultiHash, globalMountPointsCache)
 
 bool _q_isFstabNetworkFileSystem(const QString &fstype, const QString &devName)
 {

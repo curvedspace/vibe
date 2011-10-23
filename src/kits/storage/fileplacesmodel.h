@@ -30,7 +30,7 @@
 #include <QtCore/QAbstractItemModel>
 
 #include <Qube/Hardware/Device>
-#include <Qube/Hardware/qubehardwarenamespace.h>
+#include <Qube/Hardware/Namespace>
 
 class QMimeData;
 class QAction;

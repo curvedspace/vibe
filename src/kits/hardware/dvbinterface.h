@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_DVBINTERFACE_H
-#define SOLID_DVBINTERFACE_H
+#ifndef QUBE_HARDWARE_DVBINTERFACE_H
+#define QUBE_HARDWARE_DVBINTERFACE_H
 
 #include <Qube/Hardware/deviceinterface.h>
 
@@ -140,4 +140,4 @@ namespace Qube
     }
 }
 
-#endif // SOLID_DVBINTERFACE_H
+#endif // QUBE_HARDWARE_DVBINTERFACE_H

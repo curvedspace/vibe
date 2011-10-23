@@ -18,11 +18,11 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_BACKENDS_UDEV_H
-#define SOLID_BACKENDS_UDEV_H
+#ifndef QUBE_HARDWARE_BACKENDS_UDEV_H
+#define QUBE_HARDWARE_BACKENDS_UDEV_H
 
 #include "../shared/udevqt.h"
 
 #define UDEV_UDI_PREFIX "/org/vision/Qube/Hardware/udev"
 
-#endif // SOLID_BACKENDS_UDEV_H
+#endif // QUBE_HARDWARE_BACKENDS_UDEV_H

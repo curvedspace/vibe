@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_OPTICALDISC_P_H
-#define SOLID_OPTICALDISC_P_H
+#ifndef QUBE_HARDWARE_OPTICALDISC_P_H
+#define QUBE_HARDWARE_OPTICALDISC_P_H
 
 #include "storagevolume_p.h"
 

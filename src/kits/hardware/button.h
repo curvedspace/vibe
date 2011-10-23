@@ -19,8 +19,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_BUTTON_H
-#define SOLID_BUTTON_H
+#ifndef QUBE_HARDWARE_BUTTON_H
+#define QUBE_HARDWARE_BUTTON_H
 
 #include <Qube/Hardware/deviceinterface.h>
 

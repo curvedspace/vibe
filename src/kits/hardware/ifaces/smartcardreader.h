@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_IFACES_SMARTCARDREADER_H
-#define SOLID_IFACES_SMARTCARDREADER_H
+#ifndef QUBE_HARDWARE_IFACES_SMARTCARDREADER_H
+#define QUBE_HARDWARE_IFACES_SMARTCARDREADER_H
 
 #include <ifaces/deviceinterface.h>
 #include <Qube/Hardware/smartcardreader.h>
@@ -56,4 +56,4 @@ namespace Qube
 
 Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::SmartCardReader, "org.vision.Qube.Hardware.Ifaces.SmartCardReader/0.1")
 
-#endif // SOLID_IFACES_SMARTCARDREADER_H
+#endif // QUBE_HARDWARE_IFACES_SMARTCARDREADER_H

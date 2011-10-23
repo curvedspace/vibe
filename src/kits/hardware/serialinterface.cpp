@@ -23,7 +23,7 @@
 
 #include <QtCore/qvariant.h>
 
-#include "soliddefs_p.h"
+#include "call_p.h"
 #include <ifaces/serialinterface.h>
 
 Qube::Hardware::SerialInterface::SerialInterface(QObject *backendObject)
@@ -39,17 +39,17 @@ Qube::Hardware::SerialInterface::~SerialInterface()
 QVariant Qube::Hardware::SerialInterface::driverHandle() const
 {
     Q_D(const SerialInterface);
-    return_SOLID_CALL(Ifaces::SerialInterface *, d->backendObject(), QVariant(), driverHandle());
+    return_QUBE_HARDWARE_CALL(Ifaces::SerialInterface *, d->backendObject(), QVariant(), driverHandle());
 }
 
 Qube::Hardware::SerialInterface::SerialType Qube::Hardware::SerialInterface::serialType() const
 {
     Q_D(const SerialInterface);
-    return_SOLID_CALL(Ifaces::SerialInterface *, d->backendObject(), Unknown, serialType());
+    return_QUBE_HARDWARE_CALL(Ifaces::SerialInterface *, d->backendObject(), Unknown, serialType());
 }
 
 int Qube::Hardware::SerialInterface::port() const
 {
     Q_D(const SerialInterface);
-    return_SOLID_CALL(Ifaces::SerialInterface *, d->backendObject(), -1, port());
+    return_QUBE_HARDWARE_CALL(Ifaces::SerialInterface *, d->backendObject(), -1, port());
 }

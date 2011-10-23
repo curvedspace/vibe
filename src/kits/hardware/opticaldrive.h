@@ -18,13 +18,13 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_OPTICALDRIVE_H
-#define SOLID_OPTICALDRIVE_H
+#ifndef QUBE_HARDWARE_OPTICALDRIVE_H
+#define QUBE_HARDWARE_OPTICALDRIVE_H
 
 #include <QtCore/QList>
 #include <QtCore/QVariant>
 
-#include <Qube/Hardware/qubehardwarenamespace.h>
+#include <Qube/Hardware/Namespace>
 #include <Qube/Hardware/storagedrive.h>
 
 namespace Qube
@@ -187,4 +187,4 @@ namespace Qube
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Qube::Hardware::OpticalDrive::MediumTypes)
 
-#endif // SOLID_OPTICALDRIVE_H
+#endif // QUBE_HARDWARE_OPTICALDRIVE_H

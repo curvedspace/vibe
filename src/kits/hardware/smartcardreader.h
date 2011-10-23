@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_SMARTCARDREADER_H
-#define SOLID_SMARTCARDREADER_H
+#ifndef QUBE_HARDWARE_SMARTCARDREADER_H
+#define QUBE_HARDWARE_SMARTCARDREADER_H
 
 #include <Qube/Hardware/deviceinterface.h>
 

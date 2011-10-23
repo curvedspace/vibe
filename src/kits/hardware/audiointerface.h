@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_AUDIOINTERFACE_H
-#define SOLID_AUDIOINTERFACE_H
+#ifndef QUBE_HARDWARE_AUDIOINTERFACE_H
+#define QUBE_HARDWARE_AUDIOINTERFACE_H
 
 #include <Qube/Hardware/deviceinterface.h>
 
@@ -218,4 +218,4 @@ namespace Qube
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Qube::Hardware::AudioInterface::AudioInterfaceTypes)
 
-#endif // SOLID_AUDIOINTERFACE_H
+#endif // QUBE_HARDWARE_AUDIOINTERFACE_H

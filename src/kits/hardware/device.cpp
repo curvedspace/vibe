@@ -24,7 +24,7 @@
 #include "devicemanager_p.h"
 
 #include "deviceinterface_p.h"
-#include "soliddefs_p.h"
+#include "call_p.h"
 
 #include <ifaces/device.h>
 
@@ -106,7 +106,7 @@ QString Qube::Hardware::Device::udi() const
 
 QString Qube::Hardware::Device::parentUdi() const
 {
-    return_SOLID_CALL(Ifaces::Device *, d->backendObject(), QString(), parentUdi());
+    return_QUBE_HARDWARE_CALL(Ifaces::Device *, d->backendObject(), QString(), parentUdi());
 }
 
 Qube::Hardware::Device Qube::Hardware::Device::parent() const
@@ -122,32 +122,32 @@ Qube::Hardware::Device Qube::Hardware::Device::parent() const
 
 QString Qube::Hardware::Device::vendor() const
 {
-    return_SOLID_CALL(Ifaces::Device *, d->backendObject(), QString(), vendor());
+    return_QUBE_HARDWARE_CALL(Ifaces::Device *, d->backendObject(), QString(), vendor());
 }
 
 QString Qube::Hardware::Device::product() const
 {
-    return_SOLID_CALL(Ifaces::Device *, d->backendObject(), QString(), product());
+    return_QUBE_HARDWARE_CALL(Ifaces::Device *, d->backendObject(), QString(), product());
 }
 
 QString Qube::Hardware::Device::icon() const
 {
-    return_SOLID_CALL(Ifaces::Device *, d->backendObject(), QString(), icon());
+    return_QUBE_HARDWARE_CALL(Ifaces::Device *, d->backendObject(), QString(), icon());
 }
 
 QStringList Qube::Hardware::Device::emblems() const
 {
-    return_SOLID_CALL(Ifaces::Device *, d->backendObject(), QStringList(), emblems());
+    return_QUBE_HARDWARE_CALL(Ifaces::Device *, d->backendObject(), QStringList(), emblems());
 }
 
 QString Qube::Hardware::Device::description() const
 {
-    return_SOLID_CALL(Ifaces::Device *, d->backendObject(), QString(), description());
+    return_QUBE_HARDWARE_CALL(Ifaces::Device *, d->backendObject(), QString(), description());
 }
 
 bool Qube::Hardware::Device::isDeviceInterface(const DeviceInterface::Type &type) const
 {
-    return_SOLID_CALL(Ifaces::Device *, d->backendObject(), false, queryDeviceInterface(type));
+    return_QUBE_HARDWARE_CALL(Ifaces::Device *, d->backendObject(), false, queryDeviceInterface(type));
 }
 
 #define deviceinterface_cast(IfaceType, DevType, backendObject) \

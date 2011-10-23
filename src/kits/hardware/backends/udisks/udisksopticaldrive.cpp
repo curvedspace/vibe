@@ -134,7 +134,7 @@ QList<int> UDisksOpticalDrive::writeSpeeds() const
 {
     if (!m_speedsInit)
         initReadWriteSpeeds();
-    //qDebug() << "solid write speeds:" << m_writeSpeeds;
+    //qDebug() << "QubeHardware write speeds:" << m_writeSpeeds;
     return m_writeSpeeds;
 }
 

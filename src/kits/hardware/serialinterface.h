@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_SERIALINTERFACE_H
-#define SOLID_SERIALINTERFACE_H
+#ifndef QUBE_HARDWARE_SERIALINTERFACE_H
+#define QUBE_HARDWARE_SERIALINTERFACE_H
 
 #include <Qube/Hardware/deviceinterface.h>
 
@@ -118,4 +118,4 @@ namespace Qube
     }
 }
 
-#endif // SOLID_SERIALINTERFACE_H
+#endif // QUBE_HARDWARE_SERIALINTERFACE_H

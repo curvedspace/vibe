@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_IFACES_DEVICE_H
-#define SOLID_IFACES_DEVICE_H
+#ifndef QUBE_HARDWARE_IFACES_DEVICE_H
+#define QUBE_HARDWARE_IFACES_DEVICE_H
 
 #include <QtCore/QObject>
 #include <QtCore/QVariant>
@@ -28,7 +28,7 @@
 
 #include <Qube/Hardware/deviceinterface.h>
 #include <Qube/Hardware/device.h>
-#include <Qube/Hardware/qubehardwarenamespace.h>
+#include <Qube/Hardware/Namespace>
 
 namespace Qube
 {

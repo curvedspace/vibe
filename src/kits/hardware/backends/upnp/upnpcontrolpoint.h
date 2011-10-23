@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_BACKENDS_UPNP_UPNPCONTROLPOINT_H
-#define SOLID_BACKENDS_UPNP_UPNPCONTROLPOINT_H
+#ifndef QUBE_HARDWARE_BACKENDS_UPNP_UPNPCONTROLPOINT_H
+#define QUBE_HARDWARE_BACKENDS_UPNP_UPNPCONTROLPOINT_H
 
 #include <QtCore/QObject>
 #include <QtCore/QMutex>
@@ -65,4 +65,4 @@ namespace Qube
     }
 }
 
-#endif // SOLID_BACKENDS_UPNP_UPNPCONTROLPOINT_H
+#endif // QUBE_HARDWARE_BACKENDS_UPNP_UPNPCONTROLPOINT_H

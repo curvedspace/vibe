@@ -19,8 +19,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_NETWORKING
-#define SOLID_NETWORKING
+#ifndef QUBE_HARDWARE_NETWORKING_H
+#define QUBE_HARDWARE_NETWORKING_H
 
 #include <QtCore/QObject>
 
@@ -128,4 +128,4 @@ namespace Qube
     }
 }
 
-#endif
+#endif // QUBE_HARDWARE_NETWORKING_H

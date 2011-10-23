@@ -21,7 +21,7 @@
 #include "storagedrive.h"
 #include "storagedrive_p.h"
 
-#include "soliddefs_p.h"
+#include "call_p.h"
 #include <ifaces/storagedrive.h>
 #include "predicate.h"
 #include "storageaccess.h"
@@ -47,31 +47,31 @@ Qube::Hardware::StorageDrive::~StorageDrive()
 Qube::Hardware::StorageDrive::Bus Qube::Hardware::StorageDrive::bus() const
 {
     Q_D(const StorageDrive);
-    return_SOLID_CALL(Ifaces::StorageDrive *, d->backendObject(), Platform, bus());
+    return_QUBE_HARDWARE_CALL(Ifaces::StorageDrive *, d->backendObject(), Platform, bus());
 }
 
 Qube::Hardware::StorageDrive::DriveType Qube::Hardware::StorageDrive::driveType() const
 {
     Q_D(const StorageDrive);
-    return_SOLID_CALL(Ifaces::StorageDrive *, d->backendObject(), HardDisk, driveType());
+    return_QUBE_HARDWARE_CALL(Ifaces::StorageDrive *, d->backendObject(), HardDisk, driveType());
 }
 
 bool Qube::Hardware::StorageDrive::isRemovable() const
 {
     Q_D(const StorageDrive);
-    return_SOLID_CALL(Ifaces::StorageDrive *, d->backendObject(), false, isRemovable());
+    return_QUBE_HARDWARE_CALL(Ifaces::StorageDrive *, d->backendObject(), false, isRemovable());
 }
 
 bool Qube::Hardware::StorageDrive::isHotpluggable() const
 {
     Q_D(const StorageDrive);
-    return_SOLID_CALL(Ifaces::StorageDrive *, d->backendObject(), false, isHotpluggable());
+    return_QUBE_HARDWARE_CALL(Ifaces::StorageDrive *, d->backendObject(), false, isHotpluggable());
 }
 
 qulonglong Qube::Hardware::StorageDrive::size() const
 {
     Q_D(const StorageDrive);
-    return_SOLID_CALL(Ifaces::StorageDrive *, d->backendObject(), false, size());
+    return_QUBE_HARDWARE_CALL(Ifaces::StorageDrive *, d->backendObject(), false, size());
 }
 
 bool Qube::Hardware::StorageDrive::isInUse() const

@@ -9,10 +9,10 @@
 #define YYLEX_PARAM scanner
 #define YYPARSE_PARAM scanner
 typedef void* yyscan_t;
-void Soliderror(const char *s);
-int Solidlex( YYSTYPE *yylval, yyscan_t scanner );
-int Solidlex_init( yyscan_t *scanner );
-int Solidlex_destroy( yyscan_t *scanner );
+void QubeHardwareerror(const char *s);
+int QubeHardwarelex( YYSTYPE *yylval, yyscan_t scanner );
+int QubeHardwarelex_init( yyscan_t *scanner );
+int QubeHardwarelex_destroy( yyscan_t *scanner );
 void PredicateParse_initLexer( const char *s, yyscan_t scanner );
 void PredicateParse_mainParse( const char *_code );
 
@@ -83,7 +83,7 @@ string_list_rec: /* empty */ { $$ = PredicateParse_newEmptyStringListValue(); }
 
 %%
 
-void Soliderror ( const char *s )  /* Called by Solidparse on error */
+void QubeHardwareerror ( const char *s )  /* Called by QubeHardwareparse on error */
 {
     PredicateParse_errorDetected(s);
 }
@@ -91,9 +91,9 @@ void Soliderror ( const char *s )  /* Called by Solidparse on error */
 void PredicateParse_mainParse( const char *_code )
 {
     yyscan_t scanner;
-    Solidlex_init( &scanner );
+    QubeHardwarelex_init( &scanner );
     PredicateParse_initLexer( _code, scanner );
-    Solidparse( scanner );
-    Solidlex_destroy( scanner );
+    QubeHardwareparse( scanner );
+    QubeHardwarelex_destroy( scanner );
 }
 

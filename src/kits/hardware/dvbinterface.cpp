@@ -21,7 +21,7 @@
 #include "dvbinterface.h"
 #include "dvbinterface_p.h"
 
-#include "soliddefs_p.h"
+#include "call_p.h"
 #include <ifaces/dvbinterface.h>
 
 Qube::Hardware::DvbInterface::DvbInterface(QObject *backendObject)
@@ -37,23 +37,23 @@ Qube::Hardware::DvbInterface::~DvbInterface()
 QString Qube::Hardware::DvbInterface::device() const
 {
     Q_D(const DvbInterface);
-    return_SOLID_CALL(Ifaces::DvbInterface *, d->backendObject(), QString(), device());
+    return_QUBE_HARDWARE_CALL(Ifaces::DvbInterface *, d->backendObject(), QString(), device());
 }
 
 int Qube::Hardware::DvbInterface::deviceAdapter() const
 {
     Q_D(const DvbInterface);
-    return_SOLID_CALL(Ifaces::DvbInterface *, d->backendObject(), -1, deviceAdapter());
+    return_QUBE_HARDWARE_CALL(Ifaces::DvbInterface *, d->backendObject(), -1, deviceAdapter());
 }
 
 Qube::Hardware::DvbInterface::DeviceType Qube::Hardware::DvbInterface::deviceType() const
 {
     Q_D(const DvbInterface);
-    return_SOLID_CALL(Ifaces::DvbInterface *, d->backendObject(), DvbUnknown, deviceType());
+    return_QUBE_HARDWARE_CALL(Ifaces::DvbInterface *, d->backendObject(), DvbUnknown, deviceType());
 }
 
 int Qube::Hardware::DvbInterface::deviceIndex() const
 {
     Q_D(const DvbInterface);
-    return_SOLID_CALL(Ifaces::DvbInterface *, d->backendObject(), -1, deviceIndex());
+    return_QUBE_HARDWARE_CALL(Ifaces::DvbInterface *, d->backendObject(), -1, deviceIndex());
 }

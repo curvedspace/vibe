@@ -18,14 +18,14 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QtCore/QCoreApplication>
+
+#include <Qube/Core/Global>
+
 #include "powermanagement.h"
 #include "powermanagement_p.h"
 
-#include "soliddefs_p.h"
-
-#include <QtCore/QCoreApplication>
-
-SOLID_GLOBAL_STATIC(Qube::Hardware::PowerManagementPrivate, globalPowerManager)
+QUBE_GLOBAL_STATIC(Qube::Hardware::PowerManagementPrivate, globalPowerManager)
 
 Qube::Hardware::PowerManagementPrivate::PowerManagementPrivate()
     : managerIface("org.freedesktop.PowerManagement",

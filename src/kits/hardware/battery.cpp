@@ -21,7 +21,7 @@
 #include "battery.h"
 #include "battery_p.h"
 
-#include "soliddefs_p.h"
+#include "call_p.h"
 #include <ifaces/battery.h>
 
 Qube::Hardware::Battery::Battery(QObject *backendObject)
@@ -45,29 +45,29 @@ Qube::Hardware::Battery::~Battery()
 bool Qube::Hardware::Battery::isPlugged() const
 {
     Q_D(const Battery);
-    return_SOLID_CALL(Ifaces::Battery *, d->backendObject(), false, isPlugged());
+    return_QUBE_HARDWARE_CALL(Ifaces::Battery *, d->backendObject(), false, isPlugged());
 }
 
 Qube::Hardware::Battery::BatteryType Qube::Hardware::Battery::type() const
 {
     Q_D(const Battery);
-    return_SOLID_CALL(Ifaces::Battery *, d->backendObject(), UnknownBattery, type());
+    return_QUBE_HARDWARE_CALL(Ifaces::Battery *, d->backendObject(), UnknownBattery, type());
 }
 
 int Qube::Hardware::Battery::chargePercent() const
 {
     Q_D(const Battery);
-    return_SOLID_CALL(Ifaces::Battery *, d->backendObject(), 0, chargePercent());
+    return_QUBE_HARDWARE_CALL(Ifaces::Battery *, d->backendObject(), 0, chargePercent());
 }
 
 bool Qube::Hardware::Battery::isRechargeable() const
 {
     Q_D(const Battery);
-    return_SOLID_CALL(Ifaces::Battery *, d->backendObject(), false, isRechargeable());
+    return_QUBE_HARDWARE_CALL(Ifaces::Battery *, d->backendObject(), false, isRechargeable());
 }
 
 Qube::Hardware::Battery::ChargeState Qube::Hardware::Battery::chargeState() const
 {
     Q_D(const Battery);
-    return_SOLID_CALL(Ifaces::Battery *, d->backendObject(), NoCharge, chargeState());
+    return_QUBE_HARDWARE_CALL(Ifaces::Battery *, d->backendObject(), NoCharge, chargeState());
 }

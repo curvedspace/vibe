@@ -19,8 +19,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_IFACES_VIDEO_H
-#define SOLID_IFACES_VIDEO_H
+#ifndef QUBE_HARDWARE_IFACES_VIDEO_H
+#define QUBE_HARDWARE_IFACES_VIDEO_H
 
 #include <ifaces/deviceinterface.h>
 

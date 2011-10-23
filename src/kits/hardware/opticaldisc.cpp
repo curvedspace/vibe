@@ -21,7 +21,7 @@
 #include "opticaldisc.h"
 #include "opticaldisc_p.h"
 
-#include "soliddefs_p.h"
+#include "call_p.h"
 #include <ifaces/opticaldisc.h>
 
 Qube::Hardware::OpticalDisc::OpticalDisc(QObject *backendObject)
@@ -37,35 +37,35 @@ Qube::Hardware::OpticalDisc::~OpticalDisc()
 Qube::Hardware::OpticalDisc::ContentTypes Qube::Hardware::OpticalDisc::availableContent() const
 {
     Q_D(const OpticalDisc);
-    return_SOLID_CALL(Ifaces::OpticalDisc *, d->backendObject(), ContentTypes(), availableContent());
+    return_QUBE_HARDWARE_CALL(Ifaces::OpticalDisc *, d->backendObject(), ContentTypes(), availableContent());
 }
 
 Qube::Hardware::OpticalDisc::DiscType Qube::Hardware::OpticalDisc::discType() const
 {
     Q_D(const OpticalDisc);
-    return_SOLID_CALL(Ifaces::OpticalDisc *, d->backendObject(), UnknownDiscType, discType());
+    return_QUBE_HARDWARE_CALL(Ifaces::OpticalDisc *, d->backendObject(), UnknownDiscType, discType());
 }
 
 bool Qube::Hardware::OpticalDisc::isAppendable() const
 {
     Q_D(const OpticalDisc);
-    return_SOLID_CALL(Ifaces::OpticalDisc *, d->backendObject(), false, isAppendable());
+    return_QUBE_HARDWARE_CALL(Ifaces::OpticalDisc *, d->backendObject(), false, isAppendable());
 }
 
 bool Qube::Hardware::OpticalDisc::isBlank() const
 {
     Q_D(const OpticalDisc);
-    return_SOLID_CALL(Ifaces::OpticalDisc *, d->backendObject(), false, isBlank());
+    return_QUBE_HARDWARE_CALL(Ifaces::OpticalDisc *, d->backendObject(), false, isBlank());
 }
 
 bool Qube::Hardware::OpticalDisc::isRewritable() const
 {
     Q_D(const OpticalDisc);
-    return_SOLID_CALL(Ifaces::OpticalDisc *, d->backendObject(), false, isRewritable());
+    return_QUBE_HARDWARE_CALL(Ifaces::OpticalDisc *, d->backendObject(), false, isRewritable());
 }
 
 qulonglong Qube::Hardware::OpticalDisc::capacity() const
 {
     Q_D(const OpticalDisc);
-    return_SOLID_CALL(Ifaces::OpticalDisc *, d->backendObject(), 0, capacity());
+    return_QUBE_HARDWARE_CALL(Ifaces::OpticalDisc *, d->backendObject(), 0, capacity());
 }

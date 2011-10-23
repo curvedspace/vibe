@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_IFACE_SERIALINTERFACE_H
-#define SOLID_IFACE_SERIALINTERFACE_H
+#ifndef QUBE_HARDWARE_IFACE_SERIALINTERFACE_H
+#define QUBE_HARDWARE_IFACE_SERIALINTERFACE_H
 
 #include <ifaces/deviceinterface.h>
 #include <Qube/Hardware/serialinterface.h>
@@ -79,4 +79,4 @@ namespace Qube
 
 Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::SerialInterface, "org.vision.Qube.Hardware.Ifaces.SerialInterface/0.1")
 
-#endif // SOLID_IFACE_SERIALINTERFACE_H
+#endif // QUBE_HARDWARE_IFACE_SERIALINTERFACE_H

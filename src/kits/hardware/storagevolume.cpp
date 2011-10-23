@@ -21,7 +21,7 @@
 #include "storagevolume.h"
 #include "storagevolume_p.h"
 
-#include "soliddefs_p.h"
+#include "call_p.h"
 #include <ifaces/storagevolume.h>
 #include <Qube/Hardware/device.h>
 
@@ -43,37 +43,37 @@ Qube::Hardware::StorageVolume::~StorageVolume()
 bool Qube::Hardware::StorageVolume::isIgnored() const
 {
     Q_D(const StorageVolume);
-    return_SOLID_CALL(Ifaces::StorageVolume *, d->backendObject(), true, isIgnored());
+    return_QUBE_HARDWARE_CALL(Ifaces::StorageVolume *, d->backendObject(), true, isIgnored());
 }
 
 Qube::Hardware::StorageVolume::UsageType Qube::Hardware::StorageVolume::usage() const
 {
     Q_D(const StorageVolume);
-    return_SOLID_CALL(Ifaces::StorageVolume *, d->backendObject(), Unused, usage());
+    return_QUBE_HARDWARE_CALL(Ifaces::StorageVolume *, d->backendObject(), Unused, usage());
 }
 
 QString Qube::Hardware::StorageVolume::fsType() const
 {
     Q_D(const StorageVolume);
-    return_SOLID_CALL(Ifaces::StorageVolume *, d->backendObject(), QString(), fsType());
+    return_QUBE_HARDWARE_CALL(Ifaces::StorageVolume *, d->backendObject(), QString(), fsType());
 }
 
 QString Qube::Hardware::StorageVolume::label() const
 {
     Q_D(const StorageVolume);
-    return_SOLID_CALL(Ifaces::StorageVolume *, d->backendObject(), QString(), label());
+    return_QUBE_HARDWARE_CALL(Ifaces::StorageVolume *, d->backendObject(), QString(), label());
 }
 
 QString Qube::Hardware::StorageVolume::uuid() const
 {
     Q_D(const StorageVolume);
-    return_SOLID_CALL(Ifaces::StorageVolume *, d->backendObject(), QString(), uuid().toLower());
+    return_QUBE_HARDWARE_CALL(Ifaces::StorageVolume *, d->backendObject(), QString(), uuid().toLower());
 }
 
 qulonglong Qube::Hardware::StorageVolume::size() const
 {
     Q_D(const StorageVolume);
-    return_SOLID_CALL(Ifaces::StorageVolume *, d->backendObject(), 0, size());
+    return_QUBE_HARDWARE_CALL(Ifaces::StorageVolume *, d->backendObject(), 0, size());
 }
 
 Qube::Hardware::Device Qube::Hardware::StorageVolume::encryptedContainer() const

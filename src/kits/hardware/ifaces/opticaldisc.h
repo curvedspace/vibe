@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_IFACES_OPTICALDISC_H
-#define SOLID_IFACES_OPTICALDISC_H
+#ifndef QUBE_HARDWARE_IFACES_OPTICALDISC_H
+#define QUBE_HARDWARE_IFACES_OPTICALDISC_H
 
 #include <Qube/Hardware/opticaldisc.h>
 #include <ifaces/storagevolume.h>

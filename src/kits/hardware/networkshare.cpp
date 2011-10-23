@@ -21,7 +21,7 @@
 #include "networkshare.h"
 #include "networkshare_p.h"
 
-#include "soliddefs_p.h"
+#include "call_p.h"
 #include <ifaces/networkshare.h>
 
 Qube::Hardware::NetworkShare::NetworkShare(QObject *backendObject)
@@ -37,11 +37,11 @@ Qube::Hardware::NetworkShare::~NetworkShare()
 Qube::Hardware::NetworkShare::ShareType Qube::Hardware::NetworkShare::type() const
 {
     Q_D(const NetworkShare);
-    return_SOLID_CALL(Ifaces::NetworkShare *, d->backendObject(), Qube::Hardware::NetworkShare::Unknown, type());
+    return_QUBE_HARDWARE_CALL(Ifaces::NetworkShare *, d->backendObject(), Qube::Hardware::NetworkShare::Unknown, type());
 }
 
 QUrl Qube::Hardware::NetworkShare::url() const
 {
     Q_D(const NetworkShare);
-    return_SOLID_CALL(Ifaces::NetworkShare *, d->backendObject(), QUrl(), url());
+    return_QUBE_HARDWARE_CALL(Ifaces::NetworkShare *, d->backendObject(), QUrl(), url());
 }

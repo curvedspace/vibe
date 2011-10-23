@@ -21,13 +21,14 @@
 
 //#include <QtCore/QDebug>
 
+#include <Qube/Core/Global>
+
 #include "networking.h"
 #include "networking_p.h"
 
-#include "soliddefs_p.h"
-#include "org_vision_hardware_networking_client.h"
+#include "org_vision_qube_hardware_networking_client.h"
 
-SOLID_GLOBAL_STATIC(Qube::Hardware::NetworkingPrivate, globalNetworkManager)
+QUBE_GLOBAL_STATIC(Qube::Hardware::NetworkingPrivate, globalNetworkManager)
 
 Qube::Hardware::NetworkingPrivate::NetworkingPrivate()
     : netStatus(Qube::Hardware::Networking::Unknown),

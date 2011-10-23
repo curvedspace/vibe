@@ -24,7 +24,7 @@
 
 #include <ifaces/device.h>
 #include <Qube/Hardware/deviceinterface.h>
-#include <Qube/Hardware/qubehardwarenamespace.h>
+#include <Qube/Hardware/Namespace>
 
 #include <QtDBus/QDBusInterface>
 #include <QtCore/QSet>

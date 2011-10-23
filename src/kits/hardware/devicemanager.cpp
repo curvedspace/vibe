@@ -18,6 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <Qube/Core/Global>
+
 #include "devicenotifier.h"
 #include "devicemanager_p.h" //krazy:exclude=includes (devicenotifier.h is the header file for this class)
 
@@ -28,9 +30,7 @@
 #include "ifaces/devicemanager.h"
 #include "ifaces/device.h"
 
-#include "soliddefs_p.h"
-
-SOLID_GLOBAL_STATIC(Qube::Hardware::DeviceManagerStorage, globalDeviceStorage)
+QUBE_GLOBAL_STATIC(Qube::Hardware::DeviceManagerStorage, globalDeviceStorage)
 
 Qube::Hardware::DeviceManagerPrivate::DeviceManagerPrivate()
     : m_nullDevice(new DevicePrivate(QString()))

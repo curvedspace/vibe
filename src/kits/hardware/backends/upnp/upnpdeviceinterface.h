@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_BACKENDS_UPNP_DEVICE_INTERFACE_H
-#define SOLID_BACKENDS_UPNP_DEVICE_INTERFACE_H
+#ifndef QUBE_HARDWARE_BACKENDS_UPNP_DEVICE_INTERFACE_H
+#define QUBE_HARDWARE_BACKENDS_UPNP_DEVICE_INTERFACE_H
 
 #include <ifaces/deviceinterface.h>
 #include <Qube/Hardware/backends/upnp/upnpdevice.h>
@@ -55,4 +55,4 @@ namespace Qube
     }
 }
 
-#endif // SOLID_BACKENDS_UPNP_DEVICE_INTERFACE_H
+#endif // QUBE_HARDWARE_BACKENDS_UPNP_DEVICE_INTERFACE_H

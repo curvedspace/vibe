@@ -32,7 +32,7 @@ configure_file(config-processor.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-proce
 ########### next target ###############
 
 set(SOURCES
-   qubehardwarenamespace.cpp
+   namespace.cpp
    managerbase.cpp
    device.cpp
    devicemanager.cpp
@@ -201,7 +201,7 @@ qt4_add_dbus_interfaces(SOURCES org.freedesktop.PowerManagement.xml
                         org.vision.Qube.Hardware.PowerManagement.PolicyAgent.xml)
 
 qt4_add_dbus_interface(SOURCES org.vision.Qube.Hardware.Networking.Client.xml
-                       org_vision_hardware_networking_client)
+                       org_vision_qube_hardware_networking_client)
 
 # Library target
 add_library(QubeHardware SHARED ${SOURCES})
@@ -224,10 +224,9 @@ target_link_libraries(QubeHardware ${QT_QTCORE_LIBRARY} ${QT_QTDBUS_LIBRARY} ${Q
 target_link_libraries(QubeHardware LINK_INTERFACE_LIBRARIES ${QT_CORE_LIBRARY} )
 
 # Library properties
-#set_target_properties(QubeHardware PROPERTIES
-#    VERSION ${GENERIC_LIB_VERSION}
-#    SOVERSION ${GENERIC_LIB_SOVERSION}
-#)
+set_target_properties(QubeHardware PROPERTIES
+    VERSION ${QUBE_VERSION}
+    SOVERSION 0.0.0)
 
 #install(FILES org.kde.Solid.Networking.Client.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR})
 #install(FILES org.kde.Solid.PowerManagement.PolicyAgent.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR})
@@ -237,7 +236,7 @@ target_link_libraries(QubeHardware LINK_INTERFACE_LIBRARIES ${QT_CORE_LIBRARY} )
 ########### install files ###############
 
 install(FILES
-    qubehardwarenamespace.h device.h
+    namespace.h device.h
     devicenotifier.h deviceinterface.h genericinterface.h processor.h block.h
     storageaccess.h storagedrive.h opticaldrive.h storagevolume.h opticaldisc.h
     camera.h portablemediaplayer.h networkinterface.h acadapter.h battery.h

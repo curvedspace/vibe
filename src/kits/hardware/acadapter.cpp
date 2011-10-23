@@ -21,7 +21,7 @@
 #include "acadapter.h"
 #include "acadapter_p.h"
 
-#include "soliddefs_p.h"
+#include "call_p.h"
 #include <ifaces/acadapter.h>
 
 Qube::Hardware::AcAdapter::AcAdapter(QObject *backendObject)
@@ -39,5 +39,5 @@ Qube::Hardware::AcAdapter::~AcAdapter()
 bool Qube::Hardware::AcAdapter::isPlugged() const
 {
     Q_D(const AcAdapter);
-    return_SOLID_CALL(Ifaces::AcAdapter *, d->backendObject(), false, isPlugged());
+    return_QUBE_HARDWARE_CALL(Ifaces::AcAdapter *, d->backendObject(), false, isPlugged());
 }

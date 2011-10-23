@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_IFACE_NETWORKINTERFACE_H
-#define SOLID_IFACE_NETWORKINTERFACE_H
+#ifndef QUBE_HARDWARE_IFACE_NETWORKINTERFACE_H
+#define QUBE_HARDWARE_IFACE_NETWORKINTERFACE_H
 
 #include <ifaces/deviceinterface.h>
 
@@ -79,4 +79,4 @@ namespace Qube
 
 Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::NetworkInterface, "org.vision.Qube.Hardware.Ifaces.NetworkInterface/0.1")
 
-#endif // SOLID_IFACE_NETWORKINTERFACE_H
+#endif // QUBE_HARDWARE_IFACE_NETWORKINTERFACE_H

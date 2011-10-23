@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_IFACE_DVBINTERFACE_H
-#define SOLID_IFACE_DVBINTERFACE_H
+#ifndef QUBE_HARDWARE_IFACE_DVBINTERFACE_H
+#define QUBE_HARDWARE_IFACE_DVBINTERFACE_H
 
 #include <ifaces/deviceinterface.h>
 
@@ -89,4 +89,4 @@ namespace Qube
 
 Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::DvbInterface, "org.vision.Qube.Hardware.Ifaces.DvbInterface/0.1")
 
-#endif // SOLID_IFACE_DVBINTERFACE_H
+#endif // QUBE_HARDWARE_IFACE_DVBINTERFACE_H

@@ -26,12 +26,13 @@ extern "C"
 }
 
 #include "predicate.h"
-#include "soliddefs_p.h"
 
 #include <stdlib.h>
 
 #include <QtCore/QStringList>
 #include <QtCore/QThreadStorage>
+
+#include <Qube/Core/Global>
 
 namespace Qube
 {
@@ -39,7 +40,6 @@ namespace Qube
     {
         namespace PredicateParse
         {
-
             struct ParsingData {
                 ParsingData()
                     : result(0)
@@ -48,12 +48,11 @@ namespace Qube
                 Qube::Hardware::Predicate *result;
                 QByteArray buffer;
             };
-
         }
     }
 }
 
-SOLID_GLOBAL_STATIC(QThreadStorage<Qube::Hardware::PredicateParse::ParsingData *>, s_parsingData)
+QUBE_GLOBAL_STATIC(QThreadStorage<Qube::Hardware::PredicateParse::ParsingData *>, s_parsingData)
 
 Qube::Hardware::Predicate Qube::Hardware::Predicate::fromString(const QString &predicate)
 {
@@ -79,7 +78,7 @@ void PredicateParse_setResult(void *result)
 
 void PredicateParse_errorDetected(const char* s)
 {
-    qWarning("ERROR from solid predicate parser: %s", s);
+    qWarning("ERROR from QubeHardware predicate parser: %s", s);
     s_parsingData->localData()->result = 0;
 }
 
@@ -239,6 +238,6 @@ void *PredicateParse_appendStringListValue(char *name, void *list)
 
 void PredicateLexer_unknownToken(const char* text)
 {
-    qWarning("ERROR from solid predicate parser: unrecognized token '%s' in predicate '%s'\n",
+    qWarning("ERROR from QubeHardware predicate parser: unrecognized token '%s' in predicate '%s'\n",
              text, s_parsingData->localData()->buffer.constData());
 }

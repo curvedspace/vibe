@@ -22,7 +22,7 @@
 #include "button.h"
 #include "button_p.h"
 
-#include "soliddefs_p.h"
+#include "call_p.h"
 #include <ifaces/button.h>
 
 Qube::Hardware::Button::Button(QObject *backendObject)
@@ -40,17 +40,17 @@ Qube::Hardware::Button::~Button()
 Qube::Hardware::Button::ButtonType Qube::Hardware::Button::type() const
 {
     Q_D(const Button);
-    return_SOLID_CALL(Ifaces::Button *, d->backendObject(), UnknownButtonType, type());
+    return_QUBE_HARDWARE_CALL(Ifaces::Button *, d->backendObject(), UnknownButtonType, type());
 }
 
 bool Qube::Hardware::Button::hasState() const
 {
     Q_D(const Button);
-    return_SOLID_CALL(Ifaces::Button *, d->backendObject(), false, hasState());
+    return_QUBE_HARDWARE_CALL(Ifaces::Button *, d->backendObject(), false, hasState());
 }
 
 bool Qube::Hardware::Button::stateValue() const
 {
     Q_D(const Button);
-    return_SOLID_CALL(Ifaces::Button *, d->backendObject(), false, stateValue());
+    return_QUBE_HARDWARE_CALL(Ifaces::Button *, d->backendObject(), false, stateValue());
 }

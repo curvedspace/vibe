@@ -470,7 +470,7 @@ static yyconst flex_int16_t yy_chk[89] =
 #include <stdlib.h>
 #define YY_NO_UNPUT
 
-int Solidwrap( yyscan_t _scanner );
+int QubeHardwarewrap( yyscan_t _scanner );
 void PredicateParse_initLexer( const char *_code, yyscan_t _scanner );
 char *PredicateParse_putSymbol( char *_name );
 char *PredicateParse_putString( char *_str );
@@ -2095,13 +2095,13 @@ char *PredicateParse_putString( char *_str )
 
 void PredicateParse_initLexer( const char *_code, yyscan_t _scanner )
 {
-    Solid_switch_to_buffer( Solid_scan_string( _code, _scanner ), _scanner );
+    QubeHardware_switch_to_buffer( QubeHardware_scan_string( _code, _scanner ), _scanner );
 }
 
-int Solidwrap( yyscan_t _scanner )
+int QubeHardwarewrap( yyscan_t _scanner )
 {
     struct yyguts_t *yyg = (struct yyguts_t*)_scanner;
-    Solid_delete_buffer( YY_CURRENT_BUFFER, _scanner );
+    QubeHardware_delete_buffer( YY_CURRENT_BUFFER, _scanner );
     return 1;
 }
 

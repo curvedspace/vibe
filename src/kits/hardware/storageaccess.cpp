@@ -21,7 +21,7 @@
 #include "storageaccess.h"
 #include "storageaccess_p.h"
 
-#include "soliddefs_p.h"
+#include "call_p.h"
 #include <ifaces/storageaccess.h>
 
 Qube::Hardware::StorageAccess::StorageAccess(QObject *backendObject)
@@ -65,29 +65,29 @@ Qube::Hardware::StorageAccess::~StorageAccess()
 bool Qube::Hardware::StorageAccess::isAccessible() const
 {
     Q_D(const StorageAccess);
-    return_SOLID_CALL(Ifaces::StorageAccess *, d->backendObject(), false, isAccessible());
+    return_QUBE_HARDWARE_CALL(Ifaces::StorageAccess *, d->backendObject(), false, isAccessible());
 }
 
 QString Qube::Hardware::StorageAccess::filePath() const
 {
     Q_D(const StorageAccess);
-    return_SOLID_CALL(Ifaces::StorageAccess *, d->backendObject(), QString(), filePath());
+    return_QUBE_HARDWARE_CALL(Ifaces::StorageAccess *, d->backendObject(), QString(), filePath());
 }
 
 bool Qube::Hardware::StorageAccess::setup()
 {
     Q_D(StorageAccess);
-    return_SOLID_CALL(Ifaces::StorageAccess *, d->backendObject(), false, setup());
+    return_QUBE_HARDWARE_CALL(Ifaces::StorageAccess *, d->backendObject(), false, setup());
 }
 
 bool Qube::Hardware::StorageAccess::teardown()
 {
     Q_D(StorageAccess);
-    return_SOLID_CALL(Ifaces::StorageAccess *, d->backendObject(), false, teardown());
+    return_QUBE_HARDWARE_CALL(Ifaces::StorageAccess *, d->backendObject(), false, teardown());
 }
 
 bool Qube::Hardware::StorageAccess::isIgnored() const
 {
     Q_D(const StorageAccess);
-    return_SOLID_CALL(Ifaces::StorageAccess *, d->backendObject(), true, isIgnored());
+    return_QUBE_HARDWARE_CALL(Ifaces::StorageAccess *, d->backendObject(), true, isIgnored());
 }

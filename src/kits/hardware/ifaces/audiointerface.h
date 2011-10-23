@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_IFACES_AUDIOINTERFACE_H
-#define SOLID_IFACES_AUDIOINTERFACE_H
+#ifndef QUBE_HARDWARE_IFACES_AUDIOINTERFACE_H
+#define QUBE_HARDWARE_IFACES_AUDIOINTERFACE_H
 
 #include <ifaces/deviceinterface.h>
 #include <Qube/Hardware/audiointerface.h>
@@ -92,4 +92,4 @@ namespace Qube
 
 Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::AudioInterface, "org.vision.Qube.Hardware.Ifaces.AudioInterface/0.1.1")
 
-#endif // SOLID_IFACES_AUDIOINTERFACE_H
+#endif // QUBE_HARDWARE_IFACES_AUDIOINTERFACE_H

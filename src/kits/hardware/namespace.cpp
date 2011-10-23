@@ -1,6 +1,5 @@
 /*
     Copyright 2007 Kevin Ottens <ervin@kde.org>
-    Copyright 2011 Lukas Tinkl <ltinkl@redhat.com>
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -19,27 +18,17 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_SOLIDNAMESPACE_H
-#define SOLID_SOLIDNAMESPACE_H
+#include "namespace.h"
 
-namespace Qube
+static int registerQubeHardwareMetaTypes()
 {
-    namespace Hardware
-    {
-        enum ErrorType {
-            NoError = 0,
-            UnauthorizedOperation,
-            DeviceBusy,
-            OperationFailed,
-            UserCanceled,
-            InvalidOption,
-            MissingDriver
-        };
-    }
+    qRegisterMetaType<Qube::Hardware::ErrorType>();
+
+    return 0; // something
 }
 
-#include <QtCore/QMetaType>
-
-Q_DECLARE_METATYPE(Qube::Hardware::ErrorType)
-
+#ifdef Q_CONSTRUCTOR_FUNCTION
+Q_CONSTRUCTOR_FUNCTION(registerQubeHardwareMetaTypes)
+#else
+static const int _QubeHardware_registerMetaTypes = registerQubeHardwareMetaTypes();
 #endif

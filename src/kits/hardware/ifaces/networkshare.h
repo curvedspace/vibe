@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_IFACES_NETWORKSHARE_H
-#define SOLID_IFACES_NETWORKSHARE_H
+#ifndef QUBE_HARDWARE_IFACES_NETWORKSHARE_H
+#define QUBE_HARDWARE_IFACES_NETWORKSHARE_H
 
 #include <ifaces/deviceinterface.h>
 #include <Qube/Hardware/networkshare.h>

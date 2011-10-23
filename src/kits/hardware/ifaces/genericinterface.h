@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_IFACES_GENERICINTERFACE_H
-#define SOLID_IFACES_GENERICINTERFACE_H
+#ifndef QUBE_HARDWARE_IFACES_GENERICINTERFACE_H
+#define QUBE_HARDWARE_IFACES_GENERICINTERFACE_H
 
 #include <QtCore/QObject>
 #include <QtCore/QBool>

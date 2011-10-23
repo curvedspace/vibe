@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_ACADAPTER_H
-#define SOLID_ACADAPTER_H
+#ifndef QUBE_HARDWARE_ACADAPTER_H
+#define QUBE_HARDWARE_ACADAPTER_H
 
 #include <Qube/Hardware/deviceinterface.h>
 

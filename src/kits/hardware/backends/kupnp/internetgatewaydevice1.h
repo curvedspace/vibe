@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_BACKENDS_KUPNP_INTERNETGATEWAYDEVICE1_H
-#define SOLID_BACKENDS_KUPNP_INTERNETGATEWAYDEVICE1_H
+#ifndef QUBE_HARDWARE_BACKENDS_KUPNP_INTERNETGATEWAYDEVICE1_H
+#define QUBE_HARDWARE_BACKENDS_KUPNP_INTERNETGATEWAYDEVICE1_H
 
 // KUPnP
 #include "kupnpdevice.h"

@@ -20,7 +20,7 @@
 
 #include "upnpdeviceinterface.h"
 
-#include <solid/backends/upnp/upnpdevice.h>
+#include <backends/upnp/upnpdevice.h>
 
 namespace Qube
 {
@@ -30,7 +30,6 @@ namespace Qube
         {
             namespace UPnP
             {
-
                 UPnPDeviceInterface::UPnPDeviceInterface(Qube::Hardware::Backends::UPnP::UPnPDevice* device) :
                     QObject(device),
                     m_upnpDevice(device)
@@ -45,7 +44,6 @@ namespace Qube
                 {
                     return m_upnpDevice;
                 }
-
             }
         }
     }

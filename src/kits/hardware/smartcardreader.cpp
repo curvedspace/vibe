@@ -21,7 +21,7 @@
 #include "smartcardreader.h"
 #include "smartcardreader_p.h"
 
-#include "soliddefs_p.h"
+#include "call_p.h"
 #include <ifaces/smartcardreader.h>
 
 Qube::Hardware::SmartCardReader::SmartCardReader(QObject *backendObject)
@@ -37,5 +37,5 @@ Qube::Hardware::SmartCardReader::~SmartCardReader()
 Qube::Hardware::SmartCardReader::ReaderType Qube::Hardware::SmartCardReader::readerType() const
 {
     Q_D(const SmartCardReader);
-    return_SOLID_CALL(Ifaces::SmartCardReader *, d->backendObject(), CardReader, readerType());
+    return_QUBE_HARDWARE_CALL(Ifaces::SmartCardReader *, d->backendObject(), CardReader, readerType());
 }

@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_BACKENDS_UPOWER_GENERICINTERFACE_H
-#define SOLID_BACKENDS_UPOWER_GENERICINTERFACE_H
+#ifndef QUBE_HARDWARE_BACKENDS_UPOWER_GENERICINTERFACE_H
+#define QUBE_HARDWARE_BACKENDS_UPOWER_GENERICINTERFACE_H
 
 #include <ifaces/genericinterface.h>
 #include <Qube/Hardware/genericinterface.h>
@@ -57,4 +57,4 @@ namespace Qube
     }
 }
 
-#endif // SOLID_BACKENDS_UPOWER_GENERICINTERFACE_H
+#endif // QUBE_HARDWARE_BACKENDS_UPOWER_GENERICINTERFACE_H

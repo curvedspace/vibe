@@ -18,16 +18,17 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "fstabwatcher.h"
-#include "soliddefs_p.h"
-
 #include <QtCore/QCoreApplication>
 #include <QtCore/QFileSystemWatcher>
 #include <QtCore/QStringList>
 
+#include <Qube/Core/Global>
+
+#include "fstabwatcher.h"
+
 using namespace Qube::Hardware::Backends::Fstab;
 
-SOLID_GLOBAL_STATIC(FstabWatcher, globalFstabWatcher)
+QUBE_GLOBAL_STATIC(FstabWatcher, globalFstabWatcher)
 
 #define MTAB "/etc/mtab"
 #ifdef Q_OS_SOLARIS

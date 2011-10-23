@@ -21,7 +21,7 @@
 #include "camera.h"
 #include "camera_p.h"
 
-#include "soliddefs_p.h"
+#include "call_p.h"
 #include <ifaces/camera.h>
 
 Qube::Hardware::Camera::Camera(QObject *backendObject)
@@ -37,17 +37,17 @@ Qube::Hardware::Camera::~Camera()
 QStringList Qube::Hardware::Camera::supportedProtocols() const
 {
     Q_D(const Camera);
-    return_SOLID_CALL(Ifaces::Camera *, d->backendObject(), QStringList(), supportedProtocols());
+    return_QUBE_HARDWARE_CALL(Ifaces::Camera *, d->backendObject(), QStringList(), supportedProtocols());
 }
 
 QStringList Qube::Hardware::Camera::supportedDrivers(QString protocol) const
 {
     Q_D(const Camera);
-    return_SOLID_CALL(Ifaces::Camera *, d->backendObject(), QStringList(), supportedDrivers(protocol));
+    return_QUBE_HARDWARE_CALL(Ifaces::Camera *, d->backendObject(), QStringList(), supportedDrivers(protocol));
 }
 
 QVariant Qube::Hardware::Camera::driverHandle(const QString &driver) const
 {
     Q_D(const Camera);
-    return_SOLID_CALL(Ifaces::Camera *, d->backendObject(), QVariant(), driverHandle(driver));
+    return_QUBE_HARDWARE_CALL(Ifaces::Camera *, d->backendObject(), QVariant(), driverHandle(driver));
 }

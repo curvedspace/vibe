@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_POWERMANAGEMENT_H
-#define SOLID_POWERMANAGEMENT_H
+#ifndef QUBE_HARDWARE_POWERMANAGEMENT_H
+#define QUBE_HARDWARE_POWERMANAGEMENT_H
 
 #include <QtCore/QObject>
 #include <QtCore/QSet>

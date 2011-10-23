@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_STORAGEDRIVE_H
-#define SOLID_STORAGEDRIVE_H
+#ifndef QUBE_HARDWARE_STORAGEDRIVE_H
+#define QUBE_HARDWARE_STORAGEDRIVE_H
 
 #include <Qube/Hardware/deviceinterface.h>
 
@@ -167,4 +167,4 @@ namespace Qube
     }
 }
 
-#endif // SOLID_STORAGEDRIVE_H
+#endif // QUBE_HARDWARE_STORAGEDRIVE_H

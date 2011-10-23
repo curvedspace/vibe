@@ -18,13 +18,14 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QtCore/QStringList>
+#include <QtCore/QVariant>
+
 #include "audiointerface.h"
 #include "audiointerface_p.h"
 
-#include "soliddefs_p.h"
+#include "call_p.h"
 #include <ifaces/audiointerface.h>
-#include <QtCore/QStringList>
-#include <QtCore/QVariant>
 
 Qube::Hardware::AudioInterface::AudioInterface(QObject *backendObject)
     : DeviceInterface(*new AudioInterfacePrivate(), backendObject)
@@ -40,29 +41,29 @@ Qube::Hardware::AudioInterface::~AudioInterface()
 Qube::Hardware::AudioInterface::AudioDriver Qube::Hardware::AudioInterface::driver() const
 {
     Q_D(const AudioInterface);
-    return_SOLID_CALL(Ifaces::AudioInterface *, d->backendObject(), UnknownAudioDriver, driver());
+    return_QUBE_HARDWARE_CALL(Ifaces::AudioInterface *, d->backendObject(), UnknownAudioDriver, driver());
 }
 
 QVariant Qube::Hardware::AudioInterface::driverHandle() const
 {
     Q_D(const AudioInterface);
-    return_SOLID_CALL(Ifaces::AudioInterface *, d->backendObject(), QVariant(), driverHandle());
+    return_QUBE_HARDWARE_CALL(Ifaces::AudioInterface *, d->backendObject(), QVariant(), driverHandle());
 }
 
 QString Qube::Hardware::AudioInterface::name() const
 {
     Q_D(const AudioInterface);
-    return_SOLID_CALL(Ifaces::AudioInterface *, d->backendObject(), QString(), name());
+    return_QUBE_HARDWARE_CALL(Ifaces::AudioInterface *, d->backendObject(), QString(), name());
 }
 
 Qube::Hardware::AudioInterface::AudioInterfaceTypes Qube::Hardware::AudioInterface::deviceType() const
 {
     Q_D(const AudioInterface);
-    return_SOLID_CALL(Ifaces::AudioInterface *, d->backendObject(), UnknownAudioInterfaceType, deviceType());
+    return_QUBE_HARDWARE_CALL(Ifaces::AudioInterface *, d->backendObject(), UnknownAudioInterfaceType, deviceType());
 }
 
 Qube::Hardware::AudioInterface::SoundcardType Qube::Hardware::AudioInterface::soundcardType() const
 {
     Q_D(const AudioInterface);
-    return_SOLID_CALL(Ifaces::AudioInterface *, d->backendObject(), InternalSoundcard, soundcardType());
+    return_QUBE_HARDWARE_CALL(Ifaces::AudioInterface *, d->backendObject(), InternalSoundcard, soundcardType());
 }

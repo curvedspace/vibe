@@ -19,8 +19,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_VIDEO_H
-#define SOLID_VIDEO_H
+#ifndef QUBE_HARDWARE_VIDEO_H
+#define QUBE_HARDWARE_VIDEO_H
 
 #include <QtCore/QStringList>
 #include <QtCore/QVariant>

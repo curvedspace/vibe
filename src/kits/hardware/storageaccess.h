@@ -18,12 +18,12 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_STORAGEACCESS_H
-#define SOLID_STORAGEACCESS_H
+#ifndef QUBE_HARDWARE_STORAGEACCESS_H
+#define QUBE_HARDWARE_STORAGEACCESS_H
 
 #include <QtCore/QVariant>
 
-#include <Qube/Hardware/qubehardwarenamespace.h>
+#include <Qube/Hardware/Namespace>
 #include <Qube/Hardware/deviceinterface.h>
 
 namespace Qube

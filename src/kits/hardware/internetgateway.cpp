@@ -21,8 +21,7 @@
 #include "internetgateway.h"
 #include "internetgateway_p.h"
 
-#include "soliddefs_p.h"
-
+#include "call_p.h"
 #include <ifaces/internetgateway.h>
 
 namespace Qube
@@ -75,14 +74,14 @@ namespace Qube
         {
             Q_D(const InternetGateway);
 
-            SOLID_CALL(Ifaces::InternetGateway*, d->backendObject(), requestCurrentConnections());
+            QUBE_HARDWARE_CALL(Ifaces::InternetGateway*, d->backendObject(), requestCurrentConnections());
         }
 
         QStringList InternetGateway::currentConnections() const
         {
             Q_D(const InternetGateway);
 
-            return_SOLID_CALL(Ifaces::InternetGateway*, d->backendObject(), QStringList(), currentConnections());
+            return_QUBE_HARDWARE_CALL(Ifaces::InternetGateway*, d->backendObject(), QStringList(), currentConnections());
         }
 
         void InternetGateway::addPortMapping(const QString& remoteHost, qint16 externalPort, const NetworkProtocol& mappingProtocol,
@@ -90,7 +89,7 @@ namespace Qube
         {
             Q_D(const InternetGateway);
 
-            SOLID_CALL(Ifaces::InternetGateway*, d->backendObject(),
+            QUBE_HARDWARE_CALL(Ifaces::InternetGateway*, d->backendObject(),
                        addPortMapping(remoteHost, externalPort, mappingProtocol, internalPort, internalClient));
         }
 
@@ -98,7 +97,7 @@ namespace Qube
         {
             Q_D(const InternetGateway);
 
-            SOLID_CALL(Ifaces::InternetGateway*, d->backendObject(),
+            QUBE_HARDWARE_CALL(Ifaces::InternetGateway*, d->backendObject(),
                        deletePortMapping(remoteHost, externalPort, mappingProtocol));
         }
 
@@ -106,14 +105,14 @@ namespace Qube
         {
             Q_D(const InternetGateway);
 
-            return_SOLID_CALL(Ifaces::InternetGateway*, d->backendObject(), InternetGateway::UnknownStatus, isEnabledForInternet());
+            return_QUBE_HARDWARE_CALL(Ifaces::InternetGateway*, d->backendObject(), InternetGateway::UnknownStatus, isEnabledForInternet());
         }
 
         void InternetGateway::setEnabledForInternet(bool enabled)
         {
             Q_D(const InternetGateway);
 
-            SOLID_CALL(Ifaces::InternetGateway*, d->backendObject(), setEnabledForInternet(enabled));
+            QUBE_HARDWARE_CALL(Ifaces::InternetGateway*, d->backendObject(), setEnabledForInternet(enabled));
         }
     }
 }

@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_BACKENDS_UDISKS_H
-#define SOLID_BACKENDS_UDISKS_H
+#ifndef QUBE_HARDWARE_BACKENDS_UDISKS_H
+#define QUBE_HARDWARE_BACKENDS_UDISKS_H
 
 /* UDisks */
 #define UD_DBUS_SERVICE                 "org.freedesktop.UDisks"
@@ -36,4 +36,4 @@
 #define UD_ERROR_INVALID_OPTION          "org.freedesktop.UDisks.Error.InvalidOption"
 #define UD_ERROR_MISSING_DRIVER          "org.freedesktop.UDisks.Error.FilesystemDriverMissing"
 
-#endif // SOLID_BACKENDS_UDISKS_H
+#endif // QUBE_HARDWARE_BACKENDS_UDISKS_H

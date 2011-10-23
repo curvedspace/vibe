@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SOLID_IFACES_STORAGEDRIVE_H
-#define SOLID_IFACES_STORAGEDRIVE_H
+#ifndef QUBE_HARDWARE_IFACES_STORAGEDRIVE_H
+#define QUBE_HARDWARE_IFACES_STORAGEDRIVE_H
 
 #include <Qube/Hardware/storagedrive.h>
 #include <ifaces/block.h>
@@ -94,4 +94,4 @@ namespace Qube
 
 Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::StorageDrive, "org.vision.Qube.Hardware.Ifaces.StorageDrive/0.1")
 
-#endif // SOLID_IFACES_STORAGEDRIVE_H
+#endif // QUBE_HARDWARE_IFACES_STORAGEDRIVE_H
