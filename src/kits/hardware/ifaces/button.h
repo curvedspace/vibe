@@ -22,68 +22,71 @@
 #define SOLID_IFACES_BUTTON_H
 
 #include <ifaces/deviceinterface.h>
-#include <QubeHardware/button.h>
+#include <Qube/Hardware/button.h>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Ifaces
+    namespace Hardware
     {
-        /**
-         * This device interface is available on button devices.
-         *
-         * A button is a device, like power button or lid switch, that can be pressed by user.
-         * Some buttons can have two states (Enabled/Disabled, On/Off ...), other buttons haven't state.
-         *
-         * @author Davide Bettio <davbet@aliceposta.it>
-         */
-        class Button : virtual public DeviceInterface
+        namespace Ifaces
         {
-        public:
             /**
-             * Destroys a Button object.
-             */
-            virtual ~Button();
-
-            /**
-             * Retrieves the type of button device.
+             * This device interface is available on button devices.
              *
-             * @return the type of button device.
-             * @see QubeHardware::Button::ButtonType
-             */
-            virtual QubeHardware::Button::ButtonType type() const = 0;
-
-            /**
-             * Indicates if the button mantains state (Can toggled on/off).
+             * A button is a device, like power button or lid switch, that can be pressed by user.
+             * Some buttons can have two states (Enabled/Disabled, On/Off ...), other buttons haven't state.
              *
-             * @return true if the button maintains state, false otherwise.
-             * @see stateValue()
+             * @author Davide Bettio <davbet@aliceposta.it>
              */
-            virtual bool hasState() const = 0;
+            class Button : virtual public DeviceInterface
+            {
+            public:
+                /**
+                 * Destroys a Button object.
+                 */
+                virtual ~Button();
 
-            /**
-             * Retrieves the state of the button.
-             * A button can have two states (Enabled/Disabled, On/Off ...).
-             * Available only if hasState is true.
-             *
-             * @return true if the button is enabled, false otherwise.
-             * @see hasState()
-             */
-            virtual bool stateValue() const = 0;
+                /**
+                 * Retrieves the type of button device.
+                 *
+                 * @return the type of button device.
+                 * @see Qube::Hardware::Button::ButtonType
+                 */
+                virtual Qube::Hardware::Button::ButtonType type() const = 0;
 
-        protected:
-            //Q_SIGNALS:
-            /**
-             * This signal is emitted when the button is pressed.
-             *
-             * @param type the type of button device, it's one of
-             * the type QubeHardware::Button::ButtonType
-             * @see QubeHardware::Button::ButtonType
-             */
-            virtual void pressed(QubeHardware::Button::ButtonType type, const QString &udi) = 0;
-        };
+                /**
+                 * Indicates if the button mantains state (Can toggled on/off).
+                 *
+                 * @return true if the button maintains state, false otherwise.
+                 * @see stateValue()
+                 */
+                virtual bool hasState() const = 0;
+
+                /**
+                 * Retrieves the state of the button.
+                 * A button can have two states (Enabled/Disabled, On/Off ...).
+                 * Available only if hasState is true.
+                 *
+                 * @return true if the button is enabled, false otherwise.
+                 * @see hasState()
+                 */
+                virtual bool stateValue() const = 0;
+
+            protected:
+                //Q_SIGNALS:
+                /**
+                 * This signal is emitted when the button is pressed.
+                 *
+                 * @param type the type of button device, it's one of
+                 * the type Qube::Hardware::Button::ButtonType
+                 * @see Qube::Hardware::Button::ButtonType
+                 */
+                virtual void pressed(Qube::Hardware::Button::ButtonType type, const QString &udi) = 0;
+            };
+        }
     }
 }
 
-Q_DECLARE_INTERFACE(QubeHardware::Ifaces::Button, "org.vision.Hardware.Ifaces.Button/0.1")
+Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::Button, "org.vision.Qube.Hardware.Ifaces.Button/0.1")
 
 #endif

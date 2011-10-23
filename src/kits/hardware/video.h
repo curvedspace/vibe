@@ -25,84 +25,86 @@
 #include <QtCore/QStringList>
 #include <QtCore/QVariant>
 
-#include <QubeCore/Global>
-#include <QubeHardware/deviceinterface.h>
+#include <Qube/Hardware/deviceinterface.h>
 
-namespace QubeHardware
+namespace Qube
 {
-    class VideoPrivate;
-    class Device;
-
-    /**
-     * This device interface is available on video devices.
-     *
-     * A video device provides access to a live stream of video, in contrast
-     * to a camera device which records individual frames or movies which
-     * are accessed discretely.
-     */
-    class QUBESHARED_EXPORT Video : public DeviceInterface
+    namespace Hardware
     {
-        Q_OBJECT
-        Q_DECLARE_PRIVATE(Video)
-        Q_PROPERTY(QStringList supportedDrivers READ supportedDrivers)
-        friend class Device;
-
-    private:
-        /**
-         * Creates a new Video object.
-         * You generally won't need this. It's created when necessary using
-         * Device::as().
-         *
-         * @param backendObject the device interface object provided by the backend
-         * @see QubeHardware::Device::as()
-         */
-        explicit Video(QObject *backendObject);
-
-    public:
-        /**
-         * Destroys a Video object.
-         */
-        virtual ~Video();
-
+        class VideoPrivate;
+        class Device;
 
         /**
-         * Get the QubeHardware::DeviceInterface::Type of the Video device interface.
+         * This device interface is available on video devices.
          *
-         * @return the Video device interface type
-         * @see QubeHardware::DeviceInterface::Type
+         * A video device provides access to a live stream of video, in contrast
+         * to a camera device which records individual frames or movies which
+         * are accessed discretely.
          */
-        static Type deviceInterfaceType() {
-            return DeviceInterface::Video;
-        }
+        class Video : public DeviceInterface
+        {
+            Q_OBJECT
+            Q_DECLARE_PRIVATE(Video)
+            Q_PROPERTY(QStringList supportedDrivers READ supportedDrivers)
+            friend class Device;
 
-        /**
-         * Retrieves known protocols this device can speak.  This list may be dependent
-         * on installed device driver libraries.
-         *
-         * @return a list of known protocols this device can speak
-         */
-        QStringList supportedProtocols() const;
+        private:
+            /**
+             * Creates a new Video object.
+             * You generally won't need this. It's created when necessary using
+             * Device::as().
+             *
+             * @param backendObject the device interface object provided by the backend
+             * @see Qube::Hardware::Device::as()
+             */
+            explicit Video(QObject *backendObject);
 
-        /**
-         * Retrieves known installed device drivers that claim to handle this device
-         * using the requested protocol.  If protocol is blank, returns a list of
-         * all drivers supporting the device.
-         *
-         * @param protocol The protocol to get drivers for.
-         * @return a list of installed drivers meeting the criteria
-         */
-        QStringList supportedDrivers(QString protocol = QString()) const;
+        public:
+            /**
+             * Destroys a Video object.
+             */
+            virtual ~Video();
 
-        /**
-         * Retrieves a driver specific string allowing to access the device.
-         *
-         * For example for the "mtp" driver it will return the serial number
-         * of the device.
-         *
-         * @return the driver specific data
-         */
-        QVariant driverHandle(const QString &driver) const;
-    };
+
+            /**
+             * Get the Qube::Hardware::DeviceInterface::Type of the Video device interface.
+             *
+             * @return the Video device interface type
+             * @see Qube::Hardware::DeviceInterface::Type
+             */
+            static Type deviceInterfaceType() {
+                return DeviceInterface::Video;
+            }
+
+            /**
+             * Retrieves known protocols this device can speak.  This list may be dependent
+             * on installed device driver libraries.
+             *
+             * @return a list of known protocols this device can speak
+             */
+            QStringList supportedProtocols() const;
+
+            /**
+             * Retrieves known installed device drivers that claim to handle this device
+             * using the requested protocol.  If protocol is blank, returns a list of
+             * all drivers supporting the device.
+             *
+             * @param protocol The protocol to get drivers for.
+             * @return a list of installed drivers meeting the criteria
+             */
+            QStringList supportedDrivers(QString protocol = QString()) const;
+
+            /**
+             * Retrieves a driver specific string allowing to access the device.
+             *
+             * For example for the "mtp" driver it will return the serial number
+             * of the device.
+             *
+             * @return the driver specific data
+             */
+            QVariant driverHandle(const QString &driver) const;
+        };
+    }
 }
 
 #endif

@@ -26,56 +26,58 @@
 #include <ifaces/device.h>
 #include <QtCore/QStringList>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDev
+        namespace Backends
         {
-
-            class UDevDevice : public QubeHardware::Ifaces::Device
+            namespace UDev
             {
-                Q_OBJECT
+                class UDevDevice : public Qube::Hardware::Ifaces::Device
+                {
+                    Q_OBJECT
+                public:
+                    UDevDevice(const UdevQt::Device device);
+                    virtual ~UDevDevice();
 
-            public:
-                UDevDevice(const UdevQt::Device device);
-                virtual ~UDevDevice();
+                    virtual QString udi() const;
 
-                virtual QString udi() const;
+                    virtual QString parentUdi() const;
 
-                virtual QString parentUdi() const;
+                    virtual QString vendor() const;
 
-                virtual QString vendor() const;
+                    virtual QString product() const;
 
-                virtual QString product() const;
+                    virtual QString icon() const;
 
-                virtual QString icon() const;
+                    virtual QStringList emblems() const;
 
-                virtual QStringList emblems() const;
+                    virtual QString description() const;
 
-                virtual QString description() const;
+                    virtual bool queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type &type) const;
 
-                virtual bool queryDeviceInterface(const QubeHardware::DeviceInterface::Type &type) const;
+                    virtual QObject *createDeviceInterface(const Qube::Hardware::DeviceInterface::Type &type);
 
-                virtual QObject *createDeviceInterface(const QubeHardware::DeviceInterface::Type &type);
+                    QString device() const;
 
-                QString device() const;
+                    QVariant property(const QString &key) const;
+                    QMap<QString, QVariant> allProperties() const;
+                    bool propertyExists(const QString &key) const;
 
-                QVariant property(const QString &key) const;
-                QMap<QString, QVariant> allProperties() const;
-                bool propertyExists(const QString &key) const;
+                    QString systemAttribute(const char *attribute) const;
+                    QString deviceName() const;
+                    QString devicePath() const;
+                    int deviceNumber() const;
 
-                QString systemAttribute(const char *attribute) const;
-                QString deviceName() const;
-                QString devicePath() const;
-                int deviceNumber() const;
+                    UdevQt::Device udevDevice();
 
-                UdevQt::Device udevDevice();
-            private:
-                UdevQt::Device m_device;
-            };
-
+                private:
+                    UdevQt::Device m_device;
+                };
+            }
         }
     }
 }
+
 #endif // SOLID_BACKENDS_UDEV_UDEVDEVICE_H

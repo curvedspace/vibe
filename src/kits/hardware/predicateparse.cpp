@@ -33,28 +33,31 @@ extern "C"
 #include <QtCore/QStringList>
 #include <QtCore/QThreadStorage>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace PredicateParse
+    namespace Hardware
     {
+        namespace PredicateParse
+        {
 
-        struct ParsingData {
-            ParsingData()
-                : result(0)
-            {}
+            struct ParsingData {
+                ParsingData()
+                    : result(0)
+                {}
 
-            QubeHardware::Predicate *result;
-            QByteArray buffer;
-        };
+                Qube::Hardware::Predicate *result;
+                QByteArray buffer;
+            };
 
+        }
     }
 }
 
-SOLID_GLOBAL_STATIC(QThreadStorage<QubeHardware::PredicateParse::ParsingData *>, s_parsingData)
+SOLID_GLOBAL_STATIC(QThreadStorage<Qube::Hardware::PredicateParse::ParsingData *>, s_parsingData)
 
-QubeHardware::Predicate QubeHardware::Predicate::fromString(const QString &predicate)
+Qube::Hardware::Predicate Qube::Hardware::Predicate::fromString(const QString &predicate)
 {
-    QubeHardware::PredicateParse::ParsingData *data = new QubeHardware::PredicateParse::ParsingData();
+    Qube::Hardware::PredicateParse::ParsingData *data = new Qube::Hardware::PredicateParse::ParsingData();
     s_parsingData->setLocalData(data);
     data->buffer = predicate.toAscii();
     PredicateParse_mainParse(data->buffer.constData());
@@ -70,8 +73,8 @@ QubeHardware::Predicate QubeHardware::Predicate::fromString(const QString &predi
 
 void PredicateParse_setResult(void *result)
 {
-    QubeHardware::PredicateParse::ParsingData *data = s_parsingData->localData();
-    data->result = (QubeHardware::Predicate *) result;
+    Qube::Hardware::PredicateParse::ParsingData *data = s_parsingData->localData();
+    data->result = (Qube::Hardware::Predicate *) result;
 }
 
 void PredicateParse_errorDetected(const char* s)
@@ -82,8 +85,8 @@ void PredicateParse_errorDetected(const char* s)
 
 void PredicateParse_destroy(void *pred)
 {
-    QubeHardware::PredicateParse::ParsingData *data = s_parsingData->localData();
-    QubeHardware::Predicate *p = (QubeHardware::Predicate *) pred;
+    Qube::Hardware::PredicateParse::ParsingData *data = s_parsingData->localData();
+    Qube::Hardware::Predicate *p = (Qube::Hardware::Predicate *) pred;
     if (p != data->result) {
         delete p;
     }
@@ -95,7 +98,7 @@ void *PredicateParse_newAtom(char *interface, char *property, void *value)
     QString prop(property);
     QVariant *val = (QVariant *)value;
 
-    QubeHardware::Predicate *result = new QubeHardware::Predicate(iface, prop, *val);
+    Qube::Hardware::Predicate *result = new Qube::Hardware::Predicate(iface, prop, *val);
 
     delete val;
     free(interface);
@@ -110,7 +113,7 @@ void *PredicateParse_newMaskAtom(char *interface, char *property, void *value)
     QString prop(property);
     QVariant *val = (QVariant *)value;
 
-    QubeHardware::Predicate *result = new QubeHardware::Predicate(iface, prop, *val, QubeHardware::Predicate::Mask);
+    Qube::Hardware::Predicate *result = new Qube::Hardware::Predicate(iface, prop, *val, Qube::Hardware::Predicate::Mask);
 
     delete val;
     free(interface);
@@ -124,7 +127,7 @@ void *PredicateParse_newIsAtom(char *interface)
 {
     QString iface(interface);
 
-    QubeHardware::Predicate *result = new QubeHardware::Predicate(iface);
+    Qube::Hardware::Predicate *result = new Qube::Hardware::Predicate(iface);
 
     free(interface);
 
@@ -134,11 +137,11 @@ void *PredicateParse_newIsAtom(char *interface)
 
 void *PredicateParse_newAnd(void *pred1, void *pred2)
 {
-    QubeHardware::Predicate *result = new QubeHardware::Predicate();
+    Qube::Hardware::Predicate *result = new Qube::Hardware::Predicate();
 
-    QubeHardware::PredicateParse::ParsingData *data = s_parsingData->localData();
-    QubeHardware::Predicate *p1 = (QubeHardware::Predicate *)pred1;
-    QubeHardware::Predicate *p2 = (QubeHardware::Predicate *)pred2;
+    Qube::Hardware::PredicateParse::ParsingData *data = s_parsingData->localData();
+    Qube::Hardware::Predicate *p1 = (Qube::Hardware::Predicate *)pred1;
+    Qube::Hardware::Predicate *p2 = (Qube::Hardware::Predicate *)pred2;
 
     if (p1==data->result || p2==data->result) {
         data->result = 0;
@@ -155,11 +158,11 @@ void *PredicateParse_newAnd(void *pred1, void *pred2)
 
 void *PredicateParse_newOr(void *pred1, void *pred2)
 {
-    QubeHardware::Predicate *result = new QubeHardware::Predicate();
+    Qube::Hardware::Predicate *result = new Qube::Hardware::Predicate();
 
-    QubeHardware::PredicateParse::ParsingData *data = s_parsingData->localData();
-    QubeHardware::Predicate *p1 = (QubeHardware::Predicate *)pred1;
-    QubeHardware::Predicate *p2 = (QubeHardware::Predicate *)pred2;
+    Qube::Hardware::PredicateParse::ParsingData *data = s_parsingData->localData();
+    Qube::Hardware::Predicate *p1 = (Qube::Hardware::Predicate *)pred1;
+    Qube::Hardware::Predicate *p2 = (Qube::Hardware::Predicate *)pred2;
 
     if (p1==data->result || p2==data->result) {
         data->result = 0;

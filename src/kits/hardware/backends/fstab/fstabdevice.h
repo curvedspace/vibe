@@ -21,53 +21,56 @@
 #ifndef SOLID_BACKENDS_FSTAB_FSTAB_DEVICE_H
 #define SOLID_BACKENDS_FSTAB_FSTAB_DEVICE_H
 
-#include <ifaces/device.h>
 #include <QtCore/QStringList>
 
-namespace QubeHardware
+#include <ifaces/device.h>
+
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace Fstab
+        namespace Backends
         {
-
-            class FstabDevice : public QubeHardware::Ifaces::Device
+            namespace Fstab
             {
-                Q_OBJECT
+                class FstabDevice : public Qube::Hardware::Ifaces::Device
+                {
+                    Q_OBJECT
+                public:
+                    FstabDevice(QString uid);
 
-            public:
-                FstabDevice(QString uid);
+                    virtual ~FstabDevice();
 
-                virtual ~FstabDevice();
+                    virtual QString udi() const;
 
-                virtual QString udi() const;
+                    virtual QString parentUdi() const;
 
-                virtual QString parentUdi() const;
+                    virtual QString vendor() const;
 
-                virtual QString vendor() const;
+                    virtual QString product() const;
 
-                virtual QString product() const;
+                    virtual QString icon() const;
 
-                virtual QString icon() const;
+                    virtual QStringList emblems() const;
 
-                virtual QStringList emblems() const;
+                    virtual QString description() const;
 
-                virtual QString description() const;
+                    virtual bool queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type &type) const;
 
-                virtual bool queryDeviceInterface(const QubeHardware::DeviceInterface::Type &type) const;
+                    virtual QObject *createDeviceInterface(const Qube::Hardware::DeviceInterface::Type &type);
 
-                virtual QObject *createDeviceInterface(const QubeHardware::DeviceInterface::Type &type);
+                    QString device() const;
 
-                QString device() const;
-            private:
-                QString m_uid;
-                QString m_device;
-                QString m_product;
-                QString m_vendor;
-                QString m_description;
-            };
-
+                private:
+                    QString m_uid;
+                    QString m_device;
+                    QString m_product;
+                    QString m_vendor;
+                    QString m_description;
+                };
+            }
         }
     }
 }
+
 #endif // SOLID_BACKENDS_UPNP_UPNP_DEVICE_H

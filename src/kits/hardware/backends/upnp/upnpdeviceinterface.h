@@ -22,35 +22,35 @@
 #define SOLID_BACKENDS_UPNP_DEVICE_INTERFACE_H
 
 #include <ifaces/deviceinterface.h>
-#include <QubeHardware/backends/upnp/upnpdevice.h>
+#include <Qube/Hardware/backends/upnp/upnpdevice.h>
 
 #include <QtCore/QObject>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UPnP
+        namespace Backends
         {
-
-            class UPnPDeviceInterface : public QObject, virtual public QubeHardware::Ifaces::DeviceInterface
+            namespace UPnP
             {
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::DeviceInterface)
+                class UPnPDeviceInterface : public QObject, virtual public Qube::Hardware::Ifaces::DeviceInterface
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::DeviceInterface)
+                public:
+                    explicit UPnPDeviceInterface(Qube::Hardware::Backends::UPnP::UPnPDevice* device);
 
-            public:
-                explicit UPnPDeviceInterface(QubeHardware::Backends::UPnP::UPnPDevice* device);
+                    virtual ~UPnPDeviceInterface();
 
-                virtual ~UPnPDeviceInterface();
+                public:
+                    const Qube::Hardware::Backends::UPnP::UPnPDevice* upnpDevice() const;
 
-            public:
-                const QubeHardware::Backends::UPnP::UPnPDevice* upnpDevice() const;
+                private:
+                    const Qube::Hardware::Backends::UPnP::UPnPDevice* m_upnpDevice;
 
-            private:
-                const QubeHardware::Backends::UPnP::UPnPDevice* m_upnpDevice;
-
-            };
-
+                };
+            }
         }
     }
 }

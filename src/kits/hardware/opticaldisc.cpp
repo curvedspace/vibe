@@ -24,47 +24,47 @@
 #include "soliddefs_p.h"
 #include <ifaces/opticaldisc.h>
 
-QubeHardware::OpticalDisc::OpticalDisc(QObject *backendObject)
+Qube::Hardware::OpticalDisc::OpticalDisc(QObject *backendObject)
     : StorageVolume(*new OpticalDiscPrivate(), backendObject)
 {
 }
 
-QubeHardware::OpticalDisc::~OpticalDisc()
+Qube::Hardware::OpticalDisc::~OpticalDisc()
 {
 
 }
 
-QubeHardware::OpticalDisc::ContentTypes QubeHardware::OpticalDisc::availableContent() const
+Qube::Hardware::OpticalDisc::ContentTypes Qube::Hardware::OpticalDisc::availableContent() const
 {
     Q_D(const OpticalDisc);
     return_SOLID_CALL(Ifaces::OpticalDisc *, d->backendObject(), ContentTypes(), availableContent());
 }
 
-QubeHardware::OpticalDisc::DiscType QubeHardware::OpticalDisc::discType() const
+Qube::Hardware::OpticalDisc::DiscType Qube::Hardware::OpticalDisc::discType() const
 {
     Q_D(const OpticalDisc);
     return_SOLID_CALL(Ifaces::OpticalDisc *, d->backendObject(), UnknownDiscType, discType());
 }
 
-bool QubeHardware::OpticalDisc::isAppendable() const
+bool Qube::Hardware::OpticalDisc::isAppendable() const
 {
     Q_D(const OpticalDisc);
     return_SOLID_CALL(Ifaces::OpticalDisc *, d->backendObject(), false, isAppendable());
 }
 
-bool QubeHardware::OpticalDisc::isBlank() const
+bool Qube::Hardware::OpticalDisc::isBlank() const
 {
     Q_D(const OpticalDisc);
     return_SOLID_CALL(Ifaces::OpticalDisc *, d->backendObject(), false, isBlank());
 }
 
-bool QubeHardware::OpticalDisc::isRewritable() const
+bool Qube::Hardware::OpticalDisc::isRewritable() const
 {
     Q_D(const OpticalDisc);
     return_SOLID_CALL(Ifaces::OpticalDisc *, d->backendObject(), false, isRewritable());
 }
 
-qulonglong QubeHardware::OpticalDisc::capacity() const
+qulonglong Qube::Hardware::OpticalDisc::capacity() const
 {
     Q_D(const OpticalDisc);
     return_SOLID_CALL(Ifaces::OpticalDisc *, d->backendObject(), 0, capacity());

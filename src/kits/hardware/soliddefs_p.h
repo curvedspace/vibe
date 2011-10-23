@@ -55,19 +55,22 @@
  * being completely kdecore independent.
  */
 
-namespace QubeHardware
+namespace Qube
 {
-    typedef void (*CleanUpFunction)();
-
-    class CleanUpGlobalStatic
+    namespace Hardware
     {
-    public:
-        QubeHardware::CleanUpFunction func;
+        typedef void (*CleanUpFunction)();
 
-        inline ~CleanUpGlobalStatic() {
-            func();
-        }
-    };
+        class CleanUpGlobalStatic
+        {
+        public:
+            Qube::Hardware::CleanUpFunction func;
+
+            inline ~CleanUpGlobalStatic() {
+                func();
+            }
+        };
+    }
 }
 
 #ifdef Q_CC_MSVC
@@ -103,7 +106,7 @@ static struct SOLID_GLOBAL_STATIC_STRUCT_NAME(NAME)                            \
                 && _solid_static_##NAME != x ) {                               \
                 delete x;                                                      \
             } else {                                                           \
-                static QubeHardware::CleanUpGlobalStatic cleanUpObject = { destroy }; \
+                static Qube::Hardware::CleanUpGlobalStatic cleanUpObject = { destroy }; \
             }                                                                  \
         }                                                                      \
         return _solid_static_##NAME;                                           \

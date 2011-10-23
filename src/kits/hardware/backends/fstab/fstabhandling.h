@@ -27,29 +27,30 @@
 class QProcess;
 class QObject;
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace Fstab
+        namespace Backends
         {
-            class FstabHandling
+            namespace Fstab
             {
-            public:
-                static QStringList deviceList();
-                static QStringList currentMountPoints();
-                static QStringList mountPoints(const QString &device);
-                static QProcess *callSystemCommand(const QString &commandName,
-                                                   const QStringList &args,
-                                                   QObject *obj, const char *slot);
-                static QProcess *callSystemCommand(const QString &commandName,
-                                                   const QString &device,
-                                                   QObject *obj, const char *slot);
-            };
+                class FstabHandling
+                {
+                public:
+                    static QStringList deviceList();
+                    static QStringList currentMountPoints();
+                    static QStringList mountPoints(const QString &device);
+                    static QProcess *callSystemCommand(const QString &commandName,
+                                                       const QStringList &args,
+                                                       QObject *obj, const char *slot);
+                    static QProcess *callSystemCommand(const QString &commandName,
+                                                       const QString &device,
+                                                       QObject *obj, const char *slot);
+                };
+            }
         }
     }
 }
 
 #endif
-
-

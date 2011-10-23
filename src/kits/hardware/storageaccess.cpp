@@ -24,13 +24,13 @@
 #include "soliddefs_p.h"
 #include <ifaces/storageaccess.h>
 
-QubeHardware::StorageAccess::StorageAccess(QObject *backendObject)
+Qube::Hardware::StorageAccess::StorageAccess(QObject *backendObject)
     : DeviceInterface(*new StorageAccessPrivate(), backendObject)
 {
-    connect(backendObject, SIGNAL(setupDone(QubeHardware::ErrorType, QVariant, const QString &)),
-            this, SIGNAL(setupDone(QubeHardware::ErrorType, QVariant, const QString &)));
-    connect(backendObject, SIGNAL(teardownDone(QubeHardware::ErrorType, QVariant, const QString &)),
-            this, SIGNAL(teardownDone(QubeHardware::ErrorType, QVariant, const QString &)));
+    connect(backendObject, SIGNAL(setupDone(Qube::Hardware::ErrorType, QVariant, const QString &)),
+            this, SIGNAL(setupDone(Qube::Hardware::ErrorType, QVariant, const QString &)));
+    connect(backendObject, SIGNAL(teardownDone(Qube::Hardware::ErrorType, QVariant, const QString &)),
+            this, SIGNAL(teardownDone(Qube::Hardware::ErrorType, QVariant, const QString &)));
     connect(backendObject, SIGNAL(setupRequested(const QString &)),
             this, SIGNAL(setupRequested(const QString &)));
     connect(backendObject, SIGNAL(teardownRequested(const QString &)),
@@ -40,13 +40,13 @@ QubeHardware::StorageAccess::StorageAccess(QObject *backendObject)
             this, SIGNAL(accessibilityChanged(bool, const QString &)));
 }
 
-QubeHardware::StorageAccess::StorageAccess(StorageAccessPrivate &dd, QObject *backendObject)
+Qube::Hardware::StorageAccess::StorageAccess(StorageAccessPrivate &dd, QObject *backendObject)
     : DeviceInterface(dd, backendObject)
 {
-    connect(backendObject, SIGNAL(setupDone(QubeHardware::StorageAccess::SetupResult, QVariant, const QString &)),
-            this, SIGNAL(setupDone(QubeHardware::StorageAccess::SetupResult, QVariant, const QString &)));
-    connect(backendObject, SIGNAL(teardownDone(QubeHardware::StorageAccess::TeardownResult, QVariant, const QString &)),
-            this, SIGNAL(teardownDone(QubeHardware::StorageAccess::TeardownResult, QVariant, const QString &)));
+    connect(backendObject, SIGNAL(setupDone(Qube::Hardware::StorageAccess::SetupResult, QVariant, const QString &)),
+            this, SIGNAL(setupDone(Qube::Hardware::StorageAccess::SetupResult, QVariant, const QString &)));
+    connect(backendObject, SIGNAL(teardownDone(Qube::Hardware::StorageAccess::TeardownResult, QVariant, const QString &)),
+            this, SIGNAL(teardownDone(Qube::Hardware::StorageAccess::TeardownResult, QVariant, const QString &)));
     connect(backendObject, SIGNAL(setupRequested(const QString &)),
             this, SIGNAL(setupRequested(const QString &)));
     connect(backendObject, SIGNAL(teardownRequested(const QString &)),
@@ -57,36 +57,36 @@ QubeHardware::StorageAccess::StorageAccess(StorageAccessPrivate &dd, QObject *ba
             this, SIGNAL(accessibilityChanged(bool, const QString &)));
 }
 
-QubeHardware::StorageAccess::~StorageAccess()
+Qube::Hardware::StorageAccess::~StorageAccess()
 {
 
 }
 
-bool QubeHardware::StorageAccess::isAccessible() const
+bool Qube::Hardware::StorageAccess::isAccessible() const
 {
     Q_D(const StorageAccess);
     return_SOLID_CALL(Ifaces::StorageAccess *, d->backendObject(), false, isAccessible());
 }
 
-QString QubeHardware::StorageAccess::filePath() const
+QString Qube::Hardware::StorageAccess::filePath() const
 {
     Q_D(const StorageAccess);
     return_SOLID_CALL(Ifaces::StorageAccess *, d->backendObject(), QString(), filePath());
 }
 
-bool QubeHardware::StorageAccess::setup()
+bool Qube::Hardware::StorageAccess::setup()
 {
     Q_D(StorageAccess);
     return_SOLID_CALL(Ifaces::StorageAccess *, d->backendObject(), false, setup());
 }
 
-bool QubeHardware::StorageAccess::teardown()
+bool Qube::Hardware::StorageAccess::teardown()
 {
     Q_D(StorageAccess);
     return_SOLID_CALL(Ifaces::StorageAccess *, d->backendObject(), false, teardown());
 }
 
-bool QubeHardware::StorageAccess::isIgnored() const
+bool Qube::Hardware::StorageAccess::isIgnored() const
 {
     Q_D(const StorageAccess);
     return_SOLID_CALL(Ifaces::StorageAccess *, d->backendObject(), true, isIgnored());

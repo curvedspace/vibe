@@ -10,4 +10,4 @@ Description: QubeCore Library
 Version: @QUBE_VERSION@
 Libs: -L${libdir} -lQubeCore
 Requires: QtCore >= @QT_MIN_VERSION@, QtXml >= @QT_MIN_VERSION@
-Cflags: -I${includedir}/Qube -I${includedir}/Qube/QubeCore
+Cflags: -I${includedir}/Qube

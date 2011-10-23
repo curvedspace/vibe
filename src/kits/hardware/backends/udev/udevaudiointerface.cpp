@@ -26,7 +26,7 @@
 
 #include <QFile>
 
-using namespace QubeHardware::Backends::UDev;
+using namespace Qube::Hardware::Backends::UDev;
 
 AudioInterface::AudioInterface(UDevDevice *device)
     : DeviceInterface(device),
@@ -39,14 +39,14 @@ AudioInterface::~AudioInterface()
 
 }
 
-QubeHardware::AudioInterface::AudioDriver AudioInterface::driver() const
+Qube::Hardware::AudioInterface::AudioDriver AudioInterface::driver() const
 {
     return d->m_driver;
 }
 
 QVariant AudioInterface::driverHandle() const
 {
-    if (d->m_driver == QubeHardware::AudioInterface::Alsa) {
+    if (d->m_driver == Qube::Hardware::AudioInterface::Alsa) {
         QList<QVariant> list;
         if (d->m_cardnum != -1) {
             list << QVariant(d->m_cardnum);
@@ -57,7 +57,7 @@ QVariant AudioInterface::driverHandle() const
             list << QVariant(d->m_deviceFile);
         }
         return list;
-    } else if (d->m_driver == QubeHardware::AudioInterface::OpenSoundSystem) {
+    } else if (d->m_driver == Qube::Hardware::AudioInterface::OpenSoundSystem) {
         if (!d->m_deviceFile.isEmpty()) {
             return QVariant(d->m_deviceFile);
         }
@@ -71,12 +71,12 @@ QString AudioInterface::name() const
     return d->m_name;
 }
 
-QubeHardware::AudioInterface::AudioInterfaceTypes AudioInterface::deviceType() const
+Qube::Hardware::AudioInterface::AudioInterfaceTypes AudioInterface::deviceType() const
 {
     return d->m_type;
 }
 
-QubeHardware::AudioInterface::SoundcardType AudioInterface::soundcardType() const
+Qube::Hardware::AudioInterface::SoundcardType AudioInterface::soundcardType() const
 {
     return d->soundcardType();
 }

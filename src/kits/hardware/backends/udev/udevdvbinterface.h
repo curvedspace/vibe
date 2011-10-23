@@ -26,26 +26,29 @@
 #include <ifaces/dvbinterface.h>
 #include "udevdeviceinterface.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDev
+        namespace Backends
         {
-            class DvbInterface : public DeviceInterface, virtual public QubeHardware::Ifaces::DvbInterface
+            namespace UDev
             {
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::DvbInterface)
+                class DvbInterface : public DeviceInterface, virtual public Qube::Hardware::Ifaces::DvbInterface
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::DvbInterface)
 
-            public:
-                DvbInterface(UDevDevice *device);
-                virtual ~DvbInterface();
+                public:
+                    DvbInterface(UDevDevice *device);
+                    virtual ~DvbInterface();
 
-                virtual QString device() const;
-                virtual int deviceAdapter() const;
-                virtual QubeHardware::DvbInterface::DeviceType deviceType() const;
-                virtual int deviceIndex() const;
-            };
+                    virtual QString device() const;
+                    virtual int deviceAdapter() const;
+                    virtual Qube::Hardware::DvbInterface::DeviceType deviceType() const;
+                    virtual int deviceIndex() const;
+                };
+            }
         }
     }
 }

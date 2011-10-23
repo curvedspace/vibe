@@ -24,7 +24,7 @@
 
 #include "udevdevice.h"
 
-using namespace QubeHardware::Backends::UDev;
+using namespace Qube::Hardware::Backends::UDev;
 
 DvbInterface::DvbInterface(UDevDevice *device)
     : DeviceInterface(device)
@@ -52,29 +52,29 @@ int DvbInterface::deviceAdapter() const
         return -1;
 }
 
-QubeHardware::DvbInterface::DeviceType DvbInterface::deviceType() const
+Qube::Hardware::DvbInterface::DeviceType DvbInterface::deviceType() const
 {
-    QubeHardware::DvbInterface::DeviceType type = QubeHardware::DvbInterface::DvbUnknown;
+    Qube::Hardware::DvbInterface::DeviceType type = Qube::Hardware::DvbInterface::DvbUnknown;
     const QString typeString = m_device->property("DVB_DEVICE_TYPE").toString();
 
     if (typeString == QLatin1String("audio")) {
-        type = QubeHardware::DvbInterface::DvbAudio;
+        type = Qube::Hardware::DvbInterface::DvbAudio;
     } else if (typeString == QLatin1String("ca")) {
-        type = QubeHardware::DvbInterface::DvbCa;
+        type = Qube::Hardware::DvbInterface::DvbCa;
     } else if (typeString == QLatin1String("demux")) {
-        type = QubeHardware::DvbInterface::DvbDemux;
+        type = Qube::Hardware::DvbInterface::DvbDemux;
     } else if (typeString == QLatin1String("dvr")) {
-        type = QubeHardware::DvbInterface::DvbDvr;
+        type = Qube::Hardware::DvbInterface::DvbDvr;
     } else if (typeString == QLatin1String("frontend")) {
-        type = QubeHardware::DvbInterface::DvbFrontend;
+        type = Qube::Hardware::DvbInterface::DvbFrontend;
     } else if (typeString == QLatin1String("net")) {
-        type = QubeHardware::DvbInterface::DvbNet;
+        type = Qube::Hardware::DvbInterface::DvbNet;
     } else if (typeString == QLatin1String("osd")) {
-        type = QubeHardware::DvbInterface::DvbOsd;
+        type = Qube::Hardware::DvbInterface::DvbOsd;
     } else if (typeString == QLatin1String("sec")) {
-        type = QubeHardware::DvbInterface::DvbSec;
+        type = Qube::Hardware::DvbInterface::DvbSec;
     } else if (typeString == QLatin1String("video")) {
-        type = QubeHardware::DvbInterface::DvbVideo;
+        type = Qube::Hardware::DvbInterface::DvbVideo;
     }
 
     return type;

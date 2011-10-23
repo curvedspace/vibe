@@ -20,7 +20,7 @@
 
 #include "storagedrive.h"
 
-QubeHardware::Ifaces::StorageDrive::~StorageDrive()
+Qube::Hardware::Ifaces::StorageDrive::~StorageDrive()
 {
 }
 

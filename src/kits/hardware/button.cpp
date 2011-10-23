@@ -25,31 +25,31 @@
 #include "soliddefs_p.h"
 #include <ifaces/button.h>
 
-QubeHardware::Button::Button(QObject *backendObject)
+Qube::Hardware::Button::Button(QObject *backendObject)
     : DeviceInterface(*new ButtonPrivate(), backendObject)
 {
-    connect(backendObject, SIGNAL(pressed(QubeHardware::Button::ButtonType, const QString &)),
-            this, SIGNAL(pressed(QubeHardware::Button::ButtonType, const QString &)));
+    connect(backendObject, SIGNAL(pressed(Qube::Hardware::Button::ButtonType, const QString &)),
+            this, SIGNAL(pressed(Qube::Hardware::Button::ButtonType, const QString &)));
 }
 
-QubeHardware::Button::~Button()
+Qube::Hardware::Button::~Button()
 {
 
 }
 
-QubeHardware::Button::ButtonType QubeHardware::Button::type() const
+Qube::Hardware::Button::ButtonType Qube::Hardware::Button::type() const
 {
     Q_D(const Button);
     return_SOLID_CALL(Ifaces::Button *, d->backendObject(), UnknownButtonType, type());
 }
 
-bool QubeHardware::Button::hasState() const
+bool Qube::Hardware::Button::hasState() const
 {
     Q_D(const Button);
     return_SOLID_CALL(Ifaces::Button *, d->backendObject(), false, hasState());
 }
 
-bool QubeHardware::Button::stateValue() const
+bool Qube::Hardware::Button::stateValue() const
 {
     Q_D(const Button);
     return_SOLID_CALL(Ifaces::Button *, d->backendObject(), false, stateValue());

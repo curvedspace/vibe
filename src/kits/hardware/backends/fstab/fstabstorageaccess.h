@@ -26,64 +26,67 @@
 #include <QtCore/QObject>
 #include <QtCore/QProcess>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace Fstab
+        namespace Backends
         {
-            class FstabDevice;
-            class FstabStorageAccess : public QObject, public QubeHardware::Ifaces::StorageAccess
+            namespace Fstab
             {
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::StorageAccess)
+                class FstabDevice;
+                class FstabStorageAccess : public QObject, public Qube::Hardware::Ifaces::StorageAccess
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::StorageAccess)
 
-            public:
-                explicit FstabStorageAccess(QubeHardware::Backends::Fstab::FstabDevice *device);
+                public:
+                    explicit FstabStorageAccess(Qube::Hardware::Backends::Fstab::FstabDevice *device);
 
-                virtual ~FstabStorageAccess();
+                    virtual ~FstabStorageAccess();
 
-                virtual bool isAccessible() const;
+                    virtual bool isAccessible() const;
 
-                virtual QString filePath() const;
+                    virtual QString filePath() const;
 
-                virtual bool isIgnored() const;
+                    virtual bool isIgnored() const;
 
-                virtual bool setup();
+                    virtual bool setup();
 
-                virtual bool teardown();
+                    virtual bool teardown();
 
-            public:
-                const QubeHardware::Backends::Fstab::FstabDevice* fstabDevice() const;
+                public:
+                    const Qube::Hardware::Backends::Fstab::FstabDevice* fstabDevice() const;
 
-            Q_SIGNALS:
-                void accessibilityChanged(bool accessible, const QString &udi);
+                Q_SIGNALS:
+                    void accessibilityChanged(bool accessible, const QString &udi);
 
-                void setupDone(QubeHardware::ErrorType error, QVariant data, const QString &udi);
+                    void setupDone(Qube::Hardware::ErrorType error, QVariant data, const QString &udi);
 
-                void teardownDone(QubeHardware::ErrorType error, QVariant data, const QString &udi);
+                    void teardownDone(Qube::Hardware::ErrorType error, QVariant data, const QString &udi);
 
-                void setupRequested(const QString &udi);
+                    void setupRequested(const QString &udi);
 
-                void teardownRequested(const QString &udi);
+                    void teardownRequested(const QString &udi);
 
-            private Q_SLOTS:
-                void slotSetupFinished(int exitCode, QProcess::ExitStatus exitStatus);
-                void slotTeardownFinished(int exitCode, QProcess::ExitStatus exitStatus);
-                void onMtabChanged();
-                void connectDBusSignals();
+                private Q_SLOTS:
+                    void slotSetupFinished(int exitCode, QProcess::ExitStatus exitStatus);
+                    void slotTeardownFinished(int exitCode, QProcess::ExitStatus exitStatus);
+                    void onMtabChanged();
+                    void connectDBusSignals();
 
-                void slotSetupRequested();
-                void slotSetupDone(int error, const QString &errorString);
-                void slotTeardownRequested();
-                void slotTeardownDone(int error, const QString &errorString);
+                    void slotSetupRequested();
+                    void slotSetupDone(int error, const QString &errorString);
+                    void slotTeardownRequested();
+                    void slotTeardownDone(int error, const QString &errorString);
 
-            private:
-                QubeHardware::Backends::Fstab::FstabDevice *m_fstabDevice;
-                QProcess *m_process;
-                QStringList m_currentMountPoints;
-            };
+                private:
+                    Qube::Hardware::Backends::Fstab::FstabDevice *m_fstabDevice;
+                    QProcess *m_process;
+                    QStringList m_currentMountPoints;
+                };
 
+            }
         }
     }
 }

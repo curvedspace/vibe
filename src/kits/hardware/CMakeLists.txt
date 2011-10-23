@@ -29,13 +29,7 @@ check_cxx_source_compiles("     #ifdef __SUNPRO_CC
 
 configure_file(config-processor.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-processor.h)
 
-
-
 ########### next target ###############
-
-#file(MAKE_DIRECTORY
-#   ${CMAKE_CURRENT_BINARY_DIR}/backends/udev
-#)
 
 set(SOURCES
    qubehardwarenamespace.cpp
@@ -197,16 +191,16 @@ set(SOURCES ${SOURCES}
 set_source_files_properties(
     org.freedesktop.PowerManagement.xml
     org.freedesktop.PowerManagement.Inhibit.xml
-    org.vision.Hardware.PowerManagement.PolicyAgent.xml
+    org.vision.Qube.Hardware.PowerManagement.PolicyAgent.xml
     PROPERTIES NO_NAMESPACE TRUE
 )
 
 # DBus interfaces
 qt4_add_dbus_interfaces(SOURCES org.freedesktop.PowerManagement.xml
                         org.freedesktop.PowerManagement.Inhibit.xml
-                        org.vision.Hardware.PowerManagement.PolicyAgent.xml)
+                        org.vision.Qube.Hardware.PowerManagement.PolicyAgent.xml)
 
-qt4_add_dbus_interface(SOURCES org.vision.Hardware.Networking.Client.xml
+qt4_add_dbus_interface(SOURCES org.vision.Qube.Hardware.Networking.Client.xml
                        org_vision_hardware_networking_client)
 
 # Library target
@@ -223,7 +217,7 @@ endif(HUPNP_FOUND)
 # UDev dependency
 if(UDEV_FOUND)
     set(OPTIONAL_LIBS ${OPTIONAL_LIBS} ${UDEV_LIBS})
-endif ( UDEV_FOUND )
+endif(UDEV_FOUND)
 
 # Link libraries
 target_link_libraries(QubeHardware ${QT_QTCORE_LIBRARY} ${QT_QTDBUS_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTGUI_LIBRARY} ${OPTIONAL_LIBS})
@@ -249,7 +243,7 @@ install(FILES
     camera.h portablemediaplayer.h networkinterface.h acadapter.h battery.h
     button.h audiointerface.h dvbinterface.h predicate.h powermanagement.h
     networking.h video.h serialinterface.h smartcardreader.h internetgateway.h
-    networkshare.h DESTINATION include/QubeHardware COMPONENT Devel)
+    networkshare.h DESTINATION include/Qube/Hardware COMPONENT Devel)
 install(TARGETS QubeHardware
     LIBRARY DESTINATION lib COMPONENT Framework)
 

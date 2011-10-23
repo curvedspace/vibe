@@ -25,32 +25,35 @@
 #include <ifaces/audiointerface.h>
 #include "udevdeviceinterface.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDev
+        namespace Backends
         {
-            class UdevAudioInterfacePrivate;
-            class AudioInterface : public DeviceInterface, virtual public QubeHardware::Ifaces::AudioInterface
+            namespace UDev
             {
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::AudioInterface)
+                class UdevAudioInterfacePrivate;
+                class AudioInterface : public DeviceInterface, virtual public Qube::Hardware::Ifaces::AudioInterface
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::AudioInterface)
 
-            public:
-                AudioInterface(UDevDevice *device);
-                virtual ~AudioInterface();
+                public:
+                    AudioInterface(UDevDevice *device);
+                    virtual ~AudioInterface();
 
-                virtual QubeHardware::AudioInterface::AudioDriver driver() const;
-                virtual QVariant driverHandle() const;
+                    virtual Qube::Hardware::AudioInterface::AudioDriver driver() const;
+                    virtual QVariant driverHandle() const;
 
-                virtual QString name() const;
-                virtual QubeHardware::AudioInterface::AudioInterfaceTypes deviceType() const;
-                virtual QubeHardware::AudioInterface::SoundcardType soundcardType() const;
+                    virtual QString name() const;
+                    virtual Qube::Hardware::AudioInterface::AudioInterfaceTypes deviceType() const;
+                    virtual Qube::Hardware::AudioInterface::SoundcardType soundcardType() const;
 
-            private:
-                UdevAudioInterfacePrivate *d;
-            };
+                private:
+                    UdevAudioInterfacePrivate *d;
+                };
+            }
         }
     }
 }

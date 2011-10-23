@@ -23,21 +23,22 @@
 
 #include <QtCore/QString>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDev
+        namespace Backends
         {
-
-            /**
-             * Extracts a line from /proc/cpuinfo for a given processor
-             *
-             * The regexp should have exactly one capture, which should match the
-             * value of the field.
-             */
-            QString extractCpuInfoLine(int processorNumber, const QString &regExp);
-
+            namespace UDev
+            {
+                /**
+                 * Extracts a line from /proc/cpuinfo for a given processor
+                 *
+                 * The regexp should have exactly one capture, which should match the
+                 * value of the field.
+                 */
+                QString extractCpuInfoLine(int processorNumber, const QString &regExp);
+            }
         }
     }
 }

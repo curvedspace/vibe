@@ -24,39 +24,41 @@
 #include <QtCore/QStringList>
 #include <QtCore/QSet>
 
-#include <QubeHardware/deviceinterface.h>
+#include <Qube/Hardware/deviceinterface.h>
 #include <ifaces/devicemanager.h>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace Fstab
+        namespace Backends
         {
-            class AbstractDeviceFactory;
-
-            class FstabManager : public QubeHardware::Ifaces::DeviceManager
+            namespace Fstab
             {
-                Q_OBJECT
+                class AbstractDeviceFactory;
 
-            public:
-                explicit FstabManager(QObject *parent);
-                virtual ~FstabManager();
+                class FstabManager : public Qube::Hardware::Ifaces::DeviceManager
+                {
+                    Q_OBJECT
+                public:
+                    explicit FstabManager(QObject *parent);
+                    virtual ~FstabManager();
 
-                virtual QString udiPrefix() const ;
-                virtual QSet<QubeHardware::DeviceInterface::Type> supportedInterfaces() const;
-                virtual QStringList allDevices();
-                virtual QStringList devicesFromQuery(const QString &parentUdi, QubeHardware::DeviceInterface::Type type);
-                virtual QObject *createDevice(const QString &udi);
+                    virtual QString udiPrefix() const ;
+                    virtual QSet<Qube::Hardware::DeviceInterface::Type> supportedInterfaces() const;
+                    virtual QStringList allDevices();
+                    virtual QStringList devicesFromQuery(const QString &parentUdi, Qube::Hardware::DeviceInterface::Type type);
+                    virtual QObject *createDevice(const QString &udi);
 
-            private Q_SLOTS:
-                void onFstabChanged();
+                private Q_SLOTS:
+                    void onFstabChanged();
 
-            private:
-                QSet<QubeHardware::DeviceInterface::Type> m_supportedInterfaces;
-                QStringList m_deviceList;
-            };
+                private:
+                    QSet<Qube::Hardware::DeviceInterface::Type> m_supportedInterfaces;
+                    QStringList m_deviceList;
+                };
 
+            }
         }
     }
 }

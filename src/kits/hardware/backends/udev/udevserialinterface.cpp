@@ -26,13 +26,13 @@
 
 #include <QString>
 
-using namespace QubeHardware::Backends::UDev;
+using namespace Qube::Hardware::Backends::UDev;
 
 SerialInterface::SerialInterface(UDevDevice *device)
     : DeviceInterface(device)
 {
     m_portnum = -1;
-    m_type = QubeHardware::SerialInterface::Unknown;
+    m_type = Qube::Hardware::SerialInterface::Unknown;
 
     QString path = m_device->deviceName();
 
@@ -42,9 +42,9 @@ SerialInterface::SerialInterface(UDevDevice *device)
     const char *lastElementAscii = lastElement.constData();
 
     if (sscanf (lastElementAscii, "ttyS%d", &m_portnum) == 1) {
-        m_type = QubeHardware::SerialInterface::Platform;
+        m_type = Qube::Hardware::SerialInterface::Platform;
     } else if (sscanf (lastElementAscii, "ttyUSB%d", &m_portnum) == 1) {
-        m_type = QubeHardware::SerialInterface::Usb;
+        m_type = Qube::Hardware::SerialInterface::Usb;
     }
 }
 
@@ -58,7 +58,7 @@ QVariant SerialInterface::driverHandle() const
     return m_device->property("DEVNAME");
 }
 
-QubeHardware::SerialInterface::SerialType SerialInterface::serialType() const
+Qube::Hardware::SerialInterface::SerialType SerialInterface::serialType() const
 {
     return m_type;
 }

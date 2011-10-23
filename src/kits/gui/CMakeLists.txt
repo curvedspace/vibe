@@ -51,6 +51,6 @@ set_target_properties(QubeGui PROPERTIES
 	SOVERSION 0.0.0)
 
 install(FILES ${PUBLIC_HEADERS} ${NON_MOC_HEADERS}
-    DESTINATION include/Qube/QubeGui COMPONENT Devel)
+    DESTINATION include/Qube/Qube/Gui COMPONENT Devel)
 install(TARGETS QubeGui
     LIBRARY DESTINATION lib COMPONENT Framework)

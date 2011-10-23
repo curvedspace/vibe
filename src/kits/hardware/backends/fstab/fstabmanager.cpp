@@ -25,14 +25,14 @@
 #include "fstabservice.h"
 #include "fstabwatcher.h"
 
-using namespace QubeHardware::Backends::Fstab;
-using namespace QubeHardware::Backends::Shared;
+using namespace Qube::Hardware::Backends::Fstab;
+using namespace Qube::Hardware::Backends::Shared;
 
 FstabManager::FstabManager(QObject *parent)
-    : QubeHardware::Ifaces::DeviceManager(parent)
+    : Qube::Hardware::Ifaces::DeviceManager(parent)
 {
-    m_supportedInterfaces << QubeHardware::DeviceInterface::StorageAccess;
-    m_supportedInterfaces << QubeHardware::DeviceInterface::NetworkShare;
+    m_supportedInterfaces << Qube::Hardware::DeviceInterface::StorageAccess;
+    m_supportedInterfaces << Qube::Hardware::DeviceInterface::NetworkShare;
 
     m_deviceList = FstabHandling::deviceList();
 
@@ -44,7 +44,7 @@ QString FstabManager::udiPrefix() const
     return QString::fromLatin1(FSTAB_UDI_PREFIX);
 }
 
-QSet<QubeHardware::DeviceInterface::Type> FstabManager::supportedInterfaces() const
+QSet<Qube::Hardware::DeviceInterface::Type> FstabManager::supportedInterfaces() const
 {
     return m_supportedInterfaces;
 }
@@ -62,10 +62,10 @@ QStringList FstabManager::allDevices()
 }
 
 QStringList FstabManager::devicesFromQuery( const QString &parentUdi,
-        QubeHardware::DeviceInterface::Type type)
+        Qube::Hardware::DeviceInterface::Type type)
 {
-    if (type == QubeHardware::DeviceInterface::StorageAccess
-        || type == QubeHardware::DeviceInterface::NetworkShare) {
+    if (type == Qube::Hardware::DeviceInterface::StorageAccess
+        || type == Qube::Hardware::DeviceInterface::NetworkShare) {
         if (parentUdi.isEmpty() || parentUdi == udiPrefix()) {
             QStringList list = allDevices();
             list.removeFirst();

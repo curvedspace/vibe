@@ -23,67 +23,70 @@
 
 #include <ifaces/deviceinterface.h>
 
-#include <QubeHardware/dvbinterface.h>
+#include <Qube/Hardware/dvbinterface.h>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Ifaces
+    namespace Hardware
     {
-        /**
-         * This device interface is available on Digital Video Broadcast (DVB) devices.
-         *
-         * A DVB device is a device implementing the open standards for digital
-         * television maintained by the DVB Project
-         * It is possible to interact with such a device using a special device
-         * file in the system.
-         */
-        class DvbInterface : virtual public DeviceInterface
+        namespace Ifaces
         {
-        public:
             /**
-             * Destroys a DvbInterface object.
-             */
-            virtual ~DvbInterface();
-
-            /**
-             * Retrieves the absolute path of the special file to interact
-             * with the device.
+             * This device interface is available on Digital Video Broadcast (DVB) devices.
              *
-             * @return the absolute path of the special file to interact with
-             * the device
+             * A DVB device is a device implementing the open standards for digital
+             * television maintained by the DVB Project
+             * It is possible to interact with such a device using a special device
+             * file in the system.
              */
-            virtual QString device() const = 0;
+            class DvbInterface : virtual public DeviceInterface
+            {
+            public:
+                /**
+                 * Destroys a DvbInterface object.
+                 */
+                virtual ~DvbInterface();
 
-            /**
-             * Retrieves the adapter number of this dvb device.
-             * Note that -1 is returned in the case the adapter couldn't be
-             * determined.
-             *
-             * @return the adapter number of this dvb device or -1
-             */
-            virtual int deviceAdapter() const = 0;
+                /**
+                 * Retrieves the absolute path of the special file to interact
+                 * with the device.
+                 *
+                 * @return the absolute path of the special file to interact with
+                 * the device
+                 */
+                virtual QString device() const = 0;
 
-            /**
-             * Retrieves the type of this dvb device.
-             *
-             * @return the device type of this dvb device
-             * @see QubeHardware::DvbInterface::DeviceType
-             */
-            virtual QubeHardware::DvbInterface::DeviceType deviceType() const = 0;
+                /**
+                 * Retrieves the adapter number of this dvb device.
+                 * Note that -1 is returned in the case the adapter couldn't be
+                 * determined.
+                 *
+                 * @return the adapter number of this dvb device or -1
+                 */
+                virtual int deviceAdapter() const = 0;
 
-            /**
-             * Retrieves the index of this dvb device.
-             * Note that -1 is returned in the case the device couldn't be
-             * identified (deviceType() == DvbUnknown).
-             *
-             * @return the index of this dvb device or -1
-             * @see QubeHardware::Ifaces::DvbInterface::deviceType
-             */
-            virtual int deviceIndex() const = 0;
-        };
+                /**
+                 * Retrieves the type of this dvb device.
+                 *
+                 * @return the device type of this dvb device
+                 * @see Qube::Hardware::DvbInterface::DeviceType
+                 */
+                virtual Qube::Hardware::DvbInterface::DeviceType deviceType() const = 0;
+
+                /**
+                 * Retrieves the index of this dvb device.
+                 * Note that -1 is returned in the case the device couldn't be
+                 * identified (deviceType() == DvbUnknown).
+                 *
+                 * @return the index of this dvb device or -1
+                 * @see Qube::Hardware::Ifaces::DvbInterface::deviceType
+                 */
+                virtual int deviceIndex() const = 0;
+            };
+        }
     }
 }
 
-Q_DECLARE_INTERFACE(QubeHardware::Ifaces::DvbInterface, "org.vision.Hardware.Ifaces.DvbInterface/0.1")
+Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::DvbInterface, "org.vision.Qube.Hardware.Ifaces.DvbInterface/0.1")
 
 #endif // SOLID_IFACE_DVBINTERFACE_H

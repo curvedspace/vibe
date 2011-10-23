@@ -27,15 +27,15 @@
 #include "udevaudiointerface.h"
 #include "udevaudiointerface_p.h"
 
-using namespace QubeHardware::Backends::UDev;
+using namespace Qube::Hardware::Backends::UDev;
 
 UdevAudioInterfacePrivate::UdevAudioInterfacePrivate(UDevDevice *device) : m_device(device)
 {
     m_cardnum = -1;
     m_devicenum = -1;
-    m_soundcardType = QubeHardware::AudioInterface::InternalSoundcard;
-    m_driver = QubeHardware::AudioInterface::UnknownAudioDriver;
-    m_type = QubeHardware::AudioInterface::UnknownAudioInterfaceType;
+    m_soundcardType = Qube::Hardware::AudioInterface::InternalSoundcard;
+    m_driver = Qube::Hardware::AudioInterface::UnknownAudioDriver;
+    m_type = Qube::Hardware::AudioInterface::UnknownAudioInterfaceType;
 
     QString path = m_device->deviceName();
 
@@ -80,7 +80,7 @@ UdevAudioInterfacePrivate::UdevAudioInterfacePrivate(UDevDevice *device) : m_dev
     }
 }
 
-QubeHardware::AudioInterface::SoundcardType UdevAudioInterfacePrivate::soundcardType()
+Qube::Hardware::AudioInterface::SoundcardType UdevAudioInterfacePrivate::soundcardType()
 {
     UdevQt::Device device = m_device->udevDevice();
     UdevQt::Device parentDevice = device.parent();
@@ -93,19 +93,19 @@ QubeHardware::AudioInterface::SoundcardType UdevAudioInterfacePrivate::soundcard
             productName.contains("headphone", Qt::CaseInsensitive) ||
             deviceName.contains("headset", Qt::CaseInsensitive) ||
             deviceName.contains("headphone", Qt::CaseInsensitive)) {
-            m_soundcardType = QubeHardware::AudioInterface::Headset;
+            m_soundcardType = Qube::Hardware::AudioInterface::Headset;
         } else if (productName.contains("modem", Qt::CaseInsensitive) ||
                    deviceName.contains("modem", Qt::CaseInsensitive)) {
-            m_soundcardType = QubeHardware::AudioInterface::Modem;
+            m_soundcardType = Qube::Hardware::AudioInterface::Modem;
         } else {
             QString busName = parentDevice.subsystem();
             QString driverName = parentDevice.driver();
             if (busName == "ieee1394") {
-                m_soundcardType = QubeHardware::AudioInterface::FirewireSoundcard;
+                m_soundcardType = Qube::Hardware::AudioInterface::FirewireSoundcard;
             } else if (busName == "usb" || busName == "usb_device" || driverName.contains("usb", Qt::CaseInsensitive)) {
-                m_soundcardType = QubeHardware::AudioInterface::UsbSoundcard;
+                m_soundcardType = Qube::Hardware::AudioInterface::UsbSoundcard;
             } else {
-                m_soundcardType = QubeHardware::AudioInterface::InternalSoundcard;
+                m_soundcardType = Qube::Hardware::AudioInterface::InternalSoundcard;
             }
         }
     }
@@ -119,9 +119,9 @@ bool UdevAudioInterfacePrivate::isHardware(const char* lastElement)
     //Root devices like /sys/devices/pci0000:00/0000:00:1b.0/sound/card0 only have sound capability
     //in hal, so ATM just report it as unknown
     if (sscanf(lastElement, "card%d", &m_cardnum) == 1) {
-        m_driver = QubeHardware::AudioInterface::UnknownAudioDriver;
+        m_driver = Qube::Hardware::AudioInterface::UnknownAudioDriver;
         m_name = m_device->property("ID_MODEL_FROM_DATABASE").toString();
-        m_type = QubeHardware::AudioInterface::UnknownAudioInterfaceType;
+        m_type = Qube::Hardware::AudioInterface::UnknownAudioInterfaceType;
         return true;
     }
     return false;
@@ -132,8 +132,8 @@ bool UdevAudioInterfacePrivate::isAlsaControl(const char* lastElement)
     if (sscanf (lastElement, "controlC%d", &m_cardnum) == 1) {
         m_deviceFile = m_device->property("DEVNAME").toString();
         m_name = cardNumberToName();
-        m_driver = QubeHardware::AudioInterface::Alsa;
-        m_type = QubeHardware::AudioInterface::AudioControl;
+        m_driver = Qube::Hardware::AudioInterface::Alsa;
+        m_type = Qube::Hardware::AudioInterface::AudioControl;
         return true;
     }
     return false;
@@ -143,18 +143,18 @@ bool UdevAudioInterfacePrivate::isAlsaPcm(const char* lastElement)
 {
     char type;
     if (sscanf (lastElement, "pcmC%dD%d%c", &m_cardnum, &m_devicenum, &type) == 3) {
-        m_driver = QubeHardware::AudioInterface::Alsa;
+        m_driver = Qube::Hardware::AudioInterface::Alsa;
         m_name = cardNumberToName();
         QString name = deviceName(type);
         if (!name.isEmpty()) {
             m_name.append(QLatin1String(" (") + name + ')');
         }
         if (type == 'p') {
-            m_type = QubeHardware::AudioInterface::AudioOutput;
+            m_type = Qube::Hardware::AudioInterface::AudioOutput;
         } else if(type == 'c') {
-            m_type = QubeHardware::AudioInterface::AudioInput;
+            m_type = Qube::Hardware::AudioInterface::AudioInput;
         } else {
-            m_type = QubeHardware::AudioInterface::UnknownAudioInterfaceType;
+            m_type = Qube::Hardware::AudioInterface::UnknownAudioInterfaceType;
         }
         return true;
     }
@@ -164,7 +164,7 @@ bool UdevAudioInterfacePrivate::isAlsaPcm(const char* lastElement)
 bool UdevAudioInterfacePrivate::isAlsaHw(const char* lastElement)
 {
     if (sscanf(lastElement, "hwC%dD%d", &m_cardnum, &m_devicenum) == 2) {
-        m_driver = QubeHardware::AudioInterface::Alsa;
+        m_driver = Qube::Hardware::AudioInterface::Alsa;
         m_name = cardNumberToName();
         m_name.append(QLatin1String("(HDA Intel ALSA hardware specific Device)"));
         return true;
@@ -175,7 +175,7 @@ bool UdevAudioInterfacePrivate::isAlsaHw(const char* lastElement)
 bool UdevAudioInterfacePrivate::isAlsaMidi(const char* lastElement)
 {
     if (sscanf(lastElement, "midiC%dD%d", &m_cardnum, &m_devicenum) == 2) {
-        m_driver = QubeHardware::AudioInterface::Alsa;
+        m_driver = Qube::Hardware::AudioInterface::Alsa;
         m_name = cardNumberToName();
         m_name.append(QLatin1String("(ALSA MIDI Device)"));
         return true;
@@ -187,7 +187,7 @@ bool UdevAudioInterfacePrivate::isAlsaTimer(const char* lastElement)
 {
     if(lastElement == QLatin1String("timer")) {
         /* ALSA Global timer device */
-        m_driver = QubeHardware::AudioInterface::Alsa;
+        m_driver = Qube::Hardware::AudioInterface::Alsa;
         m_name = QLatin1String("ALSA Timer Device");
         m_deviceFile = m_device->property("DEVNAME").toString();
         return true;
@@ -199,7 +199,7 @@ bool UdevAudioInterfacePrivate::isAlsaSequencer(const char* lastElement)
 {
     if (lastElement == QLatin1String("seq")) {
         /* ALSA global sequencer devices */
-        m_driver = QubeHardware::AudioInterface::Alsa;
+        m_driver = Qube::Hardware::AudioInterface::Alsa;
         m_name = QLatin1String("ALSA Sequencer Device");
         m_deviceFile = m_device->property("DEVNAME").toString();
         return true;
@@ -211,7 +211,7 @@ bool UdevAudioInterfacePrivate::isOSSSequencer(const QByteArray& lastElement)
 {
     if (lastElement.startsWith("sequencer")) {
         /* OSS global sequencer devices */
-        m_driver = QubeHardware::AudioInterface::OpenSoundSystem;
+        m_driver = Qube::Hardware::AudioInterface::OpenSoundSystem;
         m_name = QLatin1String("OSS Sequencer Device");
         m_deviceFile = m_device->property("DEVNAME").toString();
         return true;
@@ -221,44 +221,44 @@ bool UdevAudioInterfacePrivate::isOSSSequencer(const QByteArray& lastElement)
 
 bool UdevAudioInterfacePrivate::isOSSDevice(const QByteArray& lastElement, const char* lastElementAscii)
 {
-    m_driver = QubeHardware::AudioInterface::UnknownAudioDriver;
-    m_type = QubeHardware::AudioInterface::UnknownAudioInterfaceType;
+    m_driver = Qube::Hardware::AudioInterface::UnknownAudioDriver;
+    m_type = Qube::Hardware::AudioInterface::UnknownAudioInterfaceType;
     m_cardnum = 0;
 
     m_deviceFile = m_device->property("DEVNAME").toString();
 
     if (lastElement.startsWith("dsp")) {
-        m_driver = QubeHardware::AudioInterface::OpenSoundSystem;
+        m_driver = Qube::Hardware::AudioInterface::OpenSoundSystem;
         sscanf (lastElementAscii, "dsp%d", &m_cardnum);
     }
 
     if (lastElement.startsWith("adsp")) {
-        m_driver = QubeHardware::AudioInterface::OpenSoundSystem;
+        m_driver = Qube::Hardware::AudioInterface::OpenSoundSystem;
         sscanf (lastElementAscii, "adsp%d", &m_cardnum);
     }
 
     if (lastElement.startsWith("midi")) {
-        m_driver = QubeHardware::AudioInterface::OpenSoundSystem;
+        m_driver = Qube::Hardware::AudioInterface::OpenSoundSystem;
         sscanf (lastElementAscii, "midi%d", &m_cardnum);
     }
 
     if (lastElement.startsWith("amidi")) {
-        m_driver = QubeHardware::AudioInterface::OpenSoundSystem;
+        m_driver = Qube::Hardware::AudioInterface::OpenSoundSystem;
         sscanf (lastElementAscii, "amidi%d", &m_cardnum);
     }
 
     if (lastElement.startsWith("audio")) {
-        m_driver = QubeHardware::AudioInterface::OpenSoundSystem;
+        m_driver = Qube::Hardware::AudioInterface::OpenSoundSystem;
         sscanf (lastElementAscii, "audio%d", &m_cardnum);
     }
 
     if (lastElement.startsWith("mixer")) {
-        m_driver = QubeHardware::AudioInterface::OpenSoundSystem;
-        m_type = QubeHardware::AudioInterface::AudioControl;
+        m_driver = Qube::Hardware::AudioInterface::OpenSoundSystem;
+        m_type = Qube::Hardware::AudioInterface::AudioControl;
         sscanf (lastElementAscii, "mixer%d", &m_cardnum);
     }
 
-    if (m_driver != QubeHardware::AudioInterface::UnknownAudioDriver) {
+    if (m_driver != Qube::Hardware::AudioInterface::UnknownAudioDriver) {
         m_name = cardNumberToName();
         QString path;
         path.sprintf("/proc/asound/card%d/pcm0p/info", m_cardnum);

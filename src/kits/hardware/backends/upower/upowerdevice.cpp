@@ -30,13 +30,13 @@
 #include <QtCore/QDebug>
 #include <QtDBus/QDBusPendingReply>
 
-#include <QubeHardware/genericinterface.h>
-#include <QubeHardware/device.h>
+#include <Qube/Hardware/genericinterface.h>
+#include <Qube/Hardware/device.h>
 
-using namespace QubeHardware::Backends::UPower;
+using namespace Qube::Hardware::Backends::UPower;
 
 UPowerDevice::UPowerDevice(const QString &udi)
-    : QubeHardware::Ifaces::Device()
+    : Qube::Hardware::Ifaces::Device()
     , m_device(UP_DBUS_SERVICE,
                udi,
                UP_DBUS_INTERFACE_DEVICE,
@@ -51,7 +51,7 @@ UPowerDevice::~UPowerDevice()
 {
 }
 
-QObject* UPowerDevice::createDeviceInterface(const QubeHardware::DeviceInterface::Type& type)
+QObject* UPowerDevice::createDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type)
 {
     if (!queryDeviceInterface(type)) {
         return 0;
@@ -59,13 +59,13 @@ QObject* UPowerDevice::createDeviceInterface(const QubeHardware::DeviceInterface
 
     DeviceInterface *iface = 0;
     switch (type) {
-    case QubeHardware::DeviceInterface::GenericInterface:
+    case Qube::Hardware::DeviceInterface::GenericInterface:
         iface = new GenericInterface(this);
         break;
-    case QubeHardware::DeviceInterface::AcAdapter:
+    case Qube::Hardware::DeviceInterface::AcAdapter:
         iface = new AcAdapter(this);
         break;
-    case QubeHardware::DeviceInterface::Battery:
+    case Qube::Hardware::DeviceInterface::Battery:
         iface = new Battery(this);
         break;
     default:
@@ -74,15 +74,15 @@ QObject* UPowerDevice::createDeviceInterface(const QubeHardware::DeviceInterface
     return iface;
 }
 
-bool UPowerDevice::queryDeviceInterface(const QubeHardware::DeviceInterface::Type& type) const
+bool UPowerDevice::queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type) const
 {
     const uint uptype = prop("Type").toUInt();
     switch (type) {
-    case QubeHardware::DeviceInterface::GenericInterface:
+    case Qube::Hardware::DeviceInterface::GenericInterface:
         return true;
-    case QubeHardware::DeviceInterface::Battery:
+    case Qube::Hardware::DeviceInterface::Battery:
         return (uptype == 2 || uptype == 3);
-    case QubeHardware::DeviceInterface::AcAdapter:
+    case Qube::Hardware::DeviceInterface::AcAdapter:
         return (uptype == 1);
     default:
         return false;
@@ -96,9 +96,9 @@ QStringList UPowerDevice::emblems() const
 
 QString UPowerDevice::description() const
 {
-    if (queryDeviceInterface(QubeHardware::DeviceInterface::AcAdapter))
+    if (queryDeviceInterface(Qube::Hardware::DeviceInterface::AcAdapter))
         return QObject::tr("A/C Adapter");
-    else if (queryDeviceInterface(QubeHardware::DeviceInterface::Battery))
+    else if (queryDeviceInterface(Qube::Hardware::DeviceInterface::Battery))
         return QObject::tr("%1 Battery", "%1 is battery technology").arg(batteryTechnology());
     else
         return product();
@@ -127,10 +127,10 @@ QString UPowerDevice::batteryTechnology() const
 
 QString UPowerDevice::icon() const
 {
-    if (queryDeviceInterface(QubeHardware::DeviceInterface::AcAdapter)) {
+    if (queryDeviceInterface(Qube::Hardware::DeviceInterface::AcAdapter)) {
         return "preferences-system-power-management";
 
-    } else if (queryDeviceInterface(QubeHardware::DeviceInterface::Battery)) {
+    } else if (queryDeviceInterface(Qube::Hardware::DeviceInterface::Battery)) {
         return "battery";
 
     } else {

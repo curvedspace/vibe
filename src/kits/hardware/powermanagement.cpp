@@ -25,28 +25,28 @@
 
 #include <QtCore/QCoreApplication>
 
-SOLID_GLOBAL_STATIC(QubeHardware::PowerManagementPrivate, globalPowerManager)
+SOLID_GLOBAL_STATIC(Qube::Hardware::PowerManagementPrivate, globalPowerManager)
 
-QubeHardware::PowerManagementPrivate::PowerManagementPrivate()
+Qube::Hardware::PowerManagementPrivate::PowerManagementPrivate()
     : managerIface("org.freedesktop.PowerManagement",
                    "/org/freedesktop/PowerManagement",
                    QDBusConnection::sessionBus()),
-    policyAgentIface("org.vision.Hardware.PowerManagement.PolicyAgent",
-                     "/org.vision.Hardware/PowerManagement/PolicyAgent",
+    policyAgentIface("org.vision.Qube.Hardware.PowerManagement.PolicyAgent",
+                     "/org/vision/Qube/Hardware/PowerManagement/PolicyAgent",
                      QDBusConnection::sessionBus()),
     inhibitIface("org.freedesktop.PowerManagement.Inhibit",
                  "/org/freedesktop/PowerManagement/Inhibit",
                  QDBusConnection::sessionBus()),
-    serviceWatcher("org.vision.Hardware.PowerManagement",
+    serviceWatcher("org.vision.Qube.Hardware.PowerManagement",
                    QDBusConnection::sessionBus(),
                    QDBusServiceWatcher::WatchForRegistration)
 {
     powerSaveStatus = managerIface.GetPowerSaveStatus();
 
     if (managerIface.CanSuspend())
-        supportedSleepStates+= QubeHardware::PowerManagement::SuspendState;
+        supportedSleepStates+= Qube::Hardware::PowerManagement::SuspendState;
     if (managerIface.CanHibernate())
-        supportedSleepStates+= QubeHardware::PowerManagement::HibernateState;
+        supportedSleepStates+= Qube::Hardware::PowerManagement::HibernateState;
 
     connect(&managerIface, SIGNAL(CanSuspendChanged(bool)),
             this, SLOT(slotCanSuspendChanged(bool)));
@@ -58,30 +58,30 @@ QubeHardware::PowerManagementPrivate::PowerManagementPrivate()
             this, SLOT(slotServiceRegistered(QString)));
 
     // If the service is registered, trigger the connection immediately
-    if (QDBusConnection::sessionBus().interface()->isServiceRegistered("org.vision.Hardware.PowerManagement")) {
-        slotServiceRegistered("org.vision.Hardware.PowerManagement");
+    if (QDBusConnection::sessionBus().interface()->isServiceRegistered("org.vision.Qube.Hardware.PowerManagement")) {
+        slotServiceRegistered("org.vision.Qube.Hardware.PowerManagement");
     }
 }
 
-QubeHardware::PowerManagementPrivate::~PowerManagementPrivate()
+Qube::Hardware::PowerManagementPrivate::~PowerManagementPrivate()
 {
 }
 
-QubeHardware::PowerManagement::Notifier::Notifier()
+Qube::Hardware::PowerManagement::Notifier::Notifier()
 {
 }
 
-bool QubeHardware::PowerManagement::appShouldConserveResources()
+bool Qube::Hardware::PowerManagement::appShouldConserveResources()
 {
     return globalPowerManager->powerSaveStatus;
 }
 
-QSet<QubeHardware::PowerManagement::SleepState> QubeHardware::PowerManagement::supportedSleepStates()
+QSet<Qube::Hardware::PowerManagement::SleepState> Qube::Hardware::PowerManagement::supportedSleepStates()
 {
     return globalPowerManager->supportedSleepStates;
 }
 
-void QubeHardware::PowerManagement::requestSleep(SleepState state, QObject *receiver, const char *member)
+void Qube::Hardware::PowerManagement::requestSleep(SleepState state, QObject *receiver, const char *member)
 {
     Q_UNUSED(receiver)
     Q_UNUSED(member)
@@ -102,7 +102,7 @@ void QubeHardware::PowerManagement::requestSleep(SleepState state, QObject *rece
     }
 }
 
-int QubeHardware::PowerManagement::beginSuppressingSleep(const QString &reason)
+int Qube::Hardware::PowerManagement::beginSuppressingSleep(const QString &reason)
 {
     QDBusReply<uint> reply;
     if (globalPowerManager->policyAgentIface.isValid()) {
@@ -120,7 +120,7 @@ int QubeHardware::PowerManagement::beginSuppressingSleep(const QString &reason)
         return -1;
 }
 
-bool QubeHardware::PowerManagement::stopSuppressingSleep(int cookie)
+bool Qube::Hardware::PowerManagement::stopSuppressingSleep(int cookie)
 {
     if (globalPowerManager->policyAgentIface.isValid()) {
         return globalPowerManager->policyAgentIface.ReleaseInhibition(cookie).isValid();
@@ -130,7 +130,7 @@ bool QubeHardware::PowerManagement::stopSuppressingSleep(int cookie)
     }
 }
 
-int QubeHardware::PowerManagement::beginSuppressingScreenPowerManagement(const QString& reason)
+int Qube::Hardware::PowerManagement::beginSuppressingScreenPowerManagement(const QString& reason)
 {
     if (globalPowerManager->policyAgentIface.isValid()) {
         QDBusReply<uint> reply = globalPowerManager->policyAgentIface.AddInhibition(
@@ -147,7 +147,7 @@ int QubeHardware::PowerManagement::beginSuppressingScreenPowerManagement(const Q
     }
 }
 
-bool QubeHardware::PowerManagement::stopSuppressingScreenPowerManagement(int cookie)
+bool Qube::Hardware::PowerManagement::stopSuppressingScreenPowerManagement(int cookie)
 {
     if (globalPowerManager->policyAgentIface.isValid()) {
         return globalPowerManager->policyAgentIface.ReleaseInhibition(cookie).isValid();
@@ -157,52 +157,52 @@ bool QubeHardware::PowerManagement::stopSuppressingScreenPowerManagement(int coo
     }
 }
 
-QubeHardware::PowerManagement::Notifier *QubeHardware::PowerManagement::notifier()
+Qube::Hardware::PowerManagement::Notifier *Qube::Hardware::PowerManagement::notifier()
 {
     return globalPowerManager;
 }
 
-void QubeHardware::PowerManagementPrivate::slotCanSuspendChanged(bool newState)
+void Qube::Hardware::PowerManagementPrivate::slotCanSuspendChanged(bool newState)
 {
     if (newState) {
-        supportedSleepStates+= QubeHardware::PowerManagement::SuspendState;
+        supportedSleepStates+= Qube::Hardware::PowerManagement::SuspendState;
     } else {
-        supportedSleepStates-= QubeHardware::PowerManagement::SuspendState;
+        supportedSleepStates-= Qube::Hardware::PowerManagement::SuspendState;
     }
 }
 
-void QubeHardware::PowerManagementPrivate::slotCanHibernateChanged(bool newState)
+void Qube::Hardware::PowerManagementPrivate::slotCanHibernateChanged(bool newState)
 {
     if (newState) {
-        supportedSleepStates+= QubeHardware::PowerManagement::HibernateState;
+        supportedSleepStates+= Qube::Hardware::PowerManagement::HibernateState;
     } else {
-        supportedSleepStates-= QubeHardware::PowerManagement::HibernateState;
+        supportedSleepStates-= Qube::Hardware::PowerManagement::HibernateState;
     }
 }
 
-void QubeHardware::PowerManagementPrivate::slotPowerSaveStatusChanged(bool newState)
+void Qube::Hardware::PowerManagementPrivate::slotPowerSaveStatusChanged(bool newState)
 {
     powerSaveStatus = newState;
     emit appShouldConserveResourcesChanged(powerSaveStatus);
 }
 
-void QubeHardware::PowerManagementPrivate::slotServiceRegistered(const QString &serviceName)
+void Qube::Hardware::PowerManagementPrivate::slotServiceRegistered(const QString &serviceName)
 {
     Q_UNUSED(serviceName);
 
     // Is the resume signal available?
-    QDBusMessage call = QDBusMessage::createMethodCall("org.vision.Hardware.PowerManagement",
-                        "/org.vision.Hardware/PowerManagement",
-                        "org.vision.Hardware.PowerManagement",
+    QDBusMessage call = QDBusMessage::createMethodCall("org.vision.Qube.Hardware.PowerManagement",
+                        "/org/vision/Qube/Hardware/PowerManagement",
+                        "org.vision.Qube.Hardware.PowerManagement",
                         "backendCapabilities");
     QDBusPendingReply< uint > reply = QDBusConnection::sessionBus().asyncCall(call);
     reply.waitForFinished();
 
     if (reply.isValid() && reply.value() > 0) {
         // Connect the signal
-        QDBusConnection::sessionBus().connect("org.vision.Hardware.PowerManagement",
-                                              "/org.vision.Hardware/PowerManagement",
-                                              "org.vision.Hardware.PowerManagement",
+        QDBusConnection::sessionBus().connect("org.vision.Qube.Hardware.PowerManagement",
+                                              "/org/vision/Qube/Hardware/PowerManagement",
+                                              "org.vision.Qube.Hardware.PowerManagement",
                                               "resumingFromSuspend",
                                               this,
                                               SIGNAL(resumingFromSuspend()));

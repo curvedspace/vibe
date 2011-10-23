@@ -1,76 +1,83 @@
 /****************************************************************************
+ * This file is part of Qube.
  *
- * Copyright (c) 2010 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
- * Copyright (c) 2008 Matteo Bertozzi <theo.bertozzi@gmail.com>
+ * Copyright (c) 2008 Matteo Bertozzi
+ * Copyright (c) 2010-2011 Pier Luigi Fiorini
  *
- * All rights reserved.
- * Contact: Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ * Author(s):
+ *	Matteo Bertozzi <theo.bertozzi@gmail.com>
+ *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
- * GNU Lesser General Public License Usage
- * This file may be used under the terms of the GNU Lesser
- * General Public License version 2.1 as published by the Free Software
- * Foundation and appearing in the file LICENSE.LGPL included in the
- * packaging of this file.  Please review the following information to
- * ensure the GNU Lesser General Public License version 2.1 requirements
- * will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+ * Qube is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
+ * Qube is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Qube.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#ifndef MIMETYPE_H
-#define MIMETYPE_H
+#ifndef QUBE_MIMETYPE_H
+#define QUBE_MIMETYPE_H
 
 #include <QtCore/QObject>
 #include <QtCore/QFile>
-
-#include <QubeCore/Global>
 
 class QStringList;
 class QDomElement;
 class QDomNodeList;
 class QUrl;
 
-namespace QubeCore
+namespace Qube
 {
-    class MimeTypePrivate;
-
-    class QUBESHARED_EXPORT MimeType : public QObject
+    namespace Core
     {
-        Q_DECLARE_PRIVATE(MimeType)
-    public:
-        explicit MimeType(const QString &mimeType = QString::null, QObject *parent = 0);
+        class MimeTypePrivate;
 
-        bool fromFileName(const QString &fileName);
-        bool fromFile(QFile *file);
+        class MimeType : public QObject
+        {
+            Q_DECLARE_PRIVATE(MimeType)
+        public:
+            explicit MimeType(const QString &mimeType = QString::null, QObject *parent = 0);
 
-        QString iconName() const;
-        static QString iconNameForUrl(const QUrl &url);
+            bool fromFileName(const QString &fileName);
+            bool fromFile(QFile *file);
 
-        QString mimeType() const;
-        QString subClassOf() const;
+            QString iconName() const;
+            static QString iconNameForUrl(const QUrl &url);
 
-        QString comment() const;
-        QString genericIconName() const;
+            QString mimeType() const;
+            QString subClassOf() const;
 
-        QString acronym() const;
-        QString expandedAcronym() const;
+            QString comment() const;
+            QString genericIconName() const;
 
-        QStringList aliases() const;
+            QString acronym() const;
+            QString expandedAcronym() const;
 
-        QStringList globs() const;
+            QStringList aliases() const;
 
-    protected:
-        bool getMimeNode();
-        bool checkMagic(const QDomElement &magicNode, QFile *file);
-        bool checkMagic(const QDomNodeList &matchList, QFile *file);
-        bool checkSubMagic(const QDomNodeList &matchList, QFile *file);
-        bool checkMatch(const QDomElement &matchNode, QFile *file);
+            QStringList globs() const;
 
-    private:
-        MimeTypePrivate *d_ptr;
+        protected:
+            bool getMimeNode();
+            bool checkMagic(const QDomElement &magicNode, QFile *file);
+            bool checkMagic(const QDomNodeList &matchList, QFile *file);
+            bool checkSubMagic(const QDomNodeList &matchList, QFile *file);
+            bool checkMatch(const QDomElement &matchNode, QFile *file);
 
-        bool checkMagicString(const QString &offset, const QByteArray &value,
-                              const QByteArray &mask, QFile *file);
-    };
+        private:
+            MimeTypePrivate *d_ptr;
+
+            bool checkMagicString(const QString &offset, const QByteArray &value,
+                                  const QByteArray &mask, QFile *file);
+        };
+    }
 }
 
-#endif // MIMETYPE_H
+#endif // QUBE_MIMETYPE_H

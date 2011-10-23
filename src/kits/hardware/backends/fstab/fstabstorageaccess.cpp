@@ -29,9 +29,9 @@
 
 #define MTAB "/etc/mtab"
 
-using namespace QubeHardware::Backends::Fstab;
+using namespace Qube::Hardware::Backends::Fstab;
 
-FstabStorageAccess::FstabStorageAccess(QubeHardware::Backends::Fstab::FstabDevice *device) :
+FstabStorageAccess::FstabStorageAccess(Qube::Hardware::Backends::Fstab::FstabDevice *device) :
     QObject(device),
     m_fstabDevice(device)
 {
@@ -57,7 +57,7 @@ void FstabStorageAccess::connectDBusSignals()
                                   SLOT(slotTeardownDone(int, const QString&)));
 }
 
-const QubeHardware::Backends::Fstab::FstabDevice *FstabStorageAccess::fstabDevice() const
+const Qube::Hardware::Backends::Fstab::FstabDevice *FstabStorageAccess::fstabDevice() const
 {
     return m_fstabDevice;
 }
@@ -123,31 +123,31 @@ void FstabStorageAccess::slotTeardownRequested()
 void FstabStorageAccess::slotSetupFinished(int exitCode, QProcess::ExitStatus /*exitStatus*/)
 {
     if (exitCode==0) {
-        m_fstabDevice->broadcastActionDone("setup", QubeHardware::NoError, QString());
+        m_fstabDevice->broadcastActionDone("setup", Qube::Hardware::NoError, QString());
     } else {
-        m_fstabDevice->broadcastActionDone("setup", QubeHardware::UnauthorizedOperation, m_process->readAllStandardError());
+        m_fstabDevice->broadcastActionDone("setup", Qube::Hardware::UnauthorizedOperation, m_process->readAllStandardError());
     }
     delete m_process;
 }
 
 void FstabStorageAccess::slotSetupDone(int error, const QString &errorString)
 {
-    emit setupDone(static_cast<QubeHardware::ErrorType>(error), errorString, m_fstabDevice->udi());
+    emit setupDone(static_cast<Qube::Hardware::ErrorType>(error), errorString, m_fstabDevice->udi());
 }
 
 void FstabStorageAccess::slotTeardownFinished(int exitCode, QProcess::ExitStatus /*exitStatus*/)
 {
     if (exitCode==0) {
-        m_fstabDevice->broadcastActionDone("teardown", QubeHardware::NoError, QString());
+        m_fstabDevice->broadcastActionDone("teardown", Qube::Hardware::NoError, QString());
     } else {
-        m_fstabDevice->broadcastActionDone("teardown", QubeHardware::UnauthorizedOperation, m_process->readAllStandardError());
+        m_fstabDevice->broadcastActionDone("teardown", Qube::Hardware::UnauthorizedOperation, m_process->readAllStandardError());
     }
     delete m_process;
 }
 
 void FstabStorageAccess::slotTeardownDone(int error, const QString &errorString)
 {
-    emit teardownDone(static_cast<QubeHardware::ErrorType>(error), errorString, m_fstabDevice->udi());
+    emit teardownDone(static_cast<Qube::Hardware::ErrorType>(error), errorString, m_fstabDevice->udi());
 }
 
 void FstabStorageAccess::onMtabChanged()

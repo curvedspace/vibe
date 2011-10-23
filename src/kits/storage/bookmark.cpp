@@ -1,24 +1,30 @@
-// -*- c-basic-offset:4; indent-tabs-mode:nil -*-
-// vim: set ts=4 sts=4 sw=4 et:
-/* This file is part of the KDE libraries
-   Copyright (C) 2000 David Faure <faure@kde.org>
-   Copyright (C) 2003 Alexander Kellett <lypanov@kde.org>
-   Copyright (C) 2008 Norbert Frese <nf2@scheinwelt.at>
-
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Library General Public
-   License version 2 as published by the Free Software Foundation.
-
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Library General Public License for more details.
-
-   You should have received a copy of the GNU Library General Public License
-   along with this library; see the file COPYING.LIB.  If not, write to
-   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-   Boston, MA 02110-1301, USA.
-*/
+/****************************************************************************
+ * This file is part of Qube.
+ *
+ * Copyright (c) 2000-2005 David Faure
+ * Copyright (c) 2003 Alexander Kellett
+ * Copyright (c) 2008 Norbert Frese
+ * Copyright (c) 2011 Pier Luigi Fiorini
+ *
+ * Author(s):
+ *	David Faure <faure@kde.org>
+ *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *	Norbert Frese <nf2@scheinwelt.at>
+ *	Alexander Kellett <lypanov@kde.org>
+ *
+ * Qube is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Qube is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Qube.  If not, see <http://www.gnu.org/licenses/>.
+ ***************************************************************************/
 
 #include <QtCore/QStack>
 #include <QtCore/QDateTime>
@@ -26,8 +32,8 @@
 #include <QtCore/QStringList>
 #include <QtCore/QDebug>
 
-#include <QubeCore/MimeType>
-#include <QubeCore/StringHandler>
+#include <Qube/Core/MimeType>
+#include <Qube/Core/StringHandler>
 
 #include "bookmark.h"
 
@@ -91,12 +97,12 @@ static QDomNode findMetadata(const QString & forOwner, QDomNode& parent, bool cr
     return metadataElement;
 }
 
-//////
-
-namespace QubeStorage
+namespace Qube
+{
+namespace Storage
 {
     /*
-     * QubeCore::BookmarkGroup
+     * BookmarkGroup
      */
 
     BookmarkGroup::BookmarkGroup()
@@ -228,7 +234,7 @@ namespace QubeStorage
         Bookmark newBookmark = addBookmark(Bookmark(elem));
 
         // as icons are moved to metadata, we have to use the Bookmark API for this
-        newBookmark.setIcon(icon.isEmpty() ? QubeCore::MimeType::iconNameForUrl(url) : icon);
+        newBookmark.setIcon(icon.isEmpty() ? Qube::Core::MimeType::iconNameForUrl(url) : icon);
         return newBookmark;
     }
 
@@ -274,7 +280,7 @@ namespace QubeStorage
     }
 
     /*
-     * QubeCore::Bookmark
+     * Bookmark
      */
 
     Bookmark::Bookmark()
@@ -310,7 +316,7 @@ namespace QubeStorage
 
     QString Bookmark::text() const
     {
-        return QubeCore::StringHandler::elide(fullText(), Qt::ElideMiddle);
+        return Qube::Core::StringHandler::elide(fullText(), Qt::ElideMiddle);
     }
 
     QString Bookmark::fullText() const
@@ -379,12 +385,12 @@ namespace QubeStorage
                     // Get icon from mimeType
                     QString _mimeType = mimeType();
                     if (!_mimeType.isEmpty()) {
-                        QubeCore::MimeType mime(_mimeType);
+                        Qube::Core::MimeType mime(_mimeType);
                         return mime.iconName();
                     }
 
                     // Get icon from URL
-                    icon = QubeCore::MimeType::iconNameForUrl(url());
+                    icon = Qube::Core::MimeType::iconNameForUrl(url());
                 }
             }
         }
@@ -533,7 +539,7 @@ namespace QubeStorage
 
     void Bookmark::updateAccessMetadata()
     {
-        qDebug() << "QubeCore::Bookmark::updateAccessMetadata " << address() << " " << url().toString();
+        qDebug() << "Qube::Storage::Bookmark::updateAccessMetadata " << address() << " " << url().toString();
 
         const uint timet = QDateTime::currentDateTime().toTime_t();
         setMetaDataItem("time_added", QString::number(timet), DontOverwriteMetaData);
@@ -721,7 +727,7 @@ namespace QubeStorage
             QUrl::List::ConstIterator uit = urls.begin();
             QUrl::List::ConstIterator uEnd = urls.end();
             for (; uit != uEnd ; ++uit) {
-                //qDebug() << "QubeCore::Bookmark::List::fromMimeData url=" << (*uit);
+                //qDebug() << "Qube::Storage::Bookmark::List::fromMimeData url=" << (*uit);
                 bookmarks.append(Bookmark::standaloneBookmark(
                                      (*uit).prettyUrl(), (*uit)));
             }
@@ -729,4 +735,5 @@ namespace QubeStorage
 #endif
         return bookmarks;
     }
+}
 }

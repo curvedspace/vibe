@@ -24,47 +24,47 @@
 #include "soliddefs_p.h"
 #include <ifaces/opticaldrive.h>
 
-QubeHardware::OpticalDrive::OpticalDrive(QObject *backendObject)
+Qube::Hardware::OpticalDrive::OpticalDrive(QObject *backendObject)
     : StorageDrive(*new OpticalDrivePrivate(), backendObject)
 {
     connect(backendObject, SIGNAL(ejectPressed(const QString &)),
             this, SIGNAL(ejectPressed(const QString &)));
-    connect(backendObject, SIGNAL(ejectDone(QubeHardware::ErrorType, QVariant, const QString &)),
-            this, SIGNAL(ejectDone(QubeHardware::ErrorType, QVariant, const QString &)));
+    connect(backendObject, SIGNAL(ejectDone(Qube::Hardware::ErrorType, QVariant, const QString &)),
+            this, SIGNAL(ejectDone(Qube::Hardware::ErrorType, QVariant, const QString &)));
     connect(backendObject, SIGNAL(ejectRequested(const QString &)),
             this, SIGNAL(ejectRequested(const QString &)));
 }
 
-QubeHardware::OpticalDrive::~OpticalDrive()
+Qube::Hardware::OpticalDrive::~OpticalDrive()
 {
 
 }
 
-QubeHardware::OpticalDrive::MediumTypes QubeHardware::OpticalDrive::supportedMedia() const
+Qube::Hardware::OpticalDrive::MediumTypes Qube::Hardware::OpticalDrive::supportedMedia() const
 {
     Q_D(const OpticalDrive);
     return_SOLID_CALL(Ifaces::OpticalDrive *, d->backendObject(), MediumTypes(), supportedMedia());
 }
 
-int QubeHardware::OpticalDrive::readSpeed() const
+int Qube::Hardware::OpticalDrive::readSpeed() const
 {
     Q_D(const OpticalDrive);
     return_SOLID_CALL(Ifaces::OpticalDrive *, d->backendObject(), 0, readSpeed());
 }
 
-int QubeHardware::OpticalDrive::writeSpeed() const
+int Qube::Hardware::OpticalDrive::writeSpeed() const
 {
     Q_D(const OpticalDrive);
     return_SOLID_CALL(Ifaces::OpticalDrive *, d->backendObject(), 0, writeSpeed());
 }
 
-QList<int> QubeHardware::OpticalDrive::writeSpeeds() const
+QList<int> Qube::Hardware::OpticalDrive::writeSpeeds() const
 {
     Q_D(const OpticalDrive);
     return_SOLID_CALL(Ifaces::OpticalDrive *, d->backendObject(), QList<int>(), writeSpeeds());
 }
 
-bool QubeHardware::OpticalDrive::eject()
+bool Qube::Hardware::OpticalDrive::eject()
 {
     Q_D(OpticalDrive);
     return_SOLID_CALL(Ifaces::OpticalDrive *, d->backendObject(), false, eject());

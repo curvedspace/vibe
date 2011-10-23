@@ -32,7 +32,7 @@
 #include <QFileInfo>
 #include <QtCore/QStringList>
 #include <QDebug>
-using namespace QubeHardware::Backends::UDev;
+using namespace Qube::Hardware::Backends::UDev;
 
 NetworkInterface::NetworkInterface(UDevDevice *device)
     : DeviceInterface(device)

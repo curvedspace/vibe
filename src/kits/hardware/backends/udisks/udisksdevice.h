@@ -23,62 +23,63 @@
 #define UDISKSDEVICE_H
 
 #include <ifaces/device.h>
-#include <QubeHardware/deviceinterface.h>
-#include <QubeHardware/qubehardwarenamespace.h>
+#include <Qube/Hardware/deviceinterface.h>
+#include <Qube/Hardware/qubehardwarenamespace.h>
 
 #include <QtDBus/QDBusInterface>
 #include <QtCore/QSet>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDisks
+        namespace Backends
         {
-
-            class UDisksDevice : public QubeHardware::Ifaces::Device
+            namespace UDisks
             {
-                Q_OBJECT
-            public:
-                UDisksDevice(const QString &udi);
-                virtual ~UDisksDevice();
+                class UDisksDevice : public Qube::Hardware::Ifaces::Device
+                {
+                    Q_OBJECT
+                public:
+                    UDisksDevice(const QString &udi);
+                    virtual ~UDisksDevice();
 
 
-                virtual QObject* createDeviceInterface(const QubeHardware::DeviceInterface::Type& type);
-                virtual bool queryDeviceInterface(const QubeHardware::DeviceInterface::Type& type) const;
-                virtual QString description() const;
-                virtual QStringList emblems() const;
-                virtual QString icon() const;
-                virtual QString product() const;
-                virtual QString vendor() const;
-                virtual QString udi() const;
-                virtual QString parentUdi() const;
+                    virtual QObject* createDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type);
+                    virtual bool queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type) const;
+                    virtual QString description() const;
+                    virtual QStringList emblems() const;
+                    virtual QString icon() const;
+                    virtual QString product() const;
+                    virtual QString vendor() const;
+                    virtual QString udi() const;
+                    virtual QString parentUdi() const;
 
-                QVariant prop(const QString &key) const;
-                bool propertyExists(const QString &key) const;
-                QMap<QString, QVariant> allProperties() const;
+                    QVariant prop(const QString &key) const;
+                    bool propertyExists(const QString &key) const;
+                    QMap<QString, QVariant> allProperties() const;
 
-                bool isDeviceBlacklisted() const;
+                    bool isDeviceBlacklisted() const;
 
-                QString errorToString(const QString & error) const;
-                QubeHardware::ErrorType errorToQubeHardwareError(const QString & error) const;
+                    QString errorToString(const QString & error) const;
+                    Qube::Hardware::ErrorType errorToQubeHardwareError(const QString & error) const;
 
-            Q_SIGNALS:
-                void changed();
+                Q_SIGNALS:
+                    void changed();
 
-            private Q_SLOTS:
-                void slotChanged();
+                private Q_SLOTS:
+                    void slotChanged();
 
-            private:
-                QString storageDescription() const;
-                QString volumeDescription() const;
-                mutable QDBusInterface *m_device;
-                QString m_udi;
-                mutable QVariantMap m_cache;
+                private:
+                    QString storageDescription() const;
+                    QString volumeDescription() const;
+                    mutable QDBusInterface *m_device;
+                    QString m_udi;
+                    mutable QVariantMap m_cache;
 
-                void checkCache(const QString &key) const;
-            };
-
+                    void checkCache(const QString &key) const;
+                };
+            }
         }
     }
 }

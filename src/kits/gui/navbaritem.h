@@ -1,60 +1,68 @@
 /****************************************************************************
+ * This file is part of Qube.
  *
- * Copyright (c) 2010 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
- * Copyright (c) 2008 Matteo Bertozzi <theo.bertozzi@gmail.com>
- * All rights reserved.
+ * Copyright (c) 2008 Matteo Bertozzi
+ * Copyright (c) 2010-2011 Pier Luigi Fiorini
  *
- * Contact: Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ * Author(s):
+ *	Matteo Bertozzi <theo.bertozzi@gmail.com>
+ *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
- * GNU Lesser General Public License Usage
- * This file may be used under the terms of the GNU Lesser
- * General Public License version 2.1 as published by the Free Software
- * Foundation and appearing in the file LICENSE.LGPL included in the
- * packaging of this file.  Please review the following information to
- * ensure the GNU Lesser General Public License version 2.1 requirements
- * will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+ * Qube is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
+ * Qube is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Qube.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#ifndef NAVBARITEM_H
-#define NAVBARITEM_H
+#ifndef QUBE_NAVBARITEM_H
+#define QUBE_NAVBARITEM_H
 
 #include <QtGui/QWidget>
 
-#include <QubeCore/Global>
-#include <QubeGui/SelectableWidget>
+#include <Qube/Gui/SelectableWidget>
 
-namespace QubeGui
+namespace Qube
 {
-    class NavBarItemPrivate;
-
-    class QUBESHARED_EXPORT NavBarItem : public SelectableWidget
+    namespace Gui
     {
-        Q_OBJECT
-        Q_PROPERTY(QString text READ text WRITE setText)
-        Q_PROPERTY(QPixmap icon READ icon WRITE setIcon)
-        Q_DECLARE_PRIVATE(NavBarItem)
-    public:
-        explicit NavBarItem(QWidget *parent = 0);
-        NavBarItem(const QString &text, QWidget *parent = 0);
-        NavBarItem(const QPixmap &icon, const QString &text, QWidget *parent = 0);
+        class NavBarItemPrivate;
 
-        void addSpacing(int size);
-        void addWidget(QWidget *widget, int stretch = 0);
+        class NavBarItem : public SelectableWidget
+        {
+            Q_OBJECT
+            Q_DECLARE_PRIVATE(NavBarItem)
+            Q_PROPERTY(QString text READ text WRITE setText)
+            Q_PROPERTY(QPixmap icon READ icon WRITE setIcon)
+        public:
+            explicit NavBarItem(QWidget *parent = 0);
+            NavBarItem(const QString &text, QWidget *parent = 0);
+            NavBarItem(const QPixmap &icon, const QString &text, QWidget *parent = 0);
 
-        void insertSpacing(int index, int size);
-        void insertWidget(int index, QWidget *widget, int stretch = 0);
+            void addSpacing(int size);
+            void addWidget(QWidget *widget, int stretch = 0);
 
-        QString text() const;
-        void setText(const QString &text);
-        void setTextColor(const QColor &color);
+            void insertSpacing(int index, int size);
+            void insertWidget(int index, QWidget *widget, int stretch = 0);
 
-        const QPixmap *icon() const;
-        void setIcon(const QPixmap &icon);
+            QString text() const;
+            void setText(const QString &text);
+            void setTextColor(const QColor &color);
 
-    private:
-        NavBarItemPrivate *d_ptr;
-    };
+            const QPixmap *icon() const;
+            void setIcon(const QPixmap &icon);
+
+        private:
+            NavBarItemPrivate *d_ptr;
+        };
+    }
 }
 
-#endif // NAVBARITEM_H
+#endif // QUBE_NAVBARITEM_H

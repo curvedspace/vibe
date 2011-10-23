@@ -22,7 +22,7 @@
 
 #include "upowerdevice.h"
 
-using namespace QubeHardware::Backends::UPower;
+using namespace Qube::Hardware::Backends::UPower;
 
 GenericInterface::GenericInterface(UPowerDevice *device)
     : DeviceInterface(device)

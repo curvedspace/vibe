@@ -21,68 +21,70 @@
 #ifndef SOLID_ACADAPTER_H
 #define SOLID_ACADAPTER_H
 
-#include <QubeCore/Global>
-#include <QubeHardware/deviceinterface.h>
+#include <Qube/Hardware/deviceinterface.h>
 
-namespace QubeHardware
+namespace Qube
 {
-    class AcAdapterPrivate;
-    class Device;
-
-    /**
-     * This device interface is available on AC adapters.
-     */
-    class QUBESHARED_EXPORT AcAdapter : public DeviceInterface
+    namespace Hardware
     {
-        Q_OBJECT
-        Q_PROPERTY(bool plugged READ isPlugged)
-        Q_DECLARE_PRIVATE(AcAdapter)
-        friend class Device;
-
-    private:
-        /**
-         * Creates a new AcAdapter object.
-         * You generally won't need this. It's created when necessary using
-         * Device::as().
-         *
-         * @param backendObject the device interface object provided by the backend
-         * @see QubeHardware::Device::as()
-         */
-        explicit AcAdapter(QObject *backendObject);
-
-    public:
-        /**
-         * Destroys an AcAdapter object.
-         */
-        virtual ~AcAdapter();
-
+        class AcAdapterPrivate;
+        class Device;
 
         /**
-         * Get the QubeHardware::DeviceInterface::Type of the AcAdapter device interface.
-         *
-         * @return the AcAdapter device interface type
-         * @see QubeHardware::Ifaces::Enums::DeviceInterface::Type
+         * This device interface is available on AC adapters.
          */
-        static Type deviceInterfaceType() {
-            return DeviceInterface::AcAdapter;
-        }
+        class AcAdapter : public DeviceInterface
+        {
+            Q_OBJECT
+            Q_PROPERTY(bool plugged READ isPlugged)
+            Q_DECLARE_PRIVATE(AcAdapter)
+            friend class Device;
 
-        /**
-         * Indicates if this AC adapter is plugged.
-         *
-         * @return true if the adapter is plugged, false otherwise
-         */
-        bool isPlugged() const;
+        private:
+            /**
+             * Creates a new AcAdapter object.
+             * You generally won't need this. It's created when necessary using
+             * Device::as().
+             *
+             * @param backendObject the device interface object provided by the backend
+             * @see Qube::Hardware::Device::as()
+             */
+            explicit AcAdapter(QObject *backendObject);
 
-    Q_SIGNALS:
-        /**
-         * This signal is emitted when the AC adapter is plugged or unplugged.
-         *
-         * @param newState true if the AC adapter is plugged, false otherwise
-         * @param udi the UDI of the AC adapter
-         */
-        void plugStateChanged(bool newState, const QString &udi);
-    };
+        public:
+            /**
+             * Destroys an AcAdapter object.
+             */
+            virtual ~AcAdapter();
+
+
+            /**
+             * Get the Qube::Hardware::DeviceInterface::Type of the AcAdapter device interface.
+             *
+             * @return the AcAdapter device interface type
+             * @see Qube::Hardware::Ifaces::Enums::DeviceInterface::Type
+             */
+            static Type deviceInterfaceType() {
+                return DeviceInterface::AcAdapter;
+            }
+
+            /**
+             * Indicates if this AC adapter is plugged.
+             *
+             * @return true if the adapter is plugged, false otherwise
+             */
+            bool isPlugged() const;
+
+        Q_SIGNALS:
+            /**
+             * This signal is emitted when the AC adapter is plugged or unplugged.
+             *
+             * @param newState true if the AC adapter is plugged, false otherwise
+             * @param udi the UDI of the AC adapter
+             */
+            void plugStateChanged(bool newState, const QString &udi);
+        };
+    }
 }
 
 #endif

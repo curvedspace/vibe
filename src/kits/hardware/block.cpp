@@ -24,29 +24,29 @@
 #include "soliddefs_p.h"
 #include <ifaces/block.h>
 
-QubeHardware::Block::Block(QObject *backendObject)
+Qube::Hardware::Block::Block(QObject *backendObject)
     : DeviceInterface(*new BlockPrivate(), backendObject)
 {
 }
 
-QubeHardware::Block::~Block()
+Qube::Hardware::Block::~Block()
 {
 
 }
 
-int QubeHardware::Block::deviceMajor() const
+int Qube::Hardware::Block::deviceMajor() const
 {
     Q_D(const Block);
     return_SOLID_CALL(Ifaces::Block *, d->backendObject(), 0, deviceMajor());
 }
 
-int QubeHardware::Block::deviceMinor() const
+int Qube::Hardware::Block::deviceMinor() const
 {
     Q_D(const Block);
     return_SOLID_CALL(Ifaces::Block *, d->backendObject(), 0, deviceMinor());
 }
 
-QString QubeHardware::Block::device() const
+QString Qube::Hardware::Block::device() const
 {
     Q_D(const Block);
     return_SOLID_CALL(Ifaces::Block *, d->backendObject(), QString(), device());

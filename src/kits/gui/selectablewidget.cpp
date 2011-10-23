@@ -1,83 +1,92 @@
 /****************************************************************************
+ * This file is part of Qube.
  *
- * Copyright (c) 2010 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
- * Copyright (c) 2008 Matteo Bertozzi <theo.bertozzi@gmail.com>
- * All rights reserved.
+ * Copyright (c) 2008 Matteo Bertozzi
+ * Copyright (c) 2010-2011 Pier Luigi Fiorini
  *
- * Contact: Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ * Author(s):
+ *	Matteo Bertozzi <theo.bertozzi@gmail.com>
+ *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
- * GNU Lesser General Public License Usage
- * This file may be used under the terms of the GNU Lesser
- * General Public License version 2.1 as published by the Free Software
- * Foundation and appearing in the file LICENSE.LGPL included in the
- * packaging of this file.  Please review the following information to
- * ensure the GNU Lesser General Public License version 2.1 requirements
- * will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+ * Qube is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
+ * Qube is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Qube.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
 #include <QtGui/QMouseEvent>
 
 #include "selectablewidget.h"
 
-namespace QubeGui
+namespace Qube
 {
-    class SelectableWidgetPrivate
+    namespace Gui
     {
-    public:
-        bool isSelected;
-    };
+        class SelectableWidgetPrivate
+        {
+        public:
+            bool isSelected;
+        };
 
-    SelectableWidget::SelectableWidget(QWidget *parent)
-        : QWidget(parent),
-          d_ptr(new SelectableWidgetPrivate())
-    {
-        Q_D(SelectableWidget);
-        d->isSelected = false;
-    }
-
-    bool SelectableWidget::isSelected() const
-    {
-        Q_D(const SelectableWidget);
-        return d->isSelected;
-    }
-
-    void SelectableWidget::select()
-    {
-        select(true);
-    }
-
-    void SelectableWidget::select(bool isSelected)
-    {
-        Q_D(SelectableWidget);
-
-        if (d->isSelected == isSelected)
-            return;
-
-        d->isSelected = isSelected;
-
-        // If is selected raise event
-        if (isSelected) {
-            emit selected();
-            emit selected(this);
+        SelectableWidget::SelectableWidget(QWidget *parent)
+            : QWidget(parent),
+              d_ptr(new SelectableWidgetPrivate())
+        {
+            Q_D(SelectableWidget);
+            d->isSelected = false;
         }
 
-        update();
-    }
+        bool SelectableWidget::isSelected() const
+        {
+            Q_D(const SelectableWidget);
+            return d->isSelected;
+        }
 
-    void SelectableWidget::unselect()
-    {
-        select(false);
-    }
+        void SelectableWidget::select()
+        {
+            select(true);
+        }
 
-    void SelectableWidget::mouseReleaseEvent(QMouseEvent *event)
-    {
-        Q_D(SelectableWidget);
+        void SelectableWidget::select(bool isSelected)
+        {
+            Q_D(SelectableWidget);
 
-        QWidget::mouseReleaseEvent(event);
+            if (d->isSelected == isSelected)
+                return;
 
-        // Left Click, Select/Unselect Item
-        if (event->button() == Qt::LeftButton)
-            select(!d->isSelected);
+            d->isSelected = isSelected;
+
+            // If is selected raise event
+            if (isSelected) {
+                emit selected();
+                emit selected(this);
+            }
+
+            update();
+        }
+
+        void SelectableWidget::unselect()
+        {
+            select(false);
+        }
+
+        void SelectableWidget::mouseReleaseEvent(QMouseEvent *event)
+        {
+            Q_D(SelectableWidget);
+
+            QWidget::mouseReleaseEvent(event);
+
+            // Left Click, Select/Unselect Item
+            if (event->button() == Qt::LeftButton)
+                select(!d->isSelected);
+        }
     }
 }

@@ -1,21 +1,26 @@
-/*  This file is part of the KDE project
-    Copyright (C) 2008 Norbert Frese <nf2@scheinwelt.at>
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License version 2 as published by the Free Software Foundation.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
-
-    You should have received a copy of the GNU Library General Public License
-    along with this library; see the file COPYING.LIB.  If not, write to
-    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301, USA.
-
-*/
+/****************************************************************************
+ * This file is part of Qube.
+ *
+ * Copyright (c) 2008 Norbert Frese
+ * Copyright (c) 2011 Pier Luigi Fiorini
+ *
+ * Author(s):
+ *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *	Norbert Frese <nf2@scheinwelt.at>
+ *
+ * Qube is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Qube is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Qube.  If not, see <http://www.gnu.org/licenses/>.
+ ***************************************************************************/
 
 #include <QtCore/QObject>
 #include <QtCore/QTextStream>
@@ -26,7 +31,9 @@
 #include "fileplacessharedbookmarks_p.h"
 #include "bookmarkmanager.h"
 
-namespace QubeStorage
+namespace Qube
+{
+namespace Storage
 {
 //////////////// utility functions
 
@@ -280,4 +287,5 @@ namespace QubeStorage
         bool dirty = exportSharedBookmarks();
         if (dirty) m_sharedBookmarkManager->emitChanged();
     }
+}
 }

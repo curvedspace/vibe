@@ -20,7 +20,7 @@
 
 #include "udisksblock.h"
 
-using namespace QubeHardware::Backends::UDisks;
+using namespace Qube::Hardware::Backends::UDisks;
 
 Block::Block(UDisksDevice *device)
     : DeviceInterface(device)

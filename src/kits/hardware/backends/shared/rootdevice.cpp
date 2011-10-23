@@ -21,10 +21,10 @@
 #include "rootdevice.h"
 #include <QtCore/QStringList>
 
-using namespace QubeHardware::Backends::Shared;
+using namespace Qube::Hardware::Backends::Shared;
 
 RootDevice::RootDevice(const QString &udi, const QString &parentUdi) :
-    QubeHardware::Ifaces::Device(),
+    Qube::Hardware::Ifaces::Device(),
     m_udi(udi),
     m_parentUdi(parentUdi),
     m_vendor("KDE")
@@ -95,12 +95,12 @@ void RootDevice::setDescription(const QString &description)
     m_description = description;
 }
 
-bool RootDevice::queryDeviceInterface(const QubeHardware::DeviceInterface::Type&) const
+bool RootDevice::queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type&) const
 {
     return false;
 }
 
-QObject* RootDevice::createDeviceInterface(const QubeHardware::DeviceInterface::Type&)
+QObject* RootDevice::createDeviceInterface(const Qube::Hardware::DeviceInterface::Type&)
 {
     return 0;
 }

@@ -26,42 +26,42 @@
 #include <QtCore/QStringList>
 #include <QtCore/QVariant>
 
-QubeHardware::AudioInterface::AudioInterface(QObject *backendObject)
+Qube::Hardware::AudioInterface::AudioInterface(QObject *backendObject)
     : DeviceInterface(*new AudioInterfacePrivate(), backendObject)
 {
 }
 
-QubeHardware::AudioInterface::~AudioInterface()
+Qube::Hardware::AudioInterface::~AudioInterface()
 {
 
 }
 
 
-QubeHardware::AudioInterface::AudioDriver QubeHardware::AudioInterface::driver() const
+Qube::Hardware::AudioInterface::AudioDriver Qube::Hardware::AudioInterface::driver() const
 {
     Q_D(const AudioInterface);
     return_SOLID_CALL(Ifaces::AudioInterface *, d->backendObject(), UnknownAudioDriver, driver());
 }
 
-QVariant QubeHardware::AudioInterface::driverHandle() const
+QVariant Qube::Hardware::AudioInterface::driverHandle() const
 {
     Q_D(const AudioInterface);
     return_SOLID_CALL(Ifaces::AudioInterface *, d->backendObject(), QVariant(), driverHandle());
 }
 
-QString QubeHardware::AudioInterface::name() const
+QString Qube::Hardware::AudioInterface::name() const
 {
     Q_D(const AudioInterface);
     return_SOLID_CALL(Ifaces::AudioInterface *, d->backendObject(), QString(), name());
 }
 
-QubeHardware::AudioInterface::AudioInterfaceTypes QubeHardware::AudioInterface::deviceType() const
+Qube::Hardware::AudioInterface::AudioInterfaceTypes Qube::Hardware::AudioInterface::deviceType() const
 {
     Q_D(const AudioInterface);
     return_SOLID_CALL(Ifaces::AudioInterface *, d->backendObject(), UnknownAudioInterfaceType, deviceType());
 }
 
-QubeHardware::AudioInterface::SoundcardType QubeHardware::AudioInterface::soundcardType() const
+Qube::Hardware::AudioInterface::SoundcardType Qube::Hardware::AudioInterface::soundcardType() const
 {
     Q_D(const AudioInterface);
     return_SOLID_CALL(Ifaces::AudioInterface *, d->backendObject(), InternalSoundcard, soundcardType());

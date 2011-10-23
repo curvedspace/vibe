@@ -21,7 +21,7 @@
 
 #include "udisksstoragevolume.h"
 
-using namespace QubeHardware::Backends::UDisks;
+using namespace Qube::Hardware::Backends::UDisks;
 
 UDisksStorageVolume::UDisksStorageVolume(UDisksDevice *device)
     : Block(device)
@@ -63,22 +63,22 @@ QString UDisksStorageVolume::fsType() const
     return m_device->prop("IdType").toString();
 }
 
-QubeHardware::StorageVolume::UsageType UDisksStorageVolume::usage() const
+Qube::Hardware::StorageVolume::UsageType UDisksStorageVolume::usage() const
 {
     QString usage = m_device->prop("IdUsage").toString();
 
     if (usage == "filesystem") {
-        return QubeHardware::StorageVolume::FileSystem;
+        return Qube::Hardware::StorageVolume::FileSystem;
     } else if (usage == "partitiontable") {
-        return QubeHardware::StorageVolume::PartitionTable;
+        return Qube::Hardware::StorageVolume::PartitionTable;
     } else if (usage == "raid") {
-        return QubeHardware::StorageVolume::Raid;
+        return Qube::Hardware::StorageVolume::Raid;
     } else if (usage == "crypto") {
-        return QubeHardware::StorageVolume::Encrypted;
+        return Qube::Hardware::StorageVolume::Encrypted;
     } else if (usage == "unused") {
-        return QubeHardware::StorageVolume::Unused;
+        return Qube::Hardware::StorageVolume::Unused;
     } else {
-        return QubeHardware::StorageVolume::Other;
+        return Qube::Hardware::StorageVolume::Other;
     }
 }
 

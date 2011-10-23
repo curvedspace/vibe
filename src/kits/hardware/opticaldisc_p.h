@@ -23,14 +23,17 @@
 
 #include "storagevolume_p.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    class OpticalDiscPrivate : public StorageVolumePrivate
+    namespace Hardware
     {
-    public:
-        OpticalDiscPrivate()
-            : StorageVolumePrivate() { }
-    };
+        class OpticalDiscPrivate : public StorageVolumePrivate
+        {
+        public:
+            OpticalDiscPrivate()
+                : StorageVolumePrivate() { }
+        };
+    }
 }
 
 #endif

@@ -18,22 +18,24 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CPUFEATURES_H
-#define CPUFEATURES_H
+#ifndef QUBE_HARDWARE_CPUFEATURES_H
+#define QUBE_HARDWARE_CPUFEATURES_H
 
-#include <QubeHardware/processor.h>
+#include <Qube/Hardware/processor.h>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace Shared
+        namespace Backends
         {
+            namespace Shared
+            {
 
-            QubeHardware::Processor::InstructionSets cpuFeatures();
-
+                Qube::Hardware::Processor::InstructionSets cpuFeatures();
+            }
         }
     }
 }
 
-#endif // CPUFEATURES_H
+#endif // QUBE_HARDWARE_CPUFEATURES_H

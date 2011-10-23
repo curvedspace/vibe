@@ -25,7 +25,7 @@
 #include <ifaces/genericinterface.h>
 
 
-QubeHardware::GenericInterface::GenericInterface(QObject *backendObject)
+Qube::Hardware::GenericInterface::GenericInterface(QObject *backendObject)
     : DeviceInterface(*new GenericInterfacePrivate(), backendObject)
 {
     if (backendObject) {
@@ -37,24 +37,24 @@ QubeHardware::GenericInterface::GenericInterface(QObject *backendObject)
 }
 
 
-QubeHardware::GenericInterface::~GenericInterface()
+Qube::Hardware::GenericInterface::~GenericInterface()
 {
 
 }
 
-QVariant QubeHardware::GenericInterface::property(const QString &key) const
+QVariant Qube::Hardware::GenericInterface::property(const QString &key) const
 {
     Q_D(const GenericInterface);
     return_SOLID_CALL(Ifaces::GenericInterface *, d->backendObject(), QVariant(), property(key));
 }
 
-QMap<QString, QVariant> QubeHardware::GenericInterface::allProperties() const
+QMap<QString, QVariant> Qube::Hardware::GenericInterface::allProperties() const
 {
     Q_D(const GenericInterface);
     return_SOLID_CALL(Ifaces::GenericInterface *, d->backendObject(), QVariantMap(), allProperties());
 }
 
-bool QubeHardware::GenericInterface::propertyExists(const QString &key) const
+bool Qube::Hardware::GenericInterface::propertyExists(const QString &key) const
 {
     Q_D(const GenericInterface);
     return_SOLID_CALL(Ifaces::GenericInterface *, d->backendObject(), false, propertyExists(key));

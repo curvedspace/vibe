@@ -20,7 +20,7 @@
 
 #include "networkshare.h"
 
-QubeHardware::Ifaces::NetworkShare::~NetworkShare()
+Qube::Hardware::Ifaces::NetworkShare::~NetworkShare()
 {
 }
 

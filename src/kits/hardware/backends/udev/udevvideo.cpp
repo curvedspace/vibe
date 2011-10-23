@@ -22,7 +22,7 @@
 
 #include "udevvideo.h"
 
-using namespace QubeHardware::Backends::UDev;
+using namespace Qube::Hardware::Backends::UDev;
 
 Video::Video(UDevDevice *device)
     : DeviceInterface(device)

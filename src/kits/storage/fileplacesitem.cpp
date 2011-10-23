@@ -1,40 +1,40 @@
-/*  This file is part of the KDE project
-    Copyright (C) 2007 Kevin Ottens <ervin@kde.org>
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License version 2 as published by the Free Software Foundation.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
-
-    You should have received a copy of the GNU Library General Public License
-    along with this library; see the file COPYING.LIB.  If not, write to
-    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301, USA.
-
-*/
+/****************************************************************************
+ * This file is part of Qube.
+ *
+ * Copyright (c) 2007 Kevin Ottens
+ * Copyright (c) 2011 Pier Luigi Fiorini
+ *
+ * Author(s):
+ *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *	Kevin Ottens <ervin@kde.org>
+ *
+ * Qube is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Qube is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Qube.  If not, see <http://www.gnu.org/licenses/>.
+ ***************************************************************************/
 
 #include <QtCore/QDateTime>
 
-#if 0
-#include <kbookmarkmanager.h>
-#include <kiconloader.h>
-#include <kdirlister.h>
-#include <klocale.h>
-#endif
-
-#include <QubeHardware/Block>
-#include <QubeHardware/OpticalDisc>
-#include <QubeHardware/StorageAccess>
-#include <QubeHardware/StorageDriver>
+#include <Qube/Hardware/Block>
+#include <Qube/Hardware/OpticalDisc>
+#include <Qube/Hardware/StorageAccess>
+#include <Qube/Hardware/StorageDriver>
 
 #include "fileplacesitem_p.h"
 #include "fileplacesmodel.h"
 
-namespace QubeStorage
+namespace Qube
+{
+namespace Storage
 {
     FilePlacesItem::FilePlacesItem(BookmarkManager *manager,
                                    const QString &address,
@@ -63,9 +63,9 @@ namespace QubeStorage
 #endif
             }
         } else if (!udi.isEmpty() && m_device.isValid()) {
-            m_access = m_device.as<QubeHardware::StorageAccess>();
-            m_volume = m_device.as<QubeHardware::StorageVolume>();
-            m_disc = m_device.as<QubeHardware::OpticalDisc>();
+            m_access = m_device.as<Qube::Hardware::StorageAccess>();
+            m_volume = m_device.as<Qube::Hardware::StorageVolume>();
+            m_disc = m_device.as<Qube::Hardware::OpticalDisc>();
             if (m_access) {
                 connect(m_access, SIGNAL(accessibilityChanged(bool, const QString &)),
                         this, SLOT(onAccessibilityChanged()));
@@ -112,14 +112,14 @@ namespace QubeStorage
         }
     }
 
-    QubeHardware::Device FilePlacesItem::device() const
+    Qube::Hardware::Device FilePlacesItem::device() const
     {
         if (m_device.udi().isEmpty()) {
-            m_device = QubeHardware::Device(bookmark().metaDataItem("UDI"));
+            m_device = Qube::Hardware::Device(bookmark().metaDataItem("UDI"));
             if (m_device.isValid()) {
-                m_access = m_device.as<QubeHardware::StorageAccess>();
-                m_volume = m_device.as<QubeHardware::StorageVolume>();
-                m_disc = m_device.as<QubeHardware::OpticalDisc>();
+                m_access = m_device.as<Qube::Hardware::StorageAccess>();
+                m_volume = m_device.as<Qube::Hardware::StorageVolume>();
+                m_disc = m_device.as<Qube::Hardware::OpticalDisc>();
             } else {
                 m_access = 0;
                 m_volume = 0;
@@ -172,7 +172,7 @@ namespace QubeStorage
 
     QVariant FilePlacesItem::deviceData(int role) const
     {
-        QubeHardware::Device d = device();
+        Qube::Hardware::Device d = device();
 
         if (d.isValid()) {
             switch (role) {
@@ -183,8 +183,8 @@ namespace QubeStorage
             case FilePlacesModel::UrlRole:
                 if (m_access) {
                     return QUrl(KUrl(m_access->filePath()));
-                } else if (m_disc && (m_disc->availableContent() & QubeHardware::OpticalDisc::Audio)!=0) {
-                    QString device = d.as<QubeHardware::Block>()->device();
+                } else if (m_disc && (m_disc->availableContent() & Qube::Hardware::OpticalDisc::Audio)!=0) {
+                    QString device = d.as<Qube::Hardware::Block>()->device();
                     return QUrl(QString("audiocd:/?device=%1").arg(device));
                 } else {
                     return QVariant();
@@ -197,10 +197,10 @@ namespace QubeStorage
                 }
 
             case FilePlacesModel::FixedDeviceRole: {
-                QubeHardware::StorageDrive *drive = 0;
-                QubeHardware::Device parentDevice = m_device;
+                Qube::Hardware::StorageDrive *drive = 0;
+                Qube::Hardware::Device parentDevice = m_device;
                 while (parentDevice.isValid() && !drive) {
-                    drive = parentDevice.as<QubeHardware::StorageDrive>();
+                    drive = parentDevice.as<Qube::Hardware::StorageDrive>();
                     parentDevice = parentDevice.parent();
                 }
                 if (drive!=0) {
@@ -212,10 +212,10 @@ namespace QubeStorage
             case FilePlacesModel::CapacityBarRecommendedRole: {
                 bool accessible = m_access && m_access->isAccessible();
                 bool isCdrom =
-                    ((m_device.is<QubeHardware::StorageDrive>()
-                      && m_device.as<QubeHardware::StorageDrive>()->driveType() == QubeHardware::StorageDrive::CdromDrive)
-                     || (m_device.parent().is<QubeHardware::StorageDrive>()
-                         && m_device.parent().as<QubeHardware::StorageDrive>()->driveType() == QubeHardware::StorageDrive::CdromDrive));
+                    ((m_device.is<Qube::Hardware::StorageDrive>()
+                      && m_device.as<Qube::Hardware::StorageDrive>()->driveType() == Qube::Hardware::StorageDrive::CdromDrive)
+                     || (m_device.parent().is<Qube::Hardware::StorageDrive>()
+                         && m_device.parent().as<Qube::Hardware::StorageDrive>()->driveType() == Qube::Hardware::StorageDrive::CdromDrive));
 
                 return accessible && !isCdrom;
             }
@@ -304,16 +304,15 @@ namespace QubeStorage
 
     bool FilePlacesItem::hasFullIcon(const Bookmark &bookmark) const
     {
-        return bookmark.url()==KUrl("trash:/");
+        return bookmark.url() == QUrl("trash:///");
     }
 
     QString FilePlacesItem::iconNameForBookmark(const Bookmark &bookmark) const
     {
-        if (!m_folderIsEmpty && hasFullIcon(bookmark)) {
-            return bookmark.icon()+"-full";
-        } else {
+        if (!m_folderIsEmpty && hasFullIcon(bookmark))
+            return bookmark.icon() + "-full";
+        else
             return bookmark.icon();
-        }
     }
 
     void FilePlacesItem::onListerCompleted()
@@ -323,4 +322,5 @@ namespace QubeStorage
         emit itemChanged(id());
 #endif
     }
+}
 }

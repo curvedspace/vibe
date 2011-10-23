@@ -26,69 +26,70 @@
 #include <QtCore/QUrl>
 #include <QtCore/QTimer>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UPnP
+        namespace Backends
         {
-
-            UPnPMediaServer::UPnPMediaServer(UPnPDevice* device) :
-                UPnPDeviceInterface(device)
+            namespace UPnP
             {
-            }
-
-            UPnPMediaServer::~UPnPMediaServer()
-            {
-            }
-
-            bool UPnPMediaServer::isAccessible() const
-            {
-                return upnpDevice()->isValid();
-            }
-
-            QString UPnPMediaServer::filePath() const
-            {
-                if (isAccessible()) {
-                    QString scheme = "upnp-ms:";
-                    QString udn = upnpDevice()->device()->info().udn().toString();
-                    QString uuid = udn.mid(5); //udn without the uuid: preffix
-
-                    return (scheme + QString::fromLatin1("//") + uuid);
+                UPnPMediaServer::UPnPMediaServer(UPnPDevice* device) :
+                    UPnPDeviceInterface(device)
+                {
                 }
 
-                return QString();
+                UPnPMediaServer::~UPnPMediaServer()
+                {
+                }
+
+                bool UPnPMediaServer::isAccessible() const
+                {
+                    return upnpDevice()->isValid();
+                }
+
+                QString UPnPMediaServer::filePath() const
+                {
+                    if (isAccessible()) {
+                        QString scheme = "upnp-ms:";
+                        QString udn = upnpDevice()->device()->info().udn().toString();
+                        QString uuid = udn.mid(5); //udn without the uuid: preffix
+
+                        return (scheme + QString::fromLatin1("//") + uuid);
+                    }
+
+                    return QString();
+                }
+
+                bool UPnPMediaServer::isIgnored() const
+                {
+                    return false;
+                }
+
+                bool UPnPMediaServer::setup()
+                {
+                    QTimer::singleShot(0, this, SLOT(onSetupTimeout()));
+
+                    return true;
+                }
+
+                bool UPnPMediaServer::teardown()
+                {
+                    QTimer::singleShot(0, this, SLOT(onTeardownTimeout()));
+
+                    return true;
+                }
+
+                void UPnPMediaServer::onSetupTimeout()
+                {
+                    emit setupDone(Qube::Hardware::NoError, QVariant(), upnpDevice()->udi());
+                }
+
+                void UPnPMediaServer::onTeardownTimeout()
+                {
+                    emit teardownDone(Qube::Hardware::NoError, QVariant(), upnpDevice()->udi());
+                }
             }
-
-            bool UPnPMediaServer::isIgnored() const
-            {
-                return false;
-            }
-
-            bool UPnPMediaServer::setup()
-            {
-                QTimer::singleShot(0, this, SLOT(onSetupTimeout()));
-
-                return true;
-            }
-
-            bool UPnPMediaServer::teardown()
-            {
-                QTimer::singleShot(0, this, SLOT(onTeardownTimeout()));
-
-                return true;
-            }
-
-            void UPnPMediaServer::onSetupTimeout()
-            {
-                emit setupDone(QubeHardware::NoError, QVariant(), upnpDevice()->udi());
-            }
-
-            void UPnPMediaServer::onTeardownTimeout()
-            {
-                emit teardownDone(QubeHardware::NoError, QVariant(), upnpDevice()->udi());
-            }
-
         }
     }
 }

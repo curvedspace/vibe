@@ -107,7 +107,7 @@
 typedef QMultiHash<QString, QString> QStringMultiHash;
 SOLID_GLOBAL_STATIC(QStringMultiHash, globalMountPointsCache)
 
-bool _k_isFstabNetworkFileSystem(const QString &fstype, const QString &devName)
+bool _q_isFstabNetworkFileSystem(const QString &fstype, const QString &devName)
 {
     if (fstype == "nfs"
         || fstype == "nfs4"
@@ -120,7 +120,7 @@ bool _k_isFstabNetworkFileSystem(const QString &fstype, const QString &devName)
 }
 
 
-void _k_updateFstabMountPointsCache()
+void _q_updateFstabMountPointsCache()
 {
     static bool firstCall = true;
     static QTime elapsedTime;
@@ -145,7 +145,7 @@ void _k_updateFstabMountPointsCache()
 
     struct mntent *fe;
     while ((fe = getmntent(fstab)) != 0) {
-        if (_k_isFstabNetworkFileSystem(fe->mnt_type, fe->mnt_fsname)) {
+        if (_q_isFstabNetworkFileSystem(fe->mnt_type, fe->mnt_fsname)) {
             const QString device = QFile::decodeName(fe->mnt_fsname);
             const QString mountpoint = QFile::decodeName(fe->mnt_dir);
 
@@ -184,7 +184,7 @@ void _k_updateFstabMountPointsCache()
         }
 #endif
         //prevent accessing a blocking directory
-        if (_k_isFstabNetworkFileSystem(items.at(2), items.at(0))) {
+        if (_q_isFstabNetworkFileSystem(items.at(2), items.at(0))) {
             const QString device = items.at(0);
             const QString mountpoint = items.at(1);
 
@@ -196,21 +196,21 @@ void _k_updateFstabMountPointsCache()
 #endif
 }
 
-QStringList QubeHardware::Backends::Fstab::FstabHandling::deviceList()
+QStringList Qube::Hardware::Backends::Fstab::FstabHandling::deviceList()
 {
-    _k_updateFstabMountPointsCache();
+    _q_updateFstabMountPointsCache();
     return globalMountPointsCache->keys();
 }
 
-QStringList QubeHardware::Backends::Fstab::FstabHandling::mountPoints(const QString &device)
+QStringList Qube::Hardware::Backends::Fstab::FstabHandling::mountPoints(const QString &device)
 {
-    _k_updateFstabMountPointsCache();
+    _q_updateFstabMountPointsCache();
     const QString deviceToFind = device;
 
     return globalMountPointsCache->values(deviceToFind);
 }
 
-QProcess *QubeHardware::Backends::Fstab::FstabHandling::callSystemCommand(const QString &commandName,
+QProcess *Qube::Hardware::Backends::Fstab::FstabHandling::callSystemCommand(const QString &commandName,
         const QStringList &args,
         QObject *obj, const char *slot)
 {
@@ -233,14 +233,14 @@ QProcess *QubeHardware::Backends::Fstab::FstabHandling::callSystemCommand(const 
     }
 }
 
-QProcess *QubeHardware::Backends::Fstab::FstabHandling::callSystemCommand(const QString &commandName,
+QProcess *Qube::Hardware::Backends::Fstab::FstabHandling::callSystemCommand(const QString &commandName,
         const QString &device,
         QObject *obj, const char *slot)
 {
     return callSystemCommand(commandName, QStringList() << device, obj, slot);
 }
 
-QStringList QubeHardware::Backends::Fstab::FstabHandling::currentMountPoints()
+QStringList Qube::Hardware::Backends::Fstab::FstabHandling::currentMountPoints()
 {
     QStringList result;
 
@@ -260,7 +260,7 @@ QStringList QubeHardware::Backends::Fstab::FstabHandling::currentMountPoints()
 #else
         QString type = QFile::decodeName(mounted[i].f_fstypename);
 #endif
-        if (_k_isFstabNetworkFileSystem(type, QString())) {
+        if (_q_isFstabNetworkFileSystem(type, QString())) {
             result << QFile::decodeName(mounted[i].f_mntfromname);
         }
     }
@@ -305,7 +305,7 @@ QStringList QubeHardware::Backends::Fstab::FstabHandling::currentMountPoints()
             struct vfs_ent* ent = getvfsbytype(vm->vmt_gfstype);
 
             QString type = QFile::decodeName(ent->vfsent_name);
-            if (_k_isFstabNetworkFileSystem(type, QString())) {
+            if (_q_isFstabNetworkFileSystem(type, QString())) {
                 result << QFile::decodeName(mountedfrom);
             }
 
@@ -328,7 +328,7 @@ QStringList QubeHardware::Backends::Fstab::FstabHandling::currentMountPoints()
     STRUCT_MNTENT fe;
     while (GETMNTENT(mnttab, fe)) {
         QString type = QFile::decodeName(MOUNTTYPE(fe));
-        if (_k_isFstabNetworkFileSystem(type, QString())) {
+        if (_q_isFstabNetworkFileSystem(type, QString())) {
             result << QFile::decodeName(FSNAME(fe));
         }
     }

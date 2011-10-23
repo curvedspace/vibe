@@ -23,15 +23,17 @@
 
 #include "deviceinterface_p.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    class InternetGatewayPrivate : public DeviceInterfacePrivate
+    namespace Hardware
     {
-    public:
-        InternetGatewayPrivate()
-            : DeviceInterfacePrivate() { }
-    };
+        class InternetGatewayPrivate : public DeviceInterfacePrivate
+        {
+        public:
+            InternetGatewayPrivate()
+                : DeviceInterfacePrivate() { }
+        };
+    }
 }
 
 #endif // SOLID_INTERNETGATEWAY_P_H
-

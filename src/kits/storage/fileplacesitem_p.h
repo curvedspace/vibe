@@ -1,101 +1,109 @@
-/*  This file is part of the KDE project
-    Copyright (C) 2007 Kevin Ottens <ervin@kde.org>
+/****************************************************************************
+ * This file is part of Qube.
+ *
+ * Copyright (c) 2007 Kevin Ottens
+ * Copyright (c) 2011 Pier Luigi Fiorini
+ *
+ * Author(s):
+ *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *	Kevin Ottens <ervin@kde.org>
+ *
+ * Qube is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Qube is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Qube.  If not, see <http://www.gnu.org/licenses/>.
+ ***************************************************************************/
 
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License version 2 as published by the Free Software Foundation.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
-
-    You should have received a copy of the GNU Library General Public License
-    along with this library; see the file COPYING.LIB.  If not, write to
-    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301, USA.
-
-*/
-
-#ifndef FILEPLACESITEM_P_H
-#define FILEPLACESITEM_P_H
+#ifndef QUBE_FILEPLACESITEM_P_H
+#define QUBE_FILEPLACESITEM_P_H
 
 #include <QtCore/QObject>
 #include <QtCore/QPointer>
 #include <QtCore/QModelIndex>
 
-#include <QubeHardware/Device>
+#include <Qube/Hardware/Device>
 
 #include "bookmark.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    class StorageAccess;
-    class StorageVolume;
-    class OpticalDisc;
-}
-
-namespace QubeStorage
-{
-    class BookmarkManager;
-    class FilePlacesItem : public QObject
+    namespace Hardware
     {
-        Q_OBJECT
-    public:
-        FilePlacesItem(BookmarkManager *manager,
-                       const QString &address,
-                       const QString &udi = QString());
-        ~FilePlacesItem();
+        class StorageAccess;
+        class StorageVolume;
+        class OpticalDisc;
+    }
 
-        QString id() const;
+    namespace Storage
+    {
+        class BookmarkManager;
+        class FilePlacesItem : public QObject
+        {
+            Q_OBJECT
+        public:
+            FilePlacesItem(BookmarkManager *manager,
+                           const QString &address,
+                           const QString &udi = QString());
+            ~FilePlacesItem();
 
-        bool isDevice() const;
-        Bookmark bookmark() const;
-        void setBookmark(const Bookmark &bookmark);
-        QubeHardware::Device device() const;
-        QVariant data(int role) const;
+            QString id() const;
 
-        static Bookmark createBookmark(BookmarkManager *manager,
-                                       const QString &label,
-                                       const QUrl &url,
-                                       const QString &iconName,
-                                       FilePlacesItem *after = 0);
-        static Bookmark createSystemBookmark(BookmarkManager *manager,
-                                             const QString &untranslatedLabel,
-                                             const QString &translatedLabel,
-                                             const QUrl &url,
-                                             const QString &iconName);
-        static Bookmark createDeviceBookmark(BookmarkManager *manager,
-                                             const QString &udi);
+            bool isDevice() const;
+            Bookmark bookmark() const;
+            void setBookmark(const Bookmark &bookmark);
+            Qube::Hardware::Device device() const;
+            QVariant data(int role) const;
 
-    Q_SIGNALS:
-        void itemChanged(const QString &id);
+            static Bookmark createBookmark(BookmarkManager *manager,
+                                           const QString &label,
+                                           const QUrl &url,
+                                           const QString &iconName,
+                                           FilePlacesItem *after = 0);
+            static Bookmark createSystemBookmark(BookmarkManager *manager,
+                                                 const QString &untranslatedLabel,
+                                                 const QString &translatedLabel,
+                                                 const QUrl &url,
+                                                 const QString &iconName);
+            static Bookmark createDeviceBookmark(BookmarkManager *manager,
+                                                 const QString &udi);
 
-    private Q_SLOTS:
-        void onAccessibilityChanged();
-        void onListerCompleted();
+        Q_SIGNALS:
+            void itemChanged(const QString &id);
 
-    private:
-        QVariant bookmarkData(int role) const;
-        QVariant deviceData(int role) const;
+        private Q_SLOTS:
+            void onAccessibilityChanged();
+            void onListerCompleted();
 
-        bool hasFullIcon(const Bookmark &bookmark) const;
-        QString iconNameForBookmark(const Bookmark &bookmark) const;
+        private:
+            QVariant bookmarkData(int role) const;
+            QVariant deviceData(int role) const;
 
-        static QString generateNewId();
+            bool hasFullIcon(const Bookmark &bookmark) const;
+            QString iconNameForBookmark(const Bookmark &bookmark) const;
 
-        BookmarkManager *m_manager;
-        Bookmark m_bookmark;
+            static QString generateNewId();
+
+            BookmarkManager *m_manager;
+            Bookmark m_bookmark;
 #ifdef GIGI
-        KDirLister *m_lister;
+            KDirLister *m_lister;
 #endif
-        bool m_folderIsEmpty;
-        QString m_text;
-        mutable QubeHardware::Device m_device;
-        mutable QPointer<QubeHardware::StorageAccess> m_access;
-        mutable QPointer<QubeHardware::StorageVolume> m_volume;
-        mutable QPointer<QubeHardware::OpticalDisc> m_disc;
-    };
+            bool m_folderIsEmpty;
+            QString m_text;
+            mutable Qube::Hardware::Device m_device;
+            mutable QPointer<Qube::Hardware::StorageAccess> m_access;
+            mutable QPointer<Qube::Hardware::StorageVolume> m_volume;
+            mutable QPointer<Qube::Hardware::OpticalDisc> m_disc;
+        };
+    }
 }
 
-#endif // FILEPLACESITEM_P_H
+#endif // QUBE_FILEPLACESITEM_P_H

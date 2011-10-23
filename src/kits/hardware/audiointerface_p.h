@@ -21,18 +21,21 @@
 #ifndef SOLID_AUDIOINTERFACE_P_H
 #define SOLID_AUDIOINTERFACE_P_H
 
-#include "deviceinterface_p.h"
-
 #include <QtCore/QStringList>
 
-namespace QubeHardware
+#include "deviceinterface_p.h"
+
+namespace Qube
 {
-    class AudioInterfacePrivate : public DeviceInterfacePrivate
+    namespace Hardware
     {
-    public:
-        AudioInterfacePrivate()
-            : DeviceInterfacePrivate() { }
-    };
+        class AudioInterfacePrivate : public DeviceInterfacePrivate
+        {
+        public:
+            AudioInterfacePrivate()
+                : DeviceInterfacePrivate() { }
+        };
+    }
 }
 
 #endif // SOLID_AUDIOINTERFACE_P_H

@@ -20,7 +20,7 @@
 
 #include "processor.h"
 
-QubeHardware::Ifaces::Processor::~Processor()
+Qube::Hardware::Ifaces::Processor::~Processor()
 {
 }
 

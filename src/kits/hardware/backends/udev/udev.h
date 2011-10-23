@@ -23,6 +23,6 @@
 
 #include "../shared/udevqt.h"
 
-#define UDEV_UDI_PREFIX "/org/vision/Hardware/udev"
+#define UDEV_UDI_PREFIX "/org/vision/Qube/Hardware/udev"
 
 #endif // SOLID_BACKENDS_UDEV_H

@@ -23,57 +23,60 @@
 #define SOLID_IFACES_PORTABLEMEDIAPLAYER_H
 
 #include <ifaces/deviceinterface.h>
-#include <QubeHardware/portablemediaplayer.h>
+#include <Qube/Hardware/portablemediaplayer.h>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Ifaces
+    namespace Hardware
     {
-        /**
-         * This class implements Portable Media Player device interface and represents
-         * a portable media player attached to the system.
-         * A portable media player is a portable device able to play multimedia files.
-         * Some of them have even recording capabilities.
-         * @author Davide Bettio <davbet@aliceposta.it>
-         */
-        class PortableMediaPlayer : virtual public DeviceInterface
+        namespace Ifaces
         {
-        public:
             /**
-             * Destroys a portable media player object.
+             * This class implements Portable Media Player device interface and represents
+             * a portable media player attached to the system.
+             * A portable media player is a portable device able to play multimedia files.
+             * Some of them have even recording capabilities.
+             * @author Davide Bettio <davbet@aliceposta.it>
              */
-            virtual ~PortableMediaPlayer();
+            class PortableMediaPlayer : virtual public DeviceInterface
+            {
+            public:
+                /**
+                 * Destroys a portable media player object.
+                 */
+                virtual ~PortableMediaPlayer();
 
-            /**
-             * Retrieves known protocols this device can speak.  This list may be dependent
-             * on installed device driver libraries.
-             *
-             * @return a list of known protocols this device can speak
-             */
-            virtual QStringList supportedProtocols() const = 0;
+                /**
+                 * Retrieves known protocols this device can speak.  This list may be dependent
+                 * on installed device driver libraries.
+                 *
+                 * @return a list of known protocols this device can speak
+                 */
+                virtual QStringList supportedProtocols() const = 0;
 
-            /**
-             * Retrieves known installed device drivers that claim to handle this device
-             * using the requested protocol.
-             *
-             * @param protocol The protocol to get drivers for.
-             * @return a list of known device drivers that can handle this device
-             */
-            virtual QStringList supportedDrivers(QString protocol = QString()) const = 0;
+                /**
+                 * Retrieves known installed device drivers that claim to handle this device
+                 * using the requested protocol.
+                 *
+                 * @param protocol The protocol to get drivers for.
+                 * @return a list of known device drivers that can handle this device
+                 */
+                virtual QStringList supportedDrivers(QString protocol = QString()) const = 0;
 
-            /**
-             * Retrieves a driver specific string allowing to access the device.
-             *
-             * For example for the "mtp" driver it will return the serial number
-             * of the device.
-             *
-             * @return the driver specific data
-             */
-            virtual QVariant driverHandle(const QString &driver) const = 0;
-        };
+                /**
+                 * Retrieves a driver specific string allowing to access the device.
+                 *
+                 * For example for the "mtp" driver it will return the serial number
+                 * of the device.
+                 *
+                 * @return the driver specific data
+                 */
+                virtual QVariant driverHandle(const QString &driver) const = 0;
+            };
+        }
     }
 }
 
-Q_DECLARE_INTERFACE(QubeHardware::Ifaces::PortableMediaPlayer, "org.vision.Hardware.Ifaces.PortableMediaPlayer/0.1")
+Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::PortableMediaPlayer, "org.vision.Qube.Hardware.Ifaces.PortableMediaPlayer/0.1")
 
 #endif

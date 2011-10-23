@@ -24,29 +24,29 @@
 #include "soliddefs_p.h"
 #include <ifaces/camera.h>
 
-QubeHardware::Camera::Camera(QObject *backendObject)
+Qube::Hardware::Camera::Camera(QObject *backendObject)
     : DeviceInterface(*new CameraPrivate(), backendObject)
 {
 }
 
-QubeHardware::Camera::~Camera()
+Qube::Hardware::Camera::~Camera()
 {
 
 }
 
-QStringList QubeHardware::Camera::supportedProtocols() const
+QStringList Qube::Hardware::Camera::supportedProtocols() const
 {
     Q_D(const Camera);
     return_SOLID_CALL(Ifaces::Camera *, d->backendObject(), QStringList(), supportedProtocols());
 }
 
-QStringList QubeHardware::Camera::supportedDrivers(QString protocol) const
+QStringList Qube::Hardware::Camera::supportedDrivers(QString protocol) const
 {
     Q_D(const Camera);
     return_SOLID_CALL(Ifaces::Camera *, d->backendObject(), QStringList(), supportedDrivers(protocol));
 }
 
-QVariant QubeHardware::Camera::driverHandle(const QString &driver) const
+QVariant Qube::Hardware::Camera::driverHandle(const QString &driver) const
 {
     Q_D(const Camera);
     return_SOLID_CALL(Ifaces::Camera *, d->backendObject(), QVariant(), driverHandle(driver));

@@ -26,38 +26,37 @@
 // QubeHardware
 #include <ifaces/storageaccess.h>
 
-
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace KUPnP
+        namespace Backends
         {
-
-            class StorageAccess : public DeviceInterface, virtual public QubeHardware::Ifaces::StorageAccess
+            namespace KUPnP
             {
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::StorageAccess)
+                class StorageAccess : public DeviceInterface, virtual public Qube::Hardware::Ifaces::StorageAccess
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::StorageAccess)
+                public:
+                    explicit StorageAccess(KUPnPDevice* device);
+                    virtual ~StorageAccess();
 
-            public:
-                explicit StorageAccess(KUPnPDevice* device);
-                virtual ~StorageAccess();
+                public: // Qube::Hardware::Ifaces::StorageAccess API
+                    virtual bool isAccessible() const;
+                    virtual QString filePath() const;
+                    virtual bool isIgnored() const;
+                    virtual bool setup();
+                    virtual bool teardown();
 
-            public: // QubeHardware::Ifaces::StorageAccess API
-                virtual bool isAccessible() const;
-                virtual QString filePath() const;
-                virtual bool isIgnored() const;
-                virtual bool setup();
-                virtual bool teardown();
-
-            Q_SIGNALS: // QubeHardware::Ifaces::StorageAccess API
-                void accessibilityChanged(bool accessible, const QString &udi);
-                void setupDone(QubeHardware::ErrorType error, QVariant errorData, const QString &udi);
-                void teardownDone(QubeHardware::ErrorType error, QVariant errorData, const QString &udi);
-                void setupRequested(const QString &udi);
-                void teardownRequested(const QString &udi);
-            };
-
+                Q_SIGNALS: // Qube::Hardware::Ifaces::StorageAccess API
+                    void accessibilityChanged(bool accessible, const QString &udi);
+                    void setupDone(Qube::Hardware::ErrorType error, QVariant errorData, const QString &udi);
+                    void teardownDone(Qube::Hardware::ErrorType error, QVariant errorData, const QString &udi);
+                    void setupRequested(const QString &udi);
+                    void teardownRequested(const QString &udi);
+                };
+            }
         }
     }
 }

@@ -27,7 +27,7 @@
 #include <QtGui/QApplication>
 #include <QtGui/QWidget>
 
-using namespace QubeHardware::Backends::UDisks;
+using namespace Qube::Hardware::Backends::UDisks;
 
 UDisksStorageAccess::UDisksStorageAccess(UDisksDevice *device)
     : DeviceInterface(device), m_setupInProgress(false), m_teardownInProgress(false), m_passphraseRequested(false)
@@ -222,7 +222,7 @@ void UDisksStorageAccess::slotSetupRequested()
 void UDisksStorageAccess::slotSetupDone(int error, const QString &errorString)
 {
     m_setupInProgress = false;
-    emit setupDone(static_cast<QubeHardware::ErrorType>(error), errorString, m_device->udi());
+    emit setupDone(static_cast<Qube::Hardware::ErrorType>(error), errorString, m_device->udi());
 }
 
 void UDisksStorageAccess::slotTeardownRequested()
@@ -234,7 +234,7 @@ void UDisksStorageAccess::slotTeardownRequested()
 void UDisksStorageAccess::slotTeardownDone(int error, const QString &errorString)
 {
     m_teardownInProgress = false;
-    emit teardownDone(static_cast<QubeHardware::ErrorType>(error), errorString, m_device->udi());
+    emit teardownDone(static_cast<Qube::Hardware::ErrorType>(error), errorString, m_device->udi());
 }
 
 bool UDisksStorageAccess::mount()
@@ -290,7 +290,7 @@ QString UDisksStorageAccess::generateReturnObjectPath()
 {
     static int number = 1;
 
-    return "/org/vision/Hardware/UDisksStorageAccess_"+QString::number(number++);
+    return "/org/vision/Qube/Hardware/UDisksStorageAccess_"+QString::number(number++);
 }
 
 bool UDisksStorageAccess::requestPassphrase()
@@ -308,7 +308,7 @@ bool UDisksStorageAccess::requestPassphrase()
 
     QString appId = QCoreApplication::applicationName();
 
-    QDBusInterface soliduiserver("org.kde.kded", "/modules/soliduiserver", "org.vision.HardwareUiServer");
+    QDBusInterface soliduiserver("org.kde.kded", "/modules/soliduiserver", "org.vision.Qube.HardwareUiServer");
     QDBusReply<void> reply = soliduiserver.call("showPassphraseDialog", udi, returnService,
                              m_lastReturnObject, wId, appId);
     m_passphraseRequested = reply.isValid();

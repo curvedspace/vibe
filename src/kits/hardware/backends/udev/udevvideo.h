@@ -26,25 +26,28 @@
 #include <ifaces/video.h>
 #include "udevdeviceinterface.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDev
+        namespace Backends
         {
-            class Video : public DeviceInterface, virtual public QubeHardware::Ifaces::Video
+            namespace UDev
             {
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::Video)
+                class Video : public DeviceInterface, virtual public Qube::Hardware::Ifaces::Video
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::Video)
 
-            public:
-                Video(UDevDevice *device);
-                virtual ~Video();
+                public:
+                    Video(UDevDevice *device);
+                    virtual ~Video();
 
-                virtual QStringList supportedProtocols() const;
-                virtual QStringList supportedDrivers(QString protocol = QString()) const;
-                virtual QVariant driverHandle(const QString &driver) const;
-            };
+                    virtual QStringList supportedProtocols() const;
+                    virtual QStringList supportedDrivers(QString protocol = QString()) const;
+                    virtual QVariant driverHandle(const QString &driver) const;
+                };
+            }
         }
     }
 }

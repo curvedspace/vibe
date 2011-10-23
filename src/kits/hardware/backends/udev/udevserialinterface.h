@@ -24,30 +24,33 @@
 #include <ifaces/serialinterface.h>
 #include "udevdeviceinterface.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDev
+        namespace Backends
         {
-
-            class SerialInterface : public DeviceInterface, virtual public QubeHardware::Ifaces::SerialInterface
+            namespace UDev
             {
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::SerialInterface)
 
-            public:
-                SerialInterface(UDevDevice *device);
-                virtual ~SerialInterface();
+                class SerialInterface : public DeviceInterface, virtual public Qube::Hardware::Ifaces::SerialInterface
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::SerialInterface)
 
-                virtual QVariant driverHandle() const;
-                virtual QubeHardware::SerialInterface::SerialType serialType() const;
-                virtual int port() const;
+                public:
+                    SerialInterface(UDevDevice *device);
+                    virtual ~SerialInterface();
 
-            private:
-                int                                 m_portnum;
-                QubeHardware::SerialInterface::SerialType  m_type;
-            };
+                    virtual QVariant driverHandle() const;
+                    virtual Qube::Hardware::SerialInterface::SerialType serialType() const;
+                    virtual int port() const;
+
+                private:
+                    int                                 m_portnum;
+                    Qube::Hardware::SerialInterface::SerialType  m_type;
+                };
+            }
         }
     }
 }

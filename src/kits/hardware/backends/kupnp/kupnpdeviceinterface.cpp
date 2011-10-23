@@ -23,24 +23,24 @@
 // backend
 #include "kupnpdevice.h"
 
-
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace KUPnP
+        namespace Backends
         {
-
-            DeviceInterface::DeviceInterface(KUPnPDevice* device)
-                : QObject(device),
-                  mDevice(device)
+            namespace KUPnP
             {
-            }
+                DeviceInterface::DeviceInterface(KUPnPDevice* device)
+                    : QObject(device),
+                      mDevice(device)
+                {
+                }
 
-            DeviceInterface::~DeviceInterface()
-            {
+                DeviceInterface::~DeviceInterface()
+                {
+                }
             }
-
         }
     }
 }

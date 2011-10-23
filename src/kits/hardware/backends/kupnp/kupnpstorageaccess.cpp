@@ -23,57 +23,57 @@
 // backend
 #include "kupnpdevice.h"
 
-
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace KUPnP
+        namespace Backends
         {
-
-            StorageAccess::StorageAccess(KUPnPDevice* device)
-                : DeviceInterface(device)
+            namespace KUPnP
             {
+                StorageAccess::StorageAccess(KUPnPDevice* device)
+                    : DeviceInterface(device)
+                {
+                }
+
+                StorageAccess::~StorageAccess()
+                {
+
+                }
+
+
+                bool StorageAccess::isAccessible() const
+                {
+                    return true;
+                }
+
+                QString StorageAccess::filePath() const
+                {
+                    QString result;
+
+                    const Cagibi::Device& device = mDevice->device();
+
+                    result = QString::fromLatin1("upnp-ms://%1:%2/")
+                             .arg( device.ipAddress() ).arg( device.ipPortNumber() );
+
+                    return result;
+                }
+
+                bool KUPnP::StorageAccess::isIgnored() const
+                {
+                    return true;
+                }
+
+                bool StorageAccess::setup()
+                {
+                    return true;
+                }
+
+                bool StorageAccess::teardown()
+                {
+                    return true;
+                }
             }
-
-            StorageAccess::~StorageAccess()
-            {
-
-            }
-
-
-            bool StorageAccess::isAccessible() const
-            {
-                return true;
-            }
-
-            QString StorageAccess::filePath() const
-            {
-                QString result;
-
-                const Cagibi::Device& device = mDevice->device();
-
-                result = QString::fromLatin1("upnp-ms://%1:%2/")
-                         .arg( device.ipAddress() ).arg( device.ipPortNumber() );
-
-                return result;
-            }
-
-            bool KUPnP::StorageAccess::isIgnored() const
-            {
-                return true;
-            }
-
-            bool StorageAccess::setup()
-            {
-                return true;
-            }
-
-            bool StorageAccess::teardown()
-            {
-                return true;
-            }
-
         }
     }
 }

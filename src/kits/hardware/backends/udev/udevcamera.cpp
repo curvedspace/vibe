@@ -20,7 +20,7 @@
 
 #include "udevcamera.h"
 
-using namespace QubeHardware::Backends::UDev;
+using namespace Qube::Hardware::Backends::UDev;
 
 Camera::Camera(UDevDevice *device)
     : DeviceInterface(device)

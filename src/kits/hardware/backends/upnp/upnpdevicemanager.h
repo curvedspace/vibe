@@ -31,43 +31,45 @@
 
 #include "upnpcontrolpoint.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UPnP
+        namespace Backends
         {
-
-            class UPnPDeviceManager : public QubeHardware::Ifaces::DeviceManager
+            namespace UPnP
             {
-                Q_OBJECT
 
-            public:
-                explicit UPnPDeviceManager(QObject* parent = 0);
+                class UPnPDeviceManager : public Qube::Hardware::Ifaces::DeviceManager
+                {
+                    Q_OBJECT
 
-                virtual ~UPnPDeviceManager();
+                public:
+                    explicit UPnPDeviceManager(QObject* parent = 0);
 
-                virtual QString udiPrefix() const;
+                    virtual ~UPnPDeviceManager();
 
-                virtual QSet<QubeHardware::DeviceInterface::Type> supportedInterfaces() const;
+                    virtual QString udiPrefix() const;
 
-                virtual QStringList allDevices();
+                    virtual QSet<Qube::Hardware::DeviceInterface::Type> supportedInterfaces() const;
 
-                virtual QStringList devicesFromQuery(const QString &parentUdi, QubeHardware::DeviceInterface::Type type = QubeHardware::DeviceInterface::Unknown);
+                    virtual QStringList allDevices();
 
-                virtual QObject *createDevice(const QString &udi);
+                    virtual QStringList devicesFromQuery(const QString &parentUdi, Qube::Hardware::DeviceInterface::Type type = Qube::Hardware::DeviceInterface::Unknown);
 
-            public Q_SLOTS:
-                void rootDeviceOnline(Herqq::Upnp::HClientDevice*);
+                    virtual QObject *createDevice(const QString &udi);
 
-                void rootDeviceOffline(Herqq::Upnp::HClientDevice*);
+                public Q_SLOTS:
+                    void rootDeviceOnline(Herqq::Upnp::HClientDevice*);
 
-            private:
-                QSet<QubeHardware::DeviceInterface::Type> m_supportedInterfaces;
+                    void rootDeviceOffline(Herqq::Upnp::HClientDevice*);
 
-                //QubeHardware::Backends::UPnP::UPnPControlPoint* m_upnpControlPoint;
-            };
+                private:
+                    QSet<Qube::Hardware::DeviceInterface::Type> m_supportedInterfaces;
 
+                    //Qube::Hardware::Backends::UPnP::UPnPControlPoint* m_upnpControlPoint;
+                };
+            }
         }
     }
 }

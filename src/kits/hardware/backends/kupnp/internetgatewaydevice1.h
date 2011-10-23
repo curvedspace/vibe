@@ -24,38 +24,39 @@
 // KUPnP
 #include "kupnpdevice.h"
 
-
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace KUPnP
+        namespace Backends
         {
-
-            class InternetGatewayDevice1Factory : public AbstractDeviceFactory
+            namespace KUPnP
             {
-            public:
-                InternetGatewayDevice1Factory();
+                class InternetGatewayDevice1Factory : public AbstractDeviceFactory
+                {
+                public:
+                    InternetGatewayDevice1Factory();
 
-            public: // AbstractDeviceFactory API
-                virtual QObject* tryCreateDevice( const Cagibi::Device& device ) const;
-            };
+                public: // AbstractDeviceFactory API
+                    virtual QObject* tryCreateDevice( const Cagibi::Device& device ) const;
+                };
 
 
-            class InternetGatewayDevice1 : public KUPnPDevice
-            {
-            public:
-                explicit InternetGatewayDevice1(const Cagibi::Device& device);
-                virtual ~InternetGatewayDevice1();
+                class InternetGatewayDevice1 : public KUPnPDevice
+                {
+                public:
+                    explicit InternetGatewayDevice1(const Cagibi::Device& device);
+                    virtual ~InternetGatewayDevice1();
 
-            public: // QubeHardware::Ifaces::Device API
-                virtual QString icon() const;
-                virtual QString description() const;
+                public: // Qube::Hardware::Ifaces::Device API
+                    virtual QString icon() const;
+                    virtual QString description() const;
 
-                virtual bool queryDeviceInterface(const QubeHardware::DeviceInterface::Type& type) const;
-                virtual QObject* createDeviceInterface(const QubeHardware::DeviceInterface::Type& type);
-            };
+                    virtual bool queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type) const;
+                    virtual QObject* createDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type);
+                };
 
+            }
         }
     }
 }

@@ -27,13 +27,13 @@
 #include "soliddefs_p.h"
 #include "org_vision_hardware_networking_client.h"
 
-SOLID_GLOBAL_STATIC(QubeHardware::NetworkingPrivate, globalNetworkManager)
+SOLID_GLOBAL_STATIC(Qube::Hardware::NetworkingPrivate, globalNetworkManager)
 
-QubeHardware::NetworkingPrivate::NetworkingPrivate()
-    : netStatus(QubeHardware::Networking::Unknown),
-      connectPolicy(QubeHardware::Networking::Managed),
-      disconnectPolicy(QubeHardware::Networking::Managed),
-      iface(new OrgVisionHardwareNetworkingClientInterface("org.kde.kded",
+Qube::Hardware::NetworkingPrivate::NetworkingPrivate()
+    : netStatus(Qube::Hardware::Networking::Unknown),
+      connectPolicy(Qube::Hardware::Networking::Managed),
+      disconnectPolicy(Qube::Hardware::Networking::Managed),
+      iface(new OrgVisionQubeHardwareNetworkingClientInterface("org.kde.kded",
               "/modules/networkstatus",
               QDBusConnection::sessionBus(),
               this))
@@ -48,64 +48,64 @@ QubeHardware::NetworkingPrivate::NetworkingPrivate()
     initialize();
 }
 
-QubeHardware::NetworkingPrivate::~NetworkingPrivate()
+Qube::Hardware::NetworkingPrivate::~NetworkingPrivate()
 {
 }
 
-QubeHardware::Networking::Notifier::Notifier()
+Qube::Hardware::Networking::Notifier::Notifier()
 {
 }
 
-void QubeHardware::NetworkingPrivate::initialize()
+void Qube::Hardware::NetworkingPrivate::initialize()
 {
     QDBusPendingReply<uint> reply = iface->status();
     reply.waitForFinished();
     if (reply.isValid()) {
-        netStatus = ( QubeHardware::Networking::Status )reply.value();
+        netStatus = ( Qube::Hardware::Networking::Status )reply.value();
     } else {
-        netStatus = QubeHardware::Networking::Unknown;
+        netStatus = Qube::Hardware::Networking::Unknown;
     }
 }
 
-uint QubeHardware::NetworkingPrivate::status() const
+uint Qube::Hardware::NetworkingPrivate::status() const
 {
     return netStatus;
 }
 
 /*=========================================================================*/
 
-QubeHardware::Networking::Status QubeHardware::Networking::status()
+Qube::Hardware::Networking::Status Qube::Hardware::Networking::status()
 {
-    return static_cast<QubeHardware::Networking::Status>( globalNetworkManager->status() );
+    return static_cast<Qube::Hardware::Networking::Status>( globalNetworkManager->status() );
 }
 
-QubeHardware::Networking::Notifier *QubeHardware::Networking::notifier()
+Qube::Hardware::Networking::Notifier *Qube::Hardware::Networking::notifier()
 {
     return globalNetworkManager;
 }
 
-void QubeHardware::NetworkingPrivate::serviceStatusChanged( uint status )
+void Qube::Hardware::NetworkingPrivate::serviceStatusChanged( uint status )
 {
 //    kDebug( 921 ) ;
-    netStatus = ( QubeHardware::Networking::Status )status;
+    netStatus = ( Qube::Hardware::Networking::Status )status;
     switch ( netStatus ) {
-    case QubeHardware::Networking::Unknown:
+    case Qube::Hardware::Networking::Unknown:
         break;
-    case QubeHardware::Networking::Unconnected:
-    case QubeHardware::Networking::Disconnecting:
-    case QubeHardware::Networking::Connecting:
-        if ( disconnectPolicy == QubeHardware::Networking::Managed ) {
+    case Qube::Hardware::Networking::Unconnected:
+    case Qube::Hardware::Networking::Disconnecting:
+    case Qube::Hardware::Networking::Connecting:
+        if ( disconnectPolicy == Qube::Hardware::Networking::Managed ) {
             emit globalNetworkManager->shouldDisconnect();
-        } else if ( disconnectPolicy == QubeHardware::Networking::OnNextStatusChange ) {
-            setDisconnectPolicy( QubeHardware::Networking::Manual );
+        } else if ( disconnectPolicy == Qube::Hardware::Networking::OnNextStatusChange ) {
+            setDisconnectPolicy( Qube::Hardware::Networking::Manual );
             emit globalNetworkManager->shouldDisconnect();
         }
         break;
-    case QubeHardware::Networking::Connected:
-        if ( disconnectPolicy == QubeHardware::Networking::Managed ) {
+    case Qube::Hardware::Networking::Connected:
+        if ( disconnectPolicy == Qube::Hardware::Networking::Managed ) {
             emit globalNetworkManager->shouldConnect();
-        } else if ( disconnectPolicy == QubeHardware::Networking::OnNextStatusChange ) {
-            setConnectPolicy( QubeHardware::Networking::Manual );
+        } else if ( disconnectPolicy == Qube::Hardware::Networking::OnNextStatusChange ) {
+            setConnectPolicy( Qube::Hardware::Networking::Manual );
             emit globalNetworkManager->shouldConnect();
         }
         break;
@@ -115,13 +115,13 @@ void QubeHardware::NetworkingPrivate::serviceStatusChanged( uint status )
     emit globalNetworkManager->statusChanged( netStatus );
 }
 
-void QubeHardware::NetworkingPrivate::serviceOwnerChanged( const QString & name, const QString & oldOwner, const QString & newOwner )
+void Qube::Hardware::NetworkingPrivate::serviceOwnerChanged( const QString & name, const QString & oldOwner, const QString & newOwner )
 {
     Q_UNUSED(name)
     Q_UNUSED(oldOwner)
     if ( newOwner.isEmpty() ) {
         // kded quit on us
-        netStatus = QubeHardware::Networking::Unknown;
+        netStatus = Qube::Hardware::Networking::Unknown;
         emit globalNetworkManager->statusChanged( netStatus );
 
     } else {
@@ -132,22 +132,22 @@ void QubeHardware::NetworkingPrivate::serviceOwnerChanged( const QString & name,
     }
 }
 
-QubeHardware::Networking::ManagementPolicy QubeHardware::Networking::connectPolicy()
+Qube::Hardware::Networking::ManagementPolicy Qube::Hardware::Networking::connectPolicy()
 {
     return globalNetworkManager->connectPolicy;
 }
 
-void QubeHardware::Networking::setConnectPolicy( QubeHardware::Networking::ManagementPolicy policy )
+void Qube::Hardware::Networking::setConnectPolicy( Qube::Hardware::Networking::ManagementPolicy policy )
 {
     globalNetworkManager->connectPolicy = policy;
 }
 
-QubeHardware::Networking::ManagementPolicy QubeHardware::Networking::disconnectPolicy()
+Qube::Hardware::Networking::ManagementPolicy Qube::Hardware::Networking::disconnectPolicy()
 {
     return globalNetworkManager->disconnectPolicy;
 }
 
-void QubeHardware::Networking::setDisconnectPolicy( QubeHardware::Networking::ManagementPolicy policy )
+void Qube::Hardware::Networking::setDisconnectPolicy( Qube::Hardware::Networking::ManagementPolicy policy )
 {
     globalNetworkManager->disconnectPolicy = policy;
 }

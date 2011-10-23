@@ -24,28 +24,28 @@
 #include <ifaces/block.h>
 #include "udisksdeviceinterface.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDisks
+        namespace Backends
         {
-
-            class Block: public DeviceInterface, virtual public QubeHardware::Ifaces::Block
+            namespace UDisks
             {
+                class Block: public DeviceInterface, virtual public Qube::Hardware::Ifaces::Block
+                {
 
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::Block)
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::Block)
+                public:
+                    Block(UDisksDevice *device);
+                    virtual ~Block();
 
-            public:
-                Block(UDisksDevice *device);
-                virtual ~Block();
-
-                virtual QString device() const;
-                virtual int deviceMinor() const;
-                virtual int deviceMajor() const;
-            };
-
+                    virtual QString device() const;
+                    virtual int deviceMinor() const;
+                    virtual int deviceMajor() const;
+                };
+            }
         }
     }
 }

@@ -20,7 +20,7 @@
 
 #include "acadapter.h"
 
-QubeHardware::Ifaces::AcAdapter::~AcAdapter()
+Qube::Hardware::Ifaces::AcAdapter::~AcAdapter()
 {
 }
 

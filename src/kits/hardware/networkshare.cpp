@@ -24,23 +24,23 @@
 #include "soliddefs_p.h"
 #include <ifaces/networkshare.h>
 
-QubeHardware::NetworkShare::NetworkShare(QObject *backendObject)
+Qube::Hardware::NetworkShare::NetworkShare(QObject *backendObject)
     : DeviceInterface(*new NetworkSharePrivate(), backendObject)
 {
 }
 
-QubeHardware::NetworkShare::~NetworkShare()
+Qube::Hardware::NetworkShare::~NetworkShare()
 {
 
 }
 
-QubeHardware::NetworkShare::ShareType QubeHardware::NetworkShare::type() const
+Qube::Hardware::NetworkShare::ShareType Qube::Hardware::NetworkShare::type() const
 {
     Q_D(const NetworkShare);
-    return_SOLID_CALL(Ifaces::NetworkShare *, d->backendObject(), QubeHardware::NetworkShare::Unknown, type());
+    return_SOLID_CALL(Ifaces::NetworkShare *, d->backendObject(), Qube::Hardware::NetworkShare::Unknown, type());
 }
 
-QUrl QubeHardware::NetworkShare::url() const
+QUrl Qube::Hardware::NetworkShare::url() const
 {
     Q_D(const NetworkShare);
     return_SOLID_CALL(Ifaces::NetworkShare *, d->backendObject(), QUrl(), url());

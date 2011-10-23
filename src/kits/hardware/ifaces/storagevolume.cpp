@@ -20,7 +20,7 @@
 
 #include "storagevolume.h"
 
-QubeHardware::Ifaces::StorageVolume::~StorageVolume()
+Qube::Hardware::Ifaces::StorageVolume::~StorageVolume()
 {
 }
 

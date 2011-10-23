@@ -18,7 +18,7 @@
 #include <QtDesigner/QDesignerFormEditorInterface>
 #include <QtDesigner/QExtensionManager>
 
-#include <QubeGui/NavBar>
+#include <Qube/Gui/NavBar>
 
 #include "navbarplugin.h"
 #include "navbarplugintaskmenu.h"
@@ -56,8 +56,8 @@ bool NavBarPlugin::isContainer() const
 
 QWidget *NavBarPlugin::createWidget(QWidget *parent)
 {
-    QubeGui::NavBar *navBar = new QubeGui::NavBar(parent);
-    QubeGui::NavBarGroup *group = navBar->addGroup("GROUP");
+    Qube::Gui::NavBar *navBar = new Qube::Gui::NavBar(parent);
+    Qube::Gui::NavBarGroup *group = navBar->addGroup("GROUP");
     group->addItem(QPixmap(":/qt.png"), "Item #0");
     group->addItem(QPixmap(":/qt.png"), "Item #1");
     return navBar;
@@ -92,7 +92,7 @@ QString NavBarPlugin::domXml() const
 {
     return QLatin1String(""
 			 "<ui language=\"c++\">"
-			 "    <widget class=\"QubeGui::NavBar\" name=\"navBar\">"
+			 "    <widget class=\"Qube::Gui::NavBar\" name=\"navBar\">"
 			 "        <property name=\"geometry\">"
 			 "            <rect>"
 			 "                <x>0</x>"
@@ -107,7 +107,7 @@ QString NavBarPlugin::domXml() const
 
 QString NavBarPlugin::includeFile() const
 {
-    return QLatin1String("QubeGui/NavBar");
+    return QLatin1String("Qube/Gui/NavBar");
 }
 
 #include "navbarplugin.moc"

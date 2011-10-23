@@ -24,29 +24,32 @@
 #include <QtCore/QObject>
 #include <QtCore/QBool>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Ifaces
+    namespace Hardware
     {
-        /**
-         * Base interface of all the device interfaces.
-         *
-         * A device interface describes what a device can do. A device generally has
-         * a set of device interfaces.
-         *
-         * @see QubeHardware::Ifaces::AbstractDeviceInterface
-         */
-        class DeviceInterface
+        namespace Ifaces
         {
-        public:
             /**
-             * Destroys a DeviceInterface object.
+             * Base interface of all the device interfaces.
+             *
+             * A device interface describes what a device can do. A device generally has
+             * a set of device interfaces.
+             *
+             * @see Qube::Hardware::Ifaces::AbstractDeviceInterface
              */
-            virtual ~DeviceInterface();
-        };
+            class DeviceInterface
+            {
+            public:
+                /**
+                 * Destroys a DeviceInterface object.
+                 */
+                virtual ~DeviceInterface();
+            };
+        }
     }
 }
 
-Q_DECLARE_INTERFACE(QubeHardware::Ifaces::DeviceInterface, "org.vision.Hardware.Ifaces.DeviceInterface/0.1")
+Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::DeviceInterface, "org.vision.Qube.Hardware.Ifaces.DeviceInterface/0.1")
 
 #endif

@@ -24,37 +24,40 @@
 #include <ifaces/processor.h>
 #include "udevdeviceinterface.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDev
+        namespace Backends
         {
-            class UDevDevice;
-
-            class Processor : public DeviceInterface, virtual public QubeHardware::Ifaces::Processor
+            namespace UDev
             {
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::Processor)
+                class UDevDevice;
 
-            public:
-                Processor(UDevDevice *device);
-                virtual ~Processor();
+                class Processor : public DeviceInterface, virtual public Qube::Hardware::Ifaces::Processor
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::Processor)
 
-                virtual int number() const;
-                virtual int maxSpeed() const;
-                virtual bool canChangeFrequency() const;
-                virtual QubeHardware::Processor::InstructionSets instructionSets() const;
+                public:
+                    Processor(UDevDevice *device);
+                    virtual ~Processor();
 
-            private:
-                enum CanChangeFrequencyEnum {
-                    NotChecked,
-                    CanChangeFreq,
-                    CannotChangeFreq
+                    virtual int number() const;
+                    virtual int maxSpeed() const;
+                    virtual bool canChangeFrequency() const;
+                    virtual Qube::Hardware::Processor::InstructionSets instructionSets() const;
+
+                private:
+                    enum CanChangeFrequencyEnum {
+                        NotChecked,
+                        CanChangeFreq,
+                        CannotChangeFreq
+                    };
+                    mutable CanChangeFrequencyEnum m_canChangeFrequency;
+                    mutable int m_maxSpeed;
                 };
-                mutable CanChangeFrequencyEnum m_canChangeFrequency;
-                mutable int m_maxSpeed;
-            };
+            }
         }
     }
 }

@@ -20,7 +20,7 @@
 
 #include "battery.h"
 
-QubeHardware::Ifaces::Battery::~Battery()
+Qube::Hardware::Ifaces::Battery::~Battery()
 {
 }
 

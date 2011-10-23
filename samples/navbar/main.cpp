@@ -17,14 +17,14 @@
 
 #include <QtGui/QApplication>
 
-#include <QubeGui/NavBar>
+#include <Qube/Gui/NavBar>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    QubeGui::NavBar *navbar = new QubeGui::NavBar();
-    QubeGui::NavBarGroup *group = navbar->addGroup("APPLICATIONS");
+    Qube::Gui::NavBar *navbar = new Qube::Gui::NavBar();
+    Qube::Gui::NavBarGroup *group = navbar->addGroup("APPLICATIONS");
     group->addItem(QPixmap(":/icons/allApps.png"), "All Applications");
     group->addItem(QPixmap(":/icons/updates.png"), "Updates");
     group->addItem(QPixmap(":/icons/upToDate.png"), "Up To Date");

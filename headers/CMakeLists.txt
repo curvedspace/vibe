@@ -1,5 +1,1 @@
-add_subdirectory(QubeCore)
-add_subdirectory(QubeGui)
-add_subdirectory(QubeHardware)
-add_subdirectory(QubeServices)
-add_subdirectory(QubeStorage)
+add_subdirectory(Qube)

@@ -25,48 +25,51 @@
 
 #include <ifaces/audiointerface.h>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDev
+        namespace Backends
         {
-            class UDevDevice;
-            class UdevAudioInterfacePrivate
+            namespace UDev
             {
-            public:
-                UdevAudioInterfacePrivate(UDevDevice *device);
+                class UDevDevice;
+                class UdevAudioInterfacePrivate
+                {
+                public:
+                    UdevAudioInterfacePrivate(UDevDevice *device);
 
-                QubeHardware::AudioInterface::SoundcardType soundcardType();
+                    Qube::Hardware::AudioInterface::SoundcardType soundcardType();
 
-            public:
-                int                                         m_cardnum;
-                int                                         m_devicenum;
-                QString                                     m_name;
-                QString                                     m_deviceFile;
-                QubeHardware::AudioInterface::AudioDriver          m_driver;
-                QubeHardware::AudioInterface::AudioInterfaceTypes  m_type;
+                public:
+                    int                                         m_cardnum;
+                    int                                         m_devicenum;
+                    QString                                     m_name;
+                    QString                                     m_deviceFile;
+                    Qube::Hardware::AudioInterface::AudioDriver          m_driver;
+                    Qube::Hardware::AudioInterface::AudioInterfaceTypes  m_type;
 
-            private:
-                QString cardNumberToName();
-                QString deviceName(char type);
-                QByteArray grepHelper(const QString &path, const QByteArray &grepValue);
+                private:
+                    QString cardNumberToName();
+                    QString deviceName(char type);
+                    QByteArray grepHelper(const QString &path, const QByteArray &grepValue);
 
-                bool isHardware(const char *lastElement);
-                bool isAlsaControl(const char *lastElement);
-                bool isAlsaPcm(const char *lastElement);
-                bool isAlsaHw(const char *lastElement);
-                bool isAlsaMidi(const char *lastElement);
-                bool isAlsaTimer(const char *lastElement);
-                bool isAlsaSequencer(const char *lastElement);
-                bool isOSSSequencer(const QByteArray &lastElement);
-                bool isOSSDevice(const QByteArray &lastElement, const char *lastElementAscii);
+                    bool isHardware(const char *lastElement);
+                    bool isAlsaControl(const char *lastElement);
+                    bool isAlsaPcm(const char *lastElement);
+                    bool isAlsaHw(const char *lastElement);
+                    bool isAlsaMidi(const char *lastElement);
+                    bool isAlsaTimer(const char *lastElement);
+                    bool isAlsaSequencer(const char *lastElement);
+                    bool isOSSSequencer(const QByteArray &lastElement);
+                    bool isOSSDevice(const QByteArray &lastElement, const char *lastElementAscii);
 
-                QubeHardware::AudioInterface::SoundcardType        m_soundcardType;
+                    Qube::Hardware::AudioInterface::SoundcardType        m_soundcardType;
 
-            private:
-                UDevDevice       *m_device;
-            };
+                private:
+                    UDevDevice       *m_device;
+                };
+            }
         }
     }
 }

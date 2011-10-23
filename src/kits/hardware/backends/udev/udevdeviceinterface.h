@@ -27,23 +27,26 @@
 #include <QtCore/QObject>
 #include <QtCore/QStringList>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDev
+        namespace Backends
         {
-            class DeviceInterface : public QObject, virtual public QubeHardware::Ifaces::DeviceInterface
+            namespace UDev
             {
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::DeviceInterface)
-            public:
-                DeviceInterface(UDevDevice *device);
-                virtual ~DeviceInterface();
+                class DeviceInterface : public QObject, virtual public Qube::Hardware::Ifaces::DeviceInterface
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::DeviceInterface)
+                public:
+                    DeviceInterface(UDevDevice *device);
+                    virtual ~DeviceInterface();
 
-            protected:
-                UDevDevice *m_device;
-            };
+                protected:
+                    UDevDevice *m_device;
+                };
+            }
         }
     }
 }

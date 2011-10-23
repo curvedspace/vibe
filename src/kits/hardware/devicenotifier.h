@@ -24,42 +24,43 @@
 #include <QtCore/QObject>
 #include <QtCore/QList>
 
-#include <QubeCore/Global>
-
-namespace QubeHardware
+namespace Qube
 {
-    /**
-     * This class allow to query the underlying system to obtain information
-     * about the hardware available.
-     *
-     * It's the unique entry point for hardware discovery. Applications should use
-     * it to find devices, or to be notified about hardware changes.
-     *
-     * Note that it's implemented as a singleton and encapsulates the backend logic.
-     *
-     * @author Kevin Ottens <ervin@kde.org>
-     */
-    class QUBESHARED_EXPORT DeviceNotifier : public QObject //krazy:exclude=dpointer (interface class)
+    namespace Hardware
     {
-        Q_OBJECT
-    public:
-        static DeviceNotifier *instance();
-
-    Q_SIGNALS:
         /**
-         * This signal is emitted when a new device appear in the underlying system.
+         * This class allow to query the underlying system to obtain information
+         * about the hardware available.
          *
-         * @param udi the new device UDI
+         * It's the unique entry point for hardware discovery. Applications should use
+         * it to find devices, or to be notified about hardware changes.
+         *
+         * Note that it's implemented as a singleton and encapsulates the backend logic.
+         *
+         * @author Kevin Ottens <ervin@kde.org>
          */
-        void deviceAdded(const QString &udi);
+        class DeviceNotifier : public QObject //krazy:exclude=dpointer (interface class)
+        {
+            Q_OBJECT
+        public:
+            static DeviceNotifier *instance();
 
-        /**
-         * This signal is emitted when a device disappear from the underlying system.
-         *
-         * @param udi the old device UDI
-         */
-        void deviceRemoved(const QString &udi);
-    };
+        Q_SIGNALS:
+            /**
+             * This signal is emitted when a new device appear in the underlying system.
+             *
+             * @param udi the new device UDI
+             */
+            void deviceAdded(const QString &udi);
+
+            /**
+             * This signal is emitted when a device disappear from the underlying system.
+             *
+             * @param udi the old device UDI
+             */
+            void deviceRemoved(const QString &udi);
+        };
+    }
 }
 
 #endif

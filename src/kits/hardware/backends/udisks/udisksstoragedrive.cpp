@@ -23,7 +23,7 @@
 
 #include <QtCore/QDebug>
 
-using namespace QubeHardware::Backends::UDisks;
+using namespace Qube::Hardware::Backends::UDisks;
 
 UDisksStorageDrive::UDisksStorageDrive(UDisksDevice* device)
     : Block(device)
@@ -52,74 +52,74 @@ bool UDisksStorageDrive::isRemovable() const
            !m_device->prop( "DeviceIsSystemInternal" ).toBool();
 }
 
-QubeHardware::StorageDrive::DriveType UDisksStorageDrive::driveType() const
+Qube::Hardware::StorageDrive::DriveType UDisksStorageDrive::driveType() const
 {
     const QStringList mediaTypes = m_device->prop("DriveMediaCompatibility").toStringList();
     bool isHardDisk = m_device->prop( "DeviceIsSystemInternal" ).toBool();
 
     if ( isHardDisk ) {
-        return QubeHardware::StorageDrive::HardDisk;
+        return Qube::Hardware::StorageDrive::HardDisk;
     } else if ( !mediaTypes.filter( "optical" ).isEmpty() ) { // optical disks
-        return QubeHardware::StorageDrive::CdromDrive;
+        return Qube::Hardware::StorageDrive::CdromDrive;
     } else if ( mediaTypes.contains( "floppy" ) ) {
-        return QubeHardware::StorageDrive::Floppy;
+        return Qube::Hardware::StorageDrive::Floppy;
     }
 #if 0 // TODO add to QubeHardware
     else if ( mediaTypes.contains( "floppy_jaz" ) ) {
-        return QubeHardware::StorageDrive::Jaz;
+        return Qube::Hardware::StorageDrive::Jaz;
     } else if ( mediaTypes.contains( "floppy_zip" ) ) {
-        return QubeHardware::StorageDrive::Zip;
+        return Qube::Hardware::StorageDrive::Zip;
     }
 #endif
     /*
     else if (type=="tape")      // FIXME: DK doesn't know about tapes
     {
-        return QubeHardware::StorageDrive::Tape;
+        return Qube::Hardware::StorageDrive::Tape;
     }
     */
 #if 0 // TODO add to QubeHardware
     else if ( mediaTypes.contains( "flash" ) ) {
-        return QubeHardware::StorageDrive::Flash;
+        return Qube::Hardware::StorageDrive::Flash;
     }
 #endif
     else if ( mediaTypes.contains( "flash_cf" ) ) {
-        return QubeHardware::StorageDrive::CompactFlash;
+        return Qube::Hardware::StorageDrive::CompactFlash;
     } else if ( mediaTypes.contains( "flash_ms" ) ) {
-        return QubeHardware::StorageDrive::MemoryStick;
+        return Qube::Hardware::StorageDrive::MemoryStick;
     } else if ( mediaTypes.contains( "flash_sm" ) ) {
-        return QubeHardware::StorageDrive::SmartMedia;
+        return Qube::Hardware::StorageDrive::SmartMedia;
     } else if ( mediaTypes.contains( "flash_sd" ) || mediaTypes.contains( "flash_sdhc" ) || mediaTypes.contains( "flash_mmc" ) ) {
-        return QubeHardware::StorageDrive::SdMmc;
+        return Qube::Hardware::StorageDrive::SdMmc;
     }
     // FIXME: DK doesn't know about xD cards either
     else {
-        return QubeHardware::StorageDrive::HardDisk;
+        return Qube::Hardware::StorageDrive::HardDisk;
     }
 }
 
-QubeHardware::StorageDrive::Bus UDisksStorageDrive::bus() const
+Qube::Hardware::StorageDrive::Bus UDisksStorageDrive::bus() const
 {
     const QString bus = m_device->prop( "DriveConnectionInterface" ).toString();
 
     if ( bus == "ata" || bus == "ata_parallel" ) { // parallel (classical) ATA
-        return QubeHardware::StorageDrive::Ide;
+        return Qube::Hardware::StorageDrive::Ide;
     } else if ( bus == "usb" ) {
-        return QubeHardware::StorageDrive::Usb;
+        return Qube::Hardware::StorageDrive::Usb;
     } else if ( bus == "firewire" ) {
-        return QubeHardware::StorageDrive::Ieee1394;
+        return Qube::Hardware::StorageDrive::Ieee1394;
     } else if ( bus == "scsi" ) {
-        return QubeHardware::StorageDrive::Scsi;
+        return Qube::Hardware::StorageDrive::Scsi;
     } else if ( bus == "ata_serial" || bus == "ata_serial_esata" ) { // serial ATA
-        return QubeHardware::StorageDrive::Sata;
+        return Qube::Hardware::StorageDrive::Sata;
     }
 #if 0  // TODO add these to QubeHardware
     else if ( bus == "sdio" ) {
-        return QubeHardware::StorageDrive::SDIO;
+        return Qube::Hardware::StorageDrive::SDIO;
     } else if ( bus == "virtual" ) {
-        return QubeHardware::StorageDrive::Virtual;
+        return Qube::Hardware::StorageDrive::Virtual;
     }
 #endif
     else
-        return QubeHardware::StorageDrive::Platform;
+        return Qube::Hardware::StorageDrive::Platform;
 }
 

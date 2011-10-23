@@ -24,165 +24,167 @@
 #include <QtCore/QList>
 #include <QtCore/QVariant>
 
-#include <QubeCore/Global>
-#include <QubeHardware/qubehardwarenamespace.h>
-#include <QubeHardware/storagedrive.h>
+#include <Qube/Hardware/qubehardwarenamespace.h>
+#include <Qube/Hardware/storagedrive.h>
 
-namespace QubeHardware
+namespace Qube
 {
-    class OpticalDrivePrivate;
-    class Device;
-
-    /**
-     * This device interface is available on CD-R*,DVD*,Blu-Ray,HD-DVD drives.
-     *
-     * An OpticalDrive is a storage that can handle optical discs.
-     */
-    class QUBESHARED_EXPORT OpticalDrive : public StorageDrive
+    namespace Hardware
     {
-        Q_OBJECT
-        Q_ENUMS(MediumType)
-        Q_FLAGS(MediumTypes)
-        Q_PROPERTY(MediumTypes supportedMedia READ supportedMedia)
-        Q_PROPERTY(int readSpeed READ readSpeed)
-        Q_PROPERTY(int writeSpeed READ writeSpeed)
-        Q_PROPERTY(QList<int> writeSpeeds READ writeSpeeds)
-        Q_DECLARE_PRIVATE(OpticalDrive)
-        friend class Device;
+        class OpticalDrivePrivate;
+        class Device;
 
-    public:
         /**
-         * This enum type defines the type of medium an optical drive supports.
+         * This device interface is available on CD-R*,DVD*,Blu-Ray,HD-DVD drives.
          *
-         * - Cdr : A Recordable Compact Disc (CD-R)
-         * - Cdrw : A ReWritable Compact Disc (CD-RW)
-         * - Dvd : A Digital Versatile Disc (DVD)
-         * - Dvdr : A Recordable Digital Versatile Disc (DVD-R)
-         * - Dvdrw : A ReWritable Digital Versatile Disc (DVD-RW)
-         * - Dvdram : A Random Access Memory Digital Versatile Disc (DVD-RAM)
-         * - Dvdplusr : A Recordable Digital Versatile Disc (DVD+R)
-         * - Dvdplusrw : A ReWritable Digital Versatile Disc (DVD+RW)
-         * - Dvdplusdl : A Dual Layer Digital Versatile Disc (DVD+R DL)
-         * - Dvdplusdlrw : A Dual Layer Digital Versatile Disc (DVD+RW DL)
-         * - Bd : A Blu-ray Disc (BD)
-         * - Bdr : A Blu-ray Disc Recordable (BD-R)
-         * - Bdre : A Blu-ray Disc Recordable and Eraseable (BD-RE)
-         * - HdDvd : A High Density Digital Versatile Disc (HD DVD)
-         * - HdDvdr : A High Density Digital Versatile Disc Recordable (HD DVD-R)
-         * - HdDvdrw : A High Density Digital Versatile Disc ReWritable (HD DVD-RW)
+         * An OpticalDrive is a storage that can handle optical discs.
          */
-        enum MediumType { Cdr=0x00001, Cdrw=0x00002, Dvd=0x00004, Dvdr=0x00008,
-                          Dvdrw=0x00010, Dvdram=0x00020, Dvdplusr=0x00040,
-                          Dvdplusrw=0x00080, Dvdplusdl=0x00100, Dvdplusdlrw=0x00200,
-                          Bd=0x00400, Bdr=0x00800, Bdre=0x01000,
-                          HdDvd=0x02000, HdDvdr=0x04000, HdDvdrw=0x08000
-                        };
+        class OpticalDrive : public StorageDrive
+        {
+            Q_OBJECT
+            Q_ENUMS(MediumType)
+            Q_FLAGS(MediumTypes)
+            Q_PROPERTY(MediumTypes supportedMedia READ supportedMedia)
+            Q_PROPERTY(int readSpeed READ readSpeed)
+            Q_PROPERTY(int writeSpeed READ writeSpeed)
+            Q_PROPERTY(QList<int> writeSpeeds READ writeSpeeds)
+            Q_DECLARE_PRIVATE(OpticalDrive)
+            friend class Device;
 
-        /**
-         * This type stores an OR combination of MediumType values.
-         */
-        Q_DECLARE_FLAGS(MediumTypes, MediumType)
+        public:
+            /**
+             * This enum type defines the type of medium an optical drive supports.
+             *
+             * - Cdr : A Recordable Compact Disc (CD-R)
+             * - Cdrw : A ReWritable Compact Disc (CD-RW)
+             * - Dvd : A Digital Versatile Disc (DVD)
+             * - Dvdr : A Recordable Digital Versatile Disc (DVD-R)
+             * - Dvdrw : A ReWritable Digital Versatile Disc (DVD-RW)
+             * - Dvdram : A Random Access Memory Digital Versatile Disc (DVD-RAM)
+             * - Dvdplusr : A Recordable Digital Versatile Disc (DVD+R)
+             * - Dvdplusrw : A ReWritable Digital Versatile Disc (DVD+RW)
+             * - Dvdplusdl : A Dual Layer Digital Versatile Disc (DVD+R DL)
+             * - Dvdplusdlrw : A Dual Layer Digital Versatile Disc (DVD+RW DL)
+             * - Bd : A Blu-ray Disc (BD)
+             * - Bdr : A Blu-ray Disc Recordable (BD-R)
+             * - Bdre : A Blu-ray Disc Recordable and Eraseable (BD-RE)
+             * - HdDvd : A High Density Digital Versatile Disc (HD DVD)
+             * - HdDvdr : A High Density Digital Versatile Disc Recordable (HD DVD-R)
+             * - HdDvdrw : A High Density Digital Versatile Disc ReWritable (HD DVD-RW)
+             */
+            enum MediumType { Cdr=0x00001, Cdrw=0x00002, Dvd=0x00004, Dvdr=0x00008,
+                              Dvdrw=0x00010, Dvdram=0x00020, Dvdplusr=0x00040,
+                              Dvdplusrw=0x00080, Dvdplusdl=0x00100, Dvdplusdlrw=0x00200,
+                              Bd=0x00400, Bdr=0x00800, Bdre=0x01000,
+                              HdDvd=0x02000, HdDvdr=0x04000, HdDvdrw=0x08000
+                            };
+
+            /**
+             * This type stores an OR combination of MediumType values.
+             */
+            Q_DECLARE_FLAGS(MediumTypes, MediumType)
 
 
-    private:
-        /**
-         * Creates a new OpticalDrive object.
-         * You generally won't need this. It's created when necessary using
-         * Device::as().
-         *
-         * @param backendObject the device interface object provided by the backend
-         * @see QubeHardware::Device::as()
-         */
-        explicit OpticalDrive(QObject *backendObject);
+        private:
+            /**
+             * Creates a new OpticalDrive object.
+             * You generally won't need this. It's created when necessary using
+             * Device::as().
+             *
+             * @param backendObject the device interface object provided by the backend
+             * @see Qube::Hardware::Device::as()
+             */
+            explicit OpticalDrive(QObject *backendObject);
 
-    public:
-        /**
-         * Destroys an OpticalDrive object.
-         */
-        virtual ~OpticalDrive();
-
-
-        /**
-         * Get the QubeHardware::DeviceInterface::Type of the OpticalDrive device interface.
-         *
-         * @return the OpticalDrive device interface type
-         * @see QubeHardware::Ifaces::Enums::DeviceInterface::Type
-         */
-        static Type deviceInterfaceType() {
-            return DeviceInterface::OpticalDrive;
-        }
+        public:
+            /**
+             * Destroys an OpticalDrive object.
+             */
+            virtual ~OpticalDrive();
 
 
-        /**
-         * Retrieves the medium types this drive supports.
-         *
-         * @return the flag set indicating the supported medium types
-         */
-        MediumTypes supportedMedia() const;
+            /**
+             * Get the Qube::Hardware::DeviceInterface::Type of the OpticalDrive device interface.
+             *
+             * @return the OpticalDrive device interface type
+             * @see Qube::Hardware::Ifaces::Enums::DeviceInterface::Type
+             */
+            static Type deviceInterfaceType() {
+                return DeviceInterface::OpticalDrive;
+            }
 
-        /**
-         * Retrieves the maximum read speed of this drive in kilobytes per second.
-         *
-         * @return the maximum read speed
-         */
-        int readSpeed() const;
 
-        /**
-         * Retrieves the maximum write speed of this drive in kilobytes per second.
-         *
-         * @return the maximum write speed
-         */
-        int writeSpeed() const;
+            /**
+             * Retrieves the medium types this drive supports.
+             *
+             * @return the flag set indicating the supported medium types
+             */
+            MediumTypes supportedMedia() const;
 
-        /**
-         * Retrieves the list of supported write speeds of this drive in
-         * kilobytes per second.
-         *
-         * @return the list of supported write speeds
-         */
-        QList<int> writeSpeeds() const;
+            /**
+             * Retrieves the maximum read speed of this drive in kilobytes per second.
+             *
+             * @return the maximum read speed
+             */
+            int readSpeed() const;
 
-        /**
-         * Ejects any disc that could be contained in this drive.
-         * If this drive is empty, but has a tray it'll be opened.
-         *
-         * @return the status of the eject operation
-         */
-        bool eject();
+            /**
+             * Retrieves the maximum write speed of this drive in kilobytes per second.
+             *
+             * @return the maximum write speed
+             */
+            int writeSpeed() const;
 
-    Q_SIGNALS:
-        /**
-         * This signal is emitted when the eject button is pressed
-         * on the drive.
-         *
-         * Please note that some (broken) drives doesn't report this event.
-         * @param udi the UDI of the drive
-         */
-        void ejectPressed(const QString &udi);
+            /**
+             * Retrieves the list of supported write speeds of this drive in
+             * kilobytes per second.
+             *
+             * @return the list of supported write speeds
+             */
+            QList<int> writeSpeeds() const;
 
-        /**
-         * This signal is emitted when the attempted eject process on this
-         * drive is completed. The signal might be spontaneous, i.e.
-         * it can be triggered by another process.
-         *
-         * @param error type of error that occurred, if any
-         * @param errorData more information about the error, if any
-         * @param udi the UDI of the volume
-         */
-        void ejectDone(QubeHardware::ErrorType error, QVariant errorData, const QString &udi);
+            /**
+             * Ejects any disc that could be contained in this drive.
+             * If this drive is empty, but has a tray it'll be opened.
+             *
+             * @return the status of the eject operation
+             */
+            bool eject();
 
-        /**
-         * This signal is emitted when eject on this drive is
-         * requested. The signal might be spontaneous, i.e. it
-         * can be triggered by another process.
-         *
-         * @param udi the UDI of the volume
-         */
-        void ejectRequested(const QString &udi);
+        Q_SIGNALS:
+            /**
+             * This signal is emitted when the eject button is pressed
+             * on the drive.
+             *
+             * Please note that some (broken) drives doesn't report this event.
+             * @param udi the UDI of the drive
+             */
+            void ejectPressed(const QString &udi);
 
-    };
+            /**
+             * This signal is emitted when the attempted eject process on this
+             * drive is completed. The signal might be spontaneous, i.e.
+             * it can be triggered by another process.
+             *
+             * @param error type of error that occurred, if any
+             * @param errorData more information about the error, if any
+             * @param udi the UDI of the volume
+             */
+            void ejectDone(Qube::Hardware::ErrorType error, QVariant errorData, const QString &udi);
+
+            /**
+             * This signal is emitted when eject on this drive is
+             * requested. The signal might be spontaneous, i.e. it
+             * can be triggered by another process.
+             *
+             * @param udi the UDI of the volume
+             */
+            void ejectRequested(const QString &udi);
+
+        };
+    }
 }
 
-Q_DECLARE_OPERATORS_FOR_FLAGS(QubeHardware::OpticalDrive::MediumTypes)
+Q_DECLARE_OPERATORS_FOR_FLAGS(Qube::Hardware::OpticalDrive::MediumTypes)
 
 #endif // SOLID_OPTICALDRIVE_H

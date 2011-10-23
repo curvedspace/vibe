@@ -26,55 +26,58 @@
 
 #include <QtCore/QStringList>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Ifaces
+    namespace Hardware
     {
-        /**
-         * This device interface is available on video devices.
-         *
-         * A video device provides access to a live stream of video, in contrast
-         * to a camera device which records individual frames or movies which
-         * are accessed discretely.
-         */
-        class Video : virtual public DeviceInterface
+        namespace Ifaces
         {
-        public:
             /**
-             * Destroys a Video object.
+             * This device interface is available on video devices.
+             *
+             * A video device provides access to a live stream of video, in contrast
+             * to a camera device which records individual frames or movies which
+             * are accessed discretely.
              */
-            virtual ~Video();
+            class Video : virtual public DeviceInterface
+            {
+            public:
+                /**
+                 * Destroys a Video object.
+                 */
+                virtual ~Video();
 
-            /**
-             * Retrieves known protocols this device can speak.  This list may be dependent
-             * on installed device driver libraries.
-             *
-             * @return a list of known protocols this device can speak
-             */
-            virtual QStringList supportedProtocols() const = 0;
+                /**
+                 * Retrieves known protocols this device can speak.  This list may be dependent
+                 * on installed device driver libraries.
+                 *
+                 * @return a list of known protocols this device can speak
+                 */
+                virtual QStringList supportedProtocols() const = 0;
 
-            /**
-             * Retrieves known installed device drivers that claim to handle this device
-             * using the requested protocol.
-             *
-             * @param protocol The protocol to get drivers for.
-             * @return a list of known device drivers that can handle this device
-             */
-            virtual QStringList supportedDrivers(QString protocol = QString()) const = 0;
+                /**
+                 * Retrieves known installed device drivers that claim to handle this device
+                 * using the requested protocol.
+                 *
+                 * @param protocol The protocol to get drivers for.
+                 * @return a list of known device drivers that can handle this device
+                 */
+                virtual QStringList supportedDrivers(QString protocol = QString()) const = 0;
 
-            /**
-             * Retrieves a driver specific string allowing to access the device.
-             *
-             * For example for the "video4linux" driver it will return the device path
-             * of the device.
-             *
-             * @return the driver specific data
-             */
-            virtual QVariant driverHandle(const QString &driver) const = 0;
-        };
+                /**
+                 * Retrieves a driver specific string allowing to access the device.
+                 *
+                 * For example for the "video4linux" driver it will return the device path
+                 * of the device.
+                 *
+                 * @return the driver specific data
+                 */
+                virtual QVariant driverHandle(const QString &driver) const = 0;
+            };
+        }
     }
 }
 
-Q_DECLARE_INTERFACE(QubeHardware::Ifaces::Video, "org.vision.Hardware.Ifaces.Video/0.1")
+Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::Video, "org.vision.Qube.Hardware.Ifaces.Video/0.1")
 
 #endif

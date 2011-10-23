@@ -26,29 +26,29 @@
 #include "soliddefs_p.h"
 #include <ifaces/portablemediaplayer.h>
 
-QubeHardware::PortableMediaPlayer::PortableMediaPlayer(QObject *backendObject)
+Qube::Hardware::PortableMediaPlayer::PortableMediaPlayer(QObject *backendObject)
     : DeviceInterface(*new PortableMediaPlayerPrivate(), backendObject)
 {
 }
 
-QubeHardware::PortableMediaPlayer::~PortableMediaPlayer()
+Qube::Hardware::PortableMediaPlayer::~PortableMediaPlayer()
 {
 
 }
 
-QStringList QubeHardware::PortableMediaPlayer::supportedProtocols() const
+QStringList Qube::Hardware::PortableMediaPlayer::supportedProtocols() const
 {
     Q_D(const PortableMediaPlayer);
     return_SOLID_CALL(Ifaces::PortableMediaPlayer *, d->backendObject(), QStringList(), supportedProtocols());
 }
 
-QStringList QubeHardware::PortableMediaPlayer::supportedDrivers(QString protocol) const
+QStringList Qube::Hardware::PortableMediaPlayer::supportedDrivers(QString protocol) const
 {
     Q_D(const PortableMediaPlayer);
     return_SOLID_CALL(Ifaces::PortableMediaPlayer *, d->backendObject(), QStringList(), supportedDrivers(protocol));
 }
 
-QVariant QubeHardware::PortableMediaPlayer::driverHandle(const QString &driver) const
+QVariant Qube::Hardware::PortableMediaPlayer::driverHandle(const QString &driver) const
 {
     Q_D(const PortableMediaPlayer);
     return_SOLID_CALL(Ifaces::PortableMediaPlayer *, d->backendObject(), QVariant(), driverHandle(driver));

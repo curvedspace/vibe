@@ -1,45 +1,62 @@
-#ifndef GLOBAL_H
-#define GLOBAL_H
+/****************************************************************************
+ * This file is part of Qube.
+ *
+ * Copyright (c) 2010-2011 Pier Luigi Fiorini
+ *
+ * Author(s):
+ *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *
+ * Qube is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Qube is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Qube.  If not, see <http://www.gnu.org/licenses/>.
+ ***************************************************************************/
 
-#include <QtCore/qglobal.h>
-
-#if defined(QUBE_LIBRARY)
-#  define QUBESHARED_EXPORT Q_DECL_EXPORT
-#else
-#  define QUBESHARED_EXPORT Q_DECL_IMPORT
-#endif
+#ifndef QUBE_GLOBAL_H
+#define QUBE_GLOBAL_H
 
 /*
- * The following code was taken from kde4libs/kdecore/kernel/kglobal.h
+ * The following code is based on kde4libs/kdecore/kernel/kglobal.h
  *
  * Copyright (C) 1999 Sirtaj Singh Kanq <taj@kde.org>
  * Copyright (C) 2007 Matthias Kretz <kretz@kde.org>
  */
 
-namespace QubeCore
+namespace Qube
 {
+    namespace Core
+    {
 /// @cond InternalDocs
 
-    /**
-     * @internal
-     */
-    typedef void (*QubeCleanUpFunction)();
+        /**
+         * @internal
+         */
+        typedef void (*QubeCleanUpFunction)();
 
-    /**
-     * @internal
-     *
-     * Helper class for QUBE_GLOBAL_STATIC to clean up the object on library unload or application
-     * shutdown.
-     */
-    class CleanUpGlobalStatic
-    {
-    public:
-        QubeCleanUpFunction func;
+        /**
+         * @internal
+         *
+         * Helper class for QUBE_GLOBAL_STATIC to clean up the object on library unload or application
+         * shutdown.
+         */
+        class CleanUpGlobalStatic
+        {
+        public:
+            QubeCleanUpFunction func;
 
-        inline ~CleanUpGlobalStatic() {
-            func();
-        }
-    };
+            inline ~CleanUpGlobalStatic() {
+                func();
+            }
+        };
+    }
 }
 
 #ifdef Q_CC_MSVC
@@ -128,7 +145,7 @@ namespace QubeCore
  * an example how to do it:
  * @code
  * class MySingletonPrivate;
- * class EXPORT_MACRO MySingleton
+ * class MySingleton
  * {
  * friend class MySingletonPrivate;
  * public:
@@ -168,7 +185,7 @@ namespace QubeCore
  * @code
  * namespace MySingleton
  * {
- *     EXPORT_MACRO QString someFunction();
+ *     QString someFunction();
  * }
  * @endcode
  * in the .cpp file:
@@ -196,7 +213,7 @@ namespace QubeCore
  * MySingleton::someFunction();
  * @endcode
  *
- * @ingroup KDEMacros
+ * @ingroup Macros
  */
 #define QUBE_GLOBAL_STATIC(TYPE, NAME) QUBE_GLOBAL_STATIC_WITH_ARGS(TYPE, NAME, ())
 
@@ -230,53 +247,52 @@ namespace QubeCore
  * }
  * @endcode
  *
- * @ingroup KDEMacros
+ * @ingroup Macros
  */
-#define QUBE_GLOBAL_STATIC_WITH_ARGS(TYPE, NAME, ARGS)                            \
-static QBasicAtomicPointer<TYPE > _q_static_##NAME = Q_BASIC_ATOMIC_INITIALIZER(0); \
-static bool _q_static_##NAME##_destroyed;                                      \
-static struct QUBE_GLOBAL_STATIC_STRUCT_NAME(NAME)                                \
-{                                                                              \
-    inline bool isDestroyed() const                                            \
-    {                                                                          \
-        return _q_static_##NAME##_destroyed;                                   \
-    }                                                                          \
-    inline bool exists() const                                                 \
-    {                                                                          \
-        return _q_static_##NAME != 0;                                          \
-    }                                                                          \
-    inline operator TYPE*()                                                    \
-    {                                                                          \
-        return operator->();                                                   \
-    }                                                                          \
-    inline TYPE *operator->()                                                  \
-    {                                                                          \
-        if (!_q_static_##NAME) {                                               \
-            if (isDestroyed()) {                                               \
+#define QUBE_GLOBAL_STATIC_WITH_ARGS(TYPE, NAME, ARGS)                                      \
+static QBasicAtomicPointer<TYPE > _q_static_##NAME = Q_BASIC_ATOMIC_INITIALIZER(0);         \
+static bool _q_static_##NAME##_destroyed;                                                   \
+static struct QUBE_GLOBAL_STATIC_STRUCT_NAME(NAME)                                          \
+{                                                                                           \
+    inline bool isDestroyed() const                                                         \
+    {                                                                                       \
+        return _q_static_##NAME##_destroyed;                                                \
+    }                                                                                       \
+    inline bool exists() const                                                              \
+    {                                                                                       \
+        return _q_static_##NAME != 0;                                                       \
+    }                                                                                       \
+    inline operator TYPE*()                                                                 \
+    {                                                                                       \
+        return operator->();                                                                \
+    }                                                                                       \
+    inline TYPE *operator->()                                                               \
+    {                                                                                       \
+        if (!_q_static_##NAME) {                                                            \
+            if (isDestroyed()) {                                                            \
                 qFatal("Fatal Error: Accessed global static '%s *%s()' after destruction. " \
-                       "Defined at %s:%d", #TYPE, #NAME, __FILE__, __LINE__);  \
-            }                                                                  \
-            TYPE *x = new TYPE ARGS;                                           \
-            if (!_q_static_##NAME.testAndSetOrdered(0, x)                      \
-                && _q_static_##NAME != x ) {                                   \
-                delete x;                                                      \
-            } else {                                                           \
-                static QubeCore::CleanUpGlobalStatic cleanUpObject = { destroy };       \
-            }                                                                  \
-        }                                                                      \
-        return _q_static_##NAME;                                               \
-    }                                                                          \
-    inline TYPE &operator*()                                                   \
-    {                                                                          \
-        return *operator->();                                                  \
-    }                                                                          \
-    static void destroy()                                                      \
-    {                                                                          \
-        _q_static_##NAME##_destroyed = true;                                   \
-        TYPE *x = _q_static_##NAME;                                            \
-        _q_static_##NAME = 0;                                                  \
-        delete x;                                                              \
-    }                                                                          \
+                       "Defined at %s:%d", #TYPE, #NAME, __FILE__, __LINE__);               \
+            }                                                                               \
+            TYPE *x = new TYPE ARGS;                                                        \
+            if (!_q_static_##NAME.testAndSetOrdered(0, x)                                   \
+                && _q_static_##NAME != x ) {                                                \
+                delete x;                                                                   \
+            } else                                                                          \
+                static Qube::Core::CleanUpGlobalStatic cleanUpObject = { destroy };         \
+        }                                                                                   \
+        return _q_static_##NAME;                                                            \
+    }                                                                                       \
+    inline TYPE &operator*()                                                                \
+    {                                                                                       \
+        return *operator->();                                                               \
+    }                                                                                       \
+    static void destroy()                                                                   \
+    {                                                                                       \
+        _q_static_##NAME##_destroyed = true;                                                \
+        TYPE *x = _q_static_##NAME;                                                         \
+        _q_static_##NAME = 0;                                                               \
+        delete x;                                                                           \
+    }                                                                                       \
 } NAME;
 
-#endif // GLOBAL_H
+#endif // QUBE_GLOBAL_H

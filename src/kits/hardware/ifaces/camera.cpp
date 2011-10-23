@@ -20,7 +20,7 @@
 
 #include "camera.h"
 
-QubeHardware::Ifaces::Camera::~Camera()
+Qube::Hardware::Ifaces::Camera::~Camera()
 {
 }
 

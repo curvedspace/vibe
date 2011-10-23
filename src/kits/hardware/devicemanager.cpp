@@ -30,9 +30,9 @@
 
 #include "soliddefs_p.h"
 
-SOLID_GLOBAL_STATIC(QubeHardware::DeviceManagerStorage, globalDeviceStorage)
+SOLID_GLOBAL_STATIC(Qube::Hardware::DeviceManagerStorage, globalDeviceStorage)
 
-QubeHardware::DeviceManagerPrivate::DeviceManagerPrivate()
+Qube::Hardware::DeviceManagerPrivate::DeviceManagerPrivate()
     : m_nullDevice(new DevicePrivate(QString()))
 {
     loadBackends();
@@ -40,13 +40,13 @@ QubeHardware::DeviceManagerPrivate::DeviceManagerPrivate()
     QList<QObject*> backends = managerBackends();
     foreach (QObject *backend, backends) {
         connect(backend, SIGNAL(deviceAdded(QString)),
-                this, SLOT(_k_deviceAdded(QString)));
+                this, SLOT(_q_deviceAdded(QString)));
         connect(backend, SIGNAL(deviceRemoved(QString)),
-                this, SLOT(_k_deviceRemoved(QString)));
+                this, SLOT(_q_deviceRemoved(QString)));
     }
 }
 
-QubeHardware::DeviceManagerPrivate::~DeviceManagerPrivate()
+Qube::Hardware::DeviceManagerPrivate::~DeviceManagerPrivate()
 {
     QList<QObject*> backends = managerBackends();
     foreach (QObject *backend, backends) {
@@ -62,7 +62,7 @@ QubeHardware::DeviceManagerPrivate::~DeviceManagerPrivate()
     m_devicesMap.clear();
 }
 
-QList<QubeHardware::Device> QubeHardware::Device::allDevices()
+QList<Qube::Hardware::Device> Qube::Hardware::Device::allDevices()
 {
     QList<Device> list;
     QList<QObject*> backends = globalDeviceStorage->managerBackends();
@@ -82,7 +82,7 @@ QList<QubeHardware::Device> QubeHardware::Device::allDevices()
     return list;
 }
 
-QList<QubeHardware::Device> QubeHardware::Device::listFromQuery(const QString &predicate,
+QList<Qube::Hardware::Device> Qube::Hardware::Device::listFromQuery(const QString &predicate,
         const QString &parentUdi)
 {
     Predicate p = Predicate::fromString(predicate);
@@ -94,7 +94,7 @@ QList<QubeHardware::Device> QubeHardware::Device::listFromQuery(const QString &p
     }
 }
 
-QList<QubeHardware::Device> QubeHardware::Device::listFromType(const DeviceInterface::Type &type,
+QList<Qube::Hardware::Device> Qube::Hardware::Device::listFromType(const DeviceInterface::Type &type,
         const QString &parentUdi)
 {
     QList<Device> list;
@@ -116,7 +116,7 @@ QList<QubeHardware::Device> QubeHardware::Device::listFromType(const DeviceInter
     return list;
 }
 
-QList<QubeHardware::Device> QubeHardware::Device::listFromQuery(const Predicate &predicate,
+QList<Qube::Hardware::Device> Qube::Hardware::Device::listFromQuery(const Predicate &predicate,
         const QString &parentUdi)
 {
     QList<Device> list;
@@ -162,12 +162,12 @@ QList<QubeHardware::Device> QubeHardware::Device::listFromQuery(const Predicate 
     return list;
 }
 
-QubeHardware::DeviceNotifier *QubeHardware::DeviceNotifier::instance()
+Qube::Hardware::DeviceNotifier *Qube::Hardware::DeviceNotifier::instance()
 {
     return globalDeviceStorage->notifier();
 }
 
-void QubeHardware::DeviceManagerPrivate::_k_deviceAdded(const QString &udi)
+void Qube::Hardware::DeviceManagerPrivate::_q_deviceAdded(const QString &udi)
 {
     if (m_devicesMap.contains(udi)) {
         DevicePrivate *dev = m_devicesMap[udi].data();
@@ -184,7 +184,7 @@ void QubeHardware::DeviceManagerPrivate::_k_deviceAdded(const QString &udi)
     emit deviceAdded(udi);
 }
 
-void QubeHardware::DeviceManagerPrivate::_k_deviceRemoved(const QString &udi)
+void Qube::Hardware::DeviceManagerPrivate::_q_deviceRemoved(const QString &udi)
 {
     if (m_devicesMap.contains(udi)) {
         DevicePrivate *dev = m_devicesMap[udi].data();
@@ -202,7 +202,7 @@ void QubeHardware::DeviceManagerPrivate::_k_deviceRemoved(const QString &udi)
     emit deviceRemoved(udi);
 }
 
-void QubeHardware::DeviceManagerPrivate::_k_destroyed(QObject *object)
+void Qube::Hardware::DeviceManagerPrivate::_q_destroyed(QObject *object)
 {
     QString udi = m_reverseMap.take(object);
 
@@ -211,7 +211,7 @@ void QubeHardware::DeviceManagerPrivate::_k_destroyed(QObject *object)
     }
 }
 
-QubeHardware::DevicePrivate *QubeHardware::DeviceManagerPrivate::findRegisteredDevice(const QString &udi)
+Qube::Hardware::DevicePrivate *Qube::Hardware::DeviceManagerPrivate::findRegisteredDevice(const QString &udi)
 {
     if (udi.isEmpty()) {
         return m_nullDevice.data();
@@ -228,13 +228,13 @@ QubeHardware::DevicePrivate *QubeHardware::DeviceManagerPrivate::findRegisteredD
         m_reverseMap[devData] = udi;
 
         connect(devData, SIGNAL(destroyed(QObject *)),
-                this, SLOT(_k_destroyed(QObject *)));
+                this, SLOT(_q_destroyed(QObject *)));
 
         return devData;
     }
 }
 
-QubeHardware::Ifaces::Device *QubeHardware::DeviceManagerPrivate::createBackendObject(const QString &udi)
+Qube::Hardware::Ifaces::Device *Qube::Hardware::DeviceManagerPrivate::createBackendObject(const QString &udi)
 {
     QList<QObject*> backends = globalDeviceStorage->managerBackends();
 
@@ -259,24 +259,24 @@ QubeHardware::Ifaces::Device *QubeHardware::DeviceManagerPrivate::createBackendO
     return 0;
 }
 
-QubeHardware::DeviceManagerStorage::DeviceManagerStorage()
+Qube::Hardware::DeviceManagerStorage::DeviceManagerStorage()
 {
 
 }
 
-QList<QObject*> QubeHardware::DeviceManagerStorage::managerBackends()
+QList<QObject*> Qube::Hardware::DeviceManagerStorage::managerBackends()
 {
     ensureManagerCreated();
     return m_storage.localData()->managerBackends();
 }
 
-QubeHardware::DeviceNotifier *QubeHardware::DeviceManagerStorage::notifier()
+Qube::Hardware::DeviceNotifier *Qube::Hardware::DeviceManagerStorage::notifier()
 {
     ensureManagerCreated();
     return m_storage.localData();
 }
 
-void QubeHardware::DeviceManagerStorage::ensureManagerCreated()
+void Qube::Hardware::DeviceManagerStorage::ensureManagerCreated()
 {
     if (!m_storage.hasLocalData()) {
         m_storage.setLocalData(new DeviceManagerPrivate());

@@ -1,54 +1,82 @@
+/****************************************************************************
+ * This file is part of Qube.
+ *
+ * Copyright (c) 2007 Kevin Ottens
+ * Copyright (c) 2007 David Faure
+ * Copyright (c) 2011 Pier Luigi Fiorini
+ *
+ * Author(s):
+ *	David Faure <faure@kde.org>
+ *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *	Kevin Ottens <ervin@kde.org>
+ *
+ * Qube is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Qube is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Qube.  If not, see <http://www.gnu.org/licenses/>.
+ ***************************************************************************/
 
-#ifndef FILEPLACESMODEL_P_H
-#define FILEPLACESMODEL_P_H
+#ifndef QUBE_FILEPLACESMODEL_P_H
+#define QUBE_FILEPLACESMODEL_P_H
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
 #include <QtCore/QSet>
 
-#include <QubeHardware/Predicate>
+#include <Qube/Hardware/Predicate>
 
 #include "bookmarkmanager.h"
 
-namespace QubeStorage
+namespace Qube
 {
-    class FilePlacesModel;
-
-    class FilePlacesModelPrivate
+    namespace Storage
     {
-    public:
-        FilePlacesModelPrivate(FilePlacesModel *self) :
-            q(self),
-            bookmarkManager(0),
-            sharedBookmarks(0) {
-        }
+        class FilePlacesModel;
 
-        ~FilePlacesModelPrivate() {
-            delete sharedBookmarks;
-            qDeleteAll(items);
-        }
+        class FilePlacesModelPrivate
+        {
+        public:
+            FilePlacesModelPrivate(FilePlacesModel *self) :
+                q(self),
+                bookmarkManager(0),
+                sharedBookmarks(0) {
+            }
 
-        FilePlacesModel *q;
+            ~FilePlacesModelPrivate() {
+                delete sharedBookmarks;
+                qDeleteAll(items);
+            }
 
-        QList<FilePlacesItem*> items;
-        QSet<QString> availableDevices;
-        QMap<QObject*, QPersistentModelIndex> setupInProgress;
+            FilePlacesModel *q;
 
-        QubeHardware::Predicate predicate;
-        BookmarkManager *bookmarkManager;
-        FilePlacesSharedBookmarks * sharedBookmarks;
+            QList<FilePlacesItem*> items;
+            QSet<QString> availableDevices;
+            QMap<QObject*, QPersistentModelIndex> setupInProgress;
 
-        void reloadAndSignal();
-        QList<FilePlacesItem *> loadBookmarkList();
+            Qube::Hardware::Predicate predicate;
+            BookmarkManager *bookmarkManager;
+            FilePlacesSharedBookmarks * sharedBookmarks;
 
-        void _q_initDeviceList();
-        void _q_deviceAdded(const QString &udi);
-        void _q_deviceRemoved(const QString &udi);
-        void _q_itemChanged(const QString &udi);
-        void _q_reloadBookmarks();
-        void _q_storageSetupDone(QubeHardware::ErrorType error, QVariant errorData);
-        void _q_storageTeardownDone(QubeHardware::ErrorType error, QVariant errorData);
-    };
+            void reloadAndSignal();
+            QList<FilePlacesItem *> loadBookmarkList();
+
+            void _q_initDeviceList();
+            void _q_deviceAdded(const QString &udi);
+            void _q_deviceRemoved(const QString &udi);
+            void _q_itemChanged(const QString &udi);
+            void _q_reloadBookmarks();
+            void _q_storageSetupDone(Qube::Hardware::ErrorType error, QVariant errorData);
+            void _q_storageTeardownDone(Qube::Hardware::ErrorType error, QVariant errorData);
+        };
+    }
 }
 
-#endif // FILEPLACESMODEL_P_H
+#endif // QUBE_FILEPLACESMODEL_P_H

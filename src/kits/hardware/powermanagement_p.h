@@ -29,37 +29,40 @@
 
 #include <QtDBus/QDBusServiceWatcher>
 
-namespace QubeHardware
+namespace Qube
 {
-    class PowerManagementPrivate : public PowerManagement::Notifier
+    namespace Hardware
     {
-        Q_OBJECT
-    public:
-        enum RequiredPolicy {
-            None = 0,
-            InterruptSession = 1,
-            ChangeProfile = 2,
-            ChangeScreenSettings = 4
+        class PowerManagementPrivate : public PowerManagement::Notifier
+        {
+            Q_OBJECT
+        public:
+            enum RequiredPolicy {
+                None = 0,
+                InterruptSession = 1,
+                ChangeProfile = 2,
+                ChangeScreenSettings = 4
+            };
+
+            PowerManagementPrivate();
+            ~PowerManagementPrivate();
+
+        public Q_SLOTS:
+            void slotCanSuspendChanged(bool newState);
+            void slotCanHibernateChanged(bool newState);
+            void slotPowerSaveStatusChanged(bool newState);
+            void slotServiceRegistered(const QString &serviceName);
+
+        public:
+            OrgFreedesktopPowerManagementInterface managerIface;
+            OrgVisionQubeHardwarePowerManagementPolicyAgentInterface policyAgentIface;
+            OrgFreedesktopPowerManagementInhibitInterface inhibitIface;
+            QDBusServiceWatcher serviceWatcher;
+
+            bool powerSaveStatus;
+            QSet<Qube::Hardware::PowerManagement::SleepState> supportedSleepStates;
         };
-
-        PowerManagementPrivate();
-        ~PowerManagementPrivate();
-
-    public Q_SLOTS:
-        void slotCanSuspendChanged(bool newState);
-        void slotCanHibernateChanged(bool newState);
-        void slotPowerSaveStatusChanged(bool newState);
-        void slotServiceRegistered(const QString &serviceName);
-
-    public:
-        OrgFreedesktopPowerManagementInterface managerIface;
-        OrgVisionHardwarePowerManagementPolicyAgentInterface policyAgentIface;
-        OrgFreedesktopPowerManagementInhibitInterface inhibitIface;
-        QDBusServiceWatcher serviceWatcher;
-
-        bool powerSaveStatus;
-        QSet<QubeHardware::PowerManagement::SleepState> supportedSleepStates;
-    };
+    }
 }
 
 #endif

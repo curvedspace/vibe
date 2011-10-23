@@ -20,7 +20,7 @@
 
 #include "opticaldisc.h"
 
-QubeHardware::Ifaces::OpticalDisc::~OpticalDisc()
+Qube::Hardware::Ifaces::OpticalDisc::~OpticalDisc()
 {
 }
 

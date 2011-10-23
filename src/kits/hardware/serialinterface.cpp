@@ -26,29 +26,29 @@
 #include "soliddefs_p.h"
 #include <ifaces/serialinterface.h>
 
-QubeHardware::SerialInterface::SerialInterface(QObject *backendObject)
+Qube::Hardware::SerialInterface::SerialInterface(QObject *backendObject)
     : DeviceInterface(*new SerialInterfacePrivate(), backendObject)
 {
 }
 
-QubeHardware::SerialInterface::~SerialInterface()
+Qube::Hardware::SerialInterface::~SerialInterface()
 {
 
 }
 
-QVariant QubeHardware::SerialInterface::driverHandle() const
+QVariant Qube::Hardware::SerialInterface::driverHandle() const
 {
     Q_D(const SerialInterface);
     return_SOLID_CALL(Ifaces::SerialInterface *, d->backendObject(), QVariant(), driverHandle());
 }
 
-QubeHardware::SerialInterface::SerialType QubeHardware::SerialInterface::serialType() const
+Qube::Hardware::SerialInterface::SerialType Qube::Hardware::SerialInterface::serialType() const
 {
     Q_D(const SerialInterface);
     return_SOLID_CALL(Ifaces::SerialInterface *, d->backendObject(), Unknown, serialType());
 }
 
-int QubeHardware::SerialInterface::port() const
+int Qube::Hardware::SerialInterface::port() const
 {
     Q_D(const SerialInterface);
     return_SOLID_CALL(Ifaces::SerialInterface *, d->backendObject(), -1, port());

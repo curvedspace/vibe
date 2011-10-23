@@ -22,35 +22,38 @@
 #define SOLID_IFACES_SMARTCARDREADER_H
 
 #include <ifaces/deviceinterface.h>
-#include <QubeHardware/smartcardreader.h>
+#include <Qube/Hardware/smartcardreader.h>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Ifaces
+    namespace Hardware
     {
-        /**
-         * This device interface is available on smart card readers.
-         */
-        class SmartCardReader : virtual public DeviceInterface
+        namespace Ifaces
         {
-        public:
             /**
-             * Destroys a SmartCardReader object.
+             * This device interface is available on smart card readers.
              */
-            virtual ~SmartCardReader();
+            class SmartCardReader : virtual public DeviceInterface
+            {
+            public:
+                /**
+                 * Destroys a SmartCardReader object.
+                 */
+                virtual ~SmartCardReader();
 
 
-            /**
-             * Retrieves the type of this smart card reader.
-             *
-             * @return the reader type
-             * @see QubeHardware::SmartCardReader::ReaderType
-             */
-            virtual QubeHardware::SmartCardReader::ReaderType readerType() const = 0;
-        };
+                /**
+                 * Retrieves the type of this smart card reader.
+                 *
+                 * @return the reader type
+                 * @see Qube::Hardware::SmartCardReader::ReaderType
+                 */
+                virtual Qube::Hardware::SmartCardReader::ReaderType readerType() const = 0;
+            };
+        }
     }
 }
 
-Q_DECLARE_INTERFACE(QubeHardware::Ifaces::SmartCardReader, "org.vision.Hardware.Ifaces.SmartCardReader/0.1")
+Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::SmartCardReader, "org.vision.Qube.Hardware.Ifaces.SmartCardReader/0.1")
 
 #endif // SOLID_IFACES_SMARTCARDREADER_H

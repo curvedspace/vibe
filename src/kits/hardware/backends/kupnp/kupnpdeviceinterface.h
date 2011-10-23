@@ -26,29 +26,28 @@
 // Qt
 #include <QtCore/QObject>
 
-
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace KUPnP
+        namespace Backends
         {
-            class KUPnPDevice;
-
-
-            class DeviceInterface : public QObject, virtual public QubeHardware::Ifaces::DeviceInterface
+            namespace KUPnP
             {
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::DeviceInterface)
+                class KUPnPDevice;
 
-            public:
-                DeviceInterface(KUPnPDevice* device);
-                virtual ~DeviceInterface();
+                class DeviceInterface : public QObject, virtual public Qube::Hardware::Ifaces::DeviceInterface
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::DeviceInterface)
+                public:
+                    DeviceInterface(KUPnPDevice* device);
+                    virtual ~DeviceInterface();
 
-            protected:
-                KUPnPDevice* mDevice;
-            };
-
+                protected:
+                    KUPnPDevice* mDevice;
+                };
+            }
         }
     }
 }

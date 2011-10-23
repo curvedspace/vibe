@@ -24,19 +24,19 @@
 #include "soliddefs_p.h"
 #include <ifaces/acadapter.h>
 
-QubeHardware::AcAdapter::AcAdapter(QObject *backendObject)
+Qube::Hardware::AcAdapter::AcAdapter(QObject *backendObject)
     : DeviceInterface(*new AcAdapterPrivate(), backendObject)
 {
     connect(backendObject, SIGNAL(plugStateChanged(bool, const QString &)),
             this, SIGNAL(plugStateChanged(bool, const QString &)));
 }
 
-QubeHardware::AcAdapter::~AcAdapter()
+Qube::Hardware::AcAdapter::~AcAdapter()
 {
 
 }
 
-bool QubeHardware::AcAdapter::isPlugged() const
+bool Qube::Hardware::AcAdapter::isPlugged() const
 {
     Q_D(const AcAdapter);
     return_SOLID_CALL(Ifaces::AcAdapter *, d->backendObject(), false, isPlugged());

@@ -23,14 +23,17 @@
 
 #include "deviceinterface_p.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    class SmartCardReaderPrivate : public DeviceInterfacePrivate
+    namespace Hardware
     {
-    public:
-        SmartCardReaderPrivate()
-            : DeviceInterfacePrivate() { }
-    };
+        class SmartCardReaderPrivate : public DeviceInterfacePrivate
+        {
+        public:
+            SmartCardReaderPrivate()
+                : DeviceInterfacePrivate() { }
+        };
+    }
 }
 
 #endif

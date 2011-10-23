@@ -21,87 +21,88 @@
 #ifndef SOLID_NETWORKSHARE_H
 #define SOLID_NETWORKSHARE_H
 
-#include <QubeCore/Global>
-#include <QubeHardware/deviceinterface.h>
-
 #include <QtCore/QString>
 #include <QtCore/QUrl>
 #include <QtCore/QVariant>
 
-namespace QubeHardware
+#include <Qube/Hardware/deviceinterface.h>
+
+namespace Qube
 {
-    class Device;
-    class NetworkSharePrivate;
-
-    /**
-     * NetworkShare interface.
-     *
-     * a NetworkShare interface is used to determine the type of
-     * network access.
-     * @since 4.7
-     */
-    class QUBESHARED_EXPORT NetworkShare : public DeviceInterface
+    namespace Hardware
     {
-        Q_OBJECT
-        Q_ENUMS(ShareType)
-        Q_PROPERTY(ShareType type READ type)
-        Q_PROPERTY(QUrl url READ url)
-        Q_DECLARE_PRIVATE(NetworkShare)
-        friend class Device;
+        class Device;
+        class NetworkSharePrivate;
 
-    private:
         /**
-         * Creates a new NetworkShare object.
-         * You generally won't need this. It's created when necessary using
-         * Device::as().
+         * NetworkShare interface.
          *
-         * @param backendObject the device interface object provided by the backend
-         * @see QubeHardware::Device::as()
+         * a NetworkShare interface is used to determine the type of
+         * network access.
+         * @since 4.7
          */
-        explicit NetworkShare(QObject *backendObject);
+        class NetworkShare : public DeviceInterface
+        {
+            Q_OBJECT
+            Q_ENUMS(ShareType)
+            Q_PROPERTY(ShareType type READ type)
+            Q_PROPERTY(QUrl url READ url)
+            Q_DECLARE_PRIVATE(NetworkShare)
+            friend class Device;
 
-    public:
-        /**
-         * Destroys a NetworkShare object.
-         */
-        virtual ~NetworkShare();
+        private:
+            /**
+             * Creates a new NetworkShare object.
+             * You generally won't need this. It's created when necessary using
+             * Device::as().
+             *
+             * @param backendObject the device interface object provided by the backend
+             * @see Qube::Hardware::Device::as()
+             */
+            explicit NetworkShare(QObject *backendObject);
 
-        /**
-         * This enum type defines the type of networkShare device can be.
-         *
-         * - Unknown : a unsupported network protocol
-         * - Nfs : nfs protocol
-         * - Cifs : samba protocol
-         * - Upnp : Upnp protocol
-         */
+        public:
+            /**
+             * Destroys a NetworkShare object.
+             */
+            virtual ~NetworkShare();
 
-        enum ShareType { Unknown, Nfs, Cifs, Upnp };
+            /**
+             * This enum type defines the type of networkShare device can be.
+             *
+             * - Unknown : a unsupported network protocol
+             * - Nfs : nfs protocol
+             * - Cifs : samba protocol
+             * - Upnp : Upnp protocol
+             */
 
-        /**
-         * Get the QubeHardware::DeviceInterface::Type of the NetworkShare device interface.
-         *
-         * @return the NetworkShare device interface type
-         * @see QubeHardware::DeviceInterface::Type
-         */
-        static Type deviceInterfaceType() {
-            return DeviceInterface::NetworkShare;
-        }
+            enum ShareType { Unknown, Nfs, Cifs, Upnp };
 
-        /**
-         * Retrieves the type of network share
-         *
-         * @return the type of network share
-         */
-        ShareType type() const;
+            /**
+             * Get the Qube::Hardware::DeviceInterface::Type of the NetworkShare device interface.
+             *
+             * @return the NetworkShare device interface type
+             * @see Qube::Hardware::DeviceInterface::Type
+             */
+            static Type deviceInterfaceType() {
+                return DeviceInterface::NetworkShare;
+            }
 
-        /**
-         * Retrieves the url of network share
-         *
-         * @return the url of network share
-         */
-        QUrl url() const;
+            /**
+             * Retrieves the type of network share
+             *
+             * @return the type of network share
+             */
+            ShareType type() const;
 
-    };
+            /**
+             * Retrieves the url of network share
+             *
+             * @return the url of network share
+             */
+            QUrl url() const;
+        };
+    }
 }
 
 #endif

@@ -22,28 +22,31 @@
 
 #include <solid/backends/upnp/upnpdevice.h>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UPnP
+        namespace Backends
         {
-
-            UPnPDeviceInterface::UPnPDeviceInterface(QubeHardware::Backends::UPnP::UPnPDevice* device) :
-                QObject(device),
-                m_upnpDevice(device)
+            namespace UPnP
             {
-            }
 
-            UPnPDeviceInterface::~UPnPDeviceInterface()
-            {
-            }
+                UPnPDeviceInterface::UPnPDeviceInterface(Qube::Hardware::Backends::UPnP::UPnPDevice* device) :
+                    QObject(device),
+                    m_upnpDevice(device)
+                {
+                }
 
-            const QubeHardware::Backends::UPnP::UPnPDevice* UPnPDeviceInterface::upnpDevice() const
-            {
-                return m_upnpDevice;
-            }
+                UPnPDeviceInterface::~UPnPDeviceInterface()
+                {
+                }
 
+                const Qube::Hardware::Backends::UPnP::UPnPDevice* UPnPDeviceInterface::upnpDevice() const
+                {
+                    return m_upnpDevice;
+                }
+
+            }
         }
     }
 }

@@ -25,31 +25,34 @@
 #include <ifaces/networkinterface.h>
 #include "udevdeviceinterface.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDev
+        namespace Backends
         {
-            class UDevDevice;
-
-            class NetworkInterface : public DeviceInterface, virtual public QubeHardware::Ifaces::NetworkInterface
+            namespace UDev
             {
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::NetworkInterface)
+                class UDevDevice;
 
-            public:
-                NetworkInterface(UDevDevice *device);
-                virtual ~NetworkInterface();
+                class NetworkInterface : public DeviceInterface, virtual public Qube::Hardware::Ifaces::NetworkInterface
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::NetworkInterface)
 
-                virtual QString ifaceName() const;
-                virtual bool isWireless() const;
-                virtual QString hwAddress() const;
-                virtual qulonglong macAddress() const;
+                public:
+                    NetworkInterface(UDevDevice *device);
+                    virtual ~NetworkInterface();
 
-            private:
-                QString     m_hwAddress;
-            };
+                    virtual QString ifaceName() const;
+                    virtual bool isWireless() const;
+                    virtual QString hwAddress() const;
+                    virtual qulonglong macAddress() const;
+
+                private:
+                    QString     m_hwAddress;
+                };
+            }
         }
     }
 }

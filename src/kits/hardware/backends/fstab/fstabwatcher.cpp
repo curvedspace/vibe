@@ -25,7 +25,7 @@
 #include <QtCore/QFileSystemWatcher>
 #include <QtCore/QStringList>
 
-using namespace QubeHardware::Backends::Fstab;
+using namespace Qube::Hardware::Backends::Fstab;
 
 SOLID_GLOBAL_STATIC(FstabWatcher, globalFstabWatcher)
 

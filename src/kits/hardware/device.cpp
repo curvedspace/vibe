@@ -28,88 +28,88 @@
 
 #include <ifaces/device.h>
 
-#include <QubeHardware/genericinterface.h>
+#include <Qube/Hardware/genericinterface.h>
 #include <ifaces/genericinterface.h>
-#include <QubeHardware/processor.h>
+#include <Qube/Hardware/processor.h>
 #include <ifaces/processor.h>
-#include <QubeHardware/block.h>
+#include <Qube/Hardware/block.h>
 #include <ifaces/block.h>
-#include <QubeHardware/storageaccess.h>
+#include <Qube/Hardware/storageaccess.h>
 #include <ifaces/storageaccess.h>
-#include <QubeHardware/storagedrive.h>
+#include <Qube/Hardware/storagedrive.h>
 #include <ifaces/storagedrive.h>
-#include <QubeHardware/opticaldrive.h>
+#include <Qube/Hardware/opticaldrive.h>
 #include <ifaces/opticaldrive.h>
-#include <QubeHardware/storagevolume.h>
+#include <Qube/Hardware/storagevolume.h>
 #include <ifaces/storagevolume.h>
-#include <QubeHardware/opticaldisc.h>
+#include <Qube/Hardware/opticaldisc.h>
 #include <ifaces/opticaldisc.h>
-#include <QubeHardware/camera.h>
+#include <Qube/Hardware/camera.h>
 #include <ifaces/camera.h>
-#include <QubeHardware/portablemediaplayer.h>
+#include <Qube/Hardware/portablemediaplayer.h>
 #include <ifaces/portablemediaplayer.h>
-#include <QubeHardware/networkinterface.h>
+#include <Qube/Hardware/networkinterface.h>
 #include <ifaces/networkinterface.h>
-#include <QubeHardware/networkshare.h>
+#include <Qube/Hardware/networkshare.h>
 #include <ifaces/networkshare.h>
-#include <QubeHardware/acadapter.h>
+#include <Qube/Hardware/acadapter.h>
 #include <ifaces/acadapter.h>
-#include <QubeHardware/battery.h>
+#include <Qube/Hardware/battery.h>
 #include <ifaces/battery.h>
-#include <QubeHardware/button.h>
+#include <Qube/Hardware/button.h>
 #include <ifaces/button.h>
-#include <QubeHardware/audiointerface.h>
+#include <Qube/Hardware/audiointerface.h>
 #include <ifaces/audiointerface.h>
-#include <QubeHardware/dvbinterface.h>
+#include <Qube/Hardware/dvbinterface.h>
 #include <ifaces/dvbinterface.h>
-#include <QubeHardware/video.h>
+#include <Qube/Hardware/video.h>
 #include <ifaces/video.h>
-#include <QubeHardware/serialinterface.h>
+#include <Qube/Hardware/serialinterface.h>
 #include <ifaces/serialinterface.h>
-#include <QubeHardware/smartcardreader.h>
+#include <Qube/Hardware/smartcardreader.h>
 #include <ifaces/smartcardreader.h>
-#include <QubeHardware/internetgateway.h>
+#include <Qube/Hardware/internetgateway.h>
 #include <ifaces/internetgateway.h>
 
 
-QubeHardware::Device::Device(const QString &udi)
+Qube::Hardware::Device::Device(const QString &udi)
 {
     DeviceManagerPrivate *manager
-    = static_cast<DeviceManagerPrivate *>(QubeHardware::DeviceNotifier::instance());
+    = static_cast<DeviceManagerPrivate *>(Qube::Hardware::DeviceNotifier::instance());
     d = manager->findRegisteredDevice(udi);
 }
 
-QubeHardware::Device::Device(const Device &device)
+Qube::Hardware::Device::Device(const Device &device)
     : d(device.d)
 {
 }
 
-QubeHardware::Device::~Device()
+Qube::Hardware::Device::~Device()
 {
 }
 
-QubeHardware::Device &QubeHardware::Device::operator=(const QubeHardware::Device &device)
+Qube::Hardware::Device &Qube::Hardware::Device::operator=(const Qube::Hardware::Device &device)
 {
     d = device.d;
     return *this;
 }
 
-bool QubeHardware::Device::isValid() const
+bool Qube::Hardware::Device::isValid() const
 {
     return d->backendObject()!=0;
 }
 
-QString QubeHardware::Device::udi() const
+QString Qube::Hardware::Device::udi() const
 {
     return d->udi();
 }
 
-QString QubeHardware::Device::parentUdi() const
+QString Qube::Hardware::Device::parentUdi() const
 {
     return_SOLID_CALL(Ifaces::Device *, d->backendObject(), QString(), parentUdi());
 }
 
-QubeHardware::Device QubeHardware::Device::parent() const
+Qube::Hardware::Device Qube::Hardware::Device::parent() const
 {
     QString udi = parentUdi();
 
@@ -120,32 +120,32 @@ QubeHardware::Device QubeHardware::Device::parent() const
     }
 }
 
-QString QubeHardware::Device::vendor() const
+QString Qube::Hardware::Device::vendor() const
 {
     return_SOLID_CALL(Ifaces::Device *, d->backendObject(), QString(), vendor());
 }
 
-QString QubeHardware::Device::product() const
+QString Qube::Hardware::Device::product() const
 {
     return_SOLID_CALL(Ifaces::Device *, d->backendObject(), QString(), product());
 }
 
-QString QubeHardware::Device::icon() const
+QString Qube::Hardware::Device::icon() const
 {
     return_SOLID_CALL(Ifaces::Device *, d->backendObject(), QString(), icon());
 }
 
-QStringList QubeHardware::Device::emblems() const
+QStringList Qube::Hardware::Device::emblems() const
 {
     return_SOLID_CALL(Ifaces::Device *, d->backendObject(), QStringList(), emblems());
 }
 
-QString QubeHardware::Device::description() const
+QString Qube::Hardware::Device::description() const
 {
     return_SOLID_CALL(Ifaces::Device *, d->backendObject(), QString(), description());
 }
 
-bool QubeHardware::Device::isDeviceInterface(const DeviceInterface::Type &type) const
+bool Qube::Hardware::Device::isDeviceInterface(const DeviceInterface::Type &type) const
 {
     return_SOLID_CALL(Ifaces::Device *, d->backendObject(), false, queryDeviceInterface(type));
 }
@@ -153,13 +153,13 @@ bool QubeHardware::Device::isDeviceInterface(const DeviceInterface::Type &type) 
 #define deviceinterface_cast(IfaceType, DevType, backendObject) \
     (qobject_cast<IfaceType *>(backendObject) ? new DevType(backendObject) : 0)
 
-QubeHardware::DeviceInterface *QubeHardware::Device::asDeviceInterface(const DeviceInterface::Type &type)
+Qube::Hardware::DeviceInterface *Qube::Hardware::Device::asDeviceInterface(const DeviceInterface::Type &type)
 {
-    const QubeHardware::DeviceInterface *interface = const_cast<const Device *>(this)->asDeviceInterface(type);
-    return const_cast<QubeHardware::DeviceInterface *>(interface);
+    const Qube::Hardware::DeviceInterface *interface = const_cast<const Device *>(this)->asDeviceInterface(type);
+    return const_cast<Qube::Hardware::DeviceInterface *>(interface);
 }
 
-const QubeHardware::DeviceInterface *QubeHardware::Device::asDeviceInterface(const DeviceInterface::Type &type) const
+const Qube::Hardware::DeviceInterface *Qube::Hardware::Device::asDeviceInterface(const DeviceInterface::Type &type) const
 {
     Ifaces::Device *device = qobject_cast<Ifaces::Device *>(d->backendObject());
 
@@ -259,12 +259,12 @@ const QubeHardware::DeviceInterface *QubeHardware::Device::asDeviceInterface(con
 //////////////////////////////////////////////////////////////////////
 
 
-QubeHardware::DevicePrivate::DevicePrivate(const QString &udi)
+Qube::Hardware::DevicePrivate::DevicePrivate(const QString &udi)
     : QObject(), QSharedData(), m_udi(udi)
 {
 }
 
-QubeHardware::DevicePrivate::~DevicePrivate()
+Qube::Hardware::DevicePrivate::~DevicePrivate()
 {
     foreach (DeviceInterface *iface, m_ifaces) {
         delete iface->d_ptr->backendObject();
@@ -272,13 +272,13 @@ QubeHardware::DevicePrivate::~DevicePrivate()
     setBackendObject(0);
 }
 
-void QubeHardware::DevicePrivate::_k_destroyed(QObject *object)
+void Qube::Hardware::DevicePrivate::_q_destroyed(QObject *object)
 {
     Q_UNUSED(object);
     setBackendObject(0);
 }
 
-void QubeHardware::DevicePrivate::setBackendObject(Ifaces::Device *object)
+void Qube::Hardware::DevicePrivate::setBackendObject(Ifaces::Device *object)
 {
 
     if (m_backendObject) {
@@ -290,7 +290,7 @@ void QubeHardware::DevicePrivate::setBackendObject(Ifaces::Device *object)
 
     if (object) {
         connect(object, SIGNAL(destroyed(QObject *)),
-                this, SLOT(_k_destroyed(QObject *)));
+                this, SLOT(_q_destroyed(QObject *)));
     }
 
     if (!m_ifaces.isEmpty()) {
@@ -303,12 +303,12 @@ void QubeHardware::DevicePrivate::setBackendObject(Ifaces::Device *object)
     }
 }
 
-QubeHardware::DeviceInterface *QubeHardware::DevicePrivate::interface(const DeviceInterface::Type &type) const
+Qube::Hardware::DeviceInterface *Qube::Hardware::DevicePrivate::interface(const DeviceInterface::Type &type) const
 {
     return m_ifaces[type];
 }
 
-void QubeHardware::DevicePrivate::setInterface(const DeviceInterface::Type &type, DeviceInterface *interface)
+void Qube::Hardware::DevicePrivate::setInterface(const DeviceInterface::Type &type, DeviceInterface *interface)
 {
     if(m_ifaces.isEmpty())
         ref.ref();

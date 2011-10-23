@@ -25,25 +25,28 @@
 
 #include "udevdeviceinterface.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDev
+        namespace Backends
         {
-            class Block : public DeviceInterface, virtual public QubeHardware::Ifaces::Block
+            namespace UDev
             {
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::Block)
+                class Block : public DeviceInterface, virtual public Qube::Hardware::Ifaces::Block
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::Block)
 
-            public:
-                Block(UDevDevice *device);
-                virtual ~Block();
+                public:
+                    Block(UDevDevice *device);
+                    virtual ~Block();
 
-                virtual int deviceMajor() const;
-                virtual int deviceMinor() const;
-                virtual QString device() const;
-            };
+                    virtual int deviceMajor() const;
+                    virtual int deviceMinor() const;
+                    virtual QString device() const;
+                };
+            }
         }
     }
 }

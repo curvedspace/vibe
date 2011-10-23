@@ -25,49 +25,49 @@
 #include <QtCore/QRegExp>
 #include <QtCore/QStringList>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDev
+        namespace Backends
         {
-
-            QString extractCpuInfoLine(int processorNumber, const QString &regExpStr)
+            namespace UDev
             {
-                if (processorNumber == -1) {
-                    return QString();
-                }
+                QString extractCpuInfoLine(int processorNumber, const QString &regExpStr)
+                {
+                    if (processorNumber == -1) {
+                        return QString();
+                    }
 
-                QFile cpuInfoFile("/proc/cpuinfo");
-                if (!cpuInfoFile.open(QIODevice::ReadOnly)) {
-                    return QString();
-                }
-                QStringList cpuInfo = QString(cpuInfoFile.readAll()).split('\n', QString::SkipEmptyParts);
-                cpuInfoFile.close();
+                    QFile cpuInfoFile("/proc/cpuinfo");
+                    if (!cpuInfoFile.open(QIODevice::ReadOnly)) {
+                        return QString();
+                    }
+                    QStringList cpuInfo = QString(cpuInfoFile.readAll()).split('\n', QString::SkipEmptyParts);
+                    cpuInfoFile.close();
 
-                const QRegExp processorRegExp("processor\\s+:\\s+(\\d+)");
-                const QRegExp regExp(regExpStr);
+                    const QRegExp processorRegExp("processor\\s+:\\s+(\\d+)");
+                    const QRegExp regExp(regExpStr);
 
-                int line = 0;
-                while (line < cpuInfo.size()) {
-                    if (processorRegExp.exactMatch(cpuInfo.at(line))) {
-                        int recordProcNum = processorRegExp.capturedTexts()[1].toInt();
-                        if (recordProcNum == processorNumber) {
-                            ++line;
-                            while (line < cpuInfo.size()) {
-                                if (regExp.exactMatch(cpuInfo.at(line))) {
-                                    return regExp.capturedTexts()[1];
-                                }
+                    int line = 0;
+                    while (line < cpuInfo.size()) {
+                        if (processorRegExp.exactMatch(cpuInfo.at(line))) {
+                            int recordProcNum = processorRegExp.capturedTexts()[1].toInt();
+                            if (recordProcNum == processorNumber) {
                                 ++line;
+                                while (line < cpuInfo.size()) {
+                                    if (regExp.exactMatch(cpuInfo.at(line)))
+                                        return regExp.capturedTexts()[1];
+                                    ++line;
+                                }
                             }
                         }
+                        ++line;
                     }
-                    ++line;
+
+                    return QString();
                 }
-
-                return QString();
             }
-
         }
     }
 }

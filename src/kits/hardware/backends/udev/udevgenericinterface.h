@@ -22,34 +22,37 @@
 #define SOLID_BACKENDS_UDEV_GENERICINTERFACE_H
 
 #include <ifaces/genericinterface.h>
-#include <QubeHardware/genericinterface.h>
+#include <Qube/Hardware/genericinterface.h>
 #include "udevdeviceinterface.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDev
+        namespace Backends
         {
-            class UDevDevice;
-
-            class GenericInterface : public DeviceInterface, virtual public QubeHardware::Ifaces::GenericInterface
+            namespace UDev
             {
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::GenericInterface)
+                class UDevDevice;
 
-            public:
-                GenericInterface(UDevDevice *device);
-                virtual ~GenericInterface();
+                class GenericInterface : public DeviceInterface, virtual public Qube::Hardware::Ifaces::GenericInterface
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::GenericInterface)
 
-                virtual QVariant property(const QString &key) const;
-                virtual QMap<QString, QVariant> allProperties() const;
-                virtual bool propertyExists(const QString &key) const;
+                public:
+                    GenericInterface(UDevDevice *device);
+                    virtual ~GenericInterface();
 
-            Q_SIGNALS:
-                void propertyChanged(const QMap<QString,int> &changes);
-                void conditionRaised(const QString &condition, const QString &reason);
-            };
+                    virtual QVariant property(const QString &key) const;
+                    virtual QMap<QString, QVariant> allProperties() const;
+                    virtual bool propertyExists(const QString &key) const;
+
+                Q_SIGNALS:
+                    void propertyChanged(const QMap<QString,int> &changes);
+                    void conditionRaised(const QString &condition, const QString &reason);
+                };
+            }
         }
     }
 }

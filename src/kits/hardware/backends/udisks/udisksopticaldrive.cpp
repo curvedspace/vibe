@@ -34,7 +34,7 @@
 #include "udisks.h"
 #include "udisksdevice.h"
 
-using namespace QubeHardware::Backends::UDisks;
+using namespace Qube::Hardware::Backends::UDisks;
 
 UDisksOpticalDrive::UDisksOpticalDrive(UDisksDevice *device)
     : UDisksStorageDrive(device), m_ejectInProgress(false), m_readSpeed(0), m_writeSpeed(0), m_speedsInit(false)
@@ -96,7 +96,7 @@ void UDisksOpticalDrive::slotEjectRequested()
 void UDisksOpticalDrive::slotEjectDone(int error, const QString &errorString)
 {
     m_ejectInProgress = false;
-    emit ejectDone(static_cast<QubeHardware::ErrorType>(error), errorString, m_device->udi());
+    emit ejectDone(static_cast<Qube::Hardware::ErrorType>(error), errorString, m_device->udi());
 }
 
 void UDisksOpticalDrive::initReadWriteSpeeds() const
@@ -152,34 +152,34 @@ int UDisksOpticalDrive::readSpeed() const
     return m_readSpeed;
 }
 
-QubeHardware::OpticalDrive::MediumTypes UDisksOpticalDrive::supportedMedia() const
+Qube::Hardware::OpticalDrive::MediumTypes UDisksOpticalDrive::supportedMedia() const
 {
     const QStringList mediaTypes = m_device->prop("DriveMediaCompatibility").toStringList();
-    QubeHardware::OpticalDrive::MediumTypes supported;
+    Qube::Hardware::OpticalDrive::MediumTypes supported;
 
-    QMap<QubeHardware::OpticalDrive::MediumType, QString> map;
-    map[QubeHardware::OpticalDrive::Cdr] = "optical_cd_r";
-    map[QubeHardware::OpticalDrive::Cdrw] = "optical_cd_rw";
-    map[QubeHardware::OpticalDrive::Dvd] = "optical_dvd";
-    map[QubeHardware::OpticalDrive::Dvdr] = "optical_dvd_r";
-    map[QubeHardware::OpticalDrive::Dvdrw] ="optical_dvd_rw";
-    map[QubeHardware::OpticalDrive::Dvdram] ="optical_dvd_ram";
-    map[QubeHardware::OpticalDrive::Dvdplusr] ="optical_dvd_plus_r";
-    map[QubeHardware::OpticalDrive::Dvdplusrw] ="optical_dvd_plus_rw";
-    map[QubeHardware::OpticalDrive::Dvdplusdl] ="optical_dvd_plus_r_dl";
-    map[QubeHardware::OpticalDrive::Dvdplusdlrw] ="optical_dvd_plus_rw_dl";
-    map[QubeHardware::OpticalDrive::Bd] ="optical_bd";
-    map[QubeHardware::OpticalDrive::Bdr] ="optical_bd_r";
-    map[QubeHardware::OpticalDrive::Bdre] ="optical_bd_re";
-    map[QubeHardware::OpticalDrive::HdDvd] ="optical_hddvd";
-    map[QubeHardware::OpticalDrive::HdDvdr] ="optical_hddvd_r";
-    map[QubeHardware::OpticalDrive::HdDvdrw] ="optical_hddvd_rw";
+    QMap<Qube::Hardware::OpticalDrive::MediumType, QString> map;
+    map[Qube::Hardware::OpticalDrive::Cdr] = "optical_cd_r";
+    map[Qube::Hardware::OpticalDrive::Cdrw] = "optical_cd_rw";
+    map[Qube::Hardware::OpticalDrive::Dvd] = "optical_dvd";
+    map[Qube::Hardware::OpticalDrive::Dvdr] = "optical_dvd_r";
+    map[Qube::Hardware::OpticalDrive::Dvdrw] ="optical_dvd_rw";
+    map[Qube::Hardware::OpticalDrive::Dvdram] ="optical_dvd_ram";
+    map[Qube::Hardware::OpticalDrive::Dvdplusr] ="optical_dvd_plus_r";
+    map[Qube::Hardware::OpticalDrive::Dvdplusrw] ="optical_dvd_plus_rw";
+    map[Qube::Hardware::OpticalDrive::Dvdplusdl] ="optical_dvd_plus_r_dl";
+    map[Qube::Hardware::OpticalDrive::Dvdplusdlrw] ="optical_dvd_plus_rw_dl";
+    map[Qube::Hardware::OpticalDrive::Bd] ="optical_bd";
+    map[Qube::Hardware::OpticalDrive::Bdr] ="optical_bd_r";
+    map[Qube::Hardware::OpticalDrive::Bdre] ="optical_bd_re";
+    map[Qube::Hardware::OpticalDrive::HdDvd] ="optical_hddvd";
+    map[Qube::Hardware::OpticalDrive::HdDvdr] ="optical_hddvd_r";
+    map[Qube::Hardware::OpticalDrive::HdDvdrw] ="optical_hddvd_rw";
     // TODO add these to QubeHardware
-    //map[QubeHardware::OpticalDrive::Mo] ="optical_mo";
-    //map[QubeHardware::OpticalDrive::Mr] ="optical_mrw";
-    //map[QubeHardware::OpticalDrive::Mrw] ="optical_mrw_w";
+    //map[Qube::Hardware::OpticalDrive::Mo] ="optical_mo";
+    //map[Qube::Hardware::OpticalDrive::Mr] ="optical_mrw";
+    //map[Qube::Hardware::OpticalDrive::Mrw] ="optical_mrw_w";
 
-    foreach ( const QubeHardware::OpticalDrive::MediumType & type, map.keys() ) {
+    foreach ( const Qube::Hardware::OpticalDrive::MediumType & type, map.keys() ) {
         if ( mediaTypes.contains( map[type] ) ) {
             supported |= type;
         }

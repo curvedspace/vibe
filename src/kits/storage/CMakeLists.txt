@@ -14,19 +14,18 @@ set(SOURCES
 
 set(HEADERS
     bookmark.h
-    bookmarkmanager.h
-    fileplacesmodel.h
 )
 
-set(PRIVATE_HEADERS
+set(MOC_HEADERS
+    bookmarkmanager.h
+    fileplacesmodel.h
     fileplacesitem_p.h
     fileplacessharedbookmarks_p.h
 )
 
-qt4_wrap_cpp(HEADERS_MOC ${HEADERS})
-qt4_wrap_cpp(PRIVATE_HEADERS_MOC ${PRIVATE_HEADERS})
+qt4_wrap_cpp(HEADERS_MOC ${MOC_HEADERS})
 
-add_library(QubeStorage SHARED ${SOURCES} ${HEADERS_MOC} ${PRIVATE_HEADERS_MOC})
+add_library(QubeStorage SHARED ${SOURCES} ${HEADERS_MOC})
 
 target_link_libraries(QubeStorage
 	LINK_INTERFACE_LIBRARIES ${QT_QTGUI_LIBRARY} QubeCore)
@@ -34,7 +33,7 @@ set_target_properties(QubeStorage PROPERTIES
 	VERSION ${QUBE_VERSION}
 	SOVERSION 0.0.0)
 
-install(FILES ${HEADERS}
-    DESTINATION include/Qube/QubeStorage COMPONENT Devel)
+install(FILES ${HEADERS} ${MOC_HEADERS}
+    DESTINATION include/Qube/Qube/Storage COMPONENT Devel)
 install(TARGETS QubeStorage
     LIBRARY DESTINATION lib COMPONENT Framework)

@@ -41,30 +41,30 @@
 #include "backends/fstab/fstabmanager.h"
 
 
-QubeHardware::ManagerBasePrivate::ManagerBasePrivate()
+Qube::Hardware::ManagerBasePrivate::ManagerBasePrivate()
 {
 }
 
-QubeHardware::ManagerBasePrivate::~ManagerBasePrivate()
+Qube::Hardware::ManagerBasePrivate::~ManagerBasePrivate()
 {
     qDeleteAll(m_backends);
 }
 
-void QubeHardware::ManagerBasePrivate::loadBackends()
+void Qube::Hardware::ManagerBasePrivate::loadBackends()
 {
 #if defined(UDEV_FOUND)
-    m_backends << new QubeHardware::Backends::UDev::UDevManager(0);
+    m_backends << new Qube::Hardware::Backends::UDev::UDevManager(0);
 #endif
-    m_backends << new QubeHardware::Backends::UDisks::UDisksManager(0)
-               << new QubeHardware::Backends::UPower::UPowerManager(0)
-               << new QubeHardware::Backends::Fstab::FstabManager(0);
+    m_backends << new Qube::Hardware::Backends::UDisks::UDisksManager(0)
+               << new Qube::Hardware::Backends::UPower::UPowerManager(0)
+               << new Qube::Hardware::Backends::Fstab::FstabManager(0);
 
 #if defined (HUPNP_FOUND)
-    m_backends << new QubeHardware::Backends::UPnP::UPnPDeviceManager(0);
+    m_backends << new Qube::Hardware::Backends::UPnP::UPnPDeviceManager(0);
 #endif
 }
 
-QList<QObject*> QubeHardware::ManagerBasePrivate::managerBackends() const
+QList<QObject*> Qube::Hardware::ManagerBasePrivate::managerBackends() const
 {
     return m_backends;
 }

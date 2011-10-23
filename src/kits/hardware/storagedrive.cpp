@@ -28,53 +28,53 @@
 #include "device.h"
 #include "device_p.h"
 
-QubeHardware::StorageDrive::StorageDrive(QObject *backendObject)
+Qube::Hardware::StorageDrive::StorageDrive(QObject *backendObject)
     : DeviceInterface(*new StorageDrivePrivate(), backendObject)
 {
 }
 
-QubeHardware::StorageDrive::StorageDrive(StorageDrivePrivate &dd, QObject *backendObject)
+Qube::Hardware::StorageDrive::StorageDrive(StorageDrivePrivate &dd, QObject *backendObject)
     : DeviceInterface(dd, backendObject)
 {
 
 }
 
-QubeHardware::StorageDrive::~StorageDrive()
+Qube::Hardware::StorageDrive::~StorageDrive()
 {
 
 }
 
-QubeHardware::StorageDrive::Bus QubeHardware::StorageDrive::bus() const
+Qube::Hardware::StorageDrive::Bus Qube::Hardware::StorageDrive::bus() const
 {
     Q_D(const StorageDrive);
     return_SOLID_CALL(Ifaces::StorageDrive *, d->backendObject(), Platform, bus());
 }
 
-QubeHardware::StorageDrive::DriveType QubeHardware::StorageDrive::driveType() const
+Qube::Hardware::StorageDrive::DriveType Qube::Hardware::StorageDrive::driveType() const
 {
     Q_D(const StorageDrive);
     return_SOLID_CALL(Ifaces::StorageDrive *, d->backendObject(), HardDisk, driveType());
 }
 
-bool QubeHardware::StorageDrive::isRemovable() const
+bool Qube::Hardware::StorageDrive::isRemovable() const
 {
     Q_D(const StorageDrive);
     return_SOLID_CALL(Ifaces::StorageDrive *, d->backendObject(), false, isRemovable());
 }
 
-bool QubeHardware::StorageDrive::isHotpluggable() const
+bool Qube::Hardware::StorageDrive::isHotpluggable() const
 {
     Q_D(const StorageDrive);
     return_SOLID_CALL(Ifaces::StorageDrive *, d->backendObject(), false, isHotpluggable());
 }
 
-qulonglong QubeHardware::StorageDrive::size() const
+qulonglong Qube::Hardware::StorageDrive::size() const
 {
     Q_D(const StorageDrive);
     return_SOLID_CALL(Ifaces::StorageDrive *, d->backendObject(), false, size());
 }
 
-bool QubeHardware::StorageDrive::isInUse() const
+bool Qube::Hardware::StorageDrive::isInUse() const
 {
     Q_D(const StorageDrive);
     Predicate p(DeviceInterface::StorageAccess);
@@ -82,8 +82,8 @@ bool QubeHardware::StorageDrive::isInUse() const
 
     bool inUse = false;
     foreach (const Device &dev, devices)	{
-        if (dev.is<QubeHardware::StorageAccess>()) {
-            const QubeHardware::StorageAccess* access = dev.as<QubeHardware::StorageAccess>();
+        if (dev.is<Qube::Hardware::StorageAccess>()) {
+            const Qube::Hardware::StorageAccess* access = dev.as<Qube::Hardware::StorageAccess>();
             inUse |= (access->isAccessible());
         }
     }

@@ -21,84 +21,86 @@
 #ifndef SOLID_BLOCK_H
 #define SOLID_BLOCK_H
 
-#include <QubeCore/Global>
-#include <QubeHardware/deviceinterface.h>
+#include <Qube/Hardware/deviceinterface.h>
 
-namespace QubeHardware
+namespace Qube
 {
-    class BlockPrivate;
-    class Device;
-
-    /**
-     * This device interface is available on block devices.
-     *
-     * A block device is an adressable device such as drive or partition.
-     * It is possible to interact with such a device using a special file
-     * in the system.
-     */
-    class QUBESHARED_EXPORT Block : public DeviceInterface
+    namespace Hardware
     {
-        Q_OBJECT
-        Q_PROPERTY(int major READ deviceMajor)
-        Q_PROPERTY(int minor READ deviceMinor)
-        Q_PROPERTY(QString device READ device)
-        Q_DECLARE_PRIVATE(Block)
-        friend class Device;
+        class BlockPrivate;
+        class Device;
 
-    private:
         /**
-         * Creates a new Block object.
-         * You generally won't need this. It's created when necessary using
-         * Device::as().
+         * This device interface is available on block devices.
          *
-         * @param backendObject the device interface object provided by the backend
-         * @see QubeHardware::Device::as()
+         * A block device is an adressable device such as drive or partition.
+         * It is possible to interact with such a device using a special file
+         * in the system.
          */
-        explicit Block(QObject *backendObject);
+        class Block : public DeviceInterface
+        {
+            Q_OBJECT
+            Q_PROPERTY(int major READ deviceMajor)
+            Q_PROPERTY(int minor READ deviceMinor)
+            Q_PROPERTY(QString device READ device)
+            Q_DECLARE_PRIVATE(Block)
+            friend class Device;
 
-    public:
-        /**
-         * Destroys a Block object.
-         */
-        virtual ~Block();
+        private:
+            /**
+             * Creates a new Block object.
+             * You generally won't need this. It's created when necessary using
+             * Device::as().
+             *
+             * @param backendObject the device interface object provided by the backend
+             * @see Qube::Hardware::Device::as()
+             */
+            explicit Block(QObject *backendObject);
+
+        public:
+            /**
+             * Destroys a Block object.
+             */
+            virtual ~Block();
 
 
-        /**
-         * Get the QubeHardware::DeviceInterface::Type of the Block device interface.
-         *
-         * @return the Block device interface type
-         * @see QubeHardware::Ifaces::Enums::DeviceInterface::Type
-         */
-        static Type deviceInterfaceType() {
-            return DeviceInterface::Block;
-        }
+            /**
+             * Get the Qube::Hardware::DeviceInterface::Type of the Block device interface.
+             *
+             * @return the Block device interface type
+             * @see Qube::Hardware::Ifaces::Enums::DeviceInterface::Type
+             */
+            static Type deviceInterfaceType() {
+                return DeviceInterface::Block;
+            }
 
 
-        /**
-         * Retrieves the major number of the node file to interact with
-         * the device.
-         *
-         * @return the device major number
-         */
-        int deviceMajor() const;
+            /**
+             * Retrieves the major number of the node file to interact with
+             * the device.
+             *
+             * @return the device major number
+             */
+            int deviceMajor() const;
 
-        /**
-         * Retrieves the minor number of the node file to interact with
-         * the device.
-         *
-         * @return the device minor number
-         */
-        int deviceMinor() const;
+            /**
+             * Retrieves the minor number of the node file to interact with
+             * the device.
+             *
+             * @return the device minor number
+             */
+            int deviceMinor() const;
 
-        /**
-         * Retrieves the absolute path of the special file to interact
-         * with the device.
-         *
-         * @return the absolute path of the special file to interact with
-         * the device
-         */
-        QString device() const;
-    };
+            /**
+             * Retrieves the absolute path of the special file to interact
+             * with the device.
+             *
+             * @return the absolute path of the special file to interact with
+             * the device
+             */
+            QString device() const;
+        };
+    }
 }
 
 #endif

@@ -10,4 +10,4 @@ Description: QubeGui Library
 Version: @QUBE_VERSION@
 Libs: -L${libdir} -lQubeGui
 Requires: QtGui >= @QT_MIN_VERSION@, QubeCore = @QUBE_VERSION@
-Cflags: -I${includedir}/Qube -I${includedir}/Qube/QubeGui
+Cflags: -I${includedir}/Qube

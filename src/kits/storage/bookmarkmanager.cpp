@@ -1,24 +1,30 @@
-// -*- c-basic-offset:4; indent-tabs-mode:nil -*-
-// vim: set ts=4 sts=4 sw=4 et:
-/* This file is part of the KDE libraries
-   Copyright (C) 2000 David Faure <faure@kde.org>
-   Copyright (C) 2003 Alexander Kellett <lypanov@kde.org>
-   Copyright (C) 2008 Norbert Frese <nf2@scheinwelt.at>
-
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Library General Public
-   License version 2 as published by the Free Software Foundation.
-
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Library General Public License for more details.
-
-   You should have received a copy of the GNU Library General Public License
-   along with this library; see the file COPYING.LIB.  If not, write to
-   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-   Boston, MA 02110-1301, USA.
-*/
+/****************************************************************************
+ * This file is part of Qube.
+ *
+ * Copyright (c) 2000-2006 David Faure
+ * Copyright (c) 2003 Alexander Kellett
+ * Copyright (c) 2008 Norbert Frese
+ * Copyright (c) 2011 Pier Luigi Fiorini
+ *
+ * Author(s):
+ *	David Faure <faure@kde.org>
+ *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *	Norbert Frese <nf2@scheinwelt.at>
+ *	Alexander Kellett <lypanov@kde.org>
+ *
+ * Qube is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Qube is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Qube.  If not, see <http://www.gnu.org/licenses/>.
+ ***************************************************************************/
 
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
@@ -30,13 +36,17 @@
 #include <QtDBus/QtDBus>
 #include <QtGui/QApplication>
 
-#include <QubeCore/SaveFile>
+#include <Qube/Core/Global>
+#include <Qube/Core/SaveFile>
 
 #include "bookmarkmanager.h"
 
+// FIXME: What's this?
 #define BOOKMARK_CHANGE_NOTIFY_INTERFACE "org.kde.KIO.BookmarkManager"
 
-namespace QubeStorage
+namespace Qube
+{
+namespace Storage
 {
     /*
      * BookmarkManagerList
@@ -385,7 +395,7 @@ namespace QubeStorage
         // but only when it will actually make things quicker
         const QString cacheFilename = filename + QLatin1String(".tbcache");
         if(toolbarCache && !root().isToolbarGroup()) {
-            QubeCore::SaveFile cacheFile(cacheFilename);
+            Qube::Core::SaveFile cacheFile(cacheFilename);
             if (cacheFile.open()) {
                 QString str;
                 QTextStream stream(&str, QIODevice::WriteOnly);
@@ -398,7 +408,7 @@ namespace QubeStorage
             QFile::remove(cacheFilename);
         }
 
-        QubeCore::SaveFile file(filename);
+        Qube::Core::SaveFile file(filename);
         if (file.open()) {
             file.simpleBackupFile(file.fileName(), QString(), ".bak");
             QTextStream stream(&file);
@@ -603,4 +613,5 @@ namespace QubeStorage
         BookmarkManager* bookmarkManager = BookmarkManager::managerForFile(bookmarksFile, "colombo");
         return bookmarkManager;
     }
+}
 }

@@ -33,13 +33,13 @@
 #include "../shared/rootdevice.h"
 
 
-using namespace QubeHardware::Backends::UPnP;
-using namespace QubeHardware::Backends::Shared;
+using namespace Qube::Hardware::Backends::UPnP;
+using namespace Qube::Hardware::Backends::Shared;
 
 UPnPDeviceManager::UPnPDeviceManager(QObject* parent) :
-    QubeHardware::Ifaces::DeviceManager(parent),
+    Qube::Hardware::Ifaces::DeviceManager(parent),
     m_supportedInterfaces()
-    //m_upnpControlPoint(QubeHardware::Backends::UPnP::UPnPControlPoint::instance())
+    //m_upnpControlPoint(Qube::Hardware::Backends::UPnP::UPnPControlPoint::instance())
 {
     UPnPControlPoint* upnpControlPoint = UPnPControlPoint::acquireInstance();
 
@@ -57,7 +57,7 @@ UPnPDeviceManager::UPnPDeviceManager(QObject* parent) :
 
     UPnPControlPoint::releaseInstance();
 
-    m_supportedInterfaces << QubeHardware::DeviceInterface::StorageAccess;
+    m_supportedInterfaces << Qube::Hardware::DeviceInterface::StorageAccess;
 }
 
 UPnPDeviceManager::~UPnPDeviceManager()
@@ -69,7 +69,7 @@ QString UPnPDeviceManager::udiPrefix() const
     return QString::fromLatin1("/org/kde/upnp");
 }
 
-QSet< QubeHardware::DeviceInterface::Type > UPnPDeviceManager::supportedInterfaces() const
+QSet< Qube::Hardware::DeviceInterface::Type > UPnPDeviceManager::supportedInterfaces() const
 {
     return m_supportedInterfaces;
 }
@@ -89,7 +89,7 @@ QStringList UPnPDeviceManager::allDevices()
     return result;
 }
 
-QStringList UPnPDeviceManager::devicesFromQuery(const QString& parentUdi, QubeHardware::DeviceInterface::Type type)
+QStringList UPnPDeviceManager::devicesFromQuery(const QString& parentUdi, Qube::Hardware::DeviceInterface::Type type)
 {
     Q_UNUSED(parentUdi)
     Q_UNUSED(type)
@@ -117,7 +117,7 @@ QObject *UPnPDeviceManager::createDevice(const QString& udi)
 
         UPnPControlPoint::releaseInstance();
         if (device) {
-            return new QubeHardware::Backends::UPnP::UPnPDevice(device);
+            return new Qube::Hardware::Backends::UPnP::UPnPDevice(device);
         }
     }
 

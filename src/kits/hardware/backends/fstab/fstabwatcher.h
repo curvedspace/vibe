@@ -25,36 +25,38 @@
 
 class QFileSystemWatcher;
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace Fstab
+        namespace Backends
         {
-
-            class FstabWatcher : public QObject
+            namespace Fstab
             {
-                Q_OBJECT
-            public:
-                FstabWatcher();
-                virtual ~FstabWatcher();
+                class FstabWatcher : public QObject
+                {
+                    Q_OBJECT
+                public:
+                    FstabWatcher();
+                    virtual ~FstabWatcher();
 
-                static FstabWatcher *instance();
+                    static FstabWatcher *instance();
 
-            Q_SIGNALS:
-                void mtabChanged();
-                void fstabChanged();
+                Q_SIGNALS:
+                    void mtabChanged();
+                    void fstabChanged();
 
-            private Q_SLOTS:
-                void onFileChanged(const QString &path);
-                void orphanFileSystemWatcher();
+                private Q_SLOTS:
+                    void onFileChanged(const QString &path);
+                    void orphanFileSystemWatcher();
 
-            private:
-                bool m_isRoutineInstalled;
-                QFileSystemWatcher *m_fileSystemWatcher;
-            };
+                private:
+                    bool m_isRoutineInstalled;
+                    QFileSystemWatcher *m_fileSystemWatcher;
+                };
+            }
         }
     }
 }
-#endif // SOLID_BACKENDS_FSTAB_WATCHER_H
 
+#endif // SOLID_BACKENDS_FSTAB_WATCHER_H

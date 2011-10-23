@@ -23,62 +23,64 @@
 
 #include <QtCore/QStringList>
 
-#include <QubeCore/Global>
-#include <QubeHardware/deviceinterface.h>
-#include <QubeHardware/qubehardwarenamespace.h>
+#include <Qube/Hardware/deviceinterface.h>
+#include <Qube/Hardware/qubehardwarenamespace.h>
 
-namespace QubeHardware
+namespace Qube
 {
-    class InternetGatewayPrivate;
-
-    class Device;
-
-    class QUBESHARED_EXPORT InternetGateway : public QubeHardware::DeviceInterface
+    namespace Hardware
     {
-        Q_OBJECT
-        Q_DECLARE_PRIVATE(InternetGateway)
-        friend class Device;
+        class InternetGatewayPrivate;
 
-    private:
-        explicit InternetGateway(QObject* backendObject);
+        class Device;
 
-    public:
-        enum InternetStatus { InternetEnabled = 0, InternetDisabled = 1, UnknownStatus = 2 };
+        class InternetGateway : public Qube::Hardware::DeviceInterface
+        {
+            Q_OBJECT
+            Q_DECLARE_PRIVATE(InternetGateway)
+            friend class Device;
 
-        enum NetworkProtocol { TCP = 0, UDP = 1 };
+        private:
+            explicit InternetGateway(QObject* backendObject);
 
-        virtual ~InternetGateway();
+        public:
+            enum InternetStatus { InternetEnabled = 0, InternetDisabled = 1, UnknownStatus = 2 };
 
-        static Type deviceInterfaceType() {
-            return DeviceInterface::InternetGateway;
-        }
+            enum NetworkProtocol { TCP = 0, UDP = 1 };
 
-        void requestCurrentConnections() const;
+            virtual ~InternetGateway();
 
-        QStringList currentConnections() const;
+            static Type deviceInterfaceType() {
+                return DeviceInterface::InternetGateway;
+            }
 
-        void addPortMapping(const QString& remoteHost, qint16 externalPort, const NetworkProtocol& mappingProtocol,
-                            qint16 internalPort, const QString& internalClient);
+            void requestCurrentConnections() const;
 
-        void deletePortMapping(const QString& remoteHost, qint16 externalPort, const NetworkProtocol& mappingProtocol);
+            QStringList currentConnections() const;
 
-        InternetStatus isEnabledForInternet() const;
+            void addPortMapping(const QString& remoteHost, qint16 externalPort, const NetworkProtocol& mappingProtocol,
+                                qint16 internalPort, const QString& internalClient);
 
-        void setEnabledForInternet(bool enabled);
+            void deletePortMapping(const QString& remoteHost, qint16 externalPort, const NetworkProtocol& mappingProtocol);
 
-    Q_SIGNALS:
-        void portMappingAdded(const QString& remoteHost, qint16 externalPort, const NetworkProtocol& mappingProtocol,
-                              qint16 internalPort, const QString& internalClient);
+            InternetStatus isEnabledForInternet() const;
 
-        void portMappingDeleted(const QString& remoteHost, qint16 externalPort, const NetworkProtocol& mappingProtocol);
+            void setEnabledForInternet(bool enabled);
 
-        void enabledForInternet(bool enabled);
+        Q_SIGNALS:
+            void portMappingAdded(const QString& remoteHost, qint16 externalPort, const NetworkProtocol& mappingProtocol,
+                                  qint16 internalPort, const QString& internalClient);
 
-        void currentConnectionsDataIsReady(QStringList currentConnections);
+            void portMappingDeleted(const QString& remoteHost, qint16 externalPort, const NetworkProtocol& mappingProtocol);
 
-    protected:
-        InternetGateway(InternetGatewayPrivate& dd, QObject* backendObject);
-    };
+            void enabledForInternet(bool enabled);
 
+            void currentConnectionsDataIsReady(QStringList currentConnections);
+
+        protected:
+            InternetGateway(InternetGatewayPrivate& dd, QObject* backendObject);
+        };
+    }
 }
+
 #endif // SOLID_INTERNETGATEWAY_H

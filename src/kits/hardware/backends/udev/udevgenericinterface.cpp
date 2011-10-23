@@ -22,7 +22,7 @@
 
 #include "udevdevice.h"
 
-using namespace QubeHardware::Backends::UDev;
+using namespace Qube::Hardware::Backends::UDev;
 
 GenericInterface::GenericInterface(UDevDevice *device)
     : DeviceInterface(device)

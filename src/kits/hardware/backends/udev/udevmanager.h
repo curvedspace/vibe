@@ -25,38 +25,41 @@
 
 #include "../shared/udevqt.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDev
+        namespace Backends
         {
-            class UDevManager : public QubeHardware::Ifaces::DeviceManager
+            namespace UDev
             {
-                Q_OBJECT
+                class UDevManager : public Qube::Hardware::Ifaces::DeviceManager
+                {
+                    Q_OBJECT
 
-            public:
-                UDevManager(QObject *parent);
-                virtual ~UDevManager();
+                public:
+                    UDevManager(QObject *parent);
+                    virtual ~UDevManager();
 
-                virtual QString udiPrefix() const;
-                virtual QSet<QubeHardware::DeviceInterface::Type> supportedInterfaces() const;
+                    virtual QString udiPrefix() const;
+                    virtual QSet<Qube::Hardware::DeviceInterface::Type> supportedInterfaces() const;
 
-                virtual QStringList allDevices();
+                    virtual QStringList allDevices();
 
-                virtual QStringList devicesFromQuery(const QString &parentUdi,
-                                                     QubeHardware::DeviceInterface::Type type);
+                    virtual QStringList devicesFromQuery(const QString &parentUdi,
+                                                         Qube::Hardware::DeviceInterface::Type type);
 
-                virtual QObject *createDevice(const QString &udi);
+                    virtual QObject *createDevice(const QString &udi);
 
-            private Q_SLOTS:
-                void slotDeviceAdded(const UdevQt::Device &device);
-                void slotDeviceRemoved(const UdevQt::Device &device);
+                private Q_SLOTS:
+                    void slotDeviceAdded(const UdevQt::Device &device);
+                    void slotDeviceRemoved(const UdevQt::Device &device);
 
-            private:
-                class Private;
-                Private *const d;
-            };
+                private:
+                    class Private;
+                    Private *const d;
+                };
+            }
         }
     }
 }

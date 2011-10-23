@@ -24,25 +24,28 @@
 #include <ifaces/camera.h>
 #include "udevdeviceinterface.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDev
+        namespace Backends
         {
-            class Camera : public DeviceInterface, virtual public QubeHardware::Ifaces::Camera
+            namespace UDev
             {
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::Camera)
+                class Camera : public DeviceInterface, virtual public Qube::Hardware::Ifaces::Camera
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::Camera)
 
-            public:
-                Camera(UDevDevice *device);
-                virtual ~Camera();
+                public:
+                    Camera(UDevDevice *device);
+                    virtual ~Camera();
 
-                virtual QStringList supportedProtocols() const;
-                virtual QStringList supportedDrivers(QString protocol = QString()) const;
-                virtual QVariant driverHandle(const QString &driver) const;
-            };
+                    virtual QStringList supportedProtocols() const;
+                    virtual QStringList supportedDrivers(QString protocol = QString()) const;
+                    virtual QVariant driverHandle(const QString &driver) const;
+                };
+            }
         }
     }
 }

@@ -20,7 +20,7 @@
 
 #include "storageaccess.h"
 
-QubeHardware::Ifaces::StorageAccess::~StorageAccess()
+Qube::Hardware::Ifaces::StorageAccess::~StorageAccess()
 {
 }
 

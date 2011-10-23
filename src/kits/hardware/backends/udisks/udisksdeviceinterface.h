@@ -27,143 +27,144 @@
 #include <QtCore/QObject>
 #include <QtCore/QStringList>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDisks
+        namespace Backends
         {
-
-            class DeviceInterface : public QObject, virtual public QubeHardware::Ifaces::DeviceInterface
+            namespace UDisks
             {
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::DeviceInterface)
-            public:
-                DeviceInterface(UDisksDevice *device);
-                virtual ~DeviceInterface();
+                class DeviceInterface : public QObject, virtual public Qube::Hardware::Ifaces::DeviceInterface
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::DeviceInterface)
+                public:
+                    DeviceInterface(UDisksDevice *device);
+                    virtual ~DeviceInterface();
 
-            protected:
-                UDisksDevice *m_device;
+                protected:
+                    UDisksDevice *m_device;
 
-            public:
-                inline static QStringList toStringList(QubeHardware::DeviceInterface::Type type) {
-                    QStringList list;
+                public:
+                    inline static QStringList toStringList(Qube::Hardware::DeviceInterface::Type type) {
+                        QStringList list;
 
-                    switch(type) {
-                    case QubeHardware::DeviceInterface::GenericInterface:
-                        list << "generic";
-                        break;
-                    case QubeHardware::DeviceInterface::Processor:
-                        // Doesn't exist with UDisks
-                        break;
-                    case QubeHardware::DeviceInterface::Block:
-                        list << "block";
-                        break;
-                    case QubeHardware::DeviceInterface::StorageAccess:
-                        list << "volume";
-                        break;
-                    case QubeHardware::DeviceInterface::StorageDrive:
-                        list << "storage";
-                        break;
-                    case QubeHardware::DeviceInterface::OpticalDrive:
-                        list << "storage.cdrom";
-                        break;
-                    case QubeHardware::DeviceInterface::StorageVolume:
-                        list << "volume";
-                        break;
-                    case QubeHardware::DeviceInterface::OpticalDisc:
-                        list << "volume.disc";
-                        break;
-                    case QubeHardware::DeviceInterface::Camera:
-                        // Doesn't exist with UDisks
-                        break;
-                    case QubeHardware::DeviceInterface::PortableMediaPlayer:
-                        // Doesn't exist with UDisks
-                        break;
-                    case QubeHardware::DeviceInterface::NetworkInterface:
-                        // Doesn't exist with UDisks
-                        break;
-                    case QubeHardware::DeviceInterface::AcAdapter:
-                        // Doesn't exist with UDisks
-                        break;
-                    case QubeHardware::DeviceInterface::Battery:
-                        // Doesn't exist with UDisks
-                        break;
-                    case QubeHardware::DeviceInterface::Button:
-                        // Doesn't exist with UDisks
-                        break;
-                    case QubeHardware::DeviceInterface::AudioInterface:
-                        // Doesn't exist with UDisks
-                        break;
-                    case QubeHardware::DeviceInterface::DvbInterface:
-                        // Doesn't exist with UDisks
-                        break;
-                    case QubeHardware::DeviceInterface::Video:
-                        // Doesn't exist with UDisks
-                        break;
-                    case QubeHardware::DeviceInterface::SerialInterface:
-                        // Doesn't exist with UDisks
-                        break;
-                    case QubeHardware::DeviceInterface::InternetGateway:
-                        break;
-                    case QubeHardware::DeviceInterface::SmartCardReader:
-                        // Doesn't exist with UDisks
-                    case QubeHardware::DeviceInterface::NetworkShare:
-                        // Doesn't exist with UDisks
-                        break;
-                    case QubeHardware::DeviceInterface::Unknown:
-                        break;
-                    case QubeHardware::DeviceInterface::Last:
-                        break;
+                        switch(type) {
+                        case Qube::Hardware::DeviceInterface::GenericInterface:
+                            list << "generic";
+                            break;
+                        case Qube::Hardware::DeviceInterface::Processor:
+                            // Doesn't exist with UDisks
+                            break;
+                        case Qube::Hardware::DeviceInterface::Block:
+                            list << "block";
+                            break;
+                        case Qube::Hardware::DeviceInterface::StorageAccess:
+                            list << "volume";
+                            break;
+                        case Qube::Hardware::DeviceInterface::StorageDrive:
+                            list << "storage";
+                            break;
+                        case Qube::Hardware::DeviceInterface::OpticalDrive:
+                            list << "storage.cdrom";
+                            break;
+                        case Qube::Hardware::DeviceInterface::StorageVolume:
+                            list << "volume";
+                            break;
+                        case Qube::Hardware::DeviceInterface::OpticalDisc:
+                            list << "volume.disc";
+                            break;
+                        case Qube::Hardware::DeviceInterface::Camera:
+                            // Doesn't exist with UDisks
+                            break;
+                        case Qube::Hardware::DeviceInterface::PortableMediaPlayer:
+                            // Doesn't exist with UDisks
+                            break;
+                        case Qube::Hardware::DeviceInterface::NetworkInterface:
+                            // Doesn't exist with UDisks
+                            break;
+                        case Qube::Hardware::DeviceInterface::AcAdapter:
+                            // Doesn't exist with UDisks
+                            break;
+                        case Qube::Hardware::DeviceInterface::Battery:
+                            // Doesn't exist with UDisks
+                            break;
+                        case Qube::Hardware::DeviceInterface::Button:
+                            // Doesn't exist with UDisks
+                            break;
+                        case Qube::Hardware::DeviceInterface::AudioInterface:
+                            // Doesn't exist with UDisks
+                            break;
+                        case Qube::Hardware::DeviceInterface::DvbInterface:
+                            // Doesn't exist with UDisks
+                            break;
+                        case Qube::Hardware::DeviceInterface::Video:
+                            // Doesn't exist with UDisks
+                            break;
+                        case Qube::Hardware::DeviceInterface::SerialInterface:
+                            // Doesn't exist with UDisks
+                            break;
+                        case Qube::Hardware::DeviceInterface::InternetGateway:
+                            break;
+                        case Qube::Hardware::DeviceInterface::SmartCardReader:
+                            // Doesn't exist with UDisks
+                        case Qube::Hardware::DeviceInterface::NetworkShare:
+                            // Doesn't exist with UDisks
+                            break;
+                        case Qube::Hardware::DeviceInterface::Unknown:
+                            break;
+                        case Qube::Hardware::DeviceInterface::Last:
+                            break;
+                        }
+
+                        return list;
                     }
 
-                    return list;
-                }
-
-                inline static QubeHardware::DeviceInterface::Type fromString(const QString &capability) {
-                    if (capability == "generic")
-                        return QubeHardware::DeviceInterface::GenericInterface;
-                    else if (capability == "processor")
-                        return QubeHardware::DeviceInterface::Processor;
-                    else if (capability == "block")
-                        return QubeHardware::DeviceInterface::Block;
-                    else if (capability == "storage")
-                        return QubeHardware::DeviceInterface::StorageDrive;
-                    else if (capability == "storage.cdrom")
-                        return QubeHardware::DeviceInterface::OpticalDrive;
-                    else if (capability == "volume")
-                        return QubeHardware::DeviceInterface::StorageVolume;
-                    else if (capability == "volume.disc")
-                        return QubeHardware::DeviceInterface::OpticalDisc;
-                    else if (capability == "camera")
-                        return QubeHardware::DeviceInterface::Camera;
-                    else if (capability == "portable_audio_player")
-                        return QubeHardware::DeviceInterface::PortableMediaPlayer;
-                    else if (capability == "net")
-                        return QubeHardware::DeviceInterface::NetworkInterface;
-                    else if (capability == "ac_adapter")
-                        return QubeHardware::DeviceInterface::AcAdapter;
-                    else if (capability == "battery")
-                        return QubeHardware::DeviceInterface::Battery;
-                    else if (capability == "button")
-                        return QubeHardware::DeviceInterface::Button;
-                    else if (capability == "alsa" || capability == "oss")
-                        return QubeHardware::DeviceInterface::AudioInterface;
-                    else if (capability == "dvb")
-                        return QubeHardware::DeviceInterface::DvbInterface;
-                    else if (capability == "video4linux")
-                        return QubeHardware::DeviceInterface::Video;
-                    else if (capability == "serial")
-                        return QubeHardware::DeviceInterface::SerialInterface;
-                    else if (capability == "smart_card_reader")
-                        return QubeHardware::DeviceInterface::SmartCardReader;
-                    else if (capability == "networkshare")
-                        return QubeHardware::DeviceInterface::NetworkShare;
-                    else
-                        return QubeHardware::DeviceInterface::Unknown;
-                }
-            };
-
+                    inline static Qube::Hardware::DeviceInterface::Type fromString(const QString &capability) {
+                        if (capability == "generic")
+                            return Qube::Hardware::DeviceInterface::GenericInterface;
+                        else if (capability == "processor")
+                            return Qube::Hardware::DeviceInterface::Processor;
+                        else if (capability == "block")
+                            return Qube::Hardware::DeviceInterface::Block;
+                        else if (capability == "storage")
+                            return Qube::Hardware::DeviceInterface::StorageDrive;
+                        else if (capability == "storage.cdrom")
+                            return Qube::Hardware::DeviceInterface::OpticalDrive;
+                        else if (capability == "volume")
+                            return Qube::Hardware::DeviceInterface::StorageVolume;
+                        else if (capability == "volume.disc")
+                            return Qube::Hardware::DeviceInterface::OpticalDisc;
+                        else if (capability == "camera")
+                            return Qube::Hardware::DeviceInterface::Camera;
+                        else if (capability == "portable_audio_player")
+                            return Qube::Hardware::DeviceInterface::PortableMediaPlayer;
+                        else if (capability == "net")
+                            return Qube::Hardware::DeviceInterface::NetworkInterface;
+                        else if (capability == "ac_adapter")
+                            return Qube::Hardware::DeviceInterface::AcAdapter;
+                        else if (capability == "battery")
+                            return Qube::Hardware::DeviceInterface::Battery;
+                        else if (capability == "button")
+                            return Qube::Hardware::DeviceInterface::Button;
+                        else if (capability == "alsa" || capability == "oss")
+                            return Qube::Hardware::DeviceInterface::AudioInterface;
+                        else if (capability == "dvb")
+                            return Qube::Hardware::DeviceInterface::DvbInterface;
+                        else if (capability == "video4linux")
+                            return Qube::Hardware::DeviceInterface::Video;
+                        else if (capability == "serial")
+                            return Qube::Hardware::DeviceInterface::SerialInterface;
+                        else if (capability == "smart_card_reader")
+                            return Qube::Hardware::DeviceInterface::SmartCardReader;
+                        else if (capability == "networkshare")
+                            return Qube::Hardware::DeviceInterface::NetworkShare;
+                        else
+                            return Qube::Hardware::DeviceInterface::Unknown;
+                    }
+                };
+            }
         }
     }
 }

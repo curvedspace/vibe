@@ -22,7 +22,7 @@
 
 static int registerQubeHardwareMetaTypes()
 {
-    qRegisterMetaType<QubeHardware::ErrorType>();
+    qRegisterMetaType<Qube::Hardware::ErrorType>();
 
     return 0; // something
 }

@@ -30,20 +30,20 @@
 
 #include "../shared/rootdevice.h"
 
-using namespace QubeHardware::Backends::UPower;
-using namespace QubeHardware::Backends::Shared;
+using namespace Qube::Hardware::Backends::UPower;
+using namespace Qube::Hardware::Backends::Shared;
 
 UPowerManager::UPowerManager(QObject *parent)
-    : QubeHardware::Ifaces::DeviceManager(parent),
+    : Qube::Hardware::Ifaces::DeviceManager(parent),
       m_manager(UP_DBUS_SERVICE,
                 UP_DBUS_PATH,
                 UP_DBUS_INTERFACE,
                 QDBusConnection::systemBus())
 {
     m_supportedInterfaces
-            << QubeHardware::DeviceInterface::GenericInterface
-            << QubeHardware::DeviceInterface::AcAdapter
-            << QubeHardware::DeviceInterface::Battery;
+            << Qube::Hardware::DeviceInterface::GenericInterface
+            << Qube::Hardware::DeviceInterface::AcAdapter
+            << Qube::Hardware::DeviceInterface::Battery;
 
     qDBusRegisterMetaType<QList<QDBusObjectPath> >();
     qDBusRegisterMetaType<QVariantMap>();
@@ -94,7 +94,7 @@ QObject* UPowerManager::createDevice(const QString& udi)
     }
 }
 
-QStringList UPowerManager::devicesFromQuery(const QString& parentUdi, QubeHardware::DeviceInterface::Type type)
+QStringList UPowerManager::devicesFromQuery(const QString& parentUdi, Qube::Hardware::DeviceInterface::Type type)
 {
     QStringList allDev = allDevices();
     QStringList result;
@@ -107,7 +107,7 @@ QStringList UPowerManager::devicesFromQuery(const QString& parentUdi, QubeHardwa
         }
 
         return result;
-    } else if (type != QubeHardware::DeviceInterface::Unknown) {
+    } else if (type != Qube::Hardware::DeviceInterface::Unknown) {
         foreach (const QString & udi, allDev) {
             UPowerDevice device(udi);
             if (device.queryDeviceInterface(type))
@@ -138,7 +138,7 @@ QStringList UPowerManager::allDevices()
     return retList;
 }
 
-QSet< QubeHardware::DeviceInterface::Type > UPowerManager::supportedInterfaces() const
+QSet< Qube::Hardware::DeviceInterface::Type > UPowerManager::supportedInterfaces() const
 {
     return m_supportedInterfaces;
 }

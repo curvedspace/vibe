@@ -22,21 +22,24 @@
 #ifndef SOLID_SOLIDNAMESPACE_H
 #define SOLID_SOLIDNAMESPACE_H
 
-namespace QubeHardware
+namespace Qube
 {
-    enum ErrorType {
-        NoError = 0,
-        UnauthorizedOperation,
-        DeviceBusy,
-        OperationFailed,
-        UserCanceled,
-        InvalidOption,
-        MissingDriver
-    };
+    namespace Hardware
+    {
+        enum ErrorType {
+            NoError = 0,
+            UnauthorizedOperation,
+            DeviceBusy,
+            OperationFailed,
+            UserCanceled,
+            InvalidOption,
+            MissingDriver
+        };
+    }
 }
 
 #include <QtCore/QMetaType>
 
-Q_DECLARE_METATYPE(QubeHardware::ErrorType)
+Q_DECLARE_METATYPE(Qube::Hardware::ErrorType)
 
 #endif

@@ -23,60 +23,60 @@
 
 #include "soliddefs_p.h"
 #include <ifaces/storagevolume.h>
-#include <QubeHardware/device.h>
+#include <Qube/Hardware/device.h>
 
-QubeHardware::StorageVolume::StorageVolume(QObject *backendObject)
+Qube::Hardware::StorageVolume::StorageVolume(QObject *backendObject)
     : DeviceInterface(*new StorageVolumePrivate(), backendObject)
 {
 }
 
-QubeHardware::StorageVolume::StorageVolume(StorageVolumePrivate &dd, QObject *backendObject)
+Qube::Hardware::StorageVolume::StorageVolume(StorageVolumePrivate &dd, QObject *backendObject)
     : DeviceInterface(dd, backendObject)
 {
 }
 
-QubeHardware::StorageVolume::~StorageVolume()
+Qube::Hardware::StorageVolume::~StorageVolume()
 {
 
 }
 
-bool QubeHardware::StorageVolume::isIgnored() const
+bool Qube::Hardware::StorageVolume::isIgnored() const
 {
     Q_D(const StorageVolume);
     return_SOLID_CALL(Ifaces::StorageVolume *, d->backendObject(), true, isIgnored());
 }
 
-QubeHardware::StorageVolume::UsageType QubeHardware::StorageVolume::usage() const
+Qube::Hardware::StorageVolume::UsageType Qube::Hardware::StorageVolume::usage() const
 {
     Q_D(const StorageVolume);
     return_SOLID_CALL(Ifaces::StorageVolume *, d->backendObject(), Unused, usage());
 }
 
-QString QubeHardware::StorageVolume::fsType() const
+QString Qube::Hardware::StorageVolume::fsType() const
 {
     Q_D(const StorageVolume);
     return_SOLID_CALL(Ifaces::StorageVolume *, d->backendObject(), QString(), fsType());
 }
 
-QString QubeHardware::StorageVolume::label() const
+QString Qube::Hardware::StorageVolume::label() const
 {
     Q_D(const StorageVolume);
     return_SOLID_CALL(Ifaces::StorageVolume *, d->backendObject(), QString(), label());
 }
 
-QString QubeHardware::StorageVolume::uuid() const
+QString Qube::Hardware::StorageVolume::uuid() const
 {
     Q_D(const StorageVolume);
     return_SOLID_CALL(Ifaces::StorageVolume *, d->backendObject(), QString(), uuid().toLower());
 }
 
-qulonglong QubeHardware::StorageVolume::size() const
+qulonglong Qube::Hardware::StorageVolume::size() const
 {
     Q_D(const StorageVolume);
     return_SOLID_CALL(Ifaces::StorageVolume *, d->backendObject(), 0, size());
 }
 
-QubeHardware::Device QubeHardware::StorageVolume::encryptedContainer() const
+Qube::Hardware::Device Qube::Hardware::StorageVolume::encryptedContainer() const
 {
     Q_D(const StorageVolume);
 

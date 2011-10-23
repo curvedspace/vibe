@@ -24,17 +24,17 @@
 #include "soliddefs_p.h"
 #include <ifaces/smartcardreader.h>
 
-QubeHardware::SmartCardReader::SmartCardReader(QObject *backendObject)
+Qube::Hardware::SmartCardReader::SmartCardReader(QObject *backendObject)
     : DeviceInterface(*new SmartCardReaderPrivate(), backendObject)
 {
 }
 
-QubeHardware::SmartCardReader::~SmartCardReader()
+Qube::Hardware::SmartCardReader::~SmartCardReader()
 {
 
 }
 
-QubeHardware::SmartCardReader::ReaderType QubeHardware::SmartCardReader::readerType() const
+Qube::Hardware::SmartCardReader::ReaderType Qube::Hardware::SmartCardReader::readerType() const
 {
     Q_D(const SmartCardReader);
     return_SOLID_CALL(Ifaces::SmartCardReader *, d->backendObject(), CardReader, readerType());

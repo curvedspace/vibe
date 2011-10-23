@@ -24,14 +24,17 @@
 
 #include "deviceinterface_p.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    class ButtonPrivate : public DeviceInterfacePrivate
+    namespace Hardware
     {
-    public:
-        ButtonPrivate()
-            : DeviceInterfacePrivate() { }
-    };
+        class ButtonPrivate : public DeviceInterfacePrivate
+        {
+        public:
+            ButtonPrivate()
+                : DeviceInterfacePrivate() { }
+        };
+    }
 }
 
 #endif

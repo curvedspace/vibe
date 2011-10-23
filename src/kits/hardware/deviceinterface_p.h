@@ -23,23 +23,26 @@
 
 #include <QtCore/QWeakPointer>
 
-namespace QubeHardware
+namespace Qube
 {
-    class DeviceInterfacePrivate
+    namespace Hardware
     {
-    public:
-        DeviceInterfacePrivate();
-        virtual ~DeviceInterfacePrivate();
+        class DeviceInterfacePrivate
+        {
+        public:
+            DeviceInterfacePrivate();
+            virtual ~DeviceInterfacePrivate();
 
-        QObject *backendObject() const;
-        void setBackendObject(QObject *object);
-        DevicePrivate *devicePrivate() const;
-        void setDevicePrivate(DevicePrivate *devicePrivate);
+            QObject *backendObject() const;
+            void setBackendObject(QObject *object);
+            DevicePrivate *devicePrivate() const;
+            void setDevicePrivate(DevicePrivate *devicePrivate);
 
-    private:
-        QWeakPointer<QObject> m_backendObject;
-        DevicePrivate* m_devicePrivate;
-    };
+        private:
+            QWeakPointer<QObject> m_backendObject;
+            DevicePrivate* m_devicePrivate;
+        };
+    }
 }
 
 #endif

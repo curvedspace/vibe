@@ -25,34 +25,37 @@
 #include <ifaces/acadapter.h>
 #include "upowerdeviceinterface.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UPower
+        namespace Backends
         {
-            class AcAdapter : public DeviceInterface, virtual public QubeHardware::Ifaces::AcAdapter
+            namespace UPower
             {
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::AcAdapter)
+                class AcAdapter : public DeviceInterface, virtual public Qube::Hardware::Ifaces::AcAdapter
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::AcAdapter)
 
-            public:
-                AcAdapter(UPowerDevice *device);
-                virtual ~AcAdapter();
+                public:
+                    AcAdapter(UPowerDevice *device);
+                    virtual ~AcAdapter();
 
-                virtual bool isPlugged() const;
+                    virtual bool isPlugged() const;
 
-            Q_SIGNALS:
-                void plugStateChanged(bool newState, const QString &udi);
+                Q_SIGNALS:
+                    void plugStateChanged(bool newState, const QString &udi);
 
-            private Q_SLOTS:
-                void slotChanged();
+                private Q_SLOTS:
+                    void slotChanged();
 
-            private:
-                void updateCache();
+                private:
+                    void updateCache();
 
-                bool m_isPlugged;
-            };
+                    bool m_isPlugged;
+                };
+            }
         }
     }
 }

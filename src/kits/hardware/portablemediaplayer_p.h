@@ -24,14 +24,17 @@
 
 #include "deviceinterface_p.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    class PortableMediaPlayerPrivate : public DeviceInterfacePrivate
+    namespace Hardware
     {
-    public:
-        PortableMediaPlayerPrivate()
-            : DeviceInterfacePrivate() { }
-    };
+        class PortableMediaPlayerPrivate : public DeviceInterfacePrivate
+        {
+        public:
+            PortableMediaPlayerPrivate()
+                : DeviceInterfacePrivate() { }
+        };
+    }
 }
 
 #endif

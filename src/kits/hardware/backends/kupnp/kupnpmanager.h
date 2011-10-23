@@ -23,7 +23,7 @@
 
 // QubeHardware
 #include <ifaces/devicemanager.h>
-#include <QubeHardware/deviceinterface.h>
+#include <Qube/Hardware/deviceinterface.h>
 // Qt
 #include <QtCore/QVariant>
 #include <QtCore/QStringList>
@@ -34,52 +34,52 @@
 class QDBusInterface;
 
 typedef QHash<QString,QString> DeviceTypeMap;
-Q_DECLARE_METATYPE( DeviceTypeMap )
+Q_DECLARE_METATYPE(DeviceTypeMap)
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace KUPnP
+        namespace Backends
         {
-            class AbstractDeviceFactory;
-
-
-            class KUPnPManager : public QubeHardware::Ifaces::DeviceManager
+            namespace KUPnP
             {
-                Q_OBJECT
+                class AbstractDeviceFactory;
 
-            public:
-                KUPnPManager( QObject* parent );
-                virtual ~KUPnPManager();
+                class KUPnPManager : public Qube::Hardware::Ifaces::DeviceManager
+                {
+                    Q_OBJECT
+                public:
+                    KUPnPManager(QObject* parent);
+                    virtual ~KUPnPManager();
 
-            public: // QubeHardware::Ifaces::DeviceManager API
-                virtual QString udiPrefix() const ;
-                virtual QSet<QubeHardware::DeviceInterface::Type> supportedInterfaces() const;
-                virtual QStringList allDevices();
-                virtual QStringList devicesFromQuery(const QString& parentUdi,
-                                                     QubeHardware::DeviceInterface::Type type);
-                virtual QObject* createDevice(const QString& udi);
+                public: // Qube::Hardware::Ifaces::DeviceManager API
+                    virtual QString udiPrefix() const ;
+                    virtual QSet<Qube::Hardware::DeviceInterface::Type> supportedInterfaces() const;
+                    virtual QStringList allDevices();
+                    virtual QStringList devicesFromQuery(const QString& parentUdi,
+                                                         Qube::Hardware::DeviceInterface::Type type);
+                    virtual QObject* createDevice(const QString& udi);
 
-            private Q_SLOTS:
-                void onDevicesAdded( const DeviceTypeMap& deviceTypeMap );
-                void onDevicesRemoved( const DeviceTypeMap& deviceTypeMap );
+                private Q_SLOTS:
+                    void onDevicesAdded(const DeviceTypeMap& deviceTypeMap);
+                    void onDevicesRemoved(const DeviceTypeMap& deviceTypeMap);
 
-            private:
-                QStringList findDeviceByParent(const QString& parentUdi, QubeHardware::DeviceInterface::Type type);
-                QStringList findDeviceByDeviceInterface(QubeHardware::DeviceInterface::Type type);
-                QString udiFromUdn( const QString& udn ) const;
-                QString udnFromUdi( const QString& udi ) const;
+                private:
+                    QStringList findDeviceByParent(const QString& parentUdi, Qube::Hardware::DeviceInterface::Type type);
+                    QStringList findDeviceByDeviceInterface(Qube::Hardware::DeviceInterface::Type type);
+                    QString udiFromUdn(const QString& udn) const;
+                    QString udnFromUdi(const QString& udi) const;
 
-            private:
-                QSet<QubeHardware::DeviceInterface::Type> mSupportedInterfaces;
+                private:
+                    QSet<Qube::Hardware::DeviceInterface::Type> mSupportedInterfaces;
 
-                QVector<AbstractDeviceFactory*> mDeviceFactories;
-                QString mUdiPrefix;
+                    QVector<AbstractDeviceFactory*> mDeviceFactories;
+                    QString mUdiPrefix;
 
-                QDBusInterface* mDBusCagibiProxy;
-            };
-
+                    QDBusInterface* mDBusCagibiProxy;
+                };
+            }
         }
     }
 }

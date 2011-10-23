@@ -1,77 +1,85 @@
 /****************************************************************************
+ * This file is part of Qube.
  *
- * Copyright (c) 2010 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
- * Copyright (c) 2008 Matteo Bertozzi <theo.bertozzi@gmail.com>
- * All rights reserved.
+ * Copyright (c) 2008 Matteo Bertozzi
+ * Copyright (c) 2010-2011 Pier Luigi Fiorini
  *
- * Contact: Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ * Author(s):
+ *	Matteo Bertozzi <theo.bertozzi@gmail.com>
+ *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
- * GNU Lesser General Public License Usage
- * This file may be used under the terms of the GNU Lesser
- * General Public License version 2.1 as published by the Free Software
- * Foundation and appearing in the file LICENSE.LGPL included in the
- * packaging of this file.  Please review the following information to
- * ensure the GNU Lesser General Public License version 2.1 requirements
- * will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+ * Qube is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
+ * Qube is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Qube.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#ifndef NAVBARGROUP_H
-#define NAVBARGROUP_H
+#ifndef QUBE_NAVBARGROUP_H
+#define QUBE_NAVBARGROUP_H
 
 #include <QtGui/QWidget>
 
-#include <QubeCore/Global>
-#include <QubeGui/NavBarItem>
+#include <Qube/Gui/NavBarItem>
 
-namespace QubeGui
+namespace Qube
 {
-    class NavBarGroupPrivate;
-
-    class QUBESHARED_EXPORT NavBarGroup : public QWidget
+    namespace Gui
     {
-        Q_OBJECT
-        Q_PROPERTY(QString title READ title WRITE setTitle)
-        Q_PROPERTY(bool isStatic READ isStatic WRITE setStatic)
-        Q_PROPERTY(bool isExpanded READ isExpanded WRITE expand)
-        Q_DECLARE_PRIVATE(NavBarGroup)
-    public:
-        explicit NavBarGroup(QWidget *parent = 0);
-        NavBarGroup(const QString &title, QWidget *parent = 0);
+        class NavBarGroupPrivate;
 
-        void addItem(NavBarItem *item);
-        void addItem(NavBarItem *item, int index);
+        class NavBarGroup : public QWidget
+        {
+            Q_OBJECT
+            Q_DECLARE_PRIVATE(NavBarGroup)
+            Q_PROPERTY(QString title READ title WRITE setTitle)
+            Q_PROPERTY(bool isStatic READ isStatic WRITE setStatic)
+            Q_PROPERTY(bool isExpanded READ isExpanded WRITE expand)
+        public:
+            explicit NavBarGroup(QWidget *parent = 0);
+            NavBarGroup(const QString &title, QWidget *parent = 0);
 
-        NavBarItem *addItem(const QString &text);
-        NavBarItem *addItem(const QPixmap &icon, const QString &text);
-        NavBarItem *addItem(const QPixmap &icon, const QString &text, int index);
+            void addItem(NavBarItem *item);
+            void addItem(NavBarItem *item, int index);
 
-        bool containsItem(NavBarItem *item);
+            NavBarItem *addItem(const QString &text);
+            NavBarItem *addItem(const QPixmap &icon, const QString &text);
+            NavBarItem *addItem(const QPixmap &icon, const QString &text, int index);
 
-        QString title() const;
-        void setTitle(const QString &title);
+            bool containsItem(NavBarItem *item);
 
-        bool isExpanded() const;
+            QString title() const;
+            void setTitle(const QString &title);
 
-        bool isStatic() const;
-        void setStatic(bool flag);
+            bool isExpanded() const;
 
-        void setTitleColor(const QColor &color);
+            bool isStatic() const;
+            void setStatic(bool flag);
 
-    signals:
-        void selected(NavBarGroup *group, NavBarItem *item);
-        void expanded(NavBarGroup *group);
+            void setTitleColor(const QColor &color);
 
-    public slots:
-        void expand(bool expand);
+        signals:
+            void selected(NavBarGroup *group, NavBarItem *item);
+            void expanded(NavBarGroup *group);
 
-    private slots:
-        void itemSelected(SelectableWidget *item);
-        void titleClicked();
+        public slots:
+            void expand(bool expand);
 
-    private:
-        NavBarGroupPrivate *d_ptr;
-    };
+        private slots:
+            void itemSelected(SelectableWidget *item);
+            void titleClicked();
+
+        private:
+            NavBarGroupPrivate *d_ptr;
+        };
+    }
 }
 
-#endif // NAVBARGROUP_H
+#endif // QUBE_NAVBARGROUP_H

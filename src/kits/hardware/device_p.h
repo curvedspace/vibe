@@ -25,41 +25,43 @@
 #include <QtCore/QSharedData>
 #include <QtCore/QWeakPointer>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Ifaces
+    namespace Hardware
     {
-        class Device;
+        namespace Ifaces
+        {
+            class Device;
+        }
+
+        class DevicePrivate : public QObject, public QSharedData
+        {
+            Q_OBJECT
+        public:
+            explicit DevicePrivate(const QString &udi);
+            ~DevicePrivate();
+
+            QString udi() const {
+                return m_udi;
+            }
+
+            Ifaces::Device *backendObject() const {
+                return m_backendObject.data();
+            }
+            void setBackendObject(Ifaces::Device *object);
+
+            DeviceInterface *interface(const DeviceInterface::Type &type) const;
+            void setInterface(const DeviceInterface::Type &type, DeviceInterface *interface);
+
+        public Q_SLOTS:
+            void _q_destroyed(QObject *object);
+
+        private:
+            QString m_udi;
+            QWeakPointer<Ifaces::Device> m_backendObject;
+            QMap<DeviceInterface::Type, DeviceInterface *> m_ifaces;
+        };
     }
-
-    class DevicePrivate : public QObject, public QSharedData
-    {
-        Q_OBJECT
-    public:
-        explicit DevicePrivate(const QString &udi);
-        ~DevicePrivate();
-
-        QString udi() const {
-            return m_udi;
-        }
-
-        Ifaces::Device *backendObject() const {
-            return m_backendObject.data();
-        }
-        void setBackendObject(Ifaces::Device *object);
-
-        DeviceInterface *interface(const DeviceInterface::Type &type) const;
-        void setInterface(const DeviceInterface::Type &type, DeviceInterface *interface);
-
-    public Q_SLOTS:
-        void _k_destroyed(QObject *object);
-
-    private:
-        QString m_udi;
-        QWeakPointer<Ifaces::Device> m_backendObject;
-        QMap<DeviceInterface::Type, DeviceInterface *> m_ifaces;
-    };
 }
-
 
 #endif

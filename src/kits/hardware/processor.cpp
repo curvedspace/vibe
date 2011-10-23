@@ -25,35 +25,35 @@
 #include <ifaces/processor.h>
 
 
-QubeHardware::Processor::Processor(QObject *backendObject)
+Qube::Hardware::Processor::Processor(QObject *backendObject)
     : DeviceInterface(*new ProcessorPrivate(), backendObject)
 {
 }
 
-QubeHardware::Processor::~Processor()
+Qube::Hardware::Processor::~Processor()
 {
 
 }
 
-int QubeHardware::Processor::number() const
+int Qube::Hardware::Processor::number() const
 {
     Q_D(const Processor);
     return_SOLID_CALL(Ifaces::Processor *, d->backendObject(), 0, number());
 }
 
-int QubeHardware::Processor::maxSpeed() const
+int Qube::Hardware::Processor::maxSpeed() const
 {
     Q_D(const Processor);
     return_SOLID_CALL(Ifaces::Processor *, d->backendObject(), 0, maxSpeed());
 }
 
-bool QubeHardware::Processor::canChangeFrequency() const
+bool Qube::Hardware::Processor::canChangeFrequency() const
 {
     Q_D(const Processor);
     return_SOLID_CALL(Ifaces::Processor *, d->backendObject(), false, canChangeFrequency());
 }
 
-QubeHardware::Processor::InstructionSets QubeHardware::Processor::instructionSets() const
+Qube::Hardware::Processor::InstructionSets Qube::Hardware::Processor::instructionSets() const
 {
     Q_D(const Processor);
     return_SOLID_CALL(Ifaces::Processor *, d->backendObject(), InstructionSets(), instructionSets());

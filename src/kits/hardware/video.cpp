@@ -25,29 +25,29 @@
 #include "soliddefs_p.h"
 #include <ifaces/video.h>
 
-QubeHardware::Video::Video(QObject *backendObject)
+Qube::Hardware::Video::Video(QObject *backendObject)
     : DeviceInterface(*new VideoPrivate(), backendObject)
 {
 }
 
-QubeHardware::Video::~Video()
+Qube::Hardware::Video::~Video()
 {
 
 }
 
-QStringList QubeHardware::Video::supportedProtocols() const
+QStringList Qube::Hardware::Video::supportedProtocols() const
 {
     Q_D(const Video);
     return_SOLID_CALL(Ifaces::Video *, d->backendObject(), QStringList(), supportedProtocols());
 }
 
-QStringList QubeHardware::Video::supportedDrivers(QString protocol) const
+QStringList Qube::Hardware::Video::supportedDrivers(QString protocol) const
 {
     Q_D(const Video);
     return_SOLID_CALL(Ifaces::Video *, d->backendObject(), QStringList(), supportedDrivers(protocol));
 }
 
-QVariant QubeHardware::Video::driverHandle(const QString &driver) const
+QVariant Qube::Hardware::Video::driverHandle(const QString &driver) const
 {
     Q_D(const Video);
     return_SOLID_CALL(Ifaces::Video *, d->backendObject(), QVariant(), driverHandle(driver));

@@ -21,72 +21,74 @@
 #ifndef SOLID_SMARTCARDREADER_H
 #define SOLID_SMARTCARDREADER_H
 
-#include <QubeCore/Global>
-#include <QubeHardware/deviceinterface.h>
+#include <Qube/Hardware/deviceinterface.h>
 
-namespace QubeHardware
+namespace Qube
 {
-    class SmartCardReaderPrivate;
-    class Device;
-
-    /**
-     * This device interface is available on smart card readers.
-     */
-    class QUBESHARED_EXPORT SmartCardReader : public DeviceInterface
+    namespace Hardware
     {
-        Q_OBJECT
-        Q_ENUMS(ReaderType)
-        Q_PROPERTY(ReaderType readerType READ readerType)
-        Q_DECLARE_PRIVATE(SmartCardReader)
-        friend class Device;
-
-    public:
-        /**
-         * This enum type defines the type of smart card reader attached
-         *
-         * - CardReader : A generic smart card reader
-         * - CryptoToken : A smart card reader with a card built into the device
-         */
-        enum ReaderType { UnknownReaderType = -1,
-                          CardReader, CryptoToken
-                        };
-
-    private:
-        /**
-         * Creates a new SmartCardReader object.
-         * You generally won't need this. It's created when necessary using
-         * Device::as().
-         *
-         * @param backendObject the device interface object provided by the backend
-         * @see QubeHardware::Device::as()
-         */
-        explicit SmartCardReader(QObject *backendObject);
-
-    public:
-        /**
-         * Destroys a SmartCardReader object.
-         */
-        virtual ~SmartCardReader();
-
+        class SmartCardReaderPrivate;
+        class Device;
 
         /**
-         * Get the QubeHardware::DeviceInterface::Type of the SmartCardReader device interface.
-         *
-         * @return the SmartCardReader device interface type
-         * @see QubeHardware::DeviceInterface::Type
+         * This device interface is available on smart card readers.
          */
-        static Type deviceInterfaceType() {
-            return DeviceInterface::SmartCardReader;
-        }
+        class SmartCardReader : public DeviceInterface
+        {
+            Q_OBJECT
+            Q_ENUMS(ReaderType)
+            Q_PROPERTY(ReaderType readerType READ readerType)
+            Q_DECLARE_PRIVATE(SmartCardReader)
+            friend class Device;
 
-        /**
-         * Retrieves the type of this smart card reader.
-         *
-         * @return the smart card reader type
-         * @see QubeHardware::SmartCardReader::ReaderType
-         */
-        ReaderType readerType() const;
-    };
+        public:
+            /**
+             * This enum type defines the type of smart card reader attached
+             *
+             * - CardReader : A generic smart card reader
+             * - CryptoToken : A smart card reader with a card built into the device
+             */
+            enum ReaderType { UnknownReaderType = -1,
+                              CardReader, CryptoToken
+                            };
+
+        private:
+            /**
+             * Creates a new SmartCardReader object.
+             * You generally won't need this. It's created when necessary using
+             * Device::as().
+             *
+             * @param backendObject the device interface object provided by the backend
+             * @see Qube::Hardware::Device::as()
+             */
+            explicit SmartCardReader(QObject *backendObject);
+
+        public:
+            /**
+             * Destroys a SmartCardReader object.
+             */
+            virtual ~SmartCardReader();
+
+
+            /**
+             * Get the Qube::Hardware::DeviceInterface::Type of the SmartCardReader device interface.
+             *
+             * @return the SmartCardReader device interface type
+             * @see Qube::Hardware::DeviceInterface::Type
+             */
+            static Type deviceInterfaceType() {
+                return DeviceInterface::SmartCardReader;
+            }
+
+            /**
+             * Retrieves the type of this smart card reader.
+             *
+             * @return the smart card reader type
+             * @see Qube::Hardware::SmartCardReader::ReaderType
+             */
+            ReaderType readerType() const;
+        };
+    }
 }
 
 #endif

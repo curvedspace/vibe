@@ -23,14 +23,17 @@
 
 #include "deviceinterface_p.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    class DvbInterfacePrivate : public DeviceInterfacePrivate
+    namespace Hardware
     {
-    public:
-        DvbInterfacePrivate()
-            : DeviceInterfacePrivate() { }
-    };
+        class DvbInterfacePrivate : public DeviceInterfacePrivate
+        {
+        public:
+            DvbInterfacePrivate()
+                : DeviceInterfacePrivate() { }
+        };
+    }
 }
 
 #endif // SOLID_DVBINTERFACE_P_H

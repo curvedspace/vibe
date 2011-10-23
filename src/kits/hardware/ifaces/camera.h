@@ -24,59 +24,62 @@
 #include <QtCore/QStringList>
 #include <ifaces/deviceinterface.h>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Ifaces
+    namespace Hardware
     {
-        /**
-         * This device interface is available on digital camera devices.
-         *
-         * A digital camera is a device used to transform images into
-         * data. Nowaday most digital cameras are multifunctional and
-         * able to take photographs, video or sound. On the system side
-         * they are a particular type of device holding data, the access
-         * method can be different from the typical storage device, hence
-         * why it's a separate device interface.
-         */
-        class Camera : virtual public DeviceInterface
+        namespace Ifaces
         {
-        public:
             /**
-             * Destroys a Camera object.
+             * This device interface is available on digital camera devices.
+             *
+             * A digital camera is a device used to transform images into
+             * data. Nowaday most digital cameras are multifunctional and
+             * able to take photographs, video or sound. On the system side
+             * they are a particular type of device holding data, the access
+             * method can be different from the typical storage device, hence
+             * why it's a separate device interface.
              */
-            virtual ~Camera();
+            class Camera : virtual public DeviceInterface
+            {
+            public:
+                /**
+                 * Destroys a Camera object.
+                 */
+                virtual ~Camera();
 
 
-            /**
-             * Retrieves known protocols this device can speak.  This list may be dependent
-             * on installed device driver libraries.
-             *
-             * @return a list of known protocols this device can speak
-             */
-            virtual QStringList supportedProtocols() const = 0;
+                /**
+                 * Retrieves known protocols this device can speak.  This list may be dependent
+                 * on installed device driver libraries.
+                 *
+                 * @return a list of known protocols this device can speak
+                 */
+                virtual QStringList supportedProtocols() const = 0;
 
-            /**
-             * Retrieves known installed device drivers that claim to handle this device
-             * using the requested protocol.
-             *
-             * @param protocol The protocol to get drivers for.
-             * @return a list of known device drivers that can handle this device
-             */
-            virtual QStringList supportedDrivers(QString protocol = QString()) const = 0;
+                /**
+                 * Retrieves known installed device drivers that claim to handle this device
+                 * using the requested protocol.
+                 *
+                 * @param protocol The protocol to get drivers for.
+                 * @return a list of known device drivers that can handle this device
+                 */
+                virtual QStringList supportedDrivers(QString protocol = QString()) const = 0;
 
-            /**
-             * Retrieves a driver specific string allowing to access the device.
-             *
-             * For example for the "gphoto" driver it will return a list of the
-             * form '("usb", vendor_id, product_id)'.
-             *
-             * @return the driver specific data
-             */
-            virtual QVariant driverHandle(const QString &driver) const = 0;
-        };
+                /**
+                 * Retrieves a driver specific string allowing to access the device.
+                 *
+                 * For example for the "gphoto" driver it will return a list of the
+                 * form '("usb", vendor_id, product_id)'.
+                 *
+                 * @return the driver specific data
+                 */
+                virtual QVariant driverHandle(const QString &driver) const = 0;
+            };
+        }
     }
 }
 
-Q_DECLARE_INTERFACE(QubeHardware::Ifaces::Camera, "org.vision.Hardware.Ifaces.Camera/0.1")
+Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::Camera, "org.vision.Qube.Hardware.Ifaces.Camera/0.1")
 
 #endif

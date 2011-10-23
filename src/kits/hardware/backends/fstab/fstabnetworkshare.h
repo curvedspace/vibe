@@ -25,36 +25,39 @@
 
 #include <QtCore/QObject>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace Fstab
+        namespace Backends
         {
-            class FstabDevice;
-            class FstabNetworkShare : public QObject, public QubeHardware::Ifaces::NetworkShare
+            namespace Fstab
             {
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::NetworkShare)
+                class FstabDevice;
+                class FstabNetworkShare : public QObject, public Qube::Hardware::Ifaces::NetworkShare
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::NetworkShare)
 
-            public:
-                explicit FstabNetworkShare(QubeHardware::Backends::Fstab::FstabDevice *device);
+                public:
+                    explicit FstabNetworkShare(Qube::Hardware::Backends::Fstab::FstabDevice *device);
 
-                virtual ~FstabNetworkShare();
+                    virtual ~FstabNetworkShare();
 
-                virtual QubeHardware::NetworkShare::ShareType type() const;
+                    virtual Qube::Hardware::NetworkShare::ShareType type() const;
 
-                virtual QUrl url() const;
+                    virtual QUrl url() const;
 
-            public:
-                const QubeHardware::Backends::Fstab::FstabDevice* fstabDevice() const;
+                public:
+                    const Qube::Hardware::Backends::Fstab::FstabDevice* fstabDevice() const;
 
-            private:
-                QubeHardware::Backends::Fstab::FstabDevice *m_fstabDevice;
-                QubeHardware::NetworkShare::ShareType m_type;
-                QUrl m_url;
-            };
+                private:
+                    Qube::Hardware::Backends::Fstab::FstabDevice *m_fstabDevice;
+                    Qube::Hardware::NetworkShare::ShareType m_type;
+                    QUrl m_url;
+                };
 
+            }
         }
     }
 }

@@ -25,39 +25,39 @@
 #include <ifaces/opticaldisc.h>
 #include "udisksstoragevolume.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDisks
+        namespace Backends
         {
-
-            class OpticalDisc : public UDisksStorageVolume, virtual public QubeHardware::Ifaces::OpticalDisc
+            namespace UDisks
             {
+                class OpticalDisc : public UDisksStorageVolume, virtual public Qube::Hardware::Ifaces::OpticalDisc
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::OpticalDisc)
+                public:
+                    OpticalDisc(UDisksDevice *device);
+                    virtual ~OpticalDisc();
 
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::OpticalDisc)
+                    virtual qulonglong capacity() const;
+                    virtual bool isRewritable() const;
+                    virtual bool isBlank() const;
+                    virtual bool isAppendable() const;
+                    virtual Qube::Hardware::OpticalDisc::DiscType discType() const;
+                    virtual Qube::Hardware::OpticalDisc::ContentTypes availableContent() const;
 
-            public:
-                OpticalDisc(UDisksDevice *device);
-                virtual ~OpticalDisc();
+                private slots:
+                    void slotChanged();
 
-                virtual qulonglong capacity() const;
-                virtual bool isRewritable() const;
-                virtual bool isBlank() const;
-                virtual bool isAppendable() const;
-                virtual QubeHardware::OpticalDisc::DiscType discType() const;
-                virtual QubeHardware::OpticalDisc::ContentTypes availableContent() const;
-
-            private slots:
-                void slotChanged();
-
-            private:
-                mutable bool m_needsReprobe;
-                mutable QubeHardware::OpticalDisc::ContentTypes m_cachedContent;
-            };
-
+                private:
+                    mutable bool m_needsReprobe;
+                    mutable Qube::Hardware::OpticalDisc::ContentTypes m_cachedContent;
+                };
+            }
         }
     }
 }
+
 #endif // OPTICALDISC_H

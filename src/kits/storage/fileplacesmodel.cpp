@@ -1,22 +1,28 @@
-/*  This file is part of the KDE project
-    Copyright (C) 2007 Kevin Ottens <ervin@kde.org>
-    Copyright (C) 2007 David Faure <faure@kde.org>
-
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License version 2 as published by the Free Software Foundation.
-
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
-
-    You should have received a copy of the GNU Library General Public License
-    along with this library; see the file COPYING.LIB.  If not, write to
-    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301, USA.
-
-*/
+/****************************************************************************
+ * This file is part of Qube.
+ *
+ * Copyright (c) 2007 Kevin Ottens
+ * Copyright (c) 2007 David Faure
+ * Copyright (c) 2011 Pier Luigi Fiorini
+ *
+ * Author(s):
+ *	David Faure <faure@kde.org>
+ *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *	Kevin Ottens <ervin@kde.org>
+ *
+ * Qube is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Qube is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Qube.  If not, see <http://www.gnu.org/licenses/>.
+ ***************************************************************************/
 
 #include <QtCore/QMimeData>
 #include <QtCore/QTimer>
@@ -25,13 +31,13 @@
 #include <QtCore/QDebug>
 #include <QtGui/QAction>
 
-#include <QubeHardware/DeviceNotifier>
-#include <QubeHardware/StorageAccess>
-#include <QubeHardware/StorageDrive>
-#include <QubeHardware/StorageVolume>
-#include <QubeHardware/OpticalDrive>
-#include <QubeHardware/OpticalDisc>
-#include <QubeHardware/Predicate>
+#include <Qube/Hardware/DeviceNotifier>
+#include <Qube/Hardware/StorageAccess>
+#include <Qube/Hardware/StorageDrive>
+#include <Qube/Hardware/StorageVolume>
+#include <Qube/Hardware/OpticalDrive>
+#include <Qube/Hardware/OpticalDisc>
+#include <Qube/Hardware/Predicate>
 
 #include "fileplacesmodel.h"
 #include "fileplacesitem_p.h"
@@ -39,7 +45,9 @@
 
 #define I18N_NOOP2(x, y) QString(y)
 
-namespace QubeStorage
+namespace Qube
+{
+namespace Storage
 {
     class FilePlacesModel::Private : public QObject
     {
@@ -62,7 +70,7 @@ namespace QubeStorage
         QSet<QString> availableDevices;
         QMap<QObject*, QPersistentModelIndex> setupInProgress;
 
-        QubeHardware::Predicate predicate;
+        Qube::Hardware::Predicate predicate;
         BookmarkManager *bookmarkManager;
         FilePlacesSharedBookmarks * sharedBookmarks;
 
@@ -116,16 +124,16 @@ namespace QubeStorage
         }
 
         void _q_initDeviceList() {
-            QubeHardware::DeviceNotifier *notifier = QubeHardware::DeviceNotifier::instance();
+            Qube::Hardware::DeviceNotifier *notifier = Qube::Hardware::DeviceNotifier::instance();
 
             connect(notifier, SIGNAL(deviceAdded(const QString&)),
                     q, SLOT(_q_deviceAdded(const QString&)));
             connect(notifier, SIGNAL(deviceRemoved(const QString&)),
                     q, SLOT(_q_deviceRemoved(const QString&)));
 
-            const QList<QubeHardware::Device> &deviceList = QubeHardware::Device::listFromQuery(predicate);
+            const QList<Qube::Hardware::Device> &deviceList = Qube::Hardware::Device::listFromQuery(predicate);
 
-            foreach(const QubeHardware::Device &device, deviceList) {
+            foreach(const Qube::Hardware::Device &device, deviceList) {
                 availableDevices << device.udi();
             }
 
@@ -133,7 +141,7 @@ namespace QubeStorage
         }
 
         void _q_deviceAdded(const QString &udi) {
-            QubeHardware::Device d(udi);
+            Qube::Hardware::Device d(udi);
 
             if (predicate.matches(d)) {
                 availableDevices << udi;
@@ -228,7 +236,7 @@ namespace QubeStorage
             currentItems.clear();
         }
 
-        void _q_storageSetupDone(QubeHardware::ErrorType error, QVariant errorData) {
+        void _q_storageSetupDone(Qube::Hardware::ErrorType error, QVariant errorData) {
             QPersistentModelIndex index = setupInProgress.take(q->sender());
 
             if (!index.isValid()) {
@@ -250,7 +258,7 @@ namespace QubeStorage
 
         }
 
-        void _q_storageTeardownDone(QubeHardware::ErrorType error, QVariant errorData) {
+        void _q_storageTeardownDone(Qube::Hardware::ErrorType error, QVariant errorData) {
             if (error && errorData.isValid())
                 emit q->errorMessage(errorData.toString());
         }
@@ -301,7 +309,7 @@ namespace QubeStorage
         // create after, so if we have own places, they are added afterwards, in case of equal priorities
         d->sharedBookmarks = new FilePlacesSharedBookmarks(d->bookmarkManager);
 
-        d->predicate = QubeHardware::Predicate::fromString(
+        d->predicate = Qube::Hardware::Predicate::fromString(
                            "[[[[ StorageVolume.ignored == false AND [ StorageVolume.usage == 'FileSystem' OR StorageVolume.usage == 'Encrypted' ]]"
                            " OR "
                            "[ IS StorageAccess AND StorageDrive.driveType == 'Floppy' ]]"
@@ -360,17 +368,17 @@ namespace QubeStorage
         return item->isDevice();
     }
 
-    QubeHardware::Device FilePlacesModel::deviceForIndex(const QModelIndex &index) const
+    Qube::Hardware::Device FilePlacesModel::deviceForIndex(const QModelIndex &index) const
     {
         if (!index.isValid())
-            return QubeHardware::Device();
+            return Qube::Hardware::Device();
 
         FilePlacesItem *item = static_cast<FilePlacesItem*>(index.internalPointer());
 
         if (item->isDevice()) {
             return item->device();
         } else {
-            return QubeHardware::Device();
+            return Qube::Hardware::Device();
         }
     }
 
@@ -693,14 +701,14 @@ namespace QubeStorage
 
     QAction *FilePlacesModel::teardownActionForIndex(const QModelIndex &index) const
     {
-        QubeHardware::Device device = deviceForIndex(index);
+        Qube::Hardware::Device device = deviceForIndex(index);
 
-        if (device.is<QubeHardware::StorageAccess>() && device.as<QubeHardware::StorageAccess>()->isAccessible()) {
+        if (device.is<Qube::Hardware::StorageAccess>() && device.as<Qube::Hardware::StorageAccess>()->isAccessible()) {
 
-            QubeHardware::StorageDrive *drive = device.as<QubeHardware::StorageDrive>();
+            Qube::Hardware::StorageDrive *drive = device.as<Qube::Hardware::StorageDrive>();
 
             if (drive==0) {
-                drive = device.parent().as<QubeHardware::StorageDrive>();
+                drive = device.parent().as<Qube::Hardware::StorageDrive>();
             }
 
             bool hotpluggable = false;
@@ -715,7 +723,7 @@ namespace QubeStorage
             QString text;
             QString label = data(index, Qt::DisplayRole).toString().replace('&',"&&");
 
-            if (device.is<QubeHardware::OpticalDisc>()) {
+            if (device.is<Qube::Hardware::OpticalDisc>()) {
                 text = tr("&Release '%1'").arg(label);
             } else if (removable || hotpluggable) {
                 text = tr("&Safely Remove '%1'").arg(label);
@@ -736,9 +744,9 @@ namespace QubeStorage
 
     QAction *FilePlacesModel::ejectActionForIndex(const QModelIndex &index) const
     {
-        QubeHardware::Device device = deviceForIndex(index);
+        Qube::Hardware::Device device = deviceForIndex(index);
 
-        if (device.is<QubeHardware::OpticalDisc>()) {
+        if (device.is<Qube::Hardware::OpticalDisc>()) {
             QString label = data(index, Qt::DisplayRole).toString().replace('&',"&&");
             QString text = tr("&Eject '%1'").arg(label);
 
@@ -750,12 +758,12 @@ namespace QubeStorage
 
     void FilePlacesModel::requestTeardown(const QModelIndex &index)
     {
-        QubeHardware::Device device = deviceForIndex(index);
-        QubeHardware::StorageAccess *access = device.as<QubeHardware::StorageAccess>();
+        Qube::Hardware::Device device = deviceForIndex(index);
+        Qube::Hardware::StorageAccess *access = device.as<Qube::Hardware::StorageAccess>();
 
         if (access!=0) {
-            connect(access, SIGNAL(teardownDone(QubeHardware::ErrorType, QVariant, const QString &)),
-                    this, SLOT(_q_storageTeardownDone(QubeHardware::ErrorType, QVariant)));
+            connect(access, SIGNAL(teardownDone(Qube::Hardware::ErrorType, QVariant, const QString &)),
+                    this, SLOT(_q_storageTeardownDone(Qube::Hardware::ErrorType, QVariant)));
 
             access->teardown();
         }
@@ -763,13 +771,13 @@ namespace QubeStorage
 
     void FilePlacesModel::requestEject(const QModelIndex &index)
     {
-        QubeHardware::Device device = deviceForIndex(index);
+        Qube::Hardware::Device device = deviceForIndex(index);
 
-        QubeHardware::OpticalDrive *drive = device.parent().as<QubeHardware::OpticalDrive>();
+        Qube::Hardware::OpticalDrive *drive = device.parent().as<Qube::Hardware::OpticalDrive>();
 
         if (drive!=0) {
-            connect(drive, SIGNAL(ejectDone(QubeHardware::ErrorType, QVariant, const QString &)),
-                    this, SLOT(_q_storageTeardownDone(QubeHardware::ErrorType, QVariant)));
+            connect(drive, SIGNAL(ejectDone(Qube::Hardware::ErrorType, QVariant, const QString &)),
+                    this, SLOT(_q_storageTeardownDone(Qube::Hardware::ErrorType, QVariant)));
 
             drive->eject();
         } else {
@@ -781,20 +789,21 @@ namespace QubeStorage
 
     void FilePlacesModel::requestSetup(const QModelIndex &index)
     {
-        QubeHardware::Device device = deviceForIndex(index);
+        Qube::Hardware::Device device = deviceForIndex(index);
 
-        if (device.is<QubeHardware::StorageAccess>()
-            && !d->setupInProgress.contains(device.as<QubeHardware::StorageAccess>())
-            && !device.as<QubeHardware::StorageAccess>()->isAccessible()) {
+        if (device.is<Qube::Hardware::StorageAccess>()
+            && !d->setupInProgress.contains(device.as<Qube::Hardware::StorageAccess>())
+            && !device.as<Qube::Hardware::StorageAccess>()->isAccessible()) {
 
-            QubeHardware::StorageAccess *access = device.as<QubeHardware::StorageAccess>();
+            Qube::Hardware::StorageAccess *access = device.as<Qube::Hardware::StorageAccess>();
 
             d->setupInProgress[access] = index;
 
-            connect(access, SIGNAL(setupDone(QubeHardware::ErrorType, QVariant, const QString &)),
-                    this, SLOT(_q_storageSetupDone(QubeHardware::ErrorType, QVariant)));
+            connect(access, SIGNAL(setupDone(Qube::Hardware::ErrorType, QVariant, const QString &)),
+                    this, SLOT(_q_storageSetupDone(Qube::Hardware::ErrorType, QVariant)));
 
             access->setup();
         }
     }
+}
 }

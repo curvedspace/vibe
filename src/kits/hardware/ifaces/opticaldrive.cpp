@@ -20,7 +20,7 @@
 
 #include "opticaldrive.h"
 
-QubeHardware::Ifaces::OpticalDrive::~OpticalDrive()
+Qube::Hardware::Ifaces::OpticalDrive::~OpticalDrive()
 {
 }
 

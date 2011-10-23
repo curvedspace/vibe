@@ -24,38 +24,37 @@
 // QubeHardware
 #include <ifaces/device.h>
 
-
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace KUPnP
+        namespace Backends
         {
-
-            class KUPnPRootDevice : public QubeHardware::Ifaces::Device
+            namespace KUPnP
             {
-                Q_OBJECT
+                class KUPnPRootDevice : public Qube::Hardware::Ifaces::Device
+                {
+                    Q_OBJECT
+                public:
+                    KUPnPRootDevice();
+                    virtual ~KUPnPRootDevice();
 
-            public:
-                KUPnPRootDevice();
-                virtual ~KUPnPRootDevice();
+                public: // Qube::Hardware::Ifaces::Device API
+                    virtual QString udi() const;
+                    virtual QString parentUdi() const;
 
-            public: // QubeHardware::Ifaces::Device API
-                virtual QString udi() const;
-                virtual QString parentUdi() const;
+                    virtual QString vendor() const;
+                    virtual QString product() const;
+                    virtual QString icon() const;
+                    virtual QStringList emblems() const;
+                    virtual QString description() const;
 
-                virtual QString vendor() const;
-                virtual QString product() const;
-                virtual QString icon() const;
-                virtual QStringList emblems() const;
-                virtual QString description() const;
+                    virtual bool queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type) const;
+                    virtual QObject* createDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type);
 
-                virtual bool queryDeviceInterface(const QubeHardware::DeviceInterface::Type& type) const;
-                virtual QObject* createDeviceInterface(const QubeHardware::DeviceInterface::Type& type);
-
-            private:
-            };
-
+                private:
+                };
+            }
         }
     }
 }

@@ -30,51 +30,53 @@
 #include <QtCore/QSharedData>
 #include <QtCore/QThreadStorage>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Ifaces
+    namespace Hardware
     {
-        class Device;
+        namespace Ifaces
+        {
+            class Device;
+        }
+
+        class DevicePrivate;
+
+        class DeviceManagerPrivate : public DeviceNotifier, public ManagerBasePrivate
+        {
+            Q_OBJECT
+        public:
+            DeviceManagerPrivate();
+            ~DeviceManagerPrivate();
+
+            DevicePrivate *findRegisteredDevice(const QString &udi);
+
+        private Q_SLOTS:
+            void _q_deviceAdded(const QString &udi);
+            void _q_deviceRemoved(const QString &udi);
+            void _q_destroyed(QObject *object);
+
+        private:
+            Ifaces::Device *createBackendObject(const QString &udi);
+
+            QExplicitlySharedDataPointer<DevicePrivate> m_nullDevice;
+            QMap<QString, QWeakPointer<DevicePrivate> > m_devicesMap;
+            QMap<QObject *, QString> m_reverseMap;
+        };
+
+        class DeviceManagerStorage
+        {
+        public:
+            DeviceManagerStorage();
+
+            QList<QObject*> managerBackends();
+            DeviceNotifier *notifier();
+
+        private:
+            void ensureManagerCreated();
+
+            QThreadStorage<DeviceManagerPrivate*> m_storage;
+        };
     }
-    class DevicePrivate;
-
-
-    class DeviceManagerPrivate : public DeviceNotifier, public ManagerBasePrivate
-    {
-        Q_OBJECT
-    public:
-        DeviceManagerPrivate();
-        ~DeviceManagerPrivate();
-
-        DevicePrivate *findRegisteredDevice(const QString &udi);
-
-    private Q_SLOTS:
-        void _k_deviceAdded(const QString &udi);
-        void _k_deviceRemoved(const QString &udi);
-        void _k_destroyed(QObject *object);
-
-    private:
-        Ifaces::Device *createBackendObject(const QString &udi);
-
-        QExplicitlySharedDataPointer<DevicePrivate> m_nullDevice;
-        QMap<QString, QWeakPointer<DevicePrivate> > m_devicesMap;
-        QMap<QObject *, QString> m_reverseMap;
-    };
-
-    class DeviceManagerStorage
-    {
-    public:
-        DeviceManagerStorage();
-
-        QList<QObject*> managerBackends();
-        DeviceNotifier *notifier();
-
-    private:
-        void ensureManagerCreated();
-
-        QThreadStorage<DeviceManagerPrivate*> m_storage;
-    };
 }
-
 
 #endif

@@ -24,40 +24,41 @@
 // KUPnP
 #include "kupnpdevice.h"
 
-
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace KUPnP
+        namespace Backends
         {
-
-            class MediaServer3Factory : public AbstractDeviceFactory
+            namespace KUPnP
             {
-            public:
-                MediaServer3Factory();
+                class MediaServer3Factory : public AbstractDeviceFactory
+                {
+                public:
+                    MediaServer3Factory();
 
-            public: // AbstractDeviceFactory API
-                virtual void addSupportedInterfaces( QSet<QubeHardware::DeviceInterface::Type>& interfaces ) const;
-                virtual QStringList typeNames( QubeHardware::DeviceInterface::Type type ) const;
-                virtual QObject* tryCreateDevice( const Cagibi::Device& device ) const;
-            };
+                public: // AbstractDeviceFactory API
+                    virtual void addSupportedInterfaces( QSet<Qube::Hardware::DeviceInterface::Type>& interfaces ) const;
+                    virtual QStringList typeNames( Qube::Hardware::DeviceInterface::Type type ) const;
+                    virtual QObject* tryCreateDevice( const Cagibi::Device& device ) const;
+                };
 
 
-            class MediaServer3 : public KUPnPDevice
-            {
-            public:
-                explicit MediaServer3(const Cagibi::Device& device);
-                virtual ~MediaServer3();
+                class MediaServer3 : public KUPnPDevice
+                {
+                public:
+                    explicit MediaServer3(const Cagibi::Device& device);
+                    virtual ~MediaServer3();
 
-            public: // QubeHardware::Ifaces::Device API
-                virtual QString icon() const;
-                virtual QString description() const;
+                public: // Qube::Hardware::Ifaces::Device API
+                    virtual QString icon() const;
+                    virtual QString description() const;
 
-                virtual bool queryDeviceInterface(const QubeHardware::DeviceInterface::Type& type) const;
-                virtual QObject* createDeviceInterface(const QubeHardware::DeviceInterface::Type& type);
-            };
+                    virtual bool queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type) const;
+                    virtual QObject* createDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type);
+                };
 
+            }
         }
     }
 }

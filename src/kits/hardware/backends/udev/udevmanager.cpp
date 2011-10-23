@@ -30,8 +30,8 @@
 
 #define DETAILED_OUTPUT 0
 
-using namespace QubeHardware::Backends::UDev;
-using namespace QubeHardware::Backends::Shared;
+using namespace Qube::Hardware::Backends::UDev;
+using namespace Qube::Hardware::Backends::Shared;
 
 class UDevManager::Private
 {
@@ -42,7 +42,7 @@ public:
     bool isOfInterest(const UdevQt::Device &device);
 
     UdevQt::Client *m_client;
-    QSet<QubeHardware::DeviceInterface::Type> m_supportedInterfaces;
+    QSet<Qube::Hardware::DeviceInterface::Type> m_supportedInterfaces;
 };
 
 UDevManager::Private::Private()
@@ -104,22 +104,22 @@ bool UDevManager::Private::isOfInterest(const UdevQt::Device &device)
 }
 
 UDevManager::UDevManager(QObject *parent)
-    : QubeHardware::Ifaces::DeviceManager(parent),
+    : Qube::Hardware::Ifaces::DeviceManager(parent),
       d(new Private)
 {
     connect(d->m_client, SIGNAL(deviceAdded(UdevQt::Device)), this, SLOT(slotDeviceAdded(UdevQt::Device)));
     connect(d->m_client, SIGNAL(deviceRemoved(UdevQt::Device)), this, SLOT(slotDeviceRemoved(UdevQt::Device)));
 
-    d->m_supportedInterfaces << QubeHardware::DeviceInterface::GenericInterface
-                             << QubeHardware::DeviceInterface::Processor
-                             << QubeHardware::DeviceInterface::AudioInterface
-                             << QubeHardware::DeviceInterface::NetworkInterface
-                             << QubeHardware::DeviceInterface::SerialInterface
-                             << QubeHardware::DeviceInterface::Camera
-                             << QubeHardware::DeviceInterface::PortableMediaPlayer
-                             << QubeHardware::DeviceInterface::DvbInterface
-                             << QubeHardware::DeviceInterface::Block
-                             << QubeHardware::DeviceInterface::Video;
+    d->m_supportedInterfaces << Qube::Hardware::DeviceInterface::GenericInterface
+                             << Qube::Hardware::DeviceInterface::Processor
+                             << Qube::Hardware::DeviceInterface::AudioInterface
+                             << Qube::Hardware::DeviceInterface::NetworkInterface
+                             << Qube::Hardware::DeviceInterface::SerialInterface
+                             << Qube::Hardware::DeviceInterface::Camera
+                             << Qube::Hardware::DeviceInterface::PortableMediaPlayer
+                             << Qube::Hardware::DeviceInterface::DvbInterface
+                             << Qube::Hardware::DeviceInterface::Block
+                             << Qube::Hardware::DeviceInterface::Video;
 }
 
 UDevManager::~UDevManager()
@@ -132,7 +132,7 @@ QString UDevManager::udiPrefix() const
     return QString::fromLatin1(UDEV_UDI_PREFIX);
 }
 
-QSet<QubeHardware::DeviceInterface::Type> UDevManager::supportedInterfaces() const
+QSet<Qube::Hardware::DeviceInterface::Type> UDevManager::supportedInterfaces() const
 {
     return d->m_supportedInterfaces;
 }
@@ -150,7 +150,7 @@ QStringList UDevManager::allDevices()
 }
 
 QStringList UDevManager::devicesFromQuery(const QString &parentUdi,
-        QubeHardware::DeviceInterface::Type type)
+        Qube::Hardware::DeviceInterface::Type type)
 {
     QStringList allDev = allDevices();
     QStringList result;
@@ -164,7 +164,7 @@ QStringList UDevManager::devicesFromQuery(const QString &parentUdi,
         }
 
         return result;
-    } else if (type != QubeHardware::DeviceInterface::Unknown) {
+    } else if (type != Qube::Hardware::DeviceInterface::Unknown) {
         foreach (const QString &udi, allDev) {
             UDevDevice device(d->m_client->deviceBySysfsPath(udi.right(udi.size() - udiPrefix().size())));
             if (device.queryDeviceInterface(type)) {

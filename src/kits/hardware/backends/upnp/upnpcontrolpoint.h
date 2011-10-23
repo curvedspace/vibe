@@ -28,38 +28,39 @@
 #include <HUpnpCore/HControlPoint>
 #include <QtCore/QStringList>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UPnP
+        namespace Backends
         {
-
-            class UPnPControlPoint : public QObject
+            namespace UPnP
             {
-            public:
-                static UPnPControlPoint* acquireInstance();
+                class UPnPControlPoint : public QObject
+                {
+                public:
+                    static UPnPControlPoint* acquireInstance();
 
-                static void releaseInstance();
+                    static void releaseInstance();
 
-                Herqq::Upnp::HControlPoint* controlPoint();
+                    Herqq::Upnp::HControlPoint* controlPoint();
 
-                QStringList allDevices();
+                    QStringList allDevices();
 
-                virtual ~UPnPControlPoint();
+                    virtual ~UPnPControlPoint();
 
-            private:
-                explicit UPnPControlPoint();
+                private:
+                    explicit UPnPControlPoint();
 
-                static UPnPControlPoint* instance();
+                    static UPnPControlPoint* instance();
 
-                static UPnPControlPoint* inst;
+                    static UPnPControlPoint* inst;
 
-                static QMutex mutex;
+                    static QMutex mutex;
 
-                Herqq::Upnp::HControlPoint* m_controlPoint;
-            };
-
+                    Herqq::Upnp::HControlPoint* m_controlPoint;
+                };
+            }
         }
     }
 }

@@ -20,7 +20,7 @@
 
 #include "upowerdeviceinterface.h"
 
-using namespace QubeHardware::Backends::UPower;
+using namespace Qube::Hardware::Backends::UPower;
 
 DeviceInterface::DeviceInterface(UPowerDevice *device)
     : QObject(device), m_device(device)

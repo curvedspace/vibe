@@ -17,7 +17,7 @@
 
 #include <QtGui/QApplication>
 
-#include <QubeGui/AboutDialog>
+#include <Qube/Gui/AboutDialog>
 
 int main(int argc, char *argv[])
 {
@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     QStringList authors;
     authors << QString("John Doe") << QString("Walter White") << QString("Jesse Pinkman");
 
-    QubeGui::AboutDialog *dialog = new QubeGui::AboutDialog();
+    Qube::Gui::AboutDialog *dialog = new Qube::Gui::AboutDialog();
     dialog->setDescription("This is just a test application.");
     dialog->setCopyright("Copyright (C) 2010 John Doe\nCopyright (C) 2011 Walter White\nCopyright (C) 2011 Jesse Pinkman");
     dialog->setLogo(QPixmap(":/icons/app_icon.png"));

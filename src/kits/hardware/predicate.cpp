@@ -20,49 +20,52 @@
 
 #include "predicate.h"
 
-#include <QubeHardware/device.h>
-#include <QubeHardware/deviceinterface.h>
+#include <Qube/Hardware/device.h>
+#include <Qube/Hardware/deviceinterface.h>
 #include <QtCore/QStringList>
 #include <QtCore/QMetaEnum>
 
-namespace QubeHardware
+namespace Qube
 {
-    class Predicate::Private
+    namespace Hardware
     {
-    public:
+        class Predicate::Private
+        {
+        public:
 
-        Private() : isValid(false), type(PropertyCheck),
-            compOperator(Predicate::Equals),
-            operand1(0), operand2(0) {}
+            Private() : isValid(false), type(PropertyCheck),
+                compOperator(Predicate::Equals),
+                operand1(0), operand2(0) {}
 
-        bool isValid;
-        Type type;
+            bool isValid;
+            Type type;
 
-        DeviceInterface::Type ifaceType;
-        QString property;
-        QVariant value;
-        Predicate::ComparisonOperator compOperator;
+            DeviceInterface::Type ifaceType;
+            QString property;
+            QVariant value;
+            Predicate::ComparisonOperator compOperator;
 
-        Predicate *operand1;
-        Predicate *operand2;
-    };
+            Predicate *operand1;
+            Predicate *operand2;
+        };
+    }
 }
 
 
-QubeHardware::Predicate::Predicate()
+Qube::Hardware::Predicate::Predicate()
     : d(new Private())
 {
 }
 
-QubeHardware::Predicate::Predicate(const Predicate &other)
+Qube::Hardware::Predicate::Predicate(const Predicate &other)
     : d(new Private())
 {
     *this = other;
 }
 
-QubeHardware::Predicate::Predicate(const DeviceInterface::Type &ifaceType,
-                                   const QString &property, const QVariant &value,
-                                   ComparisonOperator compOperator)
+Qube::Hardware::Predicate::Predicate(const DeviceInterface::Type &ifaceType,
+                                     const QString &property, const QVariant &value,
+                                     ComparisonOperator compOperator)
     : d(new Private())
 {
     d->isValid = true;
@@ -72,9 +75,9 @@ QubeHardware::Predicate::Predicate(const DeviceInterface::Type &ifaceType,
     d->compOperator = compOperator;
 }
 
-QubeHardware::Predicate::Predicate(const QString &ifaceName,
-                                   const QString &property, const QVariant &value,
-                                   ComparisonOperator compOperator)
+Qube::Hardware::Predicate::Predicate(const QString &ifaceName,
+                                     const QString &property, const QVariant &value,
+                                     ComparisonOperator compOperator)
     : d(new Private())
 {
     DeviceInterface::Type ifaceType = DeviceInterface::stringToType(ifaceName);
@@ -88,7 +91,7 @@ QubeHardware::Predicate::Predicate(const QString &ifaceName,
     }
 }
 
-QubeHardware::Predicate::Predicate(const DeviceInterface::Type &ifaceType)
+Qube::Hardware::Predicate::Predicate(const DeviceInterface::Type &ifaceType)
     : d(new Private())
 {
     d->isValid = true;
@@ -96,7 +99,7 @@ QubeHardware::Predicate::Predicate(const DeviceInterface::Type &ifaceType)
     d->ifaceType = ifaceType;
 }
 
-QubeHardware::Predicate::Predicate(const QString &ifaceName)
+Qube::Hardware::Predicate::Predicate(const QString &ifaceName)
     : d(new Private())
 {
     DeviceInterface::Type ifaceType = DeviceInterface::stringToType(ifaceName);
@@ -108,7 +111,7 @@ QubeHardware::Predicate::Predicate(const QString &ifaceName)
     }
 }
 
-QubeHardware::Predicate::~Predicate()
+Qube::Hardware::Predicate::~Predicate()
 {
     if (d->type!=PropertyCheck && d->type!=InterfaceCheck) {
         delete d->operand1;
@@ -118,7 +121,7 @@ QubeHardware::Predicate::~Predicate()
     delete d;
 }
 
-QubeHardware::Predicate &QubeHardware::Predicate::operator=(const Predicate &other)
+Qube::Hardware::Predicate &Qube::Hardware::Predicate::operator=(const Predicate &other)
 {
     d->isValid = other.d->isValid;
     d->type = other.d->type;
@@ -140,7 +143,7 @@ QubeHardware::Predicate &QubeHardware::Predicate::operator=(const Predicate &oth
     return *this;
 }
 
-QubeHardware::Predicate QubeHardware::Predicate::operator &(const Predicate &other)
+Qube::Hardware::Predicate Qube::Hardware::Predicate::operator &(const Predicate &other)
 {
     Predicate result;
 
@@ -152,13 +155,13 @@ QubeHardware::Predicate QubeHardware::Predicate::operator &(const Predicate &oth
     return result;
 }
 
-QubeHardware::Predicate &QubeHardware::Predicate::operator &=(const Predicate &other)
+Qube::Hardware::Predicate &Qube::Hardware::Predicate::operator &=(const Predicate &other)
 {
     *this = *this & other;
     return *this;
 }
 
-QubeHardware::Predicate QubeHardware::Predicate::operator|(const Predicate &other)
+Qube::Hardware::Predicate Qube::Hardware::Predicate::operator|(const Predicate &other)
 {
     Predicate result;
 
@@ -170,18 +173,18 @@ QubeHardware::Predicate QubeHardware::Predicate::operator|(const Predicate &othe
     return result;
 }
 
-QubeHardware::Predicate &QubeHardware::Predicate::operator |=(const Predicate &other)
+Qube::Hardware::Predicate &Qube::Hardware::Predicate::operator |=(const Predicate &other)
 {
     *this = *this | other;
     return *this;
 }
 
-bool QubeHardware::Predicate::isValid() const
+bool Qube::Hardware::Predicate::isValid() const
 {
     return d->isValid;
 }
 
-bool QubeHardware::Predicate::matches(const Device &device) const
+bool Qube::Hardware::Predicate::matches(const Device &device) const
 {
     if (!d->isValid) return false;
 
@@ -231,7 +234,7 @@ bool QubeHardware::Predicate::matches(const Device &device) const
     return false;
 }
 
-QSet<QubeHardware::DeviceInterface::Type> QubeHardware::Predicate::usedTypes() const
+QSet<Qube::Hardware::DeviceInterface::Type> Qube::Hardware::Predicate::usedTypes() const
 {
     QSet<DeviceInterface::Type> res;
 
@@ -255,7 +258,7 @@ QSet<QubeHardware::DeviceInterface::Type> QubeHardware::Predicate::usedTypes() c
 }
 
 
-QString QubeHardware::Predicate::toString() const
+QString Qube::Hardware::Predicate::toString() const
 {
     if (!d->isValid) return "False";
 
@@ -317,32 +320,32 @@ QString QubeHardware::Predicate::toString() const
     }
 }
 
-QubeHardware::Predicate::Type QubeHardware::Predicate::type() const
+Qube::Hardware::Predicate::Type Qube::Hardware::Predicate::type() const
 {
     return d->type;
 }
 
-QubeHardware::DeviceInterface::Type QubeHardware::Predicate::interfaceType() const
+Qube::Hardware::DeviceInterface::Type Qube::Hardware::Predicate::interfaceType() const
 {
     return d->ifaceType;
 }
 
-QString QubeHardware::Predicate::propertyName() const
+QString Qube::Hardware::Predicate::propertyName() const
 {
     return d->property;
 }
 
-QVariant QubeHardware::Predicate::matchingValue() const
+QVariant Qube::Hardware::Predicate::matchingValue() const
 {
     return d->value;
 }
 
-QubeHardware::Predicate::ComparisonOperator QubeHardware::Predicate::comparisonOperator() const
+Qube::Hardware::Predicate::ComparisonOperator Qube::Hardware::Predicate::comparisonOperator() const
 {
     return d->compOperator;
 }
 
-QubeHardware::Predicate QubeHardware::Predicate::firstOperand() const
+Qube::Hardware::Predicate Qube::Hardware::Predicate::firstOperand() const
 {
     if( d->operand1 ) {
         return *d->operand1;
@@ -350,7 +353,7 @@ QubeHardware::Predicate QubeHardware::Predicate::firstOperand() const
     return Predicate();
 }
 
-QubeHardware::Predicate QubeHardware::Predicate::secondOperand() const
+Qube::Hardware::Predicate Qube::Hardware::Predicate::secondOperand() const
 {
     if( d->operand2 ) {
         return *d->operand2;

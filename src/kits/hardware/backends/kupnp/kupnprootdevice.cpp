@@ -26,69 +26,70 @@
 
 #define QI18N(x) x
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace KUPnP
+        namespace Backends
         {
-
-            KUPnPRootDevice::KUPnPRootDevice()
-                : QubeHardware::Ifaces::Device()
+            namespace KUPnP
             {
-            }
+                KUPnPRootDevice::KUPnPRootDevice()
+                    : Qube::Hardware::Ifaces::Device()
+                {
+                }
 
-            KUPnPRootDevice::~KUPnPRootDevice()
-            {
-            }
+                KUPnPRootDevice::~KUPnPRootDevice()
+                {
+                }
 
-            QString KUPnPRootDevice::udi() const
-            {
-                return QString::fromLatin1("/org/kde/KUPnP");
-            }
+                QString KUPnPRootDevice::udi() const
+                {
+                    return QString::fromLatin1("/org/kde/KUPnP");
+                }
 
-            QString KUPnPRootDevice::parentUdi() const
-            {
-                return QString();
-            }
-            QString KUPnPRootDevice::vendor() const
-            {
-                return QString();
-            }
+                QString KUPnPRootDevice::parentUdi() const
+                {
+                    return QString();
+                }
+                QString KUPnPRootDevice::vendor() const
+                {
+                    return QString();
+                }
 
-            QString KUPnPRootDevice::product() const
-            {
-                return QObject::tr("UPnP devices");
+                QString KUPnPRootDevice::product() const
+                {
+                    return QObject::tr("UPnP devices");
+                }
+
+                QString KUPnPRootDevice::icon() const
+                {
+                    return QString::fromLatin1("network-server");
+                }
+
+                QStringList KUPnPRootDevice::emblems() const
+                {
+                    return QStringList();
+                }
+
+                QString KUPnPRootDevice::description() const
+                {
+                    return QString();
+                }
+
+
+                bool KUPnPRootDevice::queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type &type) const
+                {
+                    Q_UNUSED(type);
+                    return false;
+                }
+
+                QObject* KUPnPRootDevice::createDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type)
+                {
+                    Q_UNUSED(type);
+                    return 0;
+                }
             }
-
-            QString KUPnPRootDevice::icon() const
-            {
-                return QString::fromLatin1("network-server");
-            }
-
-            QStringList KUPnPRootDevice::emblems() const
-            {
-                return QStringList();
-            }
-
-            QString KUPnPRootDevice::description() const
-            {
-                return QString();
-            }
-
-
-            bool KUPnPRootDevice::queryDeviceInterface(const QubeHardware::DeviceInterface::Type &type) const
-            {
-                Q_UNUSED( type );
-                return false;
-            }
-
-            QObject* KUPnPRootDevice::createDeviceInterface(const QubeHardware::DeviceInterface::Type& type)
-            {
-                Q_UNUSED( type );
-                return 0;
-            }
-
         }
     }
 }

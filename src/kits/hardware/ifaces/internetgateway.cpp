@@ -20,14 +20,16 @@
 
 #include "internetgateway.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Ifaces
+    namespace Hardware
     {
-
-        QubeHardware::Ifaces::InternetGateway::~InternetGateway()
+        namespace Ifaces
         {
-        }
+            Qube::Hardware::Ifaces::InternetGateway::~InternetGateway()
+            {
+            }
 
+        }
     }
 }

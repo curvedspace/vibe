@@ -26,7 +26,7 @@
 #include <QtCore/QMetaEnum>
 
 
-QubeHardware::DeviceInterface::DeviceInterface(DeviceInterfacePrivate &dd, QObject *backendObject)
+Qube::Hardware::DeviceInterface::DeviceInterface(DeviceInterfacePrivate &dd, QObject *backendObject)
     : d_ptr(&dd)
 {
     Q_D(DeviceInterface);
@@ -35,33 +35,33 @@ QubeHardware::DeviceInterface::DeviceInterface(DeviceInterfacePrivate &dd, QObje
 }
 
 
-QubeHardware::DeviceInterface::~DeviceInterface()
+Qube::Hardware::DeviceInterface::~DeviceInterface()
 {
     delete d_ptr;
     d_ptr = 0;
 }
 
-bool QubeHardware::DeviceInterface::isValid() const
+bool Qube::Hardware::DeviceInterface::isValid() const
 {
     Q_D(const DeviceInterface);
     return d->backendObject()!=0;
 }
 
-QString QubeHardware::DeviceInterface::typeToString(Type type)
+QString Qube::Hardware::DeviceInterface::typeToString(Type type)
 {
     int index = staticMetaObject.indexOfEnumerator("Type");
     QMetaEnum metaEnum = staticMetaObject.enumerator(index);
     return QString(metaEnum.valueToKey((int)type));
 }
 
-QubeHardware::DeviceInterface::Type QubeHardware::DeviceInterface::stringToType(const QString &type)
+Qube::Hardware::DeviceInterface::Type Qube::Hardware::DeviceInterface::stringToType(const QString &type)
 {
     int index = staticMetaObject.indexOfEnumerator("Type");
     QMetaEnum metaEnum = staticMetaObject.enumerator(index);
     return (Type)metaEnum.keyToValue(type.toUtf8());
 }
 
-QString QubeHardware::DeviceInterface::typeDescription(Type type)
+QString Qube::Hardware::DeviceInterface::typeDescription(Type type)
 {
     switch (type) {
     case Unknown:
@@ -114,33 +114,33 @@ QString QubeHardware::DeviceInterface::typeDescription(Type type)
     return QString();
 }
 
-QubeHardware::DeviceInterfacePrivate::DeviceInterfacePrivate()
+Qube::Hardware::DeviceInterfacePrivate::DeviceInterfacePrivate()
     : m_devicePrivate(0)
 {
 
 }
 
-QubeHardware::DeviceInterfacePrivate::~DeviceInterfacePrivate()
+Qube::Hardware::DeviceInterfacePrivate::~DeviceInterfacePrivate()
 {
 
 }
 
-QObject *QubeHardware::DeviceInterfacePrivate::backendObject() const
+QObject *Qube::Hardware::DeviceInterfacePrivate::backendObject() const
 {
     return m_backendObject.data();
 }
 
-void QubeHardware::DeviceInterfacePrivate::setBackendObject(QObject *object)
+void Qube::Hardware::DeviceInterfacePrivate::setBackendObject(QObject *object)
 {
     m_backendObject = object;
 }
 
-QubeHardware::DevicePrivate* QubeHardware::DeviceInterfacePrivate::devicePrivate() const
+Qube::Hardware::DevicePrivate* Qube::Hardware::DeviceInterfacePrivate::devicePrivate() const
 {
     return m_devicePrivate;
 }
 
-void QubeHardware::DeviceInterfacePrivate::setDevicePrivate(DevicePrivate *devicePrivate)
+void Qube::Hardware::DeviceInterfacePrivate::setDevicePrivate(DevicePrivate *devicePrivate)
 {
     m_devicePrivate = devicePrivate;
 }

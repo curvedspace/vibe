@@ -21,87 +21,89 @@
 #ifndef SOLID_NETWORKINTERFACE_H
 #define SOLID_NETWORKINTERFACE_H
 
-#include <QubeCore/Global>
-#include <QubeHardware/deviceinterface.h>
+#include <Qube/Hardware/deviceinterface.h>
 
-namespace QubeHardware
+namespace Qube
 {
-    class NetworkInterfacePrivate;
-    class Device;
-
-    /**
-     * This device interface is available on network interfaces.
-     */
-    class QUBESHARED_EXPORT NetworkInterface : public DeviceInterface
+    namespace Hardware
     {
-        Q_OBJECT
-        Q_PROPERTY(QString ifaceName READ ifaceName)
-        Q_PROPERTY(bool wireless READ isWireless)
-        Q_PROPERTY(QString hwAddress READ hwAddress)
-        Q_PROPERTY(qulonglong macAddress READ macAddress)
-        Q_DECLARE_PRIVATE(NetworkInterface)
-        friend class Device;
-
-    private:
-        /**
-         * Creates a new NetworkInterface object.
-         * You generally won't need this. It's created when necessary using
-         * Device::as().
-         *
-         * @param backendObject the device interface object provided by the backend
-         * @see QubeHardware::Device::as()
-         */
-        explicit NetworkInterface(QObject *backendObject);
-
-    public:
-        /**
-         * Destroys a NetworkInterface object.
-         */
-        virtual ~NetworkInterface();
-
+        class NetworkInterfacePrivate;
+        class Device;
 
         /**
-         * Get the QubeHardware::DeviceInterface::Type of the NetworkInterface device interface.
-         *
-         * @return the NetworkInterface device interface type
-         * @see QubeHardware::Ifaces::Enums::DeviceInterface::Type
+         * This device interface is available on network interfaces.
          */
-        static Type deviceInterfaceType() {
-            return DeviceInterface::NetworkInterface;
-        }
+        class NetworkInterface : public DeviceInterface
+        {
+            Q_OBJECT
+            Q_PROPERTY(QString ifaceName READ ifaceName)
+            Q_PROPERTY(bool wireless READ isWireless)
+            Q_PROPERTY(QString hwAddress READ hwAddress)
+            Q_PROPERTY(qulonglong macAddress READ macAddress)
+            Q_DECLARE_PRIVATE(NetworkInterface)
+            friend class Device;
+
+        private:
+            /**
+             * Creates a new NetworkInterface object.
+             * You generally won't need this. It's created when necessary using
+             * Device::as().
+             *
+             * @param backendObject the device interface object provided by the backend
+             * @see Qube::Hardware::Device::as()
+             */
+            explicit NetworkInterface(QObject *backendObject);
+
+        public:
+            /**
+             * Destroys a NetworkInterface object.
+             */
+            virtual ~NetworkInterface();
 
 
-        /**
-         * Retrieves the name of the interface in the system.
-         * This name is system dependent, it allows to identify the interface
-         * in the system. For example it can be of the form "eth0" under Linux.
-         *
-         * @return the interface name
-         */
-        QString ifaceName() const;
-
-        /**
-         * Indicates if this interface is wireless.
-         *
-         * @return true if the interface is wireless, false otherwise
-         */
-        bool isWireless() const;
+            /**
+             * Get the Qube::Hardware::DeviceInterface::Type of the NetworkInterface device interface.
+             *
+             * @return the NetworkInterface device interface type
+             * @see Qube::Hardware::Ifaces::Enums::DeviceInterface::Type
+             */
+            static Type deviceInterfaceType() {
+                return DeviceInterface::NetworkInterface;
+            }
 
 
-        /**
-         * Retrieves the hardware address of the interface.
-         *
-         * @return the hardware address as a string
-         */
-        QString hwAddress() const;
+            /**
+             * Retrieves the name of the interface in the system.
+             * This name is system dependent, it allows to identify the interface
+             * in the system. For example it can be of the form "eth0" under Linux.
+             *
+             * @return the interface name
+             */
+            QString ifaceName() const;
 
-        /**
-         * Retrieves the MAC address of the interface.
-         *
-         * @return the MAC address
-         */
-        qulonglong macAddress() const;
-    };
+            /**
+             * Indicates if this interface is wireless.
+             *
+             * @return true if the interface is wireless, false otherwise
+             */
+            bool isWireless() const;
+
+
+            /**
+             * Retrieves the hardware address of the interface.
+             *
+             * @return the hardware address as a string
+             */
+            QString hwAddress() const;
+
+            /**
+             * Retrieves the MAC address of the interface.
+             *
+             * @return the MAC address
+             */
+            qulonglong macAddress() const;
+        };
+    }
 }
 
 #endif // SOLID_NETWORKINTERFACE_H

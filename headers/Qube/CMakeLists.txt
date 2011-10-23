@@ -1,0 +1,5 @@
+add_subdirectory(Core)
+add_subdirectory(Gui)
+add_subdirectory(Hardware)
+add_subdirectory(Services)
+add_subdirectory(Storage)

@@ -26,27 +26,30 @@
 
 #include <QtCore/QStringList>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDev
+        namespace Backends
         {
-            class UDevDevice;
-
-            class PortableMediaPlayer : public DeviceInterface, virtual public QubeHardware::Ifaces::PortableMediaPlayer
+            namespace UDev
             {
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::PortableMediaPlayer)
+                class UDevDevice;
 
-            public:
-                PortableMediaPlayer(UDevDevice *device);
-                virtual ~PortableMediaPlayer();
+                class PortableMediaPlayer : public DeviceInterface, virtual public Qube::Hardware::Ifaces::PortableMediaPlayer
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::PortableMediaPlayer)
 
-                virtual QStringList supportedProtocols() const;
-                virtual QStringList supportedDrivers(QString protocol = QString()) const;
-                virtual QVariant driverHandle(const QString &driver) const;
-            };
+                public:
+                    PortableMediaPlayer(UDevDevice *device);
+                    virtual ~PortableMediaPlayer();
+
+                    virtual QStringList supportedProtocols() const;
+                    virtual QStringList supportedDrivers(QString protocol = QString()) const;
+                    virtual QVariant driverHandle(const QString &driver) const;
+                };
+            }
         }
     }
 }

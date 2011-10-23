@@ -20,7 +20,7 @@
 
 #include "button.h"
 
-QubeHardware::Ifaces::Button::~Button()
+Qube::Hardware::Ifaces::Button::~Button()
 {
 
 }

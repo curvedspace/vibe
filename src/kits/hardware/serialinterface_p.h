@@ -23,14 +23,17 @@
 
 #include "deviceinterface_p.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    class SerialInterfacePrivate : public DeviceInterfacePrivate
+    namespace Hardware
     {
-    public:
-        SerialInterfacePrivate()
-            : DeviceInterfacePrivate() { }
-    };
+        class SerialInterfacePrivate : public DeviceInterfacePrivate
+        {
+        public:
+            SerialInterfacePrivate()
+                : DeviceInterfacePrivate() { }
+        };
+    }
 }
 
 #endif // SOLID_SERIALINTERFACE_P_H

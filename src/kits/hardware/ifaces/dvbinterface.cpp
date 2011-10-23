@@ -20,7 +20,7 @@
 
 #include "dvbinterface.h"
 
-QubeHardware::Ifaces::DvbInterface::~DvbInterface()
+Qube::Hardware::Ifaces::DvbInterface::~DvbInterface()
 {
 }
 

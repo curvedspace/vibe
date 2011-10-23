@@ -29,42 +29,43 @@
 #include <QtDBus/QDBusInterface>
 #include <QtCore/QSet>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UDisks
+        namespace Backends
         {
-
-            class UDisksManager : public QubeHardware::Ifaces::DeviceManager
+            namespace UDisks
             {
-                Q_OBJECT
+                class UDisksManager : public Qube::Hardware::Ifaces::DeviceManager
+                {
+                    Q_OBJECT
+                public:
+                    UDisksManager(QObject *parent);
+                    virtual QObject* createDevice(const QString& udi);
+                    virtual QStringList devicesFromQuery(const QString& parentUdi, Qube::Hardware::DeviceInterface::Type type);
+                    virtual QStringList allDevices();
+                    virtual QSet< Qube::Hardware::DeviceInterface::Type > supportedInterfaces() const;
+                    virtual QString udiPrefix() const;
+                    virtual ~UDisksManager();
 
-            public:
-                UDisksManager(QObject *parent);
-                virtual QObject* createDevice(const QString& udi);
-                virtual QStringList devicesFromQuery(const QString& parentUdi, QubeHardware::DeviceInterface::Type type);
-                virtual QStringList allDevices();
-                virtual QSet< QubeHardware::DeviceInterface::Type > supportedInterfaces() const;
-                virtual QString udiPrefix() const;
-                virtual ~UDisksManager();
+                private Q_SLOTS:
+                    void slotDeviceAdded(const QDBusObjectPath &opath);
+                    void slotDeviceRemoved(const QDBusObjectPath &opath);
+                    void slotDeviceChanged(const QDBusObjectPath &opath);
 
-            private Q_SLOTS:
-                void slotDeviceAdded(const QDBusObjectPath &opath);
-                void slotDeviceRemoved(const QDBusObjectPath &opath);
-                void slotDeviceChanged(const QDBusObjectPath &opath);
-
-            private:
-                const QStringList &deviceCache();
-                QStringList allDevicesInternal();
-                QStringList m_knownDrivesWithMedia;  // list of known optical drives which contain a media
-                QSet<QubeHardware::DeviceInterface::Type> m_supportedInterfaces;
-                QDBusInterface m_manager;
-                QStringList m_deviceCache;
-                QStringList m_dirtyDevices; // special 2-stage storage like Nokia N900
-            };
-
+                private:
+                    const QStringList &deviceCache();
+                    QStringList allDevicesInternal();
+                    QStringList m_knownDrivesWithMedia;  // list of known optical drives which contain a media
+                    QSet<Qube::Hardware::DeviceInterface::Type> m_supportedInterfaces;
+                    QDBusInterface m_manager;
+                    QStringList m_deviceCache;
+                    QStringList m_dirtyDevices; // special 2-stage storage like Nokia N900
+                };
+            }
         }
     }
 }
+
 #endif // UDISKSMANAGER_H

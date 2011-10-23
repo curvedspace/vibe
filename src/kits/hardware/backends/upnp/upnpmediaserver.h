@@ -22,52 +22,52 @@
 #define SOLID_BACKENDS_UPNP_STORAGEACCESS_H
 
 #include <ifaces/storageaccess.h>
-#include <QubeHardware/backends/upnp/upnpdeviceinterface.h>
+#include <Qube/Hardware/backends/upnp/upnpdeviceinterface.h>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Backends
+    namespace Hardware
     {
-        namespace UPnP
+        namespace Backends
         {
-
-            class UPnPMediaServer : public QubeHardware::Backends::UPnP::UPnPDeviceInterface, virtual public QubeHardware::Ifaces::StorageAccess
+            namespace UPnP
             {
-                Q_OBJECT
-                Q_INTERFACES(QubeHardware::Ifaces::StorageAccess)
+                class UPnPMediaServer : public Qube::Hardware::Backends::UPnP::UPnPDeviceInterface, virtual public Qube::Hardware::Ifaces::StorageAccess
+                {
+                    Q_OBJECT
+                    Q_INTERFACES(Qube::Hardware::Ifaces::StorageAccess)
+                public:
+                    explicit UPnPMediaServer(UPnPDevice* device);
 
-            public:
-                explicit UPnPMediaServer(UPnPDevice* device);
+                    virtual ~UPnPMediaServer();
 
-                virtual ~UPnPMediaServer();
+                    virtual bool isAccessible() const;
 
-                virtual bool isAccessible() const;
+                    virtual QString filePath() const;
 
-                virtual QString filePath() const;
+                    virtual bool isIgnored() const;
 
-                virtual bool isIgnored() const;
+                    virtual bool setup();
 
-                virtual bool setup();
+                    virtual bool teardown();
 
-                virtual bool teardown();
+                private Q_SLOTS:
+                    void onSetupTimeout();
 
-            private Q_SLOTS:
-                void onSetupTimeout();
+                    void onTeardownTimeout();
 
-                void onTeardownTimeout();
+                Q_SIGNALS:
+                    void accessibilityChanged(bool accessible, const QString &udi);
 
-            Q_SIGNALS:
-                void accessibilityChanged(bool accessible, const QString &udi);
+                    void setupDone(Qube::Hardware::ErrorType error, QVariant data, const QString &udi);
 
-                void setupDone(QubeHardware::ErrorType error, QVariant data, const QString &udi);
+                    void teardownDone(Qube::Hardware::ErrorType error, QVariant data, const QString &udi);
 
-                void teardownDone(QubeHardware::ErrorType error, QVariant data, const QString &udi);
+                    void setupRequested(const QString &udi);
 
-                void setupRequested(const QString &udi);
-
-                void teardownRequested(const QString &udi);
-            };
-
+                    void teardownRequested(const QString &udi);
+                };
+            }
         }
     }
 }

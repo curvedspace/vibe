@@ -23,14 +23,17 @@
 
 #include "deviceinterface_p.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    class CameraPrivate : public DeviceInterfacePrivate
+    namespace Hardware
     {
-    public:
-        CameraPrivate()
-            : DeviceInterfacePrivate() { }
-    };
+        class CameraPrivate : public DeviceInterfacePrivate
+        {
+        public:
+            CameraPrivate()
+                : DeviceInterfacePrivate() { }
+        };
+    }
 }
 
 #endif

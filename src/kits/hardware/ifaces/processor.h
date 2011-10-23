@@ -21,59 +21,62 @@
 #ifndef SOLID_IFACES_PROCESSOR_H
 #define SOLID_IFACES_PROCESSOR_H
 
-#include <QubeHardware/processor.h>
+#include <Qube/Hardware/processor.h>
 #include <ifaces/deviceinterface.h>
 
-namespace QubeHardware
+namespace Qube
 {
-    namespace Ifaces
+    namespace Hardware
     {
-        /**
-         * This device interface is available on processors.
-         */
-        class Processor : virtual public DeviceInterface
+        namespace Ifaces
         {
-        public:
             /**
-             * Destroys a Processor object.
+             * This device interface is available on processors.
              */
-            virtual ~Processor();
+            class Processor : virtual public DeviceInterface
+            {
+            public:
+                /**
+                 * Destroys a Processor object.
+                 */
+                virtual ~Processor();
 
-            /**
-             * Retrieves the processor number in the system.
-             *
-             * @return the internal processor number in the system, starting from zero
-             */
-            virtual int number() const = 0;
+                /**
+                 * Retrieves the processor number in the system.
+                 *
+                 * @return the internal processor number in the system, starting from zero
+                 */
+                virtual int number() const = 0;
 
-            /**
-             * Retrieves the maximum speed of the processor.
-             *
-             * @return the maximum speed in MHz
-             */
-            virtual int maxSpeed() const = 0;
+                /**
+                 * Retrieves the maximum speed of the processor.
+                 *
+                 * @return the maximum speed in MHz
+                 */
+                virtual int maxSpeed() const = 0;
 
-            /**
-             * Indicates if the processor can change the CPU frequency.
-             *
-             * True if a processor is able to change its own CPU frequency.
-             *  (generally for power management).
-             *
-             * @return true if the processor can change CPU frequency, false otherwise
-             */
-            virtual bool canChangeFrequency() const = 0;
+                /**
+                 * Indicates if the processor can change the CPU frequency.
+                 *
+                 * True if a processor is able to change its own CPU frequency.
+                 *  (generally for power management).
+                 *
+                 * @return true if the processor can change CPU frequency, false otherwise
+                 */
+                virtual bool canChangeFrequency() const = 0;
 
-            /**
-             * Queries the instructions set extensions of the CPU.
-             *
-             * @return the extensions supported by the CPU
-             */
-            virtual QubeHardware::Processor::InstructionSets instructionSets() const = 0;
+                /**
+                 * Queries the instructions set extensions of the CPU.
+                 *
+                 * @return the extensions supported by the CPU
+                 */
+                virtual Qube::Hardware::Processor::InstructionSets instructionSets() const = 0;
 
-        };
+            };
+        }
     }
 }
 
-Q_DECLARE_INTERFACE(QubeHardware::Ifaces::Processor, "org.vision.Hardware.Ifaces.Processor/0.1")
+Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::Processor, "org.vision.Qube.Hardware.Ifaces.Processor/0.1")
 
 #endif

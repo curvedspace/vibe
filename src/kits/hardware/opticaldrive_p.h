@@ -23,14 +23,17 @@
 
 #include "storagedrive_p.h"
 
-namespace QubeHardware
+namespace Qube
 {
-    class OpticalDrivePrivate : public StorageDrivePrivate
+    namespace Hardware
     {
-    public:
-        OpticalDrivePrivate()
-            : StorageDrivePrivate() { }
-    };
+        class OpticalDrivePrivate : public StorageDrivePrivate
+        {
+        public:
+            OpticalDrivePrivate()
+                : StorageDrivePrivate() { }
+        };
+    }
 }
 
 #endif // SOLID_OPTICALDRIVE_P_H

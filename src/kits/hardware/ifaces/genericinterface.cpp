@@ -20,7 +20,7 @@
 
 #include "genericinterface.h"
 
-QubeHardware::Ifaces::GenericInterface::~GenericInterface()
+Qube::Hardware::Ifaces::GenericInterface::~GenericInterface()
 {
 }
 
