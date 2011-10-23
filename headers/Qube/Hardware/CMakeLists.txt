@@ -20,7 +20,7 @@ set(HEADERS
     PowerManagement
     Predicate
     Processor
-    QubeHardwareNamespace
+    Namespace
     SerialInterface
     SmartCardReader
     StorageAccess

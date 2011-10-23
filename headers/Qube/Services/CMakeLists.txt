@@ -2,5 +2,5 @@ set(HEADERS
     SettingsInterface
 )
 
-install(FILES HEADERS
+install(FILES ${HEADERS}
     DESTINATION include/Qube/Services COMPONENT Devel)
