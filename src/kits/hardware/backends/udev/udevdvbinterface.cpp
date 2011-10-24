@@ -89,3 +89,5 @@ int DvbInterface::deviceIndex() const
     else
         return -1;
 }
+
+#include "backends/udev/udevdvbinterface.moc"

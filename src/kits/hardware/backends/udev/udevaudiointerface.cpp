@@ -80,3 +80,5 @@ Qube::Hardware::AudioInterface::SoundcardType AudioInterface::soundcardType() co
 {
     return d->soundcardType();
 }
+
+#include "backends/udev/udevaudiointerface.moc"

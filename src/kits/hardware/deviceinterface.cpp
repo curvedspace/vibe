@@ -144,3 +144,5 @@ void Qube::Hardware::DeviceInterfacePrivate::setDevicePrivate(DevicePrivate *dev
 {
     m_devicePrivate = devicePrivate;
 }
+
+#include "deviceinterface.moc"

@@ -208,3 +208,6 @@ void Qube::Hardware::PowerManagementPrivate::slotServiceRegistered(const QString
                                               SIGNAL(resumingFromSuspend()));
     }
 }
+
+#include "powermanagement_p.moc"
+#include "powermanagement.moc"

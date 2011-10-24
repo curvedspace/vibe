@@ -53,3 +53,5 @@ QVariant Qube::Hardware::PortableMediaPlayer::driverHandle(const QString &driver
     Q_D(const PortableMediaPlayer);
     return_QUBE_HARDWARE_CALL(Ifaces::PortableMediaPlayer *, d->backendObject(), QVariant(), driverHandle(driver));
 }
+
+#include "portablemediaplayer.moc"

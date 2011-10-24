@@ -71,3 +71,5 @@ Qube::Hardware::Battery::ChargeState Qube::Hardware::Battery::chargeState() cons
     Q_D(const Battery);
     return_QUBE_HARDWARE_CALL(Ifaces::Battery *, d->backendObject(), NoCharge, chargeState());
 }
+
+#include "battery.moc"

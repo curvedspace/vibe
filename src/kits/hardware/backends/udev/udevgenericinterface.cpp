@@ -54,3 +54,5 @@ bool GenericInterface::propertyExists(const QString &key) const
 {
     return m_device->propertyExists(key);
 }
+
+#include "backends/udev/udevgenericinterface.moc"

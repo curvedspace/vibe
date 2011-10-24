@@ -314,3 +314,5 @@ void Qube::Hardware::DevicePrivate::setInterface(const DeviceInterface::Type &ty
         ref.ref();
     m_ifaces[type] = interface;
 }
+
+#include "device_p.moc"

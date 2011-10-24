@@ -89,3 +89,5 @@ bool Qube::Hardware::StorageDrive::isInUse() const
     }
     return inUse;
 }
+
+#include "storagedrive.moc"

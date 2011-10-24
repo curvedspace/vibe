@@ -146,6 +146,14 @@ namespace Qube
             void setupDone(const QModelIndex &index, bool success);
 
         private:
+            Q_PRIVATE_SLOT(d, void _q_initDeviceList())
+            Q_PRIVATE_SLOT(d, void _q_deviceAdded(const QString&))
+            Q_PRIVATE_SLOT(d, void _q_deviceRemoved(const QString&))
+            Q_PRIVATE_SLOT(d, void _q_itemChanged(const QString&))
+            Q_PRIVATE_SLOT(d, void _q_reloadBookmarks())
+            Q_PRIVATE_SLOT(d, void _q_storageSetupDone(Qube::Hardware::ErrorType, QVariant))
+            Q_PRIVATE_SLOT(d, void _q_storageTeardownDone(Qube::Hardware::ErrorType, QVariant))
+
             class Private;
             Private * const d;
             friend class Private;

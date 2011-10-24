@@ -1,5 +1,6 @@
 set(HEADERS
     Bookmark
+    BookmarkManager
     FilePlacesModel
 )
 

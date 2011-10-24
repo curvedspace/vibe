@@ -57,3 +57,5 @@ int Qube::Hardware::DvbInterface::deviceIndex() const
     Q_D(const DvbInterface);
     return_QUBE_HARDWARE_CALL(Ifaces::DvbInterface *, d->backendObject(), -1, deviceIndex());
 }
+
+#include "dvbinterface.moc"

@@ -35,6 +35,9 @@ configure_file(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 set(QT_MIN_VERSION "4.7.0")
 find_package(Qt4 ${QT_MIN_VERSION} COMPONENTS QtCore QtXml QtDBus QtGui REQUIRED)
 
+# Find Automoc
+find_package(Automoc4 REQUIRED)
+
 # Find DBus session bus services directory
 find_package(PkgConfig "0.22" REQUIRED)
 execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=session_bus_services_dir dbus-1

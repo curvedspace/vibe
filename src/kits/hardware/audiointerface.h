@@ -21,9 +21,9 @@
 #ifndef QUBE_HARDWARE_AUDIOINTERFACE_H
 #define QUBE_HARDWARE_AUDIOINTERFACE_H
 
-#include <Qube/Hardware/deviceinterface.h>
+#include <QtCore/QVariant>
 
-class QVariant;
+#include <Qube/Hardware/deviceinterface.h>
 
 namespace Qube
 {

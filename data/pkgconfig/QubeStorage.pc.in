@@ -9,5 +9,5 @@ Name: QubeGui
 Description: QubeGui Library
 Version: @QUBE_VERSION@
 Libs: -L${libdir} -lQubeStorage
-Requires: QtGui >= @QT_MIN_VERSION@, QubeCore = @QUBE_VERSION@
+Requires: QtGui >= @QT_MIN_VERSION@, QtXml >= @QT_MIN_VERSION@, QubeCore = @QUBE_VERSION@, QubeHardware = @QUBE_VERSION@
 Cflags: -I${includedir}/Qube

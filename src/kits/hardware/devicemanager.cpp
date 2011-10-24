@@ -282,3 +282,6 @@ void Qube::Hardware::DeviceManagerStorage::ensureManagerCreated()
         m_storage.setLocalData(new DeviceManagerPrivate());
     }
 }
+
+#include "devicenotifier.moc"
+#include "devicemanager_p.moc"

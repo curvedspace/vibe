@@ -39,3 +39,5 @@ Qube::Hardware::SmartCardReader::ReaderType Qube::Hardware::SmartCardReader::rea
     Q_D(const SmartCardReader);
     return_QUBE_HARDWARE_CALL(Ifaces::SmartCardReader *, d->backendObject(), CardReader, readerType());
 }
+
+#include "smartcardreader.moc"

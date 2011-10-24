@@ -54,3 +54,5 @@ bool Qube::Hardware::Button::stateValue() const
     Q_D(const Button);
     return_QUBE_HARDWARE_CALL(Ifaces::Button *, d->backendObject(), false, stateValue());
 }
+
+#include "button.moc"

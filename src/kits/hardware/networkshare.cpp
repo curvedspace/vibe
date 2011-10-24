@@ -45,3 +45,5 @@ QUrl Qube::Hardware::NetworkShare::url() const
     Q_D(const NetworkShare);
     return_QUBE_HARDWARE_CALL(Ifaces::NetworkShare *, d->backendObject(), QUrl(), url());
 }
+
+#include "networkshare.moc"

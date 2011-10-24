@@ -21,6 +21,8 @@
 #ifndef QUBE_HARDWARE_SERIALINTERFACE_H
 #define QUBE_HARDWARE_SERIALINTERFACE_H
 
+#include <QtCore/QVariant>
+
 #include <Qube/Hardware/deviceinterface.h>
 
 namespace Qube

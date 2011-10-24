@@ -69,3 +69,5 @@ bool Qube::Hardware::OpticalDrive::eject()
     Q_D(OpticalDrive);
     return_QUBE_HARDWARE_CALL(Ifaces::OpticalDrive *, d->backendObject(), false, eject());
 }
+
+#include "opticaldrive.moc"

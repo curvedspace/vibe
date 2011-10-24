@@ -51,3 +51,5 @@ QVariant Qube::Hardware::Camera::driverHandle(const QString &driver) const
     Q_D(const Camera);
     return_QUBE_HARDWARE_CALL(Ifaces::Camera *, d->backendObject(), QVariant(), driverHandle(driver));
 }
+
+#include "camera.moc"

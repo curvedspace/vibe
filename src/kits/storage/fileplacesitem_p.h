@@ -45,6 +45,7 @@ namespace Qube
     namespace Storage
     {
         class BookmarkManager;
+
         class FilePlacesItem : public QObject
         {
             Q_OBJECT

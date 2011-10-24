@@ -355,3 +355,5 @@ bool UDisksStorageAccess::callCryptoTeardown()
                               SLOT(slotDBusReply(const QDBusMessage &)),
                               SLOT(slotDBusError(const QDBusError &)));
 }
+
+#include "backends/udisks/udisksstorageaccess.moc"

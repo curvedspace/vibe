@@ -41,3 +41,5 @@ bool Qube::Hardware::AcAdapter::isPlugged() const
     Q_D(const AcAdapter);
     return_QUBE_HARDWARE_CALL(Ifaces::AcAdapter *, d->backendObject(), false, isPlugged());
 }
+
+#include "acadapter.moc"

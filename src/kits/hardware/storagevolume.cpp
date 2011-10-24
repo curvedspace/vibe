@@ -80,12 +80,13 @@ Qube::Hardware::Device Qube::Hardware::StorageVolume::encryptedContainer() const
 {
     Q_D(const StorageVolume);
 
-    Ifaces::StorageVolume *iface
-    = qobject_cast<Ifaces::StorageVolume*>(d->backendObject());
+    Ifaces::StorageVolume *iface =
+        qobject_cast<Ifaces::StorageVolume*>(d->backendObject());
 
-    if (iface!=0) {
+    if (iface != 0)
         return Device(iface->encryptedContainerUdi());
-    } else {
+    else
         return Device();
-    }
 }
+
+#include "storagevolume.moc"

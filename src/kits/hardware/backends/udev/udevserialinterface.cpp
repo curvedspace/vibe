@@ -67,3 +67,5 @@ int SerialInterface::port() const
 {
     return m_portnum;
 }
+
+#include "backends/udev/udevserialinterface.moc"

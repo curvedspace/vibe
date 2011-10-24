@@ -53,3 +53,5 @@ int Qube::Hardware::SerialInterface::port() const
     Q_D(const SerialInterface);
     return_QUBE_HARDWARE_CALL(Ifaces::SerialInterface *, d->backendObject(), -1, port());
 }
+
+#include "serialinterface.moc"

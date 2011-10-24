@@ -204,6 +204,7 @@ qt4_add_dbus_interface(SOURCES org.vision.Qube.Hardware.Networking.Client.xml
                        org_vision_qube_hardware_networking_client)
 
 # Library target
+automoc4(QubeHardare SOURCES)
 add_library(QubeHardware SHARED ${SOURCES})
 
 # Prepare for optional libraries dependencies
@@ -221,7 +222,7 @@ endif(UDEV_FOUND)
 
 # Link libraries
 target_link_libraries(QubeHardware ${QT_QTCORE_LIBRARY} ${QT_QTDBUS_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTGUI_LIBRARY} ${OPTIONAL_LIBS})
-target_link_libraries(QubeHardware LINK_INTERFACE_LIBRARIES ${QT_CORE_LIBRARY} )
+target_link_libraries(QubeHardware LINK_INTERFACE_LIBRARIES ${QT_CORE_LIBRARY})
 
 # Library properties
 set_target_properties(QubeHardware PROPERTIES

@@ -69,3 +69,5 @@ qulonglong Qube::Hardware::OpticalDisc::capacity() const
     Q_D(const OpticalDisc);
     return_QUBE_HARDWARE_CALL(Ifaces::OpticalDisc *, d->backendObject(), 0, capacity());
 }
+
+#include "opticaldisc.moc"

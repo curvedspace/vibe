@@ -52,3 +52,5 @@ QVariant Qube::Hardware::Video::driverHandle(const QString &driver) const
     Q_D(const Video);
     return_QUBE_HARDWARE_CALL(Ifaces::Video *, d->backendObject(), QVariant(), driverHandle(driver));
 }
+
+#include "video.moc"

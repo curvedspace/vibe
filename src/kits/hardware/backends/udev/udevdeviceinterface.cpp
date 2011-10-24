@@ -30,3 +30,5 @@ DeviceInterface::DeviceInterface(UDevDevice *device)
 DeviceInterface::~DeviceInterface()
 {
 }
+
+#include "backends/udev/udevdeviceinterface.moc"

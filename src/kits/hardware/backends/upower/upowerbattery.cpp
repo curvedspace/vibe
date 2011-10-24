@@ -137,3 +137,5 @@ void Battery::updateCache()
     m_chargePercent = chargePercent();
     m_chargeState = chargeState();
 }
+
+#include "backends/upower/upowerbattery.moc"

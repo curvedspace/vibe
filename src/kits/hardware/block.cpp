@@ -51,3 +51,5 @@ QString Qube::Hardware::Block::device() const
     Q_D(const Block);
     return_QUBE_HARDWARE_CALL(Ifaces::Block *, d->backendObject(), QString(), device());
 }
+
+#include "block.moc"

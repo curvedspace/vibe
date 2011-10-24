@@ -58,3 +58,5 @@ Qube::Hardware::Processor::InstructionSets Qube::Hardware::Processor::instructio
     Q_D(const Processor);
     return_QUBE_HARDWARE_CALL(Ifaces::Processor *, d->backendObject(), InstructionSets(), instructionSets());
 }
+
+#include "processor.moc"

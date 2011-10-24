@@ -58,3 +58,5 @@ bool Qube::Hardware::GenericInterface::propertyExists(const QString &key) const
     Q_D(const GenericInterface);
     return_QUBE_HARDWARE_CALL(Ifaces::GenericInterface *, d->backendObject(), false, propertyExists(key));
 }
+
+#include "genericinterface.moc"

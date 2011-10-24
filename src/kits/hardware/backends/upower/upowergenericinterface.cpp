@@ -47,3 +47,5 @@ bool GenericInterface::propertyExists(const QString &key) const
 {
     return m_device->propertyExists(key);
 }
+
+#include "backends/upower/upowergenericinterface.moc"

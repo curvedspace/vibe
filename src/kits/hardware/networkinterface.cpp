@@ -57,3 +57,5 @@ qulonglong Qube::Hardware::NetworkInterface::macAddress() const
     Q_D(const NetworkInterface);
     return_QUBE_HARDWARE_CALL(Ifaces::NetworkInterface *, d->backendObject(), 0, macAddress());
 }
+
+#include "networkinterface.moc"

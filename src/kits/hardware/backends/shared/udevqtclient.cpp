@@ -253,3 +253,5 @@ namespace UdevQt
     }
 
 }
+
+#include "udevqt.moc"

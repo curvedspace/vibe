@@ -95,3 +95,5 @@ Qube::Hardware::Processor::InstructionSets Processor::instructionSets() const
 
     return cpuextensions;
 }
+
+#include "backends/udev/udevprocessor.moc"

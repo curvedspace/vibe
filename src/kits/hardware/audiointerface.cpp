@@ -37,7 +37,6 @@ Qube::Hardware::AudioInterface::~AudioInterface()
 
 }
 
-
 Qube::Hardware::AudioInterface::AudioDriver Qube::Hardware::AudioInterface::driver() const
 {
     Q_D(const AudioInterface);
@@ -67,3 +66,5 @@ Qube::Hardware::AudioInterface::SoundcardType Qube::Hardware::AudioInterface::so
     Q_D(const AudioInterface);
     return_QUBE_HARDWARE_CALL(Ifaces::AudioInterface *, d->backendObject(), InternalSoundcard, soundcardType());
 }
+
+#include "audiointerface.moc"

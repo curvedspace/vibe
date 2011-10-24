@@ -91,3 +91,5 @@ bool Qube::Hardware::StorageAccess::isIgnored() const
     Q_D(const StorageAccess);
     return_QUBE_HARDWARE_CALL(Ifaces::StorageAccess *, d->backendObject(), true, isIgnored());
 }
+
+#include "storageaccess.moc"

@@ -152,3 +152,6 @@ void Qube::Hardware::Networking::setDisconnectPolicy( Qube::Hardware::Networking
 {
     globalNetworkManager->disconnectPolicy = policy;
 }
+
+#include "networking_p.moc"
+#include "networking.moc"

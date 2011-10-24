@@ -68,3 +68,5 @@ QVariant Video::driverHandle(const QString &driver) const
 
     return QVariant();
 }
+
+#include "backends/udev/udevvideo.moc"

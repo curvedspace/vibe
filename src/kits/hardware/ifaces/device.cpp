@@ -73,3 +73,5 @@ QString Qube::Hardware::Ifaces::Device::deviceDBusPath() const
     const QByteArray encodedUdi = udi().toUtf8().toPercentEncoding(QByteArray(), ".~", '_');
     return QString("/org/vision/Qube/Hardware/Device_") + QString::fromLatin1(encodedUdi);
 }
+
+#include "ifaces/device.moc"

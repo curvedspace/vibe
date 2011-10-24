@@ -211,9 +211,6 @@ namespace Qube
             QDomDocument internalDocument() const;
 
         public Q_SLOTS:
-            void slotEditBookmarks();
-            void slotEditBookmarksAtAddress(const QString& address);
-
             /**
              * Reparse the whole bookmarks file and notify about the change
              * Doesn't send signal over DBUS to the other Bookmark Managers
