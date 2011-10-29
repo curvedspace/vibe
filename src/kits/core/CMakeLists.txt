@@ -5,6 +5,7 @@ include_directories(${QT_QTCORE_INCLUDE_DIR} ${QT_QTXML_INCLUDE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/headers ${CMAKE_CURRENT_BINARY_DIR})
 
 set(SOURCES
+    commandoptions.cpp
     globals.cpp
     mimetype.cpp
     savefile.cpp
@@ -12,6 +13,7 @@ set(SOURCES
 )
 
 set(PUBLIC_HEADERS
+    commandoptions.h
     global.h
     globals.h
     mimetype.h

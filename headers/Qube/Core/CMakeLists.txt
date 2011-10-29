@@ -1,4 +1,5 @@
 set(HEADERS
+    CommandOptions
     Global
     Globals
     MimeType
