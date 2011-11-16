@@ -11,12 +11,14 @@ set(SOURCES
     fileplacesmodel.cpp
     fileplacesitem.cpp
     fileplacessharedbookmarks.cpp
+    finddirectory.cpp
 )
 
 set(HEADERS
     bookmark.h
     bookmarkmanager.h
     fileplacesmodel.h
+    finddirectory.h
 )
 
 automoc4(QubeStorage SOURCES)

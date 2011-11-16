@@ -37,6 +37,6 @@ set_target_properties(QubeCore PROPERTIES
 	SOVERSION 0.0.0)
 
 install(FILES ${PUBLIC_HEADERS}
-    DESTINATION include/Qube/QubeCore COMPONENT Devel)
+    DESTINATION include/Qube/Core COMPONENT Devel)
 install(TARGETS QubeCore LIBRARY
     DESTINATION lib COMPONENT Framework)
