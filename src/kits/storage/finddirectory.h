@@ -23,6 +23,8 @@
 #ifndef QUBE_FINDDIRECTORY_H
 #define QUBE_FINDDIRECTORY_H
 
+#include <QtCore/QString>
+
 namespace Qube
 {
     namespace Storage

@@ -28,7 +28,7 @@ namespace Qube
 {
     namespace Storage
     {
-        QString find_directory(DirectoryWhich which)
+        QString findDirectory(DirectoryWhich which)
         {
             switch (which) {
             case KernelBootDirectory:
