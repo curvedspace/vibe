@@ -7,18 +7,26 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(PUBLIC_SOURCES
     aboutdialog.cpp
+    abstractbreadcrumbmodel.cpp
+    breadcrumbbar.cpp
+    breadcrumbdirmodel.cpp
     colorscheme.cpp
     clickablelabel.cpp
+    dir_helper.cpp
     navbar.cpp
     navbargroup.cpp
     navbaritem.cpp
     selectablewidget.cpp
+    qstyleoptionbreadcrumbbar.cpp
     theme.cpp
 )
 
 set(PUBLIC_HEADERS
     aboutdialog.h
+    breadcrumbbar.h
+    breadcrumbdirmodel.h
     clickablelabel.h
+    interfacemacros.h
     navbar.h
     navbargroup.h
     navbaritem.h
@@ -26,8 +34,10 @@ set(PUBLIC_HEADERS
 )
 
 set(NON_MOC_HEADERS
+    abstractbreadcrumbmodel.h
     colorscheme.h
     theme.h
+    qstyleoptionbreadcrumbbar.h
 )
 
 set(SOURCES
@@ -38,6 +48,7 @@ set(SOURCES
 set(HEADERS
     ${PUBLIC_HEADERS}
     aboutdialog_p.h
+    breadcrumbbar_ui.h
 )
 
 qt4_wrap_cpp(HEADERS_MOC ${HEADERS})
