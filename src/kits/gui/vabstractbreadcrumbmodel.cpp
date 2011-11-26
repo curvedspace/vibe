@@ -22,50 +22,50 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#ifndef DIR_HELPER_H
-#define DIR_HELPER_H
+#include "vabstractbreadcrumbmodel.h"
 
-#include <VibeCore/VGlobal>
+/*
+ * VBreadCrumbModelNode
+ */
 
-class QString;
-class QStringList;
-
-template< class U, class V >
-class QMap;
-
-//
-//  W A R N I N G
-//  -------------
-//
-// This file is not part of the on API.  It exists purely as an
-// implementation detail.  This header file may change from version to
-// version without notice, or even be removed.
-//
-// We mean it.
-//
-
-class VIBE_EXPORT DirHelper
+VBreadCrumbModelNode::VBreadCrumbModelNode(const QString &path, Type type,  const VAbstractBreadCrumbModel *model) :
+    m_path(path),
+    m_type(type)
 {
-public:
-    enum SpecialFolder {
-        Home,
-        Desktop,
-        Documents,
-        Music,
-        Pictures,
-        Video
-    };
-    static QStringList splitPath( const QString & );
-    static QString setupPath(const QStringList &, int index);
-    static QString specialFolder( DirHelper::SpecialFolder );
-    static QString driveLabel( const QString & drive );
+    if (type != Unknown && model)
+        m_label = model->label(*this);
+}
 
-    static void init();
+VBreadCrumbModelNode & VBreadCrumbModelNode::operator =(const VBreadCrumbModelNode &other)
+{
+    m_path = other.m_path;
+    m_type = other.m_type;
+    m_label = other.m_label;
 
-    static QMap< SpecialFolder, QString > m_specialFolderMap;
-    static bool m_initialized;
+    return *this;
+}
 
-    static QString myComputer();
-};
+/*
+ * VAbstractBreadCrumbModel
+ */
 
-#endif // DIR_HELPER_H
+VAbstractBreadCrumbModel::VAbstractBreadCrumbModel() :
+    m_model(0)
+{
+}
+
+VAbstractBreadCrumbModel::~VAbstractBreadCrumbModel()
+{
+}
+
+void VAbstractBreadCrumbModel::setFilter(Filters filter)
+{
+    m_filter = filter == 0 ? Containers : filter;
+}
+
+void VAbstractBreadCrumbModel::setItemModel(QAbstractItemModel *model)
+{
+    if (!model || m_model == model)
+        return;
+    m_model = model;
+}

@@ -1,4 +1,4 @@
-add_definitions(-DQUBE_HARDWARE_LIB)
+add_definitions(-DVIBE_HARDWARE_LIB)
 
 include_directories(${QT_INCLUDE_DIR})
 include_directories(${QT_QTCORE_INCLUDE_DIR} ${QT_QTDBUS_INCLUDE_DIR} ${QT_QTXML_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR})
@@ -99,7 +99,7 @@ macro_optional_find_package(HUpnp)
 
 if(HUPNP_FOUND AND ((HUPNP_VERSION_MAJOR EQUAL 0 AND HUPNP_VERSION_MINOR EQUAL 9) OR (HUPNP_VERSION_MAJOR EQUAL 1)))
     include_directories(${HUPNP_INCLUDE_DIR})
-    message(STATUS "Building QubeHardware UPnP backend.")
+    message(STATUS "Building VibeHardware UPnP backend.")
     set(SOURCES ${SOURCES}
        backends/upnp/upnpdevice.cpp
        backends/upnp/upnpdevicemanager.cpp
@@ -111,20 +111,20 @@ if(HUPNP_FOUND AND ((HUPNP_VERSION_MAJOR EQUAL 0 AND HUPNP_VERSION_MINOR EQUAL 9
 else()
     set(HUPNP_FOUND false)
 endif()
-macro_log_feature(HUPNP_FOUND "HUPnP" "UPnP support for QubeHardware" "http://www.herqq.org"
-    FALSE "" "Allows QubeHardware to provide information about UPnP devices on the network")
+macro_log_feature(HUPNP_FOUND "HUPnP" "UPnP support for VibeHardware" "http://www.herqq.org"
+    FALSE "" "Allows VibeHardware to provide information about UPnP devices on the network")
 
 # Look for UDev
 macro_optional_find_package(UDev)
-macro_log_feature(UDEV_FOUND "UDev" "UDev support for QubeHardware" "http://www.kernel.org/pub/linux/utils/kernel/hotplug/udev.html"
-    FALSE "" "Allows QubeHardware to use UDev to provide information about devices on Linux")
+macro_log_feature(UDEV_FOUND "UDev" "UDev support for VibeHardware" "http://www.kernel.org/pub/linux/utils/kernel/hotplug/udev.html"
+    FALSE "" "Allows VibeHardware to use UDev to provide information about devices on Linux")
 
 # Configure header
 configure_file(config-qubehardware.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-qubehardware.h)
 
 # Include UDev support if possible
 if(UDEV_FOUND)
-    message(STATUS "Building QubeHardware UDev backend.")
+    message(STATUS "Building VibeHardware UDev backend.")
     set(SOURCES ${SOURCES}
         backends/udev/udevdevice.cpp
         backends/udev/udevmanager.cpp
@@ -148,7 +148,7 @@ if(UDEV_FOUND)
 endif(UDEV_FOUND)
 
 # Include UPower support
-message(STATUS "Building QubeHardware UPower backend.")
+message(STATUS "Building VibeHardware UPower backend.")
 set(SOURCES ${SOURCES}
     backends/upower/upowermanager.cpp
     backends/upower/upowerdevice.cpp
@@ -161,7 +161,7 @@ set(SOURCES ${SOURCES}
 # Include UDisks support if possible
 # FIXME: this should work on more Unix systems
 if(CMAKE_SYSTEM_NAME MATCHES Linux)
-    message(STATUS "Building QubeHardware UDisks backend.")
+    message(STATUS "Building VibeHardware UDisks backend.")
     set(SOURCES ${SOURCES}
         backends/udisks/udisksmanager.cpp
         backends/udisks/udisksdevice.cpp
@@ -177,7 +177,7 @@ if(CMAKE_SYSTEM_NAME MATCHES Linux)
 endif(CMAKE_SYSTEM_NAME MATCHES Linux)
 
 # Include fstab support
-message(STATUS "Building QubeHardware fstab backend.")
+message(STATUS "Building VibeHardware fstab backend.")
 set(SOURCES ${SOURCES}
     backends/fstab/fstabmanager.cpp
     backends/fstab/fstabdevice.cpp
@@ -191,21 +191,21 @@ set(SOURCES ${SOURCES}
 set_source_files_properties(
     org.freedesktop.PowerManagement.xml
     org.freedesktop.PowerManagement.Inhibit.xml
-    org.vision.Qube.Hardware.PowerManagement.PolicyAgent.xml
+    org.vision.Vibe.Hardware.PowerManagement.PolicyAgent.xml
     PROPERTIES NO_NAMESPACE TRUE
 )
 
 # DBus interfaces
 qt4_add_dbus_interfaces(SOURCES org.freedesktop.PowerManagement.xml
                         org.freedesktop.PowerManagement.Inhibit.xml
-                        org.vision.Qube.Hardware.PowerManagement.PolicyAgent.xml)
+                        org.vision.Vibe.Hardware.PowerManagement.PolicyAgent.xml)
 
-qt4_add_dbus_interface(SOURCES org.vision.Qube.Hardware.Networking.Client.xml
+qt4_add_dbus_interface(SOURCES org.vision.Vibe.Hardware.Networking.Client.xml
                        org_vision_qube_hardware_networking_client)
 
 # Library target
-automoc4(QubeHardare SOURCES)
-add_library(QubeHardware SHARED ${SOURCES})
+automoc4(VibeHardare SOURCES)
+add_library(VibeHardware SHARED ${SOURCES})
 
 # Prepare for optional libraries dependencies
 set(OPTIONAL_LIBS)
@@ -221,13 +221,13 @@ if(UDEV_FOUND)
 endif(UDEV_FOUND)
 
 # Link libraries
-target_link_libraries(QubeHardware ${QT_QTCORE_LIBRARY} ${QT_QTDBUS_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTGUI_LIBRARY} ${OPTIONAL_LIBS})
-target_link_libraries(QubeHardware LINK_INTERFACE_LIBRARIES ${QT_CORE_LIBRARY})
+target_link_libraries(VibeHardware ${QT_QTCORE_LIBRARY} ${QT_QTDBUS_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTGUI_LIBRARY} ${OPTIONAL_LIBS})
+target_link_libraries(VibeHardware LINK_INTERFACE_LIBRARIES ${QT_CORE_LIBRARY})
 
 # Library properties
-set_target_properties(QubeHardware PROPERTIES
-    VERSION ${QUBE_VERSION}
-    SOVERSION 0.0.0)
+set_target_properties(VibeHardware PROPERTIES
+    VERSION ${VIBE_VERSION_STR}
+    SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_RELEASE})
 
 #install(FILES org.kde.Solid.Networking.Client.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR})
 #install(FILES org.kde.Solid.PowerManagement.PolicyAgent.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR})
@@ -243,8 +243,8 @@ install(FILES
     camera.h portablemediaplayer.h networkinterface.h acadapter.h battery.h
     button.h audiointerface.h dvbinterface.h predicate.h powermanagement.h
     networking.h video.h serialinterface.h smartcardreader.h internetgateway.h
-    networkshare.h DESTINATION include/Qube/Hardware COMPONENT Devel)
-install(TARGETS QubeHardware
+    networkshare.h DESTINATION include/Vibe/Hardware COMPONENT Devel)
+install(TARGETS VibeHardware
     LIBRARY DESTINATION lib COMPONENT Framework)
 
 ########### parser build ###############
@@ -255,31 +255,31 @@ set(parser_FILE predicate_parser)
 find_package(Flex)
 macro_log_feature(FLEX_FOUND
     "Flex"
-    "Allows the QubeHardware predicate parser to be updated"
+    "Allows the VibeHardware predicate parser to be updated"
     "http://flex.sourceforge.net"
     FALSE
     ""
-    "Required by the UpdateQubeHardwarePredicateParser target (mainly useful for developers)")
+    "Required by the UpdateVibeHardwarePredicateParser target (mainly useful for developers)")
 
 find_program(BISON_EXECUTABLE bison)
 macro_log_feature(BISON_EXECUTABLE
     "Bison"
-    "Allows the QubeHardware predicate parser to be updated"
+    "Allows the VibeHardware predicate parser to be updated"
     "http://www.gnu.org/software/bison"
     FALSE
     ""
-    "Required by the UpdateQubeHardwarePredicateParser target (mainly useful for developers)")
+    "Required by the UpdateVibeHardwarePredicateParser target (mainly useful for developers)")
 mark_as_advanced(BISON_EXECUTABLE)      # don't show it in the simple view in cmake-gui/ccmake
 
 if(FLEX_EXECUTABLE AND BISON_EXECUTABLE)
-    add_custom_target(UpdateQubeHardwarePredicateParser
-                      COMMAND ${FLEX_EXECUTABLE} -P QubeHardware -o${lexer_FILE}.c ${lexer_FILE}.l
-                      COMMAND ${BISON_EXECUTABLE} -p QubeHardware -d -b ${parser_FILE} ${parser_FILE}.y
+    add_custom_target(UpdateVibeHardwarePredicateParser
+                      COMMAND ${FLEX_EXECUTABLE} -P VibeHardware -o${lexer_FILE}.c ${lexer_FILE}.l
+                      COMMAND ${BISON_EXECUTABLE} -p VibeHardware -d -b ${parser_FILE} ${parser_FILE}.y
                       COMMAND ${CMAKE_COMMAND} -E copy ${parser_FILE}.tab.c ${CMAKE_CURRENT_SOURCE_DIR}/${parser_FILE}.c
                       COMMAND ${CMAKE_COMMAND} -E copy ${parser_FILE}.tab.h ${CMAKE_CURRENT_SOURCE_DIR}/${parser_FILE}.h
                       COMMAND ${CMAKE_COMMAND} -E remove ${parser_FILE}.tab.c ${parser_FILE}.tab.h
                       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 else(FLEX_EXECUTABLE AND BISON_EXECUTABLE)
-    add_custom_target(UpdateQubeHardwarePredicateParser
-                      COMMAND echo "flex and/or bison not found, so target UpdateQubeHardwarePredicateParser inactive")
+    add_custom_target(UpdateVibeHardwarePredicateParser
+                      COMMAND echo "flex and/or bison not found, so target UpdateVibeHardwarePredicateParser inactive")
 endif(FLEX_EXECUTABLE AND BISON_EXECUTABLE)

@@ -1,1 +1,6 @@
-add_subdirectory(Qube)
+add_subdirectory(VibeCore)
+add_subdirectory(VibeGui)
+add_subdirectory(VibeWidgets)
+add_subdirectory(VibeHardware)
+add_subdirectory(VibeServices)
+add_subdirectory(VibeStorage)

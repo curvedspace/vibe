@@ -1,8 +1,8 @@
-add_definitions(-DQUBE_SERVICES_LIB)
+add_definitions(-DVIBE_SERVICES_LIB)
 
 include_directories(${QT_INCLUDE_DIR})
 include_directories(${QT_QTCORE_INCLUDE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/src/kits/core ${CMAKE_SOURCE_DIR}/headers/QubeCore)
+include_directories(${CMAKE_SOURCE_DIR}/src/kits/core ${CMAKE_SOURCE_DIR}/headers/VibeCore)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(SettingsXml
@@ -16,15 +16,15 @@ set_source_files_properties(${SettingsXml}
     PROPERTIES CLASSNAME SettingsInterface)
 qt4_add_dbus_interface(SettingsSources ${SettingsXml} settingsinterface)
 
-add_library(QubeServices SHARED ${SettingsSources})
+add_library(VibeServices SHARED ${SettingsSources})
 
-target_link_libraries(QubeServices
-	LINK_INTERFACE_LIBRARIES ${QT_QTDBUS_LIBRARY})
-set_target_properties(QubeServices PROPERTIES
-	VERSION ${QUBE_VERSION}
-	SOVERSION 0.0.0)
+target_link_libraries(VibeServices
+    LINK_INTERFACE_LIBRARIES ${QT_QTDBUS_LIBRARY})
+set_target_properties(VibeServices PROPERTIES
+    VERSION ${VIBE_VERSION_STR}
+    SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_RELEASE})
 
 install(FILES ${Headers}
-    DESTINATION include/Qube/QubeServices COMPONENT Devel)
-install(TARGETS QubeServices
+    DESTINATION include/Vibe/VibeServices COMPONENT Devel)
+install(TARGETS VibeServices
     LIBRARY DESTINATION lib COMPONENT Framework)

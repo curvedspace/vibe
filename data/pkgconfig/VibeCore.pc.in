@@ -1,0 +1,13 @@
+prefix=@CMAKE_PREFIX@
+exec_prefix=${prefix}
+bindir=${prefix}/bin
+libdir=${prefix}/lib
+includedir=${prefix}/include
+qtminver=@QT_MIN_VERSION@
+
+Name: VibeCore
+Description: VibeCore Library
+Version: @VIBE_VERSION_STR@
+Libs: -L${libdir} -lVibeCore
+Requires: QtCore >= @QT_MIN_VERSION@, QtXml >= @QT_MIN_VERSION@
+Cflags: -I${includedir}
