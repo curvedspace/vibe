@@ -18,54 +18,50 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_IFACES_INTERNETGATEWAY_H
-#define QUBE_HARDWARE_IFACES_INTERNETGATEWAY_H
+#ifndef VHARDWARE_IFACES_INTERNETGATEWAY_H
+#define VHARDWARE_IFACES_INTERNETGATEWAY_H
 
 #include <QtCore/QStringList>
 
-#include "deviceinterface.h"
-#include "Qube/Hardware/internetgateway.h"
+#include <VibeHardware/VInternetGateway>
+#include <ifaces/deviceinterface.h>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Ifaces
     {
-        namespace Ifaces
+        class VIBE_EXPORT InternetGateway : virtual public VHardware::Ifaces::DeviceInterface
         {
+        public:
+            virtual ~InternetGateway();
 
-            class InternetGateway : virtual public Qube::Hardware::Ifaces::DeviceInterface
-            {
-            public:
-                virtual ~InternetGateway();
+            virtual void requestCurrentConnections() = 0;
 
-                virtual void requestCurrentConnections() = 0;
+            virtual QStringList currentConnections() const = 0;
 
-                virtual QStringList currentConnections() const = 0;
+            virtual void addPortMapping(const QString &remoteHost, qint16 externalPort, const VInternetGateway::NetworkProtocol &mappingProtocol,
+                                        qint16 internalPort, const QString &internalClient) = 0;
 
-                virtual void addPortMapping(const QString& remoteHost, qint16 externalPort, const Qube::Hardware::InternetGateway::NetworkProtocol& mappingProtocol,
-                                            qint16 internalPort, const QString& internalClient) = 0;
+            virtual void deletePortMapping(const QString &remoteHost, qint16 externalPort, const VInternetGateway::NetworkProtocol &mappingProtocol) = 0;
 
-                virtual void deletePortMapping(const QString& remoteHost, qint16 externalPort, const Qube::Hardware::InternetGateway::NetworkProtocol& mappingProtocol) = 0;
+            virtual VInternetGateway::InternetStatus isEnabledForInternet() const = 0;
 
-                virtual Qube::Hardware::InternetGateway::InternetStatus isEnabledForInternet() const = 0;
+            virtual void setEnabledForInternet(bool enabled) const = 0;
 
-                virtual void setEnabledForInternet(bool enabled) const = 0;
+        protected: //Q_SIGNALS:
+            virtual void portMappingAdded(const QString &remoteHost, qint16 externalPort, const VInternetGateway::NetworkProtocol &mappingProtocol,
+                                          qint16 internalPort, const QString &internalClient) = 0;
 
-            protected: //Q_SIGNALS:
-                virtual void portMappingAdded(const QString& remoteHost, qint16 externalPort, const Qube::Hardware::InternetGateway::NetworkProtocol& mappingProtocol,
-                                              qint16 internalPort, const QString& internalClient) = 0;
+            virtual void portMappingDeleted(const QString &remoteHost, qint16 externalPort, const VInternetGateway::NetworkProtocol &mappingProtocol) = 0;
 
-                virtual void portMappingDeleted(const QString& remoteHost, qint16 externalPort, const Qube::Hardware::InternetGateway::NetworkProtocol& mappingProtocol) = 0;
+            virtual void enabledForInternet(bool enabled) = 0;
 
-                virtual void enabledForInternet(bool enabled) = 0;
+            virtual void currentConnectionsDataIsReady(QStringList currentConnections) = 0;
+        };
 
-                virtual void currentConnectionsDataIsReady(QStringList currentConnections) = 0;
-            };
-
-        }
     }
 }
 
-Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::InternetGateway, "org.vision.Qube.Hardware.Ifaces.InternetGateway/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::InternetGateway, "org.vision.Vibe.Hardware.Ifaces.InternetGateway/0.1")
 
-#endif // QUBE_HARDWARE_IFACES_INTERNETGATEWAY_H
+#endif // VHARDWARE_IFACES_INTERNETGATEWAY_H

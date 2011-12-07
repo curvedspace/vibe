@@ -18,37 +18,33 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UDEV_UDEVBLOCK_H
-#define QUBE_HARDWARE_BACKENDS_UDEV_UDEVBLOCK_H
+#ifndef VHARDWARE_BACKENDS_UDEV_UDEVBLOCK_H
+#define VHARDWARE_BACKENDS_UDEV_UDEVBLOCK_H
 
 #include <ifaces/block.h>
 
 #include "udevdeviceinterface.h"
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UDev
         {
-            namespace UDev
+            class Block : public DeviceInterface, virtual public VHardware::Ifaces::Block
             {
-                class Block : public DeviceInterface, virtual public Qube::Hardware::Ifaces::Block
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::Block)
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::Block)
+            public:
+                Block(UDevDevice *device);
+                virtual ~Block();
 
-                public:
-                    Block(UDevDevice *device);
-                    virtual ~Block();
-
-                    virtual int deviceMajor() const;
-                    virtual int deviceMinor() const;
-                    virtual QString device() const;
-                };
-            }
+                virtual int deviceMajor() const;
+                virtual int deviceMinor() const;
+                virtual QString device() const;
+            };
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_UDEV_UDEVBLOCK_H
+#endif // VHARDWARE_BACKENDS_UDEV_UDEVBLOCK_H

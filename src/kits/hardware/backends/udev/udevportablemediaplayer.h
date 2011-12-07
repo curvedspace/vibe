@@ -18,40 +18,37 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UDEV_PORTABLEMEDIAPLAYER_H
-#define QUBE_HARDWARE_BACKENDS_UDEV_PORTABLEMEDIAPLAYER_H
+#ifndef VHARDWARE_BACKENDS_UDEV_PORTABLEMEDIAPLAYER_H
+#define VHARDWARE_BACKENDS_UDEV_PORTABLEMEDIAPLAYER_H
 
 #include <ifaces/portablemediaplayer.h>
 #include "udevdeviceinterface.h"
 
 #include <QtCore/QStringList>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UDev
         {
-            namespace UDev
+            class UDevDevice;
+
+            class PortableMediaPlayer : public DeviceInterface, virtual public VHardware::Ifaces::PortableMediaPlayer
             {
-                class UDevDevice;
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::PortableMediaPlayer)
 
-                class PortableMediaPlayer : public DeviceInterface, virtual public Qube::Hardware::Ifaces::PortableMediaPlayer
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::PortableMediaPlayer)
+            public:
+                PortableMediaPlayer(UDevDevice *device);
+                virtual ~PortableMediaPlayer();
 
-                public:
-                    PortableMediaPlayer(UDevDevice *device);
-                    virtual ~PortableMediaPlayer();
-
-                    virtual QStringList supportedProtocols() const;
-                    virtual QStringList supportedDrivers(QString protocol = QString()) const;
-                    virtual QVariant driverHandle(const QString &driver) const;
-                };
-            }
+                virtual QStringList supportedProtocols() const;
+                virtual QStringList supportedDrivers(QString protocol = QString()) const;
+                virtual QVariant driverHandle(const QString &driver) const;
+            };
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_UDEV_PORTABLEMEDIAPLAYER_H
+#endif // VHARDWARE_BACKENDS_UDEV_PORTABLEMEDIAPLAYER_H

@@ -19,42 +19,38 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UDEV_UDEVNETWORKINTERFACE_H
-#define QUBE_HARDWARE_BACKENDS_UDEV_UDEVNETWORKINTERFACE_H
+#ifndef VHARDWARE_BACKENDS_UDEV_UDEVNETWORKINTERFACE_H
+#define VHARDWARE_BACKENDS_UDEV_UDEVNETWORKINTERFACE_H
 
 #include <ifaces/networkinterface.h>
 #include "udevdeviceinterface.h"
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UDev
         {
-            namespace UDev
+            class UDevDevice;
+
+            class NetworkInterface : public DeviceInterface, virtual public VHardware::Ifaces::NetworkInterface
             {
-                class UDevDevice;
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::NetworkInterface)
+            public:
+                NetworkInterface(UDevDevice *device);
+                virtual ~NetworkInterface();
 
-                class NetworkInterface : public DeviceInterface, virtual public Qube::Hardware::Ifaces::NetworkInterface
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::NetworkInterface)
+                virtual QString ifaceName() const;
+                virtual bool isWireless() const;
+                virtual QString hwAddress() const;
+                virtual qulonglong macAddress() const;
 
-                public:
-                    NetworkInterface(UDevDevice *device);
-                    virtual ~NetworkInterface();
-
-                    virtual QString ifaceName() const;
-                    virtual bool isWireless() const;
-                    virtual QString hwAddress() const;
-                    virtual qulonglong macAddress() const;
-
-                private:
-                    QString     m_hwAddress;
-                };
-            }
+            private:
+                QString     m_hwAddress;
+            };
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_UDEV_UDEVNETWORKINTERFACE_H
+#endif // VHARDWARE_BACKENDS_UDEV_UDEVNETWORKINTERFACE_H

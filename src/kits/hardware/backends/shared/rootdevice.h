@@ -18,63 +18,60 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_SHARED_ROOT_DEVICE_H
-#define QUBE_HARDWARE_BACKENDS_SHARED_ROOT_DEVICE_H
+#ifndef VHARDWARE_BACKENDS_SHARED_ROOT_DEVICE_H
+#define VHARDWARE_BACKENDS_SHARED_ROOT_DEVICE_H
 
 #include <ifaces/device.h>
 
 #include <QtCore/QStringList>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace Shared
         {
-            namespace Shared
+            class RootDevice : public VHardware::Ifaces::Device
             {
-                class RootDevice : public Qube::Hardware::Ifaces::Device
-                {
-                    Q_OBJECT
-                public:
-                    explicit RootDevice(const QString &udi, const QString &parentUdi = QString());
+                Q_OBJECT
+            public:
+                explicit RootDevice(const QString &udi, const QString &parentUdi = QString());
 
-                    virtual ~RootDevice();
+                virtual ~RootDevice();
 
-                    virtual QString udi() const;
-                    virtual QString parentUdi() const;
+                virtual QString udi() const;
+                virtual QString parentUdi() const;
 
-                    virtual QString vendor() const;
-                    void setVendor(const QString &vendor);
+                virtual QString vendor() const;
+                void setVendor(const QString &vendor);
 
-                    virtual QString product() const;
-                    void setProduct(const QString &product);
+                virtual QString product() const;
+                void setProduct(const QString &product);
 
-                    virtual QString icon() const;
-                    void setIcon(const QString &icon);
+                virtual QString icon() const;
+                void setIcon(const QString &icon);
 
-                    virtual QStringList emblems() const;
-                    void setEmblems(const QStringList &emblems);
+                virtual QStringList emblems() const;
+                void setEmblems(const QStringList &emblems);
 
-                    virtual QString description() const;
-                    void setDescription(const QString &description);
+                virtual QString description() const;
+                void setDescription(const QString &description);
 
-                    virtual bool queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type &type) const;
+                virtual bool queryDeviceInterface(const VDeviceInterface::Type &type) const;
 
-                    virtual QObject *createDeviceInterface(const Qube::Hardware::DeviceInterface::Type &type);
+                virtual QObject *createDeviceInterface(const VDeviceInterface::Type &type);
 
-                private:
-                    QString m_udi;
-                    QString m_parentUdi;
-                    QString m_vendor;
-                    QString m_product;
-                    QString m_icon;
-                    QStringList m_emblems;
-                    QString m_description;
-                };
-            }
+            private:
+                QString m_udi;
+                QString m_parentUdi;
+                QString m_vendor;
+                QString m_product;
+                QString m_icon;
+                QStringList m_emblems;
+                QString m_description;
+            };
         }
     }
 }
 
-#endif
+#endif // VHARDWARE_BACKENDS_SHARED_ROOT_DEVICE_H

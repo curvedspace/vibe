@@ -21,7 +21,7 @@
 
 #include "udevportablemediaplayer.h"
 
-using namespace Qube::Hardware::Backends::UDev;
+using namespace VHardware::Backends::UDev;
 
 PortableMediaPlayer::PortableMediaPlayer(UDevDevice *device)
     : DeviceInterface(device)

@@ -23,56 +23,53 @@
 // backend
 #include "kupnpdevice.h"
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace KUPnP
         {
-            namespace KUPnP
+            StorageAccess::StorageAccess(KUPnPDevice *device)
+                : DeviceInterface(device)
             {
-                StorageAccess::StorageAccess(KUPnPDevice* device)
-                    : DeviceInterface(device)
-                {
-                }
+            }
 
-                StorageAccess::~StorageAccess()
-                {
+            StorageAccess::~StorageAccess()
+            {
 
-                }
+            }
 
 
-                bool StorageAccess::isAccessible() const
-                {
-                    return true;
-                }
+            bool StorageAccess::isAccessible() const
+            {
+                return true;
+            }
 
-                QString StorageAccess::filePath() const
-                {
-                    QString result;
+            QString StorageAccess::filePath() const
+            {
+                QString result;
 
-                    const Cagibi::Device& device = mDevice->device();
+                const Cagibi::Device &device = mDevice->device();
 
-                    result = QString::fromLatin1("upnp-ms://%1:%2/")
-                             .arg( device.ipAddress() ).arg( device.ipPortNumber() );
+                result = QString::fromLatin1("upnp-ms://%1:%2/")
+                         .arg(device.ipAddress()).arg(device.ipPortNumber());
 
-                    return result;
-                }
+                return result;
+            }
 
-                bool KUPnP::StorageAccess::isIgnored() const
-                {
-                    return true;
-                }
+            bool KUPnP::StorageAccess::isIgnored() const
+            {
+                return true;
+            }
 
-                bool StorageAccess::setup()
-                {
-                    return true;
-                }
+            bool StorageAccess::setup()
+            {
+                return true;
+            }
 
-                bool StorageAccess::teardown()
-                {
-                    return true;
-                }
+            bool StorageAccess::teardown()
+            {
+                return true;
             }
         }
     }

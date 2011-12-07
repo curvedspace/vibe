@@ -23,57 +23,54 @@
 #ifndef UPOWERDEVICE_H
 #define UPOWERDEVICE_H
 
+#include <VibeHardware/VDeviceInterface>
 #include <ifaces/device.h>
-#include <Qube/Hardware/deviceinterface.h>
 
 #include <QtDBus/QDBusInterface>
 #include <QtCore/QSet>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UPower
         {
-            namespace UPower
+            class UPowerDevice : public VHardware::Ifaces::Device
             {
-                class UPowerDevice : public Qube::Hardware::Ifaces::Device
-                {
-                    Q_OBJECT
-                public:
-                    UPowerDevice(const QString &udi);
-                    virtual ~UPowerDevice();
+                Q_OBJECT
+            public:
+                UPowerDevice(const QString &udi);
+                virtual ~UPowerDevice();
 
 
-                    virtual QObject* createDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type);
-                    virtual bool queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type) const;
-                    virtual QString description() const;
-                    virtual QStringList emblems() const;
-                    virtual QString icon() const;
-                    virtual QString product() const;
-                    virtual QString vendor() const;
-                    virtual QString udi() const;
-                    virtual QString parentUdi() const;
+                virtual QObject *createDeviceInterface(const VDeviceInterface::Type &type);
+                virtual bool queryDeviceInterface(const VDeviceInterface::Type &type) const;
+                virtual QString description() const;
+                virtual QStringList emblems() const;
+                virtual QString icon() const;
+                virtual QString product() const;
+                virtual QString vendor() const;
+                virtual QString udi() const;
+                virtual QString parentUdi() const;
 
-                    QVariant prop(const QString &key) const;
-                    bool propertyExists(const QString &key) const;
-                    QMap<QString, QVariant> allProperties() const;
+                QVariant prop(const QString &key) const;
+                bool propertyExists(const QString &key) const;
+                QMap<QString, QVariant> allProperties() const;
 
-                Q_SIGNALS:
-                    void changed();
+            Q_SIGNALS:
+                void changed();
 
-                private Q_SLOTS:
-                    void slotChanged();
+            private Q_SLOTS:
+                void slotChanged();
 
-                private:
-                    QString batteryTechnology() const;
-                    mutable QDBusInterface m_device;
-                    QString m_udi;
-                    mutable QVariantMap m_cache;
+            private:
+                QString batteryTechnology() const;
+                mutable QDBusInterface m_device;
+                QString m_udi;
+                mutable QVariantMap m_cache;
 
-                    void checkCache(const QString &key) const;
-                };
-            }
+                void checkCache(const QString &key) const;
+            };
         }
     }
 }

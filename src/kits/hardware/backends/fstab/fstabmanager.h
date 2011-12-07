@@ -18,49 +18,46 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_FSTAB_FSTABMANAGER_H
-#define QUBE_HARDWARE_BACKENDS_FSTAB_FSTABMANAGER_H
+#ifndef VHARDWARE_BACKENDS_FSTAB_FSTABMANAGER_H
+#define VHARDWARE_BACKENDS_FSTAB_FSTABMANAGER_H
 
 #include <QtCore/QStringList>
 #include <QtCore/QSet>
 
-#include <Qube/Hardware/deviceinterface.h>
+#include <VibeHardware/VDeviceInterface>
 #include <ifaces/devicemanager.h>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace Fstab
         {
-            namespace Fstab
+            class AbstractDeviceFactory;
+
+            class FstabManager : public VHardware::Ifaces::DeviceManager
             {
-                class AbstractDeviceFactory;
+                Q_OBJECT
+            public:
+                explicit FstabManager(QObject *parent);
+                virtual ~FstabManager();
 
-                class FstabManager : public Qube::Hardware::Ifaces::DeviceManager
-                {
-                    Q_OBJECT
-                public:
-                    explicit FstabManager(QObject *parent);
-                    virtual ~FstabManager();
+                virtual QString udiPrefix() const ;
+                virtual QSet<VDeviceInterface::Type> supportedInterfaces() const;
+                virtual QStringList allDevices();
+                virtual QStringList devicesFromQuery(const QString &parentUdi, VDeviceInterface::Type type);
+                virtual QObject *createDevice(const QString &udi);
 
-                    virtual QString udiPrefix() const ;
-                    virtual QSet<Qube::Hardware::DeviceInterface::Type> supportedInterfaces() const;
-                    virtual QStringList allDevices();
-                    virtual QStringList devicesFromQuery(const QString &parentUdi, Qube::Hardware::DeviceInterface::Type type);
-                    virtual QObject *createDevice(const QString &udi);
+            private Q_SLOTS:
+                void onFstabChanged();
 
-                private Q_SLOTS:
-                    void onFstabChanged();
+            private:
+                QSet<VDeviceInterface::Type> m_supportedInterfaces;
+                QStringList m_deviceList;
+            };
 
-                private:
-                    QSet<Qube::Hardware::DeviceInterface::Type> m_supportedInterfaces;
-                    QStringList m_deviceList;
-                };
-
-            }
         }
     }
 }
 
-#endif
+#endif // VHARDWARE_BACKENDS_FSTAB_FSTABMANAGER_H

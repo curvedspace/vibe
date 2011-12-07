@@ -25,14 +25,14 @@
 #include "fstabservice.h"
 #include "fstabwatcher.h"
 
-using namespace Qube::Hardware::Backends::Fstab;
-using namespace Qube::Hardware::Backends::Shared;
+using namespace VHardware::Backends::Fstab;
+using namespace VHardware::Backends::Shared;
 
 FstabManager::FstabManager(QObject *parent)
-    : Qube::Hardware::Ifaces::DeviceManager(parent)
+    : VHardware::Ifaces::DeviceManager(parent)
 {
-    m_supportedInterfaces << Qube::Hardware::DeviceInterface::StorageAccess;
-    m_supportedInterfaces << Qube::Hardware::DeviceInterface::NetworkShare;
+    m_supportedInterfaces << VDeviceInterface::StorageAccess;
+    m_supportedInterfaces << VDeviceInterface::NetworkShare;
 
     m_deviceList = FstabHandling::deviceList();
 
@@ -44,7 +44,7 @@ QString FstabManager::udiPrefix() const
     return QString::fromLatin1(FSTAB_UDI_PREFIX);
 }
 
-QSet<Qube::Hardware::DeviceInterface::Type> FstabManager::supportedInterfaces() const
+QSet<VDeviceInterface::Type> FstabManager::supportedInterfaces() const
 {
     return m_supportedInterfaces;
 }
@@ -54,18 +54,18 @@ QStringList FstabManager::allDevices()
     QStringList result;
 
     result << udiPrefix();
-    foreach (const QString &device, m_deviceList) {
+    foreach(const QString & device, m_deviceList) {
         result << udiPrefix() + "/" + device;
     }
 
     return result;
 }
 
-QStringList FstabManager::devicesFromQuery( const QString &parentUdi,
-        Qube::Hardware::DeviceInterface::Type type)
+QStringList FstabManager::devicesFromQuery(const QString &parentUdi,
+        VDeviceInterface::Type type)
 {
-    if (type == Qube::Hardware::DeviceInterface::StorageAccess
-        || type == Qube::Hardware::DeviceInterface::NetworkShare) {
+    if (type == VDeviceInterface::StorageAccess
+        || type == VDeviceInterface::NetworkShare) {
         if (parentUdi.isEmpty() || parentUdi == udiPrefix()) {
             QStringList list = allDevices();
             list.removeFirst();
@@ -99,14 +99,14 @@ void FstabManager::onFstabChanged()
     QStringList deviceList = FstabHandling::deviceList();
     if (deviceList.count() > m_deviceList.count()) {
         //new device
-        foreach (const QString &device, deviceList) {
+        foreach(const QString & device, deviceList) {
             if (!m_deviceList.contains(device)) {
                 emit deviceAdded(udiPrefix() + "/" + device);
             }
         }
     } else {
         //device has been removed
-        foreach (const QString &device, m_deviceList) {
+        foreach(const QString & device, m_deviceList) {
             if (!deviceList.contains(device)) {
                 emit deviceRemoved(udiPrefix() + "/" + device);
             }

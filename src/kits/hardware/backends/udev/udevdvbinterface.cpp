@@ -24,7 +24,7 @@
 
 #include "udevdevice.h"
 
-using namespace Qube::Hardware::Backends::UDev;
+using namespace VHardware::Backends::UDev;
 
 DvbInterface::DvbInterface(UDevDevice *device)
     : DeviceInterface(device)
@@ -52,29 +52,29 @@ int DvbInterface::deviceAdapter() const
         return -1;
 }
 
-Qube::Hardware::DvbInterface::DeviceType DvbInterface::deviceType() const
+VDvbInterface::DeviceType DvbInterface::deviceType() const
 {
-    Qube::Hardware::DvbInterface::DeviceType type = Qube::Hardware::DvbInterface::DvbUnknown;
+    VDvbInterface::DeviceType type = VDvbInterface::DvbUnknown;
     const QString typeString = m_device->property("DVB_DEVICE_TYPE").toString();
 
     if (typeString == QLatin1String("audio")) {
-        type = Qube::Hardware::DvbInterface::DvbAudio;
+        type = VDvbInterface::DvbAudio;
     } else if (typeString == QLatin1String("ca")) {
-        type = Qube::Hardware::DvbInterface::DvbCa;
+        type = VDvbInterface::DvbCa;
     } else if (typeString == QLatin1String("demux")) {
-        type = Qube::Hardware::DvbInterface::DvbDemux;
+        type = VDvbInterface::DvbDemux;
     } else if (typeString == QLatin1String("dvr")) {
-        type = Qube::Hardware::DvbInterface::DvbDvr;
+        type = VDvbInterface::DvbDvr;
     } else if (typeString == QLatin1String("frontend")) {
-        type = Qube::Hardware::DvbInterface::DvbFrontend;
+        type = VDvbInterface::DvbFrontend;
     } else if (typeString == QLatin1String("net")) {
-        type = Qube::Hardware::DvbInterface::DvbNet;
+        type = VDvbInterface::DvbNet;
     } else if (typeString == QLatin1String("osd")) {
-        type = Qube::Hardware::DvbInterface::DvbOsd;
+        type = VDvbInterface::DvbOsd;
     } else if (typeString == QLatin1String("sec")) {
-        type = Qube::Hardware::DvbInterface::DvbSec;
+        type = VDvbInterface::DvbSec;
     } else if (typeString == QLatin1String("video")) {
-        type = Qube::Hardware::DvbInterface::DvbVideo;
+        type = VDvbInterface::DvbVideo;
     }
 
     return type;

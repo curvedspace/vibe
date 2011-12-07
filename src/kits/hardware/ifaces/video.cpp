@@ -21,7 +21,7 @@
 
 #include "video.h"
 
-Qube::Hardware::Ifaces::Video::~Video()
+VHardware::Ifaces::Video::~Video()
 {
 }
 

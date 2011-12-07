@@ -18,45 +18,42 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_FSTAB_WATCHER_H
-#define QUBE_HARDWARE_BACKENDS_FSTAB_WATCHER_H
+#ifndef VHARDWARE_BACKENDS_FSTAB_WATCHER_H
+#define VHARDWARE_BACKENDS_FSTAB_WATCHER_H
 
 #include <QObject>
 
 class QFileSystemWatcher;
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace Fstab
         {
-            namespace Fstab
+            class FstabWatcher : public QObject
             {
-                class FstabWatcher : public QObject
-                {
-                    Q_OBJECT
-                public:
-                    FstabWatcher();
-                    virtual ~FstabWatcher();
+                Q_OBJECT
+            public:
+                FstabWatcher();
+                virtual ~FstabWatcher();
 
-                    static FstabWatcher *instance();
+                static FstabWatcher *instance();
 
-                Q_SIGNALS:
-                    void mtabChanged();
-                    void fstabChanged();
+            Q_SIGNALS:
+                void mtabChanged();
+                void fstabChanged();
 
-                private Q_SLOTS:
-                    void onFileChanged(const QString &path);
-                    void orphanFileSystemWatcher();
+            private Q_SLOTS:
+                void onFileChanged(const QString &path);
+                void orphanFileSystemWatcher();
 
-                private:
-                    bool m_isRoutineInstalled;
-                    QFileSystemWatcher *m_fileSystemWatcher;
-                };
-            }
+            private:
+                bool m_isRoutineInstalled;
+                QFileSystemWatcher *m_fileSystemWatcher;
+            };
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_FSTAB_WATCHER_H
+#endif // VHARDWARE_BACKENDS_FSTAB_WATCHER_H

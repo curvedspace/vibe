@@ -18,68 +18,65 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_IFACES_CAMERA_H
-#define QUBE_HARDWARE_IFACES_CAMERA_H
+#ifndef VHARDWARE_IFACES_CAMERA_H
+#define VHARDWARE_IFACES_CAMERA_H
 
 #include <QtCore/QStringList>
+
 #include <ifaces/deviceinterface.h>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Ifaces
     {
-        namespace Ifaces
+        /**
+         * This device interface is available on digital camera devices.
+         *
+         * A digital camera is a device used to transform images into
+         * data. Nowaday most digital cameras are multifunctional and
+         * able to take photographs, video or sound. On the system side
+         * they are a particular type of device holding data, the access
+         * method can be different from the typical storage device, hence
+         * why it's a separate device interface.
+         */
+        class VIBE_EXPORT Camera : virtual public DeviceInterface
         {
+        public:
             /**
-             * This device interface is available on digital camera devices.
-             *
-             * A digital camera is a device used to transform images into
-             * data. Nowaday most digital cameras are multifunctional and
-             * able to take photographs, video or sound. On the system side
-             * they are a particular type of device holding data, the access
-             * method can be different from the typical storage device, hence
-             * why it's a separate device interface.
+             * Destroys a Camera object.
              */
-            class Camera : virtual public DeviceInterface
-            {
-            public:
-                /**
-                 * Destroys a Camera object.
-                 */
-                virtual ~Camera();
+            virtual ~Camera();
 
+            /**
+             * Retrieves known protocols this device can speak.  This list may be dependent
+             * on installed device driver libraries.
+             *
+             * @return a list of known protocols this device can speak
+             */
+            virtual QStringList supportedProtocols() const = 0;
 
-                /**
-                 * Retrieves known protocols this device can speak.  This list may be dependent
-                 * on installed device driver libraries.
-                 *
-                 * @return a list of known protocols this device can speak
-                 */
-                virtual QStringList supportedProtocols() const = 0;
+            /**
+             * Retrieves known installed device drivers that claim to handle this device
+             * using the requested protocol.
+             *
+             * @param protocol The protocol to get drivers for.
+             * @return a list of known device drivers that can handle this device
+             */
+            virtual QStringList supportedDrivers(QString protocol = QString()) const = 0;
 
-                /**
-                 * Retrieves known installed device drivers that claim to handle this device
-                 * using the requested protocol.
-                 *
-                 * @param protocol The protocol to get drivers for.
-                 * @return a list of known device drivers that can handle this device
-                 */
-                virtual QStringList supportedDrivers(QString protocol = QString()) const = 0;
-
-                /**
-                 * Retrieves a driver specific string allowing to access the device.
-                 *
-                 * For example for the "gphoto" driver it will return a list of the
-                 * form '("usb", vendor_id, product_id)'.
-                 *
-                 * @return the driver specific data
-                 */
-                virtual QVariant driverHandle(const QString &driver) const = 0;
-            };
-        }
+            /**
+             * Retrieves a driver specific string allowing to access the device.
+             *
+             * For example for the "gphoto" driver it will return a list of the
+             * form '("usb", vendor_id, product_id)'.
+             *
+             * @return the driver specific data
+             */
+            virtual QVariant driverHandle(const QString &driver) const = 0;
+        };
     }
 }
 
-Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::Camera, "org.vision.Qube.Hardware.Ifaces.Camera/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::Camera, "org.vision.Vibe.Hardware.Ifaces.Camera/0.1")
 
-#endif
+#endif // VHARDWARE_IFACES_CAMERA_H

@@ -20,7 +20,7 @@
 
 #include "portablemediaplayer.h"
 
-Qube::Hardware::Ifaces::PortableMediaPlayer::~PortableMediaPlayer()
+VHardware::Ifaces::PortableMediaPlayer::~PortableMediaPlayer()
 {
 
 }

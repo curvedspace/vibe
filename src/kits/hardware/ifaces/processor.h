@@ -18,65 +18,61 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_IFACES_PROCESSOR_H
-#define QUBE_HARDWARE_IFACES_PROCESSOR_H
+#ifndef VHARDWARE_IFACES_PROCESSOR_H
+#define VHARDWARE_IFACES_PROCESSOR_H
 
-#include <Qube/Hardware/processor.h>
+#include <VibeHardware/VProcessor>
 #include <ifaces/deviceinterface.h>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Ifaces
     {
-        namespace Ifaces
+        /**
+         * This device interface is available on processors.
+         */
+        class VIBE_EXPORT Processor : virtual public DeviceInterface
         {
+        public:
             /**
-             * This device interface is available on processors.
+             * Destroys a Processor object.
              */
-            class Processor : virtual public DeviceInterface
-            {
-            public:
-                /**
-                 * Destroys a Processor object.
-                 */
-                virtual ~Processor();
+            virtual ~Processor();
 
-                /**
-                 * Retrieves the processor number in the system.
-                 *
-                 * @return the internal processor number in the system, starting from zero
-                 */
-                virtual int number() const = 0;
+            /**
+             * Retrieves the processor number in the system.
+             *
+             * @return the internal processor number in the system, starting from zero
+             */
+            virtual int number() const = 0;
 
-                /**
-                 * Retrieves the maximum speed of the processor.
-                 *
-                 * @return the maximum speed in MHz
-                 */
-                virtual int maxSpeed() const = 0;
+            /**
+             * Retrieves the maximum speed of the processor.
+             *
+             * @return the maximum speed in MHz
+             */
+            virtual int maxSpeed() const = 0;
 
-                /**
-                 * Indicates if the processor can change the CPU frequency.
-                 *
-                 * True if a processor is able to change its own CPU frequency.
-                 *  (generally for power management).
-                 *
-                 * @return true if the processor can change CPU frequency, false otherwise
-                 */
-                virtual bool canChangeFrequency() const = 0;
+            /**
+             * Indicates if the processor can change the CPU frequency.
+             *
+             * True if a processor is able to change its own CPU frequency.
+             *  (generally for power management).
+             *
+             * @return true if the processor can change CPU frequency, false otherwise
+             */
+            virtual bool canChangeFrequency() const = 0;
 
-                /**
-                 * Queries the instructions set extensions of the CPU.
-                 *
-                 * @return the extensions supported by the CPU
-                 */
-                virtual Qube::Hardware::Processor::InstructionSets instructionSets() const = 0;
-
-            };
-        }
+            /**
+             * Queries the instructions set extensions of the CPU.
+             *
+             * @return the extensions supported by the CPU
+             */
+            virtual VProcessor::InstructionSets instructionSets() const = 0;
+        };
     }
 }
 
-Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::Processor, "org.vision.Qube.Hardware.Ifaces.Processor/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::Processor, "org.vision.Vibe.Hardware.Ifaces.Processor/0.1")
 
-#endif
+#endif // VHARDWARE_IFACES_PROCESSOR_H

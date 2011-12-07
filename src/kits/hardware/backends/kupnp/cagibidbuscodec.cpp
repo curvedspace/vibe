@@ -27,22 +27,22 @@
 
 #include <QtCore/QDebug>
 
-QDBusArgument& operator<<( QDBusArgument& argument, const Cagibi::Device& device )
+QDBusArgument &operator<<(QDBusArgument &argument, const Cagibi::Device &device)
 {
-    const Cagibi::DevicePrivate* devicePrivate = device.d.constData();
+    const Cagibi::DevicePrivate *devicePrivate = device.d.constData();
 
     argument.beginStructure();
 
     argument << devicePrivate->type()
              << devicePrivate->friendlyName()
              << devicePrivate->manufacturerName()
-//     const QString& manufacturerUrl() const;
+             //     const QString& manufacturerUrl() const;
              << devicePrivate->modelDescription()
              << devicePrivate->modelName()
              << devicePrivate->modelNumber()
              << devicePrivate->serialNumber()
              << devicePrivate->udn()
-//     const QString upc() const;
+             //     const QString upc() const;
              << devicePrivate->presentationUrl()
              << devicePrivate->ipAddress()
              << devicePrivate->ipPortNumber()
@@ -53,29 +53,29 @@ QDBusArgument& operator<<( QDBusArgument& argument, const Cagibi::Device& device
     return argument;
 }
 
-const QDBusArgument& operator>>( const QDBusArgument& argument,
-                                 Cagibi::Device& device )
+const QDBusArgument &operator>>(const QDBusArgument &argument,
+                                Cagibi::Device &device)
 {
-    Cagibi::DevicePrivate* devicePrivate = device.d.data();
+    Cagibi::DevicePrivate *devicePrivate = device.d.data();
 
     argument.beginStructure();
 
     QString type;
     argument >> type;
-    const QStringList typeParts = type.split( ':' );
-    qDebug()<<type;
-    if( typeParts.size() >=5 )
-        devicePrivate->mType = typeParts[3]+typeParts[4];
+    const QStringList typeParts = type.split(':');
+    qDebug() << type;
+    if (typeParts.size() >= 5)
+        devicePrivate->mType = typeParts[3] + typeParts[4];
     devicePrivate->mType = type;
     argument >> devicePrivate->mFriendlyName
              >> devicePrivate->mManufacturerName
-//     const QString& manufacturerUrl() const;
+             //     const QString& manufacturerUrl() const;
              >> devicePrivate->mModelDescription
              >> devicePrivate->mModelName
              >> devicePrivate->mModelNumber
              >> devicePrivate->mSerialNumber
              >> devicePrivate->mUdn
-//     const QString upc() const;
+             //     const QString upc() const;
              >> devicePrivate->mPresentationUrl
              >> devicePrivate->mIpAddress
              >> devicePrivate->mIpPortNumber

@@ -27,7 +27,7 @@
 #include <QtGui/QApplication>
 #include <QtGui/QWidget>
 
-using namespace Qube::Hardware::Backends::UDisks;
+using namespace VHardware::Backends::UDisks;
 
 UDisksStorageAccess::UDisksStorageAccess(UDisksDevice *device)
     : DeviceInterface(device), m_setupInProgress(false), m_teardownInProgress(false), m_passphraseRequested(false)
@@ -48,11 +48,11 @@ void UDisksStorageAccess::connectDBusSignals()
 {
     m_device->registerAction("setup", this,
                              SLOT(slotSetupRequested()),
-                             SLOT(slotSetupDone(int, const QString&)));
+                             SLOT(slotSetupDone(int, const QString &)));
 
     m_device->registerAction("teardown", this,
                              SLOT(slotTeardownRequested()),
-                             SLOT(slotTeardownDone(int, const QString&)));
+                             SLOT(slotTeardownDone(int, const QString &)));
 }
 
 bool UDisksStorageAccess::isLuksDevice() const
@@ -84,7 +84,7 @@ QString UDisksStorageAccess::filePath() const
         UDisksDevice holderDevice(path);
         mntPoints = holderDevice.prop("DeviceMountPaths").toStringList();
         if (!mntPoints.isEmpty())
-            return mntPoints.first(); // FIXME QubeHardware doesn't support multiple mount points
+            return mntPoints.first(); // FIXME VibeHardware doesn't support multiple mount points
         else
             return QString();
     }
@@ -92,7 +92,7 @@ QString UDisksStorageAccess::filePath() const
     mntPoints = m_device->prop("DeviceMountPaths").toStringList();
 
     if (!mntPoints.isEmpty())
-        return mntPoints.first(); // FIXME QubeHardware doesn't support multiple mount points
+        return mntPoints.first(); // FIXME VibeHardware doesn't support multiple mount points
     else
         return QString();
 }
@@ -104,7 +104,7 @@ bool UDisksStorageAccess::isIgnored() const
 
 bool UDisksStorageAccess::setup()
 {
-    if ( m_teardownInProgress || m_setupInProgress )
+    if (m_teardownInProgress || m_setupInProgress)
         return false;
     m_setupInProgress = true;
     m_device->broadcastActionRequested("setup");
@@ -117,7 +117,7 @@ bool UDisksStorageAccess::setup()
 
 bool UDisksStorageAccess::teardown()
 {
-    if ( m_teardownInProgress || m_setupInProgress )
+    if (m_teardownInProgress || m_setupInProgress)
         return false;
     m_teardownInProgress = true;
     m_device->broadcastActionRequested("teardown");
@@ -140,7 +140,7 @@ void UDisksStorageAccess::updateCache()
     m_isAccessible = isAccessible();
 }
 
-void UDisksStorageAccess::slotDBusReply( const QDBusMessage & reply )
+void UDisksStorageAccess::slotDBusReply(const QDBusMessage &reply)
 {
     Q_UNUSED(reply);
     if (m_setupInProgress) {
@@ -180,7 +180,7 @@ void UDisksStorageAccess::slotDBusReply( const QDBusMessage & reply )
                 args << devnode;
 #endif
 
-                QProcess::startDetached( program, args );
+                QProcess::startDetached(program, args);
             }
 
             // try to eject the (parent) drive, e.g. SD card from a reader
@@ -197,17 +197,17 @@ void UDisksStorageAccess::slotDBusReply( const QDBusMessage & reply )
     }
 }
 
-void UDisksStorageAccess::slotDBusError( const QDBusError & error )
+void UDisksStorageAccess::slotDBusError(const QDBusError &error)
 {
     if (m_setupInProgress) {
         m_setupInProgress = false;
-        m_device->broadcastActionDone("setup", m_device->errorToQubeHardwareError(error.name()),
-                                      m_device->errorToString(error.name()) + ": " +error.message());
+        m_device->broadcastActionDone("setup", m_device->errorToVibeHardwareError(error.name()),
+                                      m_device->errorToString(error.name()) + ": " + error.message());
 
         slotChanged();
     } else if (m_teardownInProgress) {
         m_teardownInProgress = false;
-        m_device->broadcastActionDone("teardown", m_device->errorToQubeHardwareError(error.name()),
+        m_device->broadcastActionDone("teardown", m_device->errorToVibeHardwareError(error.name()),
                                       m_device->errorToString(error.name()) + ": " + error.message());
         slotChanged();
     }
@@ -222,7 +222,7 @@ void UDisksStorageAccess::slotSetupRequested()
 void UDisksStorageAccess::slotSetupDone(int error, const QString &errorString)
 {
     m_setupInProgress = false;
-    emit setupDone(static_cast<Qube::Hardware::ErrorType>(error), errorString, m_device->udi());
+    emit setupDone(static_cast<VHardware::ErrorType>(error), errorString, m_device->udi());
 }
 
 void UDisksStorageAccess::slotTeardownRequested()
@@ -234,7 +234,7 @@ void UDisksStorageAccess::slotTeardownRequested()
 void UDisksStorageAccess::slotTeardownDone(int error, const QString &errorString)
 {
     m_teardownInProgress = false;
-    emit teardownDone(static_cast<Qube::Hardware::ErrorType>(error), errorString, m_device->udi());
+    emit teardownDone(static_cast<VHardware::ErrorType>(error), errorString, m_device->udi());
 }
 
 bool UDisksStorageAccess::mount()
@@ -290,7 +290,7 @@ QString UDisksStorageAccess::generateReturnObjectPath()
 {
     static int number = 1;
 
-    return "/org/vision/Qube/Hardware/UDisksStorageAccess_"+QString::number(number++);
+    return "/org/vision/Vibe/Hardware/UDisksStorageAccess_" + QString::number(number++);
 }
 
 bool UDisksStorageAccess::requestPassphrase()
@@ -303,22 +303,22 @@ bool UDisksStorageAccess::requestPassphrase()
 
     QWidget *activeWindow = QApplication::activeWindow();
     uint wId = 0;
-    if (activeWindow!=0)
+    if (activeWindow != 0)
         wId = (uint)activeWindow->winId();
 
     QString appId = QCoreApplication::applicationName();
 
-    QDBusInterface soliduiserver("org.kde.kded", "/modules/soliduiserver", "org.vision.Qube.HardwareUiServer");
+    QDBusInterface soliduiserver("org.kde.kded", "/modules/soliduiserver", "org.vision.Vibe.HardwareUiServer");
     QDBusReply<void> reply = soliduiserver.call("showPassphraseDialog", udi, returnService,
                              m_lastReturnObject, wId, appId);
     m_passphraseRequested = reply.isValid();
     if (!m_passphraseRequested)
-        qWarning() << "Failed to call the QubeHardwareUiServer, D-Bus said:" << reply.error();
+        qWarning() << "Failed to call the VibeHardwareUiServer, D-Bus said:" << reply.error();
 
     return m_passphraseRequested;
 }
 
-void UDisksStorageAccess::passphraseReply( const QString & passphrase )
+void UDisksStorageAccess::passphraseReply(const QString &passphrase)
 {
     if (m_passphraseRequested) {
         QDBusConnection::sessionBus().unregisterObject(m_lastReturnObject);
@@ -332,7 +332,7 @@ void UDisksStorageAccess::passphraseReply( const QString & passphrase )
     }
 }
 
-void UDisksStorageAccess::callCryptoSetup( const QString & passphrase )
+void UDisksStorageAccess::callCryptoSetup(const QString &passphrase)
 {
     QDBusConnection c = QDBusConnection::systemBus();
     QDBusMessage msg = QDBusMessage::createMethodCall(UD_DBUS_SERVICE, m_device->udi(), UD_DBUS_INTERFACE_DISKS_DEVICE, "LuksUnlock");

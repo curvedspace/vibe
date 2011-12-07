@@ -20,37 +20,33 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UDEV_UDEVDVBINTERFACE_H
-#define QUBE_HARDWARE_BACKENDS_UDEV_UDEVDVBINTERFACE_H
+#ifndef VHARDWARE_BACKENDS_UDEV_UDEVDVBINTERFACE_H
+#define VHARDWARE_BACKENDS_UDEV_UDEVDVBINTERFACE_H
 
 #include <ifaces/dvbinterface.h>
 #include "udevdeviceinterface.h"
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UDev
         {
-            namespace UDev
+            class DvbInterface : public DeviceInterface, virtual public VHardware::Ifaces::DvbInterface
             {
-                class DvbInterface : public DeviceInterface, virtual public Qube::Hardware::Ifaces::DvbInterface
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::DvbInterface)
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::DvbInterface)
+            public:
+                DvbInterface(UDevDevice *device);
+                virtual ~DvbInterface();
 
-                public:
-                    DvbInterface(UDevDevice *device);
-                    virtual ~DvbInterface();
-
-                    virtual QString device() const;
-                    virtual int deviceAdapter() const;
-                    virtual Qube::Hardware::DvbInterface::DeviceType deviceType() const;
-                    virtual int deviceIndex() const;
-                };
-            }
+                virtual QString device() const;
+                virtual int deviceAdapter() const;
+                virtual VDvbInterface::DeviceType deviceType() const;
+                virtual int deviceIndex() const;
+            };
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_UDEV_UDEVDVBINTERFACE_H
+#endif // VHARDWARE_BACKENDS_UDEV_UDEVDVBINTERFACE_H

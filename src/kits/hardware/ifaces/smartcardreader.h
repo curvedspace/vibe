@@ -18,42 +18,38 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_IFACES_SMARTCARDREADER_H
-#define QUBE_HARDWARE_IFACES_SMARTCARDREADER_H
+#ifndef VHARDWARE_IFACES_SMARTCARDREADER_H
+#define VHARDWARE_IFACES_SMARTCARDREADER_H
 
+#include <VibeHardware/VSmartCardReader>
 #include <ifaces/deviceinterface.h>
-#include <Qube/Hardware/smartcardreader.h>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Ifaces
     {
-        namespace Ifaces
+        /**
+         * This device interface is available on smart card readers.
+         */
+        class VIBE_EXPORT SmartCardReader : virtual public DeviceInterface
         {
+        public:
             /**
-             * This device interface is available on smart card readers.
+             * Destroys a SmartCardReader object.
              */
-            class SmartCardReader : virtual public DeviceInterface
-            {
-            public:
-                /**
-                 * Destroys a SmartCardReader object.
-                 */
-                virtual ~SmartCardReader();
+            virtual ~SmartCardReader();
 
-
-                /**
-                 * Retrieves the type of this smart card reader.
-                 *
-                 * @return the reader type
-                 * @see Qube::Hardware::SmartCardReader::ReaderType
-                 */
-                virtual Qube::Hardware::SmartCardReader::ReaderType readerType() const = 0;
-            };
-        }
+            /**
+             * Retrieves the type of this smart card reader.
+             *
+             * @return the reader type
+             * @see VSmartCardReader::ReaderType
+             */
+            virtual VSmartCardReader::ReaderType readerType() const = 0;
+        };
     }
 }
 
-Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::SmartCardReader, "org.vision.Qube.Hardware.Ifaces.SmartCardReader/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::SmartCardReader, "org.vision.Vibe.Hardware.Ifaces.SmartCardReader/0.1")
 
-#endif // QUBE_HARDWARE_IFACES_SMARTCARDREADER_H
+#endif // VHARDWARE_IFACES_SMARTCARDREADER_H

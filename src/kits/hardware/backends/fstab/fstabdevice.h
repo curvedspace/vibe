@@ -18,59 +18,56 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_FSTAB_FSTAB_DEVICE_H
-#define QUBE_HARDWARE_BACKENDS_FSTAB_FSTAB_DEVICE_H
+#ifndef VHARDWARE_BACKENDS_FSTAB_FSTAB_DEVICE_H
+#define VHARDWARE_BACKENDS_FSTAB_FSTAB_DEVICE_H
 
 #include <QtCore/QStringList>
 
 #include <ifaces/device.h>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace Fstab
         {
-            namespace Fstab
+            class FstabDevice : public VHardware::Ifaces::Device
             {
-                class FstabDevice : public Qube::Hardware::Ifaces::Device
-                {
-                    Q_OBJECT
-                public:
-                    FstabDevice(QString uid);
+                Q_OBJECT
+            public:
+                FstabDevice(QString uid);
 
-                    virtual ~FstabDevice();
+                virtual ~FstabDevice();
 
-                    virtual QString udi() const;
+                virtual QString udi() const;
 
-                    virtual QString parentUdi() const;
+                virtual QString parentUdi() const;
 
-                    virtual QString vendor() const;
+                virtual QString vendor() const;
 
-                    virtual QString product() const;
+                virtual QString product() const;
 
-                    virtual QString icon() const;
+                virtual QString icon() const;
 
-                    virtual QStringList emblems() const;
+                virtual QStringList emblems() const;
 
-                    virtual QString description() const;
+                virtual QString description() const;
 
-                    virtual bool queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type &type) const;
+                virtual bool queryDeviceInterface(const VDeviceInterface::Type &type) const;
 
-                    virtual QObject *createDeviceInterface(const Qube::Hardware::DeviceInterface::Type &type);
+                virtual QObject *createDeviceInterface(const VDeviceInterface::Type &type);
 
-                    QString device() const;
+                QString device() const;
 
-                private:
-                    QString m_uid;
-                    QString m_device;
-                    QString m_product;
-                    QString m_vendor;
-                    QString m_description;
-                };
-            }
+            private:
+                QString m_uid;
+                QString m_device;
+                QString m_product;
+                QString m_vendor;
+                QString m_description;
+            };
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_UPNP_UPNP_DEVICE_H
+#endif // VHARDWARE_BACKENDS_UPNP_UPNP_DEVICE_H

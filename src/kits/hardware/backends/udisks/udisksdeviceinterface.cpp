@@ -20,7 +20,7 @@
 
 #include "udisksdeviceinterface.h"
 
-using namespace Qube::Hardware::Backends::UDisks;
+using namespace VHardware::Backends::UDisks;
 
 DeviceInterface::DeviceInterface(UDisksDevice *device)
     : QObject(device), m_device(device)

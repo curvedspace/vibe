@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UPNP_UPNP_DEVICE_MANAGER_H
-#define QUBE_HARDWARE_BACKENDS_UPNP_UPNP_DEVICE_MANAGER_H
+#ifndef VHARDWARE_BACKENDS_UPNP_UPNP_DEVICE_MANAGER_H
+#define VHARDWARE_BACKENDS_UPNP_UPNP_DEVICE_MANAGER_H
 
 #include <ifaces/devicemanager.h>
 
@@ -31,47 +31,42 @@
 
 #include "upnpcontrolpoint.h"
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UPnP
         {
-            namespace UPnP
+            class UPnPDeviceManager : public VHardware::Ifaces::DeviceManager
             {
+                Q_OBJECT
+            public:
+                explicit UPnPDeviceManager(QObject *parent = 0);
 
-                class UPnPDeviceManager : public Qube::Hardware::Ifaces::DeviceManager
-                {
-                    Q_OBJECT
+                virtual ~UPnPDeviceManager();
 
-                public:
-                    explicit UPnPDeviceManager(QObject* parent = 0);
+                virtual QString udiPrefix() const;
 
-                    virtual ~UPnPDeviceManager();
+                virtual QSet<VDeviceInterface::Type> supportedInterfaces() const;
 
-                    virtual QString udiPrefix() const;
+                virtual QStringList allDevices();
 
-                    virtual QSet<Qube::Hardware::DeviceInterface::Type> supportedInterfaces() const;
+                virtual QStringList devicesFromQuery(const QString &parentUdi, VDeviceInterface::Type type = VDeviceInterface::Unknown);
 
-                    virtual QStringList allDevices();
+                virtual QObject *createDevice(const QString &udi);
 
-                    virtual QStringList devicesFromQuery(const QString &parentUdi, Qube::Hardware::DeviceInterface::Type type = Qube::Hardware::DeviceInterface::Unknown);
+            public Q_SLOTS:
+                void rootDeviceOnline(Herqq::Upnp::HClientDevice *);
 
-                    virtual QObject *createDevice(const QString &udi);
+                void rootDeviceOffline(Herqq::Upnp::HClientDevice *);
 
-                public Q_SLOTS:
-                    void rootDeviceOnline(Herqq::Upnp::HClientDevice*);
+            private:
+                QSet<VDeviceInterface::Type> m_supportedInterfaces;
 
-                    void rootDeviceOffline(Herqq::Upnp::HClientDevice*);
-
-                private:
-                    QSet<Qube::Hardware::DeviceInterface::Type> m_supportedInterfaces;
-
-                    //Qube::Hardware::Backends::UPnP::UPnPControlPoint* m_upnpControlPoint;
-                };
-            }
+                //VHardware::Backends::UPnP::UPnPControlPoint* m_upnpControlPoint;
+            };
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_UPNP_UPNP_DEVICE_MANAGER_H
+#endif // VHARDWARE_BACKENDS_UPNP_UPNP_DEVICE_MANAGER_H

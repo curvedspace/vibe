@@ -18,43 +18,40 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UDEV_GENERICINTERFACE_H
-#define QUBE_HARDWARE_BACKENDS_UDEV_GENERICINTERFACE_H
+#ifndef VHARDWARE_BACKENDS_UDEV_GENERICINTERFACE_H
+#define VHARDWARE_BACKENDS_UDEV_GENERICINTERFACE_H
 
+#include <VibeHardware/VGenericInterface>
 #include <ifaces/genericinterface.h>
-#include <Qube/Hardware/genericinterface.h>
+
 #include "udevdeviceinterface.h"
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UDev
         {
-            namespace UDev
+            class UDevDevice;
+
+            class GenericInterface : public DeviceInterface, virtual public VHardware::Ifaces::GenericInterface
             {
-                class UDevDevice;
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::GenericInterface)
+            public:
+                GenericInterface(UDevDevice *device);
+                virtual ~GenericInterface();
 
-                class GenericInterface : public DeviceInterface, virtual public Qube::Hardware::Ifaces::GenericInterface
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::GenericInterface)
+                virtual QVariant property(const QString &key) const;
+                virtual QMap<QString, QVariant> allProperties() const;
+                virtual bool propertyExists(const QString &key) const;
 
-                public:
-                    GenericInterface(UDevDevice *device);
-                    virtual ~GenericInterface();
-
-                    virtual QVariant property(const QString &key) const;
-                    virtual QMap<QString, QVariant> allProperties() const;
-                    virtual bool propertyExists(const QString &key) const;
-
-                Q_SIGNALS:
-                    void propertyChanged(const QMap<QString,int> &changes);
-                    void conditionRaised(const QString &condition, const QString &reason);
-                };
-            }
+            Q_SIGNALS:
+                void propertyChanged(const QMap<QString, int> &changes);
+                void conditionRaised(const QString &condition, const QString &reason);
+            };
         }
     }
 }
 
-#endif
+#endif // VHARDWARE_BACKENDS_UDEV_GENERICINTERFACE_H

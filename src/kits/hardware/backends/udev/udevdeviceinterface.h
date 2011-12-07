@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UDEV_DEVICEINTERFACE_H
-#define QUBE_HARDWARE_BACKENDS_UDEV_DEVICEINTERFACE_H
+#ifndef VHARDWARE_BACKENDS_UDEV_DEVICEINTERFACE_H
+#define VHARDWARE_BACKENDS_UDEV_DEVICEINTERFACE_H
 
 #include <ifaces/deviceinterface.h>
 #include "udevdevice.h"
@@ -27,28 +27,25 @@
 #include <QtCore/QObject>
 #include <QtCore/QStringList>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UDev
         {
-            namespace UDev
+            class DeviceInterface : public QObject, virtual public VHardware::Ifaces::DeviceInterface
             {
-                class DeviceInterface : public QObject, virtual public Qube::Hardware::Ifaces::DeviceInterface
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::DeviceInterface)
-                public:
-                    DeviceInterface(UDevDevice *device);
-                    virtual ~DeviceInterface();
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::DeviceInterface)
+            public:
+                DeviceInterface(UDevDevice *device);
+                virtual ~DeviceInterface();
 
-                protected:
-                    UDevDevice *m_device;
-                };
-            }
+            protected:
+                UDevDevice *m_device;
+            };
         }
     }
 }
 
-#endif
+#endif // VHARDWARE_BACKENDS_UDEV_DEVICEINTERFACE_H

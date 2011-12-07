@@ -1,9 +1,10 @@
-add_definitions(-DVIBE_HARDWARE_LIB)
+add_definitions(-DVIBE_BUILDING)
 
 include_directories(${QT_INCLUDE_DIR})
-include_directories(${QT_QTCORE_INCLUDE_DIR} ${QT_QTDBUS_INCLUDE_DIR} ${QT_QTXML_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/headers ${CMAKE_BINARY_DIR})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${QT_QTCORE_INCLUDE_DIR} ${QT_QTDBUS_INCLUDE_DIR} ${QT_QTXML_INCLUDE_DIR})
+include_directories(${CMAKE_SOURCE_DIR}/headers ${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_BINARY_DIR}/src/kits/core ${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_BINARY_DIR})
 
 # Check whether some processor features are supported.
 check_cxx_source_compiles("	#ifdef __SUNPRO_CC
@@ -32,38 +33,38 @@ configure_file(config-processor.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-proce
 ########### next target ###############
 
 set(SOURCES
-   namespace.cpp
-   managerbase.cpp
-   device.cpp
-   devicemanager.cpp
-   deviceinterface.cpp
-   genericinterface.cpp
-   processor.cpp
-   block.cpp
-   storagedrive.cpp
-   opticaldrive.cpp
-   storagevolume.cpp
-   opticaldisc.cpp
-   storageaccess.cpp
-   camera.cpp
-   portablemediaplayer.cpp
-   networkinterface.cpp
-   networkshare.cpp
-   serialinterface.cpp
-   acadapter.cpp
-   battery.cpp
-   button.cpp
-   audiointerface.cpp
-   dvbinterface.cpp
-   predicate.cpp
-   predicateparse.cpp
-   predicate_lexer.c
-   predicate_parser.c
-   powermanagement.cpp
-   networking.cpp
-   video.cpp
-   smartcardreader.cpp
-   internetgateway.cpp
+   vhardware.cpp
+   vmanagerbase.cpp
+   vdevice.cpp
+   vdevicemanager.cpp
+   vdeviceinterface.cpp
+   vgenericinterface.cpp
+   vprocessor.cpp
+   vblock.cpp
+   vstoragedrive.cpp
+   vopticaldrive.cpp
+   vstoragevolume.cpp
+   vopticaldisc.cpp
+   vstorageaccess.cpp
+   vcamera.cpp
+   vportablemediaplayer.cpp
+   vnetworkinterface.cpp
+   vnetworkshare.cpp
+   vserialinterface.cpp
+   vacadapter.cpp
+   vbattery.cpp
+   vbutton.cpp
+   vaudiointerface.cpp
+   vdvbinterface.cpp
+   vpredicate.cpp
+   vpredicateparse.cpp
+   vpredicate_lexer.c
+   vpredicate_parser.c
+   vpowermanagement.cpp
+   vnetworking.cpp
+   vvideo.cpp
+   vsmartcardreader.cpp
+   vinternetgateway.cpp
 
    ifaces/acadapter.cpp
    ifaces/audiointerface.cpp
@@ -120,7 +121,7 @@ macro_log_feature(UDEV_FOUND "UDev" "UDev support for VibeHardware" "http://www.
     FALSE "" "Allows VibeHardware to use UDev to provide information about devices on Linux")
 
 # Configure header
-configure_file(config-qubehardware.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-qubehardware.h)
+configure_file(config-hardware.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-hardware.h)
 
 # Include UDev support if possible
 if(UDEV_FOUND)
@@ -201,7 +202,7 @@ qt4_add_dbus_interfaces(SOURCES org.freedesktop.PowerManagement.xml
                         org.vision.Vibe.Hardware.PowerManagement.PolicyAgent.xml)
 
 qt4_add_dbus_interface(SOURCES org.vision.Vibe.Hardware.Networking.Client.xml
-                       org_vision_qube_hardware_networking_client)
+                       org_vision_vibe_hardware_networking_client)
 
 # Library target
 automoc4(VibeHardare SOURCES)
@@ -237,20 +238,20 @@ set_target_properties(VibeHardware PROPERTIES
 ########### install files ###############
 
 install(FILES
-    namespace.h device.h
-    devicenotifier.h deviceinterface.h genericinterface.h processor.h block.h
-    storageaccess.h storagedrive.h opticaldrive.h storagevolume.h opticaldisc.h
-    camera.h portablemediaplayer.h networkinterface.h acadapter.h battery.h
-    button.h audiointerface.h dvbinterface.h predicate.h powermanagement.h
-    networking.h video.h serialinterface.h smartcardreader.h internetgateway.h
-    networkshare.h DESTINATION include/Vibe/Hardware COMPONENT Devel)
+    vhardware.h vdevice.h
+    vdevicenotifier.h vdeviceinterface.h vgenericinterface.h vprocessor.h vblock.h
+    vstorageaccess.h vstoragedrive.h vopticaldrive.h vstoragevolume.h vopticaldisc.h
+    vcamera.h vportablemediaplayer.h vnetworkinterface.h vacadapter.h vbattery.h
+    vbutton.h vaudiointerface.h vdvbinterface.h vpredicate.h vpowermanagement.h
+    vnetworking.h vvideo.h vserialinterface.h vsmartcardreader.h vinternetgateway.h
+    vnetworkshare.h DESTINATION include/VibeHardware COMPONENT Devel)
 install(TARGETS VibeHardware
     LIBRARY DESTINATION lib COMPONENT Framework)
 
 ########### parser build ###############
 
-set(lexer_FILE predicate_lexer)
-set(parser_FILE predicate_parser)
+set(lexer_FILE vpredicate_lexer)
+set(parser_FILE vpredicate_parser)
 
 find_package(Flex)
 macro_log_feature(FLEX_FOUND

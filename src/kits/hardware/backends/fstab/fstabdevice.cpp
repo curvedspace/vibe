@@ -25,10 +25,10 @@
 #include "fstabservice.h"
 #include <QtCore/QStringList>
 
-using namespace Qube::Hardware::Backends::Fstab;
+using namespace VHardware::Backends::Fstab;
 
 FstabDevice::FstabDevice(QString uid) :
-    Qube::Hardware::Ifaces::Device(),
+    VHardware::Ifaces::Device(),
     m_uid(uid)
 {
     m_device = m_uid;
@@ -92,20 +92,20 @@ QString FstabDevice::description() const
     return m_description;
 }
 
-bool FstabDevice::queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type &type) const
+bool FstabDevice::queryDeviceInterface(const VDeviceInterface::Type &type) const
 {
-    if (type == Qube::Hardware::DeviceInterface::StorageAccess
-        || type == Qube::Hardware::DeviceInterface::NetworkShare) {
+    if (type == VDeviceInterface::StorageAccess
+        || type == VDeviceInterface::NetworkShare) {
         return true;
     }
     return false;
 }
 
-QObject* FstabDevice::createDeviceInterface(const Qube::Hardware::DeviceInterface::Type &type)
+QObject *FstabDevice::createDeviceInterface(const VDeviceInterface::Type &type)
 {
-    if (type == Qube::Hardware::DeviceInterface::StorageAccess) {
+    if (type == VDeviceInterface::StorageAccess) {
         return new FstabStorageAccess(this);
-    } else if (type == Qube::Hardware::DeviceInterface::NetworkShare) {
+    } else if (type == VDeviceInterface::NetworkShare) {
         return new FstabNetworkShare(this);
     }
     return 0;

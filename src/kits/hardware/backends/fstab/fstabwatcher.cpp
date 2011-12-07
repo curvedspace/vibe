@@ -22,28 +22,27 @@
 #include <QtCore/QFileSystemWatcher>
 #include <QtCore/QStringList>
 
-#include <Qube/Core/Global>
+#include <VibeCore/VGlobal>
 
 #include "fstabwatcher.h"
 
-using namespace Qube::Hardware::Backends::Fstab;
+using namespace VHardware::Backends::Fstab;
 
-QUBE_GLOBAL_STATIC(FstabWatcher, globalFstabWatcher)
+VIBE_GLOBAL_STATIC(FstabWatcher, globalFstabWatcher)
 
 #define MTAB "/etc/mtab"
 #ifdef Q_OS_SOLARIS
-#define FSTAB "/etc/vfstab"
+#  define FSTAB "/etc/vfstab"
 #else
-#define FSTAB "/etc/fstab"
+#  define FSTAB "/etc/fstab"
 #endif
 
-FstabWatcher::FstabWatcher()
-    : m_isRoutineInstalled(false)
-    , m_fileSystemWatcher(new QFileSystemWatcher(this))
+FstabWatcher::FstabWatcher() :
+    m_isRoutineInstalled(false),
+    m_fileSystemWatcher(new QFileSystemWatcher(this))
 {
-    if (qApp) {
+    if (qApp)
         connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(orphanFileSystemWatcher()));
-    }
     m_fileSystemWatcher->addPath(MTAB);
     m_fileSystemWatcher->addPath(FSTAB);
     connect(m_fileSystemWatcher, SIGNAL(fileChanged(QString)), this, SLOT(onFileChanged(QString)));
@@ -84,7 +83,6 @@ FstabWatcher *FstabWatcher::instance()
 #endif
 }
 
-
 void FstabWatcher::onFileChanged(const QString &path)
 {
     if (path == MTAB) {
@@ -93,6 +91,7 @@ void FstabWatcher::onFileChanged(const QString &path)
             m_fileSystemWatcher->addPath(MTAB);
         }
     }
+
     if (path == FSTAB) {
         emit fstabChanged();
         if (!m_fileSystemWatcher->files().contains(FSTAB)) {
@@ -100,5 +99,3 @@ void FstabWatcher::onFileChanged(const QString &path)
         }
     }
 }
-
-

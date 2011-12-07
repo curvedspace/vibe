@@ -18,11 +18,10 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_FSTAB_SERVICE_H
-#define QUBE_HARDWARE_BACKENDS_FSTAB_SERVICE_H
+#ifndef VHARDWARE_BACKENDS_FSTAB_SERVICE_H
+#define VHARDWARE_BACKENDS_FSTAB_SERVICE_H
 
 /* FStab */
 #define FSTAB_UDI_PREFIX             "/org/vision/fstab"
 
-#endif // QUBE_HARDWARE_BACKENDS_FSTAB_H
-
+#endif // VHARDWARE_BACKENDS_FSTAB_H

@@ -19,43 +19,40 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UDEV_UDEVAUDIOINTERFACE_H
-#define QUBE_HARDWARE_BACKENDS_UDEV_UDEVAUDIOINTERFACE_H
+#ifndef VHARDWARE_BACKENDS_UDEV_UDEVAUDIOINTERFACE_H
+#define VHARDWARE_BACKENDS_UDEV_UDEVAUDIOINTERFACE_H
 
 #include <ifaces/audiointerface.h>
 #include "udevdeviceinterface.h"
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UDev
         {
-            namespace UDev
+            class UdevAudioInterfacePrivate;
+
+            class AudioInterface : public DeviceInterface, virtual public VHardware::Ifaces::AudioInterface
             {
-                class UdevAudioInterfacePrivate;
-                class AudioInterface : public DeviceInterface, virtual public Qube::Hardware::Ifaces::AudioInterface
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::AudioInterface)
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::AudioInterface)
+            public:
+                AudioInterface(UDevDevice *device);
+                virtual ~AudioInterface();
 
-                public:
-                    AudioInterface(UDevDevice *device);
-                    virtual ~AudioInterface();
+                virtual VAudioInterface::AudioDriver driver() const;
+                virtual QVariant driverHandle() const;
 
-                    virtual Qube::Hardware::AudioInterface::AudioDriver driver() const;
-                    virtual QVariant driverHandle() const;
+                virtual QString name() const;
+                virtual VAudioInterface::AudioInterfaceTypes deviceType() const;
+                virtual VAudioInterface::SoundcardType soundcardType() const;
 
-                    virtual QString name() const;
-                    virtual Qube::Hardware::AudioInterface::AudioInterfaceTypes deviceType() const;
-                    virtual Qube::Hardware::AudioInterface::SoundcardType soundcardType() const;
-
-                private:
-                    UdevAudioInterfacePrivate *d;
-                };
-            }
+            private:
+                UdevAudioInterfacePrivate *d;
+            };
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_UDEV_UDEVAUDIOINTERFACE_H
+#endif // VHARDWARE_BACKENDS_UDEV_UDEVAUDIOINTERFACE_H

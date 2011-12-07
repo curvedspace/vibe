@@ -19,45 +19,41 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UPOWER_ACADAPTER_H
-#define QUBE_HARDWARE_BACKENDS_UPOWER_ACADAPTER_H
+#ifndef VHARDWARE_BACKENDS_UPOWER_ACADAPTER_H
+#define VHARDWARE_BACKENDS_UPOWER_ACADAPTER_H
 
 #include <ifaces/acadapter.h>
 #include "upowerdeviceinterface.h"
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UPower
         {
-            namespace UPower
+            class AcAdapter : public DeviceInterface, virtual public VHardware::Ifaces::AcAdapter
             {
-                class AcAdapter : public DeviceInterface, virtual public Qube::Hardware::Ifaces::AcAdapter
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::AcAdapter)
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::AcAdapter)
+            public:
+                AcAdapter(UPowerDevice *device);
+                virtual ~AcAdapter();
 
-                public:
-                    AcAdapter(UPowerDevice *device);
-                    virtual ~AcAdapter();
+                virtual bool isPlugged() const;
 
-                    virtual bool isPlugged() const;
+            Q_SIGNALS:
+                void plugStateChanged(bool newState, const QString &udi);
 
-                Q_SIGNALS:
-                    void plugStateChanged(bool newState, const QString &udi);
+            private Q_SLOTS:
+                void slotChanged();
 
-                private Q_SLOTS:
-                    void slotChanged();
+            private:
+                void updateCache();
 
-                private:
-                    void updateCache();
-
-                    bool m_isPlugged;
-                };
-            }
+                bool m_isPlugged;
+            };
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_UPOWER_ACADAPTER_H
+#endif // VHARDWARE_BACKENDS_UPOWER_ACADAPTER_H

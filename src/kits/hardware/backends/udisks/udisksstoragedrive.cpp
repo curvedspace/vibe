@@ -23,9 +23,9 @@
 
 #include <QtCore/QDebug>
 
-using namespace Qube::Hardware::Backends::UDisks;
+using namespace VHardware::Backends::UDisks;
 
-UDisksStorageDrive::UDisksStorageDrive(UDisksDevice* device)
+UDisksStorageDrive::UDisksStorageDrive(UDisksDevice *device)
     : Block(device)
 {
 
@@ -49,77 +49,77 @@ bool UDisksStorageDrive::isHotpluggable() const
 bool UDisksStorageDrive::isRemovable() const
 {
     return m_device->prop("DeviceIsRemovable").toBool() ||
-           !m_device->prop( "DeviceIsSystemInternal" ).toBool();
+           !m_device->prop("DeviceIsSystemInternal").toBool();
 }
 
-Qube::Hardware::StorageDrive::DriveType UDisksStorageDrive::driveType() const
+VStorageDrive::DriveType UDisksStorageDrive::driveType() const
 {
     const QStringList mediaTypes = m_device->prop("DriveMediaCompatibility").toStringList();
-    bool isHardDisk = m_device->prop( "DeviceIsSystemInternal" ).toBool();
+    bool isHardDisk = m_device->prop("DeviceIsSystemInternal").toBool();
 
-    if ( isHardDisk ) {
-        return Qube::Hardware::StorageDrive::HardDisk;
-    } else if ( !mediaTypes.filter( "optical" ).isEmpty() ) { // optical disks
-        return Qube::Hardware::StorageDrive::CdromDrive;
-    } else if ( mediaTypes.contains( "floppy" ) ) {
-        return Qube::Hardware::StorageDrive::Floppy;
+    if (isHardDisk) {
+        return VStorageDrive::HardDisk;
+    } else if (!mediaTypes.filter("optical").isEmpty()) {     // optical disks
+        return VStorageDrive::CdromDrive;
+    } else if (mediaTypes.contains("floppy")) {
+        return VStorageDrive::Floppy;
     }
-#if 0 // TODO add to QubeHardware
-    else if ( mediaTypes.contains( "floppy_jaz" ) ) {
-        return Qube::Hardware::StorageDrive::Jaz;
-    } else if ( mediaTypes.contains( "floppy_zip" ) ) {
-        return Qube::Hardware::StorageDrive::Zip;
+#if 0 // TODO add to VibeHardware
+    else if (mediaTypes.contains("floppy_jaz")) {
+        return VStorageDrive::Jaz;
+    } else if (mediaTypes.contains("floppy_zip")) {
+        return VStorageDrive::Zip;
     }
 #endif
     /*
     else if (type=="tape")      // FIXME: DK doesn't know about tapes
     {
-        return Qube::Hardware::StorageDrive::Tape;
+        return VStorageDrive::Tape;
     }
     */
-#if 0 // TODO add to QubeHardware
-    else if ( mediaTypes.contains( "flash" ) ) {
-        return Qube::Hardware::StorageDrive::Flash;
+#if 0 // TODO add to VibeHardware
+    else if (mediaTypes.contains("flash")) {
+        return VStorageDrive::Flash;
     }
 #endif
-    else if ( mediaTypes.contains( "flash_cf" ) ) {
-        return Qube::Hardware::StorageDrive::CompactFlash;
-    } else if ( mediaTypes.contains( "flash_ms" ) ) {
-        return Qube::Hardware::StorageDrive::MemoryStick;
-    } else if ( mediaTypes.contains( "flash_sm" ) ) {
-        return Qube::Hardware::StorageDrive::SmartMedia;
-    } else if ( mediaTypes.contains( "flash_sd" ) || mediaTypes.contains( "flash_sdhc" ) || mediaTypes.contains( "flash_mmc" ) ) {
-        return Qube::Hardware::StorageDrive::SdMmc;
+    else if (mediaTypes.contains("flash_cf")) {
+        return VStorageDrive::CompactFlash;
+    } else if (mediaTypes.contains("flash_ms")) {
+        return VStorageDrive::MemoryStick;
+    } else if (mediaTypes.contains("flash_sm")) {
+        return VStorageDrive::SmartMedia;
+    } else if (mediaTypes.contains("flash_sd") || mediaTypes.contains("flash_sdhc") || mediaTypes.contains("flash_mmc")) {
+        return VStorageDrive::SdMmc;
     }
     // FIXME: DK doesn't know about xD cards either
     else {
-        return Qube::Hardware::StorageDrive::HardDisk;
+        return VStorageDrive::HardDisk;
     }
 }
 
-Qube::Hardware::StorageDrive::Bus UDisksStorageDrive::bus() const
+VStorageDrive::Bus UDisksStorageDrive::bus() const
 {
-    const QString bus = m_device->prop( "DriveConnectionInterface" ).toString();
+    const QString bus = m_device->prop("DriveConnectionInterface").toString();
 
-    if ( bus == "ata" || bus == "ata_parallel" ) { // parallel (classical) ATA
-        return Qube::Hardware::StorageDrive::Ide;
-    } else if ( bus == "usb" ) {
-        return Qube::Hardware::StorageDrive::Usb;
-    } else if ( bus == "firewire" ) {
-        return Qube::Hardware::StorageDrive::Ieee1394;
-    } else if ( bus == "scsi" ) {
-        return Qube::Hardware::StorageDrive::Scsi;
-    } else if ( bus == "ata_serial" || bus == "ata_serial_esata" ) { // serial ATA
-        return Qube::Hardware::StorageDrive::Sata;
+    if (bus == "ata" || bus == "ata_parallel") {   // parallel (classical) ATA
+        return VStorageDrive::Ide;
+    } else if (bus == "usb") {
+        return VStorageDrive::Usb;
+    } else if (bus == "firewire") {
+        return VStorageDrive::Ieee1394;
+    } else if (bus == "scsi") {
+        return VStorageDrive::Scsi;
+    } else if (bus == "ata_serial" || bus == "ata_serial_esata") {   // serial ATA
+        return VStorageDrive::Sata;
     }
-#if 0  // TODO add these to QubeHardware
-    else if ( bus == "sdio" ) {
-        return Qube::Hardware::StorageDrive::SDIO;
-    } else if ( bus == "virtual" ) {
-        return Qube::Hardware::StorageDrive::Virtual;
+#if 0  // TODO add these to VibeHardware
+    else if (bus == "sdio") {
+        return VStorageDrive::SDIO;
+    } else if (bus == "virtual") {
+        return VStorageDrive::Virtual;
     }
 #endif
     else
-        return Qube::Hardware::StorageDrive::Platform;
+        return VStorageDrive::Platform;
 }
 

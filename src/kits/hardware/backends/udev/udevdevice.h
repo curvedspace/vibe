@@ -18,66 +18,63 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UDEV_UDEVDEVICE_H
-#define QUBE_HARDWARE_BACKENDS_UDEV_UDEVDEVICE_H
+#ifndef VHARDWARE_BACKENDS_UDEV_UDEVDEVICE_H
+#define VHARDWARE_BACKENDS_UDEV_UDEVDEVICE_H
 
 #include "udev.h"
 
 #include <ifaces/device.h>
 #include <QtCore/QStringList>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UDev
         {
-            namespace UDev
+            class UDevDevice : public VHardware::Ifaces::Device
             {
-                class UDevDevice : public Qube::Hardware::Ifaces::Device
-                {
-                    Q_OBJECT
-                public:
-                    UDevDevice(const UdevQt::Device device);
-                    virtual ~UDevDevice();
+                Q_OBJECT
+            public:
+                UDevDevice(const UdevQt::Device device);
+                virtual ~UDevDevice();
 
-                    virtual QString udi() const;
+                virtual QString udi() const;
 
-                    virtual QString parentUdi() const;
+                virtual QString parentUdi() const;
 
-                    virtual QString vendor() const;
+                virtual QString vendor() const;
 
-                    virtual QString product() const;
+                virtual QString product() const;
 
-                    virtual QString icon() const;
+                virtual QString icon() const;
 
-                    virtual QStringList emblems() const;
+                virtual QStringList emblems() const;
 
-                    virtual QString description() const;
+                virtual QString description() const;
 
-                    virtual bool queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type &type) const;
+                virtual bool queryDeviceInterface(const VDeviceInterface::Type &type) const;
 
-                    virtual QObject *createDeviceInterface(const Qube::Hardware::DeviceInterface::Type &type);
+                virtual QObject *createDeviceInterface(const VDeviceInterface::Type &type);
 
-                    QString device() const;
+                QString device() const;
 
-                    QVariant property(const QString &key) const;
-                    QMap<QString, QVariant> allProperties() const;
-                    bool propertyExists(const QString &key) const;
+                QVariant property(const QString &key) const;
+                QMap<QString, QVariant> allProperties() const;
+                bool propertyExists(const QString &key) const;
 
-                    QString systemAttribute(const char *attribute) const;
-                    QString deviceName() const;
-                    QString devicePath() const;
-                    int deviceNumber() const;
+                QString systemAttribute(const char *attribute) const;
+                QString deviceName() const;
+                QString devicePath() const;
+                int deviceNumber() const;
 
-                    UdevQt::Device udevDevice();
+                UdevQt::Device udevDevice();
 
-                private:
-                    UdevQt::Device m_device;
-                };
-            }
+            private:
+                UdevQt::Device m_device;
+            };
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_UDEV_UDEVDEVICE_H
+#endif // VHARDWARE_BACKENDS_UDEV_UDEVDEVICE_H

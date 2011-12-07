@@ -20,7 +20,7 @@
 
 #include "udevcamera.h"
 
-using namespace Qube::Hardware::Backends::UDev;
+using namespace VHardware::Backends::UDev;
 
 Camera::Camera(UDevDevice *device)
     : DeviceInterface(device)
@@ -59,7 +59,7 @@ QStringList Camera::supportedDrivers(QString /*protocol*/) const
 
 QVariant Camera::driverHandle(const QString &driver) const
 {
-    if (driver=="gphoto" && m_device->property("SUBSYSTEM").toString()=="usb") {
+    if (driver == "gphoto" && m_device->property("SUBSYSTEM").toString() == "usb") {
         QVariantList list;
 
         list << "usb"

@@ -30,13 +30,13 @@
 #include <QtCore/QDebug>
 #include <QtDBus/QDBusPendingReply>
 
-#include <Qube/Hardware/genericinterface.h>
-#include <Qube/Hardware/device.h>
+#include <VibeHardware/VGenericInterface>
+#include <VibeHardware/VDevice>
 
-using namespace Qube::Hardware::Backends::UPower;
+using namespace VHardware::Backends::UPower;
 
 UPowerDevice::UPowerDevice(const QString &udi)
-    : Qube::Hardware::Ifaces::Device()
+    : VHardware::Ifaces::Device()
     , m_device(UP_DBUS_SERVICE,
                udi,
                UP_DBUS_INTERFACE_DEVICE,
@@ -51,7 +51,7 @@ UPowerDevice::~UPowerDevice()
 {
 }
 
-QObject* UPowerDevice::createDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type)
+QObject *UPowerDevice::createDeviceInterface(const VDeviceInterface::Type &type)
 {
     if (!queryDeviceInterface(type)) {
         return 0;
@@ -59,33 +59,33 @@ QObject* UPowerDevice::createDeviceInterface(const Qube::Hardware::DeviceInterfa
 
     DeviceInterface *iface = 0;
     switch (type) {
-    case Qube::Hardware::DeviceInterface::GenericInterface:
-        iface = new GenericInterface(this);
-        break;
-    case Qube::Hardware::DeviceInterface::AcAdapter:
-        iface = new AcAdapter(this);
-        break;
-    case Qube::Hardware::DeviceInterface::Battery:
-        iface = new Battery(this);
-        break;
-    default:
-        break;
+        case VDeviceInterface::GenericInterface:
+            iface = new GenericInterface(this);
+            break;
+        case VDeviceInterface::AcAdapter:
+            iface = new AcAdapter(this);
+            break;
+        case VDeviceInterface::Battery:
+            iface = new Battery(this);
+            break;
+        default:
+            break;
     }
     return iface;
 }
 
-bool UPowerDevice::queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type) const
+bool UPowerDevice::queryDeviceInterface(const VDeviceInterface::Type &type) const
 {
     const uint uptype = prop("Type").toUInt();
     switch (type) {
-    case Qube::Hardware::DeviceInterface::GenericInterface:
-        return true;
-    case Qube::Hardware::DeviceInterface::Battery:
-        return (uptype == 2 || uptype == 3);
-    case Qube::Hardware::DeviceInterface::AcAdapter:
-        return (uptype == 1);
-    default:
-        return false;
+        case VDeviceInterface::GenericInterface:
+            return true;
+        case VDeviceInterface::Battery:
+            return (uptype == 2 || uptype == 3);
+        case VDeviceInterface::AcAdapter:
+            return (uptype == 1);
+        default:
+            return false;
     }
 }
 
@@ -96,9 +96,9 @@ QStringList UPowerDevice::emblems() const
 
 QString UPowerDevice::description() const
 {
-    if (queryDeviceInterface(Qube::Hardware::DeviceInterface::AcAdapter))
+    if (queryDeviceInterface(VDeviceInterface::AcAdapter))
         return QObject::tr("A/C Adapter");
-    else if (queryDeviceInterface(Qube::Hardware::DeviceInterface::Battery))
+    else if (queryDeviceInterface(VDeviceInterface::Battery))
         return QObject::tr("%1 Battery", "%1 is battery technology").arg(batteryTechnology());
     else
         return product();
@@ -108,29 +108,29 @@ QString UPowerDevice::batteryTechnology() const
 {
     const uint tech = prop("Technology").toUInt();
     switch (tech) {
-    case 1:
-        return QObject::tr("Lithium Ion", "battery technology");
-    case 2:
-        return QObject::tr("Lithium Polymer", "battery technology");
-    case 3:
-        return QObject::tr("Lithium Iron Phosphate", "battery technology");
-    case 4:
-        return QObject::tr("Lead Acid", "battery technology");
-    case 5:
-        return QObject::tr("Nickel Cadmium", "battery technology");
-    case 6:
-        return QObject::tr("Nickel Metal Hydride", "battery technology");
-    default:
-        return QObject::tr("Unknown", "battery technology");
+        case 1:
+            return QObject::tr("Lithium Ion", "battery technology");
+        case 2:
+            return QObject::tr("Lithium Polymer", "battery technology");
+        case 3:
+            return QObject::tr("Lithium Iron Phosphate", "battery technology");
+        case 4:
+            return QObject::tr("Lead Acid", "battery technology");
+        case 5:
+            return QObject::tr("Nickel Cadmium", "battery technology");
+        case 6:
+            return QObject::tr("Nickel Metal Hydride", "battery technology");
+        default:
+            return QObject::tr("Unknown", "battery technology");
     }
 }
 
 QString UPowerDevice::icon() const
 {
-    if (queryDeviceInterface(Qube::Hardware::DeviceInterface::AcAdapter)) {
+    if (queryDeviceInterface(VDeviceInterface::AcAdapter)) {
         return "preferences-system-power-management";
 
-    } else if (queryDeviceInterface(Qube::Hardware::DeviceInterface::Battery)) {
+    } else if (queryDeviceInterface(VDeviceInterface::Battery)) {
         return "battery";
 
     } else {

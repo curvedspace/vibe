@@ -18,51 +18,48 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UPNP_UPNPCONTROLPOINT_H
-#define QUBE_HARDWARE_BACKENDS_UPNP_UPNPCONTROLPOINT_H
+#ifndef VHARDWARE_BACKENDS_UPNP_UPNPCONTROLPOINT_H
+#define VHARDWARE_BACKENDS_UPNP_UPNPCONTROLPOINT_H
 
 #include <QtCore/QObject>
 #include <QtCore/QMutex>
+#include <QtCore/QStringList>
 
 #include <HUpnpCore/HClientDevice>
 #include <HUpnpCore/HControlPoint>
-#include <QtCore/QStringList>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UPnP
         {
-            namespace UPnP
+            class UPnPControlPoint : public QObject
             {
-                class UPnPControlPoint : public QObject
-                {
-                public:
-                    static UPnPControlPoint* acquireInstance();
+            public:
+                static UPnPControlPoint *acquireInstance();
 
-                    static void releaseInstance();
+                static void releaseInstance();
 
-                    Herqq::Upnp::HControlPoint* controlPoint();
+                Herqq::Upnp::HControlPoint *controlPoint();
 
-                    QStringList allDevices();
+                QStringList allDevices();
 
-                    virtual ~UPnPControlPoint();
+                virtual ~UPnPControlPoint();
 
-                private:
-                    explicit UPnPControlPoint();
+            private:
+                explicit UPnPControlPoint();
 
-                    static UPnPControlPoint* instance();
+                static UPnPControlPoint *instance();
 
-                    static UPnPControlPoint* inst;
+                static UPnPControlPoint *inst;
 
-                    static QMutex mutex;
+                static QMutex mutex;
 
-                    Herqq::Upnp::HControlPoint* m_controlPoint;
-                };
-            }
+                Herqq::Upnp::HControlPoint *m_controlPoint;
+            };
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_UPNP_UPNPCONTROLPOINT_H
+#endif // VHARDWARE_BACKENDS_UPNP_UPNPCONTROLPOINT_H

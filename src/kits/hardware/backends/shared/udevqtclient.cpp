@@ -61,7 +61,7 @@ namespace UdevQt
         }
 
         // apply our filters; an empty list means listen to everything
-        foreach (const QString& subsysDevtype, subsystemList) {
+        foreach(const QString & subsysDevtype, subsystemList) {
             int ix = subsysDevtype.indexOf("/");
 
             if (ix > 0) {
@@ -147,7 +147,7 @@ namespace UdevQt
         d->init(QStringList(), ClientPrivate::ListenToNone);
     }
 
-    Client::Client(const QStringList& subsystemList, QObject *parent)
+    Client::Client(const QStringList &subsystemList, QObject *parent)
         : QObject(parent)
         , d(new ClientPrivate(this))
     {

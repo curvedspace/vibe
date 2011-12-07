@@ -20,7 +20,7 @@
 
 #include "serialinterface.h"
 
-Qube::Hardware::Ifaces::SerialInterface::~SerialInterface()
+VHardware::Ifaces::SerialInterface::~SerialInterface()
 {
 }
 

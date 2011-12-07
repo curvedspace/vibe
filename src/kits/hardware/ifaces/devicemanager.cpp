@@ -20,13 +20,13 @@
 
 #include "ifaces/devicemanager.h"
 
-Qube::Hardware::Ifaces::DeviceManager::DeviceManager(QObject *parent)
+VHardware::Ifaces::DeviceManager::DeviceManager(QObject *parent)
     : QObject(parent)
 {
 
 }
 
-Qube::Hardware::Ifaces::DeviceManager::~DeviceManager()
+VHardware::Ifaces::DeviceManager::~DeviceManager()
 {
 
 }

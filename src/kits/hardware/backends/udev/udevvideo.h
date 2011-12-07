@@ -20,36 +20,32 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UDEV_VIDEO_H
-#define QUBE_HARDWARE_BACKENDS_UDEV_VIDEO_H
+#ifndef VHARDWARE_BACKENDS_UDEV_VIDEO_H
+#define VHARDWARE_BACKENDS_UDEV_VIDEO_H
 
 #include <ifaces/video.h>
 #include "udevdeviceinterface.h"
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UDev
         {
-            namespace UDev
+            class Video : public DeviceInterface, virtual public VHardware::Ifaces::Video
             {
-                class Video : public DeviceInterface, virtual public Qube::Hardware::Ifaces::Video
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::Video)
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::Video)
+            public:
+                Video(UDevDevice *device);
+                virtual ~Video();
 
-                public:
-                    Video(UDevDevice *device);
-                    virtual ~Video();
-
-                    virtual QStringList supportedProtocols() const;
-                    virtual QStringList supportedDrivers(QString protocol = QString()) const;
-                    virtual QVariant driverHandle(const QString &driver) const;
-                };
-            }
+                virtual QStringList supportedProtocols() const;
+                virtual QStringList supportedDrivers(QString protocol = QString()) const;
+                virtual QVariant driverHandle(const QString &driver) const;
+            };
         }
     }
 }
 
-#endif
+#endif // VHARDWARE_BACKENDS_UDEV_VIDEO_H

@@ -18,49 +18,46 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_KUPnP_MEDIASERVER3_H
-#define QUBE_HARDWARE_BACKENDS_KUPnP_MEDIASERVER3_H
+#ifndef VHARDWARE_BACKENDS_KUPnP_MEDIASERVER3_H
+#define VHARDWARE_BACKENDS_KUPnP_MEDIASERVER3_H
 
 // KUPnP
 #include "kupnpdevice.h"
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace KUPnP
         {
-            namespace KUPnP
+            class MediaServer3Factory : public AbstractDeviceFactory
             {
-                class MediaServer3Factory : public AbstractDeviceFactory
-                {
-                public:
-                    MediaServer3Factory();
+            public:
+                MediaServer3Factory();
 
-                public: // AbstractDeviceFactory API
-                    virtual void addSupportedInterfaces( QSet<Qube::Hardware::DeviceInterface::Type>& interfaces ) const;
-                    virtual QStringList typeNames( Qube::Hardware::DeviceInterface::Type type ) const;
-                    virtual QObject* tryCreateDevice( const Cagibi::Device& device ) const;
-                };
+            public: // AbstractDeviceFactory API
+                virtual void addSupportedInterfaces(QSet<VDeviceInterface::Type>& interfaces) const;
+                virtual QStringList typeNames(VDeviceInterface::Type type) const;
+                virtual QObject *tryCreateDevice(const Cagibi::Device &device) const;
+            };
 
 
-                class MediaServer3 : public KUPnPDevice
-                {
-                public:
-                    explicit MediaServer3(const Cagibi::Device& device);
-                    virtual ~MediaServer3();
+            class MediaServer3 : public KUPnPDevice
+            {
+            public:
+                explicit MediaServer3(const Cagibi::Device &device);
+                virtual ~MediaServer3();
 
-                public: // Qube::Hardware::Ifaces::Device API
-                    virtual QString icon() const;
-                    virtual QString description() const;
+            public: // VHardware::Ifaces::Device API
+                virtual QString icon() const;
+                virtual QString description() const;
 
-                    virtual bool queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type) const;
-                    virtual QObject* createDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type);
-                };
+                virtual bool queryDeviceInterface(const VDeviceInterface::Type &type) const;
+                virtual QObject *createDeviceInterface(const VDeviceInterface::Type &type);
+            };
 
-            }
         }
     }
 }
 
-#endif
+#endif // VHARDWARE_BACKENDS_KUPnP_MEDIASERVER3_H

@@ -18,109 +18,104 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_IFACES_BATTERY_H
-#define QUBE_HARDWARE_IFACES_BATTERY_H
+#ifndef VHARDWARE_IFACES_BATTERY_H
+#define VHARDWARE_IFACES_BATTERY_H
 
-#include <Qube/Hardware/battery.h>
+#include <VibeHardware/VBattery>
 #include <ifaces/deviceinterface.h>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Ifaces
     {
-        namespace Ifaces
+        /**
+         * This device interface is available on batteries.
+         */
+        class VIBE_EXPORT Battery : virtual public DeviceInterface
         {
+        public:
             /**
-             * This device interface is available on batteries.
+             * Destroys a Battery object.
              */
-            class Battery : virtual public DeviceInterface
-            {
-            public:
-                /**
-                 * Destroys a Battery object.
-                 */
-                virtual ~Battery();
+            virtual ~Battery();
+
+            /**
+             * Indicates if this battery is plugged.
+             *
+             * @return true if the battery is plugged, false otherwise
+             */
+            virtual bool isPlugged() const = 0;
+
+            /**
+             * Retrieves the type of device holding this battery.
+             *
+             * @return the type of device holding this battery
+             * @see VBattery::BatteryType
+             */
+            virtual VBattery::BatteryType type() const = 0;
 
 
 
-                /**
-                 * Indicates if this battery is plugged.
-                 *
-                 * @return true if the battery is plugged, false otherwise
-                 */
-                virtual bool isPlugged() const = 0;
-
-                /**
-                 * Retrieves the type of device holding this battery.
-                 *
-                 * @return the type of device holding this battery
-                 * @see Qube::Hardware::Battery::BatteryType
-                 */
-                virtual Qube::Hardware::Battery::BatteryType type() const = 0;
+            /**
+             * Retrieves the current charge level of the battery normalised
+             * to percent.
+             *
+             * @return the current charge level normalised to percent
+             */
+            virtual int chargePercent() const = 0;
 
 
+            /**
+             * Indicates if the battery is rechargeable.
+             *
+             * @return true if the battery is rechargeable, false otherwise (one time usage)
+             */
+            virtual bool isRechargeable() const = 0;
 
-                /**
-                 * Retrieves the current charge level of the battery normalised
-                 * to percent.
-                 *
-                 * @return the current charge level normalised to percent
-                 */
-                virtual int chargePercent() const = 0;
+            /**
+             * Retrieves the current charge state of the battery. It can be in a stable
+             * state (no charge), charging or discharging.
+             *
+             * @return the current battery charge state
+             * @see VBattery::ChargeState
+             */
+            virtual VBattery::ChargeState chargeState() const = 0;
 
+        protected:
+            //Q_SIGNALS:
+            /**
+             * This signal is emitted when the charge percent value of this
+             * battery has changed.
+             *
+             * @param value the new charge percent value of the battery
+             * @param udi the UDI of the battery with the new charge percent
+             */
+            virtual void chargePercentChanged(int value, const QString &udi) = 0;
 
-                /**
-                 * Indicates if the battery is rechargeable.
-                 *
-                 * @return true if the battery is rechargeable, false otherwise (one time usage)
-                 */
-                virtual bool isRechargeable() const = 0;
+            /**
+             * This signal is emitted when the charge state of this battery
+             * has changed.
+             *
+             * @param newState the new charge state of the battery, it's one of
+             * the type VBattery::ChargeState
+             * @see VBattery::ChargeState
+             * @param udi the UDI of the battery with the new charge state
+             */
+            virtual void chargeStateChanged(int newState, const QString &udi) = 0;
 
-                /**
-                 * Retrieves the current charge state of the battery. It can be in a stable
-                 * state (no charge), charging or discharging.
-                 *
-                 * @return the current battery charge state
-                 * @see Qube::Hardware::Battery::ChargeState
-                 */
-                virtual Qube::Hardware::Battery::ChargeState chargeState() const = 0;
+            /**
+             * This signal is emitted if the battery get plugged in/out of the
+             * battery bay.
+             *
+             * @param newState the new plugging state of the battery, type is boolean
+             * @param udi the UDI of the battery with thew new plugging state
+             */
+            virtual void plugStateChanged(bool newState, const QString &udi) = 0;
 
-            protected:
-                //Q_SIGNALS:
-                /**
-                 * This signal is emitted when the charge percent value of this
-                 * battery has changed.
-                 *
-                 * @param value the new charge percent value of the battery
-                 * @param udi the UDI of the battery with the new charge percent
-                 */
-                virtual void chargePercentChanged(int value, const QString &udi) = 0;
-
-                /**
-                 * This signal is emitted when the charge state of this battery
-                 * has changed.
-                 *
-                 * @param newState the new charge state of the battery, it's one of
-                 * the type Qube::Hardware::Battery::ChargeState
-                 * @see Qube::Hardware::Battery::ChargeState
-                 * @param udi the UDI of the battery with the new charge state
-                 */
-                virtual void chargeStateChanged(int newState, const QString &udi) = 0;
-
-                /**
-                 * This signal is emitted if the battery get plugged in/out of the
-                 * battery bay.
-                 *
-                 * @param newState the new plugging state of the battery, type is boolean
-                 * @param udi the UDI of the battery with thew new plugging state
-                 */
-                virtual void plugStateChanged(bool newState, const QString &udi) = 0;
-
-            };
-        }
+        };
     }
 }
 
-Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::Battery, "org.vision.Qube.Hardware.Ifaces.Battery/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::Battery, "org.vision.Vibe.Hardware.Ifaces.Battery/0.1")
 
-#endif
+#endif // VHARDWARE_IFACES_BATTERY_H

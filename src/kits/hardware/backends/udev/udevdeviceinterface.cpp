@@ -20,7 +20,7 @@
 
 #include "udevdeviceinterface.h"
 
-using namespace Qube::Hardware::Backends::UDev;
+using namespace VHardware::Backends::UDev;
 
 DeviceInterface::DeviceInterface(UDevDevice *device)
     : QObject(device), m_device(device)

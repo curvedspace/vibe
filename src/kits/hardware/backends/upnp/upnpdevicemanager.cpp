@@ -32,32 +32,31 @@
 
 #include "../shared/rootdevice.h"
 
+using namespace VHardware::Backends::UPnP;
+using namespace VHardware::Backends::Shared;
 
-using namespace Qube::Hardware::Backends::UPnP;
-using namespace Qube::Hardware::Backends::Shared;
-
-UPnPDeviceManager::UPnPDeviceManager(QObject* parent) :
-    Qube::Hardware::Ifaces::DeviceManager(parent),
+UPnPDeviceManager::UPnPDeviceManager(QObject *parent) :
+    VHardware::Ifaces::DeviceManager(parent),
     m_supportedInterfaces()
-    //m_upnpControlPoint(Qube::Hardware::Backends::UPnP::UPnPControlPoint::instance())
+    //m_upnpControlPoint(VHardware::Backends::UPnP::UPnPControlPoint::instance())
 {
-    UPnPControlPoint* upnpControlPoint = UPnPControlPoint::acquireInstance();
+    UPnPControlPoint *upnpControlPoint = UPnPControlPoint::acquireInstance();
 
     connect(
         upnpControlPoint->controlPoint(),
-        SIGNAL(rootDeviceOnline(Herqq::Upnp::HClientDevice*)),
+        SIGNAL(rootDeviceOnline(Herqq::Upnp::HClientDevice *)),
         this,
-        SLOT(rootDeviceOnline(Herqq::Upnp::HClientDevice*)));
+        SLOT(rootDeviceOnline(Herqq::Upnp::HClientDevice *)));
 
     connect(
         upnpControlPoint->controlPoint(),
-        SIGNAL(rootDeviceOffline(Herqq::Upnp::HClientDevice*)),
+        SIGNAL(rootDeviceOffline(Herqq::Upnp::HClientDevice *)),
         this,
-        SLOT(rootDeviceOffline(Herqq::Upnp::HClientDevice*)));
+        SLOT(rootDeviceOffline(Herqq::Upnp::HClientDevice *)));
 
     UPnPControlPoint::releaseInstance();
 
-    m_supportedInterfaces << Qube::Hardware::DeviceInterface::StorageAccess;
+    m_supportedInterfaces << VDeviceInterface::StorageAccess;
 }
 
 UPnPDeviceManager::~UPnPDeviceManager()
@@ -69,7 +68,7 @@ QString UPnPDeviceManager::udiPrefix() const
     return QString::fromLatin1("/org/kde/upnp");
 }
 
-QSet< Qube::Hardware::DeviceInterface::Type > UPnPDeviceManager::supportedInterfaces() const
+QSet< VDeviceInterface::Type > UPnPDeviceManager::supportedInterfaces() const
 {
     return m_supportedInterfaces;
 }
@@ -80,25 +79,25 @@ QStringList UPnPDeviceManager::allDevices()
 
     result << udiPrefix();
 
-    UPnPControlPoint* upnpControlPoint = UPnPControlPoint::acquireInstance();
+    UPnPControlPoint *upnpControlPoint = UPnPControlPoint::acquireInstance();
 
-    result+= upnpControlPoint->allDevices();
+    result += upnpControlPoint->allDevices();
 
     UPnPControlPoint::releaseInstance();
 
     return result;
 }
 
-QStringList UPnPDeviceManager::devicesFromQuery(const QString& parentUdi, Qube::Hardware::DeviceInterface::Type type)
+QStringList UPnPDeviceManager::devicesFromQuery(const QString &parentUdi, VDeviceInterface::Type type)
 {
     Q_UNUSED(parentUdi)
     Q_UNUSED(type)
     return QStringList(); //FIXME implement it!
 }
 
-QObject *UPnPDeviceManager::createDevice(const QString& udi)
+QObject *UPnPDeviceManager::createDevice(const QString &udi)
 {
-    if (udi==udiPrefix()) {
+    if (udi == udiPrefix()) {
         RootDevice *root = new RootDevice(udiPrefix());
 
         root->setProduct(tr("UPnP Devices"));
@@ -111,36 +110,34 @@ QObject *UPnPDeviceManager::createDevice(const QString& udi)
     QString udnFromUdi = udi.mid(udiPrefix().length() + 1);
     Herqq::Upnp::HUdn udn(udnFromUdi);
     if (udn.isValid(Herqq::Upnp::LooseChecks)) {
-        UPnPControlPoint* upnpControlPoint = UPnPControlPoint::acquireInstance();
+        UPnPControlPoint *upnpControlPoint = UPnPControlPoint::acquireInstance();
 
-        Herqq::Upnp::HClientDevice* device = upnpControlPoint->controlPoint()->device(udn);
+        Herqq::Upnp::HClientDevice *device = upnpControlPoint->controlPoint()->device(udn);
 
         UPnPControlPoint::releaseInstance();
-        if (device) {
-            return new Qube::Hardware::Backends::UPnP::UPnPDevice(device);
-        }
+        if (device)
+            return new VHardware::Backends::UPnP::UPnPDevice(device);
     }
 
     return 0;
 }
 
-void UPnPDeviceManager::rootDeviceOnline(Herqq::Upnp::HClientDevice* device)
+void UPnPDeviceManager::rootDeviceOnline(Herqq::Upnp::HClientDevice *device)
 {
     QString udn = device->info().udn().toString();
     qDebug() << "UPnP device entered:" << udn;
     emit deviceAdded(udiPrefix() + '/' + udn);
 }
 
-void UPnPDeviceManager::rootDeviceOffline(Herqq::Upnp::HClientDevice* device)
+void UPnPDeviceManager::rootDeviceOffline(Herqq::Upnp::HClientDevice *device)
 {
     QString udn = device->info().udn().toString();
     qDebug() << "UPnP device gone:" << udn;
     emit deviceRemoved(udiPrefix() + '/' + udn);
 
-    UPnPControlPoint* upnpControlPoint = UPnPControlPoint::acquireInstance();
+    UPnPControlPoint *upnpControlPoint = UPnPControlPoint::acquireInstance();
 
     upnpControlPoint->controlPoint()->removeRootDevice(device);
 
     UPnPControlPoint::releaseInstance();
 }
-

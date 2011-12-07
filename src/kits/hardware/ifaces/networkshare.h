@@ -18,51 +18,48 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_IFACES_NETWORKSHARE_H
-#define QUBE_HARDWARE_IFACES_NETWORKSHARE_H
+#ifndef VHARDWARE_IFACES_NETWORKSHARE_H
+#define VHARDWARE_IFACES_NETWORKSHARE_H
 
+#include <VibeHardware/VNetworkShare>
 #include <ifaces/deviceinterface.h>
-#include <Qube/Hardware/networkshare.h>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Ifaces
     {
-        namespace Ifaces
+        /**
+         * NetworkShare interface.
+         *
+         * a NetworkShare interface is used to determine the type of
+         * network access.
+         */
+        class VIBE_EXPORT NetworkShare : virtual public DeviceInterface
         {
+        public:
             /**
-             * NetworkShare interface.
-             *
-             * a NetworkShare interface is used to determine the type of
-             * network access.
+             * Destroys a NetworkShare object.
              */
-            class NetworkShare : virtual public DeviceInterface
-            {
-            public:
-                /**
-                 * Destroys a NetworkShare object.
-                 */
-                virtual ~NetworkShare();
+            virtual ~NetworkShare();
 
 
-                /**
-                 * Retrieves the type of network
-                 *
-                 * @return the type of network
-                 */
-                virtual Qube::Hardware::NetworkShare::ShareType type() const = 0;
+            /**
+             * Retrieves the type of network
+             *
+             * @return the type of network
+             */
+            virtual VNetworkShare::ShareType type() const = 0;
 
-                /**
-                 * Retrieves the url of network share
-                 *
-                 * @return the url of network share
-                 */
-                virtual QUrl url() const = 0;
-            };
-        }
+            /**
+             * Retrieves the url of network share
+             *
+             * @return the url of network share
+             */
+            virtual QUrl url() const = 0;
+        };
     }
 }
 
-Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::NetworkShare, "org.vision.Qube.Hardware.Ifaces.NetworkShare/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::NetworkShare, "org.vision.Vibe.Hardware.Ifaces.NetworkShare/0.1")
 
-#endif
+#endif // VHARDWARE_IFACES_NETWORKSHARE_H

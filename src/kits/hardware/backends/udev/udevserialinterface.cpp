@@ -26,31 +26,30 @@
 
 #include <QString>
 
-using namespace Qube::Hardware::Backends::UDev;
+using namespace VHardware::Backends::UDev;
 
 SerialInterface::SerialInterface(UDevDevice *device)
     : DeviceInterface(device)
 {
     m_portnum = -1;
-    m_type = Qube::Hardware::SerialInterface::Unknown;
+    m_type = VSerialInterface::Unknown;
 
     QString path = m_device->deviceName();
 
-    int lastSlash = path.length() - path.lastIndexOf(QLatin1String("/")) -1;
+    int lastSlash = path.length() - path.lastIndexOf(QLatin1String("/")) - 1;
     QByteArray lastElement = path.right(lastSlash).toAscii();
 
     const char *lastElementAscii = lastElement.constData();
 
-    if (sscanf (lastElementAscii, "ttyS%d", &m_portnum) == 1) {
-        m_type = Qube::Hardware::SerialInterface::Platform;
-    } else if (sscanf (lastElementAscii, "ttyUSB%d", &m_portnum) == 1) {
-        m_type = Qube::Hardware::SerialInterface::Usb;
+    if (sscanf(lastElementAscii, "ttyS%d", &m_portnum) == 1) {
+        m_type = VSerialInterface::Platform;
+    } else if (sscanf(lastElementAscii, "ttyUSB%d", &m_portnum) == 1) {
+        m_type = VSerialInterface::Usb;
     }
 }
 
 SerialInterface::~SerialInterface()
 {
-
 }
 
 QVariant SerialInterface::driverHandle() const
@@ -58,7 +57,7 @@ QVariant SerialInterface::driverHandle() const
     return m_device->property("DEVNAME");
 }
 
-Qube::Hardware::SerialInterface::SerialType SerialInterface::serialType() const
+VSerialInterface::SerialType SerialInterface::serialType() const
 {
     return m_type;
 }

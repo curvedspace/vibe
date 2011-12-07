@@ -28,35 +28,32 @@
 
 #include <ifaces/devicemanager.h>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UPower
         {
-            namespace UPower
+            class UPowerManager : public VHardware::Ifaces::DeviceManager
             {
-                class UPowerManager : public Qube::Hardware::Ifaces::DeviceManager
-                {
-                    Q_OBJECT
-                public:
-                    UPowerManager(QObject *parent);
-                    virtual ~UPowerManager();
-                    virtual QObject* createDevice(const QString& udi);
-                    virtual QStringList devicesFromQuery(const QString& parentUdi, Qube::Hardware::DeviceInterface::Type type);
-                    virtual QStringList allDevices();
-                    virtual QSet< Qube::Hardware::DeviceInterface::Type > supportedInterfaces() const;
-                    virtual QString udiPrefix() const;
+                Q_OBJECT
+            public:
+                UPowerManager(QObject *parent);
+                virtual ~UPowerManager();
+                virtual QObject *createDevice(const QString &udi);
+                virtual QStringList devicesFromQuery(const QString &parentUdi, VDeviceInterface::Type type);
+                virtual QStringList allDevices();
+                virtual QSet< VDeviceInterface::Type > supportedInterfaces() const;
+                virtual QString udiPrefix() const;
 
-                private Q_SLOTS:
-                    void slotDeviceAdded(const QString &opath);
-                    void slotDeviceRemoved(const QString &opath);
+            private Q_SLOTS:
+                void slotDeviceAdded(const QString &opath);
+                void slotDeviceRemoved(const QString &opath);
 
-                private:
-                    QSet<Qube::Hardware::DeviceInterface::Type> m_supportedInterfaces;
-                    QDBusInterface m_manager;
-                };
-            }
+            private:
+                QSet<VDeviceInterface::Type> m_supportedInterfaces;
+                QDBusInterface m_manager;
+            };
         }
     }
 }

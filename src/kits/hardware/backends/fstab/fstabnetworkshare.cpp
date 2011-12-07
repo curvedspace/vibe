@@ -21,24 +21,24 @@
 #include "fstabnetworkshare.h"
 #include "fstabdevice.h"
 
-using namespace Qube::Hardware::Backends::Fstab;
+using namespace VHardware::Backends::Fstab;
 
-FstabNetworkShare::FstabNetworkShare(Qube::Hardware::Backends::Fstab::FstabDevice *device) :
+FstabNetworkShare::FstabNetworkShare(VHardware::Backends::Fstab::FstabDevice *device) :
     QObject(device),
     m_fstabDevice(device)
 {
     QString url;
     if (m_fstabDevice->device().startsWith("//")) {
-        m_type = Qube::Hardware::NetworkShare::Cifs;
+        m_type = VNetworkShare::Cifs;
         url = "smb:";
         url += m_fstabDevice->device();
     } else if (m_fstabDevice->device().contains(":/")) {
-        m_type = Qube::Hardware::NetworkShare::Nfs;
+        m_type = VNetworkShare::Nfs;
         url = "nfs://";
         url += m_fstabDevice->product();
         url += m_fstabDevice->vendor();
     } else {
-        m_type = Qube::Hardware::NetworkShare::Unknown;
+        m_type = VNetworkShare::Unknown;
     }
     m_url = QUrl(url);
 }
@@ -47,7 +47,7 @@ FstabNetworkShare::~FstabNetworkShare()
 {
 }
 
-Qube::Hardware::NetworkShare::ShareType FstabNetworkShare::type() const
+VNetworkShare::ShareType FstabNetworkShare::type() const
 {
     return m_type;
 }
@@ -58,7 +58,7 @@ QUrl FstabNetworkShare::url() const
 }
 
 
-const Qube::Hardware::Backends::Fstab::FstabDevice *FstabNetworkShare::fstabDevice() const
+const VHardware::Backends::Fstab::FstabDevice *FstabNetworkShare::fstabDevice() const
 {
     return m_fstabDevice;
 }

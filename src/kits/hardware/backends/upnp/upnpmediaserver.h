@@ -18,58 +18,55 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UPNP_STORAGEACCESS_H
-#define QUBE_HARDWARE_BACKENDS_UPNP_STORAGEACCESS_H
+#ifndef VHARDWARE_BACKENDS_UPNP_STORAGEACCESS_H
+#define VHARDWARE_BACKENDS_UPNP_STORAGEACCESS_H
 
+#include <backends/upnp/upnpdeviceinterface.h>
 #include <ifaces/storageaccess.h>
-#include <Qube/Hardware/backends/upnp/upnpdeviceinterface.h>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UPnP
         {
-            namespace UPnP
+            class UPnPMediaServer : public VHardware::Backends::UPnP::UPnPDeviceInterface, virtual public VHardware::Ifaces::StorageAccess
             {
-                class UPnPMediaServer : public Qube::Hardware::Backends::UPnP::UPnPDeviceInterface, virtual public Qube::Hardware::Ifaces::StorageAccess
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::StorageAccess)
-                public:
-                    explicit UPnPMediaServer(UPnPDevice* device);
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::StorageAccess)
+            public:
+                explicit UPnPMediaServer(UPnPDevice *device);
 
-                    virtual ~UPnPMediaServer();
+                virtual ~UPnPMediaServer();
 
-                    virtual bool isAccessible() const;
+                virtual bool isAccessible() const;
 
-                    virtual QString filePath() const;
+                virtual QString filePath() const;
 
-                    virtual bool isIgnored() const;
+                virtual bool isIgnored() const;
 
-                    virtual bool setup();
+                virtual bool setup();
 
-                    virtual bool teardown();
+                virtual bool teardown();
 
-                private Q_SLOTS:
-                    void onSetupTimeout();
+            private Q_SLOTS:
+                void onSetupTimeout();
 
-                    void onTeardownTimeout();
+                void onTeardownTimeout();
 
-                Q_SIGNALS:
-                    void accessibilityChanged(bool accessible, const QString &udi);
+            Q_SIGNALS:
+                void accessibilityChanged(bool accessible, const QString &udi);
 
-                    void setupDone(Qube::Hardware::ErrorType error, QVariant data, const QString &udi);
+                void setupDone(VHardware::ErrorType error, QVariant data, const QString &udi);
 
-                    void teardownDone(Qube::Hardware::ErrorType error, QVariant data, const QString &udi);
+                void teardownDone(VHardware::ErrorType error, QVariant data, const QString &udi);
 
-                    void setupRequested(const QString &udi);
+                void setupRequested(const QString &udi);
 
-                    void teardownRequested(const QString &udi);
-                };
-            }
+                void teardownRequested(const QString &udi);
+            };
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_UPNP_STORAGEACCESS_H
+#endif // VHARDWARE_BACKENDS_UPNP_STORAGEACCESS_H

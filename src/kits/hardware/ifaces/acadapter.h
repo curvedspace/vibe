@@ -18,50 +18,46 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_IFACES_ACADAPTER_H
-#define QUBE_HARDWARE_IFACES_ACADAPTER_H
+#ifndef VHARDWARE_IFACES_ACADAPTER_H
+#define VHARDWARE_IFACES_ACADAPTER_H
 
 #include <ifaces/deviceinterface.h>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Ifaces
     {
-        namespace Ifaces
+        /**
+         * This device interface is available on AC adapters.
+         */
+        class VIBE_EXPORT AcAdapter : virtual public DeviceInterface
         {
+        public:
             /**
-             * This device interface is available on AC adapters.
+             * Destroys an AcAdapter object.
              */
-            class AcAdapter : virtual public DeviceInterface
-            {
-            public:
-                /**
-                 * Destroys an AcAdapter object.
-                 */
-                virtual ~AcAdapter();
+            virtual ~AcAdapter();
 
+            /**
+             * Indicates if this AC adapter is plugged.
+             *
+             * @return true if the adapter is plugged, false otherwise
+             */
+            virtual bool isPlugged() const = 0;
 
-                /**
-                 * Indicates if this AC adapter is plugged.
-                 *
-                 * @return true if the adapter is plugged, false otherwise
-                 */
-                virtual bool isPlugged() const = 0;
-
-            protected:
-                //Q_SIGNALS:
-                /**
-                 * This signal is emitted when the AC adapter is plugged or unplugged.
-                 *
-                 * @param newState true if the AC adapter is plugged is mounted, false otherwise
-                 * @param udi the UDI of the AC adapter with the changed plugging state
-                 */
-                virtual void plugStateChanged(bool newState, const QString &udi) = 0;
-            };
-        }
+        protected:
+            //Q_SIGNALS:
+            /**
+             * This signal is emitted when the AC adapter is plugged or unplugged.
+             *
+             * @param newState true if the AC adapter is plugged is mounted, false otherwise
+             * @param udi the UDI of the AC adapter with the changed plugging state
+             */
+            virtual void plugStateChanged(bool newState, const QString &udi) = 0;
+        };
     }
 }
 
-Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::AcAdapter, "org.vision.Qube.Hardware.Ifaces.AcAdapter/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::AcAdapter, "org.vision.Vibe.Hardware.Ifaces.AcAdapter/0.1")
 
-#endif
+#endif // VHARDWARE_IFACES_ACADAPTER_H

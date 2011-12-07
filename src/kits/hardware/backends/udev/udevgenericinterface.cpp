@@ -22,14 +22,14 @@
 
 #include "udevdevice.h"
 
-using namespace Qube::Hardware::Backends::UDev;
+using namespace VHardware::Backends::UDev;
 
 GenericInterface::GenericInterface(UDevDevice *device)
     : DeviceInterface(device)
 {
 #if 0
-    connect(device, SIGNAL(propertyChanged(const QMap<QString,int> &)),
-            this, SIGNAL(propertyChanged(const QMap<QString,int> &)));
+    connect(device, SIGNAL(propertyChanged(const QMap<QString, int> &)),
+            this, SIGNAL(propertyChanged(const QMap<QString, int> &)));
     connect(device, SIGNAL(conditionRaised(const QString &, const QString &)),
             this, SIGNAL(conditionRaised(const QString &, const QString &)));
 #endif

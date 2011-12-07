@@ -20,7 +20,7 @@
 
 #include "audiointerface.h"
 
-Qube::Hardware::Ifaces::AudioInterface::~AudioInterface()
+VHardware::Ifaces::AudioInterface::~AudioInterface()
 {
 }
 

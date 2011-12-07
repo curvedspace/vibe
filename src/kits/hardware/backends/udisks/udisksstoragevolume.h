@@ -24,31 +24,28 @@
 #include <ifaces/storagevolume.h>
 #include "udisksblock.h"
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UDisks
         {
-            namespace UDisks
+            class UDisksStorageVolume: public Block, virtual public VHardware::Ifaces::StorageVolume
             {
-                class UDisksStorageVolume: public Block, virtual public Qube::Hardware::Ifaces::StorageVolume
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::StorageVolume)
-                public:
-                    UDisksStorageVolume(UDisksDevice *device);
-                    virtual ~UDisksStorageVolume();
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::StorageVolume)
+            public:
+                UDisksStorageVolume(UDisksDevice *device);
+                virtual ~UDisksStorageVolume();
 
-                    virtual QString encryptedContainerUdi() const;
-                    virtual qulonglong size() const;
-                    virtual QString uuid() const;
-                    virtual QString label() const;
-                    virtual QString fsType() const;
-                    virtual Qube::Hardware::StorageVolume::UsageType usage() const;
-                    virtual bool isIgnored() const;
-                };
-            }
+                virtual QString encryptedContainerUdi() const;
+                virtual qulonglong size() const;
+                virtual QString uuid() const;
+                virtual QString label() const;
+                virtual QString fsType() const;
+                virtual VStorageVolume::UsageType usage() const;
+                virtual bool isIgnored() const;
+            };
         }
     }
 }

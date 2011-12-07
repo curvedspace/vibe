@@ -25,55 +25,52 @@
 #include <ifaces/opticaldrive.h>
 #include "udisksstoragedrive.h"
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UDisks
         {
-            namespace UDisks
+            class UDisksOpticalDrive: public UDisksStorageDrive, virtual public VHardware::Ifaces::OpticalDrive
             {
-                class UDisksOpticalDrive: public UDisksStorageDrive, virtual public Qube::Hardware::Ifaces::OpticalDrive
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::OpticalDrive)
-                public:
-                    UDisksOpticalDrive(UDisksDevice *device);
-                    virtual ~UDisksOpticalDrive();
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::OpticalDrive)
+            public:
+                UDisksOpticalDrive(UDisksDevice *device);
+                virtual ~UDisksOpticalDrive();
 
-                Q_SIGNALS:
-                    void ejectPressed(const QString &udi);
-                    void ejectDone(Qube::Hardware::ErrorType error, QVariant errorData, const QString &udi);
-                    void ejectRequested(const QString &udi);
+            Q_SIGNALS:
+                void ejectPressed(const QString &udi);
+                void ejectDone(VHardware::ErrorType error, QVariant errorData, const QString &udi);
+                void ejectRequested(const QString &udi);
 
-                public:
-                    virtual bool eject();
-                    virtual QList<int> writeSpeeds() const;
-                    virtual int writeSpeed() const;
-                    virtual int readSpeed() const;
-                    virtual Qube::Hardware::OpticalDrive::MediumTypes supportedMedia() const;
+            public:
+                virtual bool eject();
+                virtual QList<int> writeSpeeds() const;
+                virtual int writeSpeed() const;
+                virtual int readSpeed() const;
+                virtual VOpticalDrive::MediumTypes supportedMedia() const;
 
-                private Q_SLOTS:
-                    void slotDBusReply(const QDBusMessage &reply);
-                    void slotDBusError(const QDBusError &error);
+            private Q_SLOTS:
+                void slotDBusReply(const QDBusMessage &reply);
+                void slotDBusError(const QDBusError &error);
 
-                    void slotEjectRequested();
-                    void slotEjectDone(int error, const QString &errorString);
+                void slotEjectRequested();
+                void slotEjectDone(int error, const QString &errorString);
 
-                    void slotChanged();
+                void slotChanged();
 
-                private:
-                    void initReadWriteSpeeds() const;
+            private:
+                void initReadWriteSpeeds() const;
 
-                    bool m_ejectInProgress;
+                bool m_ejectInProgress;
 
-                    // read/write speeds
-                    mutable int m_readSpeed;
-                    mutable int m_writeSpeed;
-                    mutable QList<int> m_writeSpeeds;
-                    mutable bool m_speedsInit;
-                };
-            }
+                // read/write speeds
+                mutable int m_readSpeed;
+                mutable int m_writeSpeed;
+                mutable QList<int> m_writeSpeeds;
+                mutable bool m_speedsInit;
+            };
         }
     }
 }

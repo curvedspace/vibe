@@ -20,88 +20,84 @@
 
 #include "mediaserver1.h"
 
-// QubeHardware
-#include "kupnpstorageaccess.h"
-// Qt
 #include <QtCore/QStringList>
 #include <QtCore/QSet>
 
-namespace Qube
+#include "kupnpstorageaccess.h"
+
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace KUPnP
         {
-            namespace KUPnP
+            static const char MediaServer1Udn[] = "urn:schemas-upnp-org:device:MediaServer:1";
+
+            MediaServer1Factory::MediaServer1Factory() {}
+
+            void MediaServer1Factory::addSupportedInterfaces(QSet<VDeviceInterface::Type>& interfaces) const
             {
-                static const char MediaServer1Udn[] = "urn:schemas-upnp-org:device:MediaServer:1";
+                interfaces << VDeviceInterface::StorageAccess;
+            }
 
-                MediaServer1Factory::MediaServer1Factory() {}
+            QStringList MediaServer1Factory::typeNames(VDeviceInterface::Type type) const
+            {
+                QStringList result;
 
-                void MediaServer1Factory::addSupportedInterfaces( QSet<Qube::Hardware::DeviceInterface::Type>& interfaces ) const
-                {
-                    interfaces << Qube::Hardware::DeviceInterface::StorageAccess;
+                if (type == VDeviceInterface::StorageAccess)
+                    result << QLatin1String(MediaServer1Udn);
+
+                return result;
+            }
+
+            QObject *MediaServer1Factory::tryCreateDevice(const Cagibi::Device &device) const
+            {
+                return (device.type() == QLatin1String(MediaServer1Udn)) ?
+                       new MediaServer1(device) : 0;
+            }
+
+
+            MediaServer1::MediaServer1(const Cagibi::Device &device)
+                : KUPnPDevice(device)
+            {
+            }
+
+            MediaServer1::~MediaServer1()
+            {
+            }
+
+            QString MediaServer1::icon() const
+            {
+                return QString::fromLatin1("folder-remote");
+            }
+
+
+            QString MediaServer1::description() const
+            {
+                return QObject::tr("UPnP Media Server v1");
+            }
+
+
+            bool MediaServer1::queryDeviceInterface(const VDeviceInterface::Type &type) const
+            {
+                bool result = false;
+
+                if (type == VDeviceInterface::StorageAccess) {
+                    result = true;
                 }
 
-                QStringList MediaServer1Factory::typeNames( Qube::Hardware::DeviceInterface::Type type ) const
-                {
-                    QStringList result;
+                return result;
+            }
 
-                    if (type==Qube::Hardware::DeviceInterface::StorageAccess)
-                        result << QLatin1String(MediaServer1Udn);
+            QObject *MediaServer1::createDeviceInterface(const VDeviceInterface::Type &type)
+            {
+                DeviceInterface *interface = 0;
 
-                    return result;
+                if (type == VDeviceInterface::StorageAccess) {
+                    interface = new StorageAccess(this);
                 }
 
-                QObject* MediaServer1Factory::tryCreateDevice( const Cagibi::Device& device ) const
-                {
-                    return ( device.type() == QLatin1String(MediaServer1Udn) ) ?
-                           new MediaServer1( device ) : 0;
-                }
-
-
-                MediaServer1::MediaServer1(const Cagibi::Device& device)
-                    : KUPnPDevice(device)
-                {
-                }
-
-                MediaServer1::~MediaServer1()
-                {
-                }
-
-                QString MediaServer1::icon() const
-                {
-                    return QString::fromLatin1("folder-remote");
-                }
-
-
-                QString MediaServer1::description() const
-                {
-                    return QObject::tr("UPnP Media Server v1");
-                }
-
-
-                bool MediaServer1::queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type &type) const
-                {
-                    bool result = false;
-
-                    if (type==Qube::Hardware::DeviceInterface::StorageAccess) {
-                        result = true;
-                    }
-
-                    return result;
-                }
-
-                QObject* MediaServer1::createDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type)
-                {
-                    DeviceInterface* interface = 0;
-
-                    if (type==Qube::Hardware::DeviceInterface::StorageAccess) {
-                        interface = new StorageAccess(this);
-                    }
-
-                    return interface;
-                }
+                return interface;
             }
         }
     }

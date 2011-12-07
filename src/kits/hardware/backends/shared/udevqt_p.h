@@ -38,7 +38,7 @@ namespace UdevQt
     public:
         DevicePrivate(struct udev_device *udev_, bool ref = true);
         ~DevicePrivate();
-        DevicePrivate &operator=(const DevicePrivate& other);
+        DevicePrivate &operator=(const DevicePrivate &other);
 
         QString decodePropertyValue(const QByteArray &encoded) const;
 

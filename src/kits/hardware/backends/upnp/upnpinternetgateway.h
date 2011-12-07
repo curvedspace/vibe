@@ -18,8 +18,8 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UPNP_UPNPINTERNETGATEWAY_H
-#define QUBE_HARDWARE_BACKENDS_UPNP_UPNPINTERNETGATEWAY_H
+#ifndef VHARDWARE_BACKENDS_UPNP_UPNPINTERNETGATEWAY_H
+#define VHARDWARE_BACKENDS_UPNP_UPNPINTERNETGATEWAY_H
 
 #include <ifaces/internetgateway.h>
 
@@ -29,70 +29,66 @@
 #include <HUpnpCore/HClientDevice>
 #include <HUpnpCore/HClientService>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UPnP
         {
-            namespace UPnP
+            class UPnPInternetGateway : public VHardware::Backends::UPnP::UPnPDeviceInterface, virtual public VHardware::Ifaces::InternetGateway
             {
-                class UPnPInternetGateway : public Qube::Hardware::Backends::UPnP::UPnPDeviceInterface, virtual public Qube::Hardware::Ifaces::InternetGateway
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::InternetGateway)
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::InternetGateway)
+            public:
+                explicit UPnPInternetGateway(UPnPDevice *device);
 
-                public:
-                    explicit UPnPInternetGateway(UPnPDevice* device);
+                virtual ~UPnPInternetGateway();
 
-                    virtual ~UPnPInternetGateway();
+                virtual void setEnabledForInternet(bool enabled) const;
 
-                    virtual void setEnabledForInternet(bool enabled) const;
+                virtual VInternetGateway::InternetStatus isEnabledForInternet() const;
 
-                    virtual Qube::Hardware::InternetGateway::InternetStatus isEnabledForInternet() const;
+                virtual void deletePortMapping(const QString &remoteHost, qint16 externalPort, const VInternetGateway::NetworkProtocol &mappingProtocol);
 
-                    virtual void deletePortMapping(const QString& remoteHost, qint16 externalPort, const Qube::Hardware::InternetGateway::NetworkProtocol& mappingProtocol);
+                virtual void addPortMapping(const QString &remoteHost, qint16 externalPort, const VInternetGateway::NetworkProtocol &mappingProtocol,
+                                            qint16 internalPort, const QString &internalClient);
 
-                    virtual void addPortMapping(const QString& remoteHost, qint16 externalPort, const Qube::Hardware::InternetGateway::NetworkProtocol& mappingProtocol,
-                                                qint16 internalPort, const QString& internalClient);
+                virtual void requestCurrentConnections();
 
-                    virtual void requestCurrentConnections();
+                virtual QStringList currentConnections() const;
 
-                    virtual QStringList currentConnections() const;
+            private:
+                Herqq::Upnp::HClientDevice *getDevice(const QString typePreffix, Herqq::Upnp::HClientDevices &devices) const;
 
-                private:
-                    Herqq::Upnp::HClientDevice* getDevice(const QString typePreffix, Herqq::Upnp::HClientDevices& devices) const;
+                Herqq::Upnp::HClientService *getWANConnectionService(Herqq::Upnp::HClientDevice *device) const;
 
-                    Herqq::Upnp::HClientService* getWANConnectionService(Herqq::Upnp::HClientDevice* device) const;
+                int getNumberOfActiveConnections();
 
-                    int getNumberOfActiveConnections();
+                QStringList activeConnections;
 
-                    QStringList activeConnections;
+                int numberOfConnections;
 
-                    int numberOfConnections;
+            private slots:
+                void setEnabledForInternetInvokeCallback(Herqq::Upnp::HClientAction *action, const Herqq::Upnp::HClientActionOp &invocationID);
 
-                private slots:
-                    void setEnabledForInternetInvokeCallback(Herqq::Upnp::HClientAction *action, const Herqq::Upnp::HClientActionOp &invocationID);
+                void deletePortMappingInvokeCallback(Herqq::Upnp::HClientAction *action, const Herqq::Upnp::HClientActionOp &invocationID);
 
-                    void deletePortMappingInvokeCallback(Herqq::Upnp::HClientAction *action, const Herqq::Upnp::HClientActionOp &invocationID);
+                void addPortMappingInvokeCallback(Herqq::Upnp::HClientAction *action, const Herqq::Upnp::HClientActionOp &invocationID);
 
-                    void addPortMappingInvokeCallback(Herqq::Upnp::HClientAction *action, const Herqq::Upnp::HClientActionOp &invocationID);
+                void getActiveConnectionActionInvokeCallback(Herqq::Upnp::HClientAction *action, const Herqq::Upnp::HClientActionOp &invocationID);
 
-                    void getActiveConnectionActionInvokeCallback(Herqq::Upnp::HClientAction *action, const Herqq::Upnp::HClientActionOp &invocationID);
+            Q_SIGNALS:
+                void enabledForInternet(bool enabled);
 
-                Q_SIGNALS:
-                    void enabledForInternet(bool enabled);
+                void portMappingDeleted(const QString &remoteHost, qint16 externalPort, const VInternetGateway::NetworkProtocol &mappingProtocol);
 
-                    void portMappingDeleted(const QString& remoteHost, qint16 externalPort, const Qube::Hardware::InternetGateway::NetworkProtocol& mappingProtocol);
+                void portMappingAdded(const QString &remoteHost, qint16 externalPort, const VInternetGateway::NetworkProtocol &mappingProtocol,
+                                      qint16 internalPort, const QString &internalClient);
 
-                    void portMappingAdded(const QString& remoteHost, qint16 externalPort, const Qube::Hardware::InternetGateway::NetworkProtocol& mappingProtocol,
-                                          qint16 internalPort, const QString& internalClient);
-
-                    void currentConnectionsDataIsReady(QStringList currentConnections);
-                };
-            }
+                void currentConnectionsDataIsReady(QStringList currentConnections);
+            };
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_UPNP_UPNPINTERNETGATEWAY_H
+#endif // VHARDWARE_BACKENDS_UPNP_UPNPINTERNETGATEWAY_H

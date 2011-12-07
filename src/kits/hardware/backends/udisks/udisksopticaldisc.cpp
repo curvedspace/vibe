@@ -29,7 +29,7 @@
 #include "udisksopticaldisc.h"
 
 // inspired by http://cgit.freedesktop.org/hal/tree/hald/linux/probing/probe-volume.c
-static Qube::Hardware::OpticalDisc::ContentType advancedDiscDetect(const QString & device_file)
+static VOpticalDisc::ContentType advancedDiscDetect(const QString &device_file)
 {
     /* the discs block size */
     unsigned short bs;
@@ -48,52 +48,52 @@ static Qube::Hardware::OpticalDisc::ContentType advancedDiscDetect(const QString
     /* the path table record we're on */
     int curr_record = 1;
 
-    Qube::Hardware::OpticalDisc::ContentType result = Qube::Hardware::OpticalDisc::NoContent;
+    VOpticalDisc::ContentType result = VOpticalDisc::NoContent;
 
-    int fd = open (QFile::encodeName(device_file), O_RDONLY);
+    int fd = open(QFile::encodeName(device_file), O_RDONLY);
 
     /* read the block size */
-    lseek (fd, 0x8080, SEEK_CUR);
-    if (read (fd, &bs, 2) != 2) {
+    lseek(fd, 0x8080, SEEK_CUR);
+    if (read(fd, &bs, 2) != 2) {
         qDebug("Advanced probing on %s failed while reading block size", qPrintable(device_file));
         goto out;
     }
 
     /* read in size of path table */
-    lseek (fd, 2, SEEK_CUR);
-    if (read (fd, &ts, 2) != 2) {
+    lseek(fd, 2, SEEK_CUR);
+    if (read(fd, &ts, 2) != 2) {
         qDebug("Advanced probing on %s failed while reading path table size", qPrintable(device_file));
         goto out;
     }
 
     /* read in which block path table is in */
-    lseek (fd, 6, SEEK_CUR);
-    if (read (fd, &tl, 4) != 4) {
+    lseek(fd, 6, SEEK_CUR);
+    if (read(fd, &tl, 4) != 4) {
         qDebug("Advanced probing on %s failed while reading path table block", qPrintable(device_file));
         goto out;
     }
 
     /* seek to the path table */
-    lseek (fd, bs * tl, SEEK_SET);
+    lseek(fd, bs * tl, SEEK_SET);
 
     /* loop through the path table entries */
     while (pos < ts) {
         /* get the length of the filename of the current entry */
-        if (read (fd, &len_di, 1) != 1) {
+        if (read(fd, &len_di, 1) != 1) {
             qDebug("Advanced probing on %s failed, cannot read more entries", qPrintable(device_file));
             break;
         }
 
         /* get the record number of this entry's parent
            i'm pretty sure that the 1st entry is always the top directory */
-        lseek (fd, 5, SEEK_CUR);
-        if (read (fd, &parent, 2) != 2) {
+        lseek(fd, 5, SEEK_CUR);
+        if (read(fd, &parent, 2) != 2) {
             qDebug("Advanced probing on %s failed, couldn't read parent entry", qPrintable(device_file));
             break;
         }
 
         /* read the name */
-        if (read (fd, dirname, len_di) != len_di) {
+        if (read(fd, dirname, len_di) != len_di) {
             qDebug("Advanced probing on %s failed, couldn't read the entry name", qPrintable(device_file));
             break;
         }
@@ -102,29 +102,29 @@ static Qube::Hardware::OpticalDisc::ContentType advancedDiscDetect(const QString
         /* if we found a folder that has the root as a parent, and the directory name matches
            one of the special directories then set the properties accordingly */
         if (parent == 1) {
-            if (!strcasecmp (dirname, "VIDEO_TS")) {
+            if (!strcasecmp(dirname, "VIDEO_TS")) {
                 qDebug("Disc in %s is a Video DVD", qPrintable(device_file));
-                result = Qube::Hardware::OpticalDisc::VideoDvd;
+                result = VOpticalDisc::VideoDvd;
                 break;
-            } else if (!strcasecmp (dirname, "BDMV")) {
+            } else if (!strcasecmp(dirname, "BDMV")) {
                 qDebug("Disc in %s is a Blu-ray video disc", qPrintable(device_file));
-                result = Qube::Hardware::OpticalDisc::VideoBluRay;
+                result = VOpticalDisc::VideoBluRay;
                 break;
-            } else if (!strcasecmp (dirname, "VCD")) {
+            } else if (!strcasecmp(dirname, "VCD")) {
                 qDebug("Disc in %s is a Video CD", qPrintable(device_file));
-                result = Qube::Hardware::OpticalDisc::VideoCd;
+                result = VOpticalDisc::VideoCd;
                 break;
-            } else if (!strcasecmp (dirname, "SVCD")) {
+            } else if (!strcasecmp(dirname, "SVCD")) {
                 qDebug("Disc in %s is a Super Video CD", qPrintable(device_file));
-                result = Qube::Hardware::OpticalDisc::SuperVideoCd;
+                result = VOpticalDisc::SuperVideoCd;
                 break;
             }
         }
 
         /* all path table entries are padded to be even,
            so if this is an odd-length table, seek a byte to fix it */
-        if (len_di%2 == 1) {
-            lseek (fd, 1, SEEK_CUR);
+        if (len_di % 2 == 1) {
+            lseek(fd, 1, SEEK_CUR);
             pos++;
         }
 
@@ -138,15 +138,15 @@ static Qube::Hardware::OpticalDisc::ContentType advancedDiscDetect(const QString
 
 out:
     /* go back to the start of the file */
-    lseek (fd, 0, SEEK_SET);
+    lseek(fd, 0, SEEK_SET);
     close(fd);
     return result;
 }
 
-using namespace Qube::Hardware::Backends::UDisks;
+using namespace VHardware::Backends::UDisks;
 
 OpticalDisc::OpticalDisc(UDisksDevice *device)
-    : UDisksStorageVolume(device), m_needsReprobe(true), m_cachedContent(Qube::Hardware::OpticalDisc::NoContent)
+    : UDisksStorageVolume(device), m_needsReprobe(true), m_cachedContent(VOpticalDisc::NoContent)
 {
     connect(device, SIGNAL(changed()), this, SLOT(slotChanged()));
 }
@@ -180,52 +180,52 @@ bool OpticalDisc::isAppendable() const
     return m_device->prop("OpticalDiscIsAppendable").toBool();
 }
 
-Qube::Hardware::OpticalDisc::DiscType OpticalDisc::discType() const
+VOpticalDisc::DiscType OpticalDisc::discType() const
 {
     const QString discType = m_device->prop("DriveMedia").toString();
 
-    QMap<Qube::Hardware::OpticalDisc::DiscType, QString> map;
-    map[Qube::Hardware::OpticalDisc::CdRom] = "optical_cd";
-    map[Qube::Hardware::OpticalDisc::CdRecordable] = "optical_cd_r";
-    map[Qube::Hardware::OpticalDisc::CdRewritable] = "optical_cd_rw";
-    map[Qube::Hardware::OpticalDisc::DvdRom] = "optical_dvd";
-    map[Qube::Hardware::OpticalDisc::DvdRecordable] = "optical_dvd_r";
-    map[Qube::Hardware::OpticalDisc::DvdRewritable] ="optical_dvd_rw";
-    map[Qube::Hardware::OpticalDisc::DvdRam] ="optical_dvd_ram";
-    map[Qube::Hardware::OpticalDisc::DvdPlusRecordable] ="optical_dvd_plus_r";
-    map[Qube::Hardware::OpticalDisc::DvdPlusRewritable] ="optical_dvd_plus_rw";
-    map[Qube::Hardware::OpticalDisc::DvdPlusRecordableDuallayer] ="optical_dvd_plus_r_dl";
-    map[Qube::Hardware::OpticalDisc::DvdPlusRewritableDuallayer] ="optical_dvd_plus_rw_dl";
-    map[Qube::Hardware::OpticalDisc::BluRayRom] ="optical_bd";
-    map[Qube::Hardware::OpticalDisc::BluRayRecordable] ="optical_bd_r";
-    map[Qube::Hardware::OpticalDisc::BluRayRewritable] ="optical_bd_re";
-    map[Qube::Hardware::OpticalDisc::HdDvdRom] ="optical_hddvd";
-    map[Qube::Hardware::OpticalDisc::HdDvdRecordable] ="optical_hddvd_r";
-    map[Qube::Hardware::OpticalDisc::HdDvdRewritable] ="optical_hddvd_rw";
-    // TODO add these to QubeHardware
-    //map[Qube::Hardware::OpticalDisc::MagnetoOptical] ="optical_mo";
-    //map[Qube::Hardware::OpticalDisc::MountRainer] ="optical_mrw";
-    //map[Qube::Hardware::OpticalDisc::MountRainerWritable] ="optical_mrw_w";
+    QMap<VOpticalDisc::DiscType, QString> map;
+    map[VOpticalDisc::CdRom] = "optical_cd";
+    map[VOpticalDisc::CdRecordable] = "optical_cd_r";
+    map[VOpticalDisc::CdRewritable] = "optical_cd_rw";
+    map[VOpticalDisc::DvdRom] = "optical_dvd";
+    map[VOpticalDisc::DvdRecordable] = "optical_dvd_r";
+    map[VOpticalDisc::DvdRewritable] = "optical_dvd_rw";
+    map[VOpticalDisc::DvdRam] = "optical_dvd_ram";
+    map[VOpticalDisc::DvdPlusRecordable] = "optical_dvd_plus_r";
+    map[VOpticalDisc::DvdPlusRewritable] = "optical_dvd_plus_rw";
+    map[VOpticalDisc::DvdPlusRecordableDuallayer] = "optical_dvd_plus_r_dl";
+    map[VOpticalDisc::DvdPlusRewritableDuallayer] = "optical_dvd_plus_rw_dl";
+    map[VOpticalDisc::BluRayRom] = "optical_bd";
+    map[VOpticalDisc::BluRayRecordable] = "optical_bd_r";
+    map[VOpticalDisc::BluRayRewritable] = "optical_bd_re";
+    map[VOpticalDisc::HdDvdRom] = "optical_hddvd";
+    map[VOpticalDisc::HdDvdRecordable] = "optical_hddvd_r";
+    map[VOpticalDisc::HdDvdRewritable] = "optical_hddvd_rw";
+    // TODO add these to VibeHardware
+    //map[VOpticalDisc::MagnetoOptical] ="optical_mo";
+    //map[VOpticalDisc::MountRainer] ="optical_mrw";
+    //map[VOpticalDisc::MountRainerWritable] ="optical_mrw_w";
 
-    return map.key( discType, Qube::Hardware::OpticalDisc::UnknownDiscType );
+    return map.key(discType, VOpticalDisc::UnknownDiscType);
 }
 
-Qube::Hardware::OpticalDisc::ContentTypes OpticalDisc::availableContent() const
+VOpticalDisc::ContentTypes OpticalDisc::availableContent() const
 {
     if (isBlank()) {
         m_needsReprobe = false;
-        return Qube::Hardware::OpticalDisc::NoContent;
+        return VOpticalDisc::NoContent;
     }
 
     if (m_needsReprobe) {
-        m_cachedContent = Qube::Hardware::OpticalDisc::NoContent;
+        m_cachedContent = VOpticalDisc::NoContent;
         bool hasData = m_device->prop("OpticalDiscNumTracks").toInt() > 0;
         bool hasAudio = m_device->prop("OpticalDiscNumAudioTracks").toInt() > 0;
 
-        if ( hasData )
-            m_cachedContent |= Qube::Hardware::OpticalDisc::Data;
-        if ( hasAudio )
-            m_cachedContent |= Qube::Hardware::OpticalDisc::Audio;
+        if (hasData)
+            m_cachedContent |= VOpticalDisc::Data;
+        if (hasAudio)
+            m_cachedContent |= VOpticalDisc::Audio;
 
         m_cachedContent |= advancedDiscDetect(m_device->prop("DeviceFile").toString());
 
@@ -235,9 +235,9 @@ Qube::Hardware::OpticalDisc::ContentTypes OpticalDisc::availableContent() const
     return m_cachedContent;
 }
 
-void Qube::Hardware::Backends::UDisks::OpticalDisc::slotChanged()
+void VHardware::Backends::UDisks::OpticalDisc::slotChanged()
 {
     m_needsReprobe = true;
-    m_cachedContent = Qube::Hardware::OpticalDisc::NoContent;
+    m_cachedContent = VOpticalDisc::NoContent;
 }
 

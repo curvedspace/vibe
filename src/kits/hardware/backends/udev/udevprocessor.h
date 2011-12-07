@@ -18,48 +18,44 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UDEV_PROCESSOR_H
-#define QUBE_HARDWARE_BACKENDS_UDEV_PROCESSOR_H
+#ifndef VHARDWARE_BACKENDS_UDEV_PROCESSOR_H
+#define VHARDWARE_BACKENDS_UDEV_PROCESSOR_H
 
 #include <ifaces/processor.h>
 #include "udevdeviceinterface.h"
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UDev
         {
-            namespace UDev
+            class UDevDevice;
+
+            class Processor : public DeviceInterface, virtual public VHardware::Ifaces::Processor
             {
-                class UDevDevice;
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::Processor)
+            public:
+                Processor(UDevDevice *device);
+                virtual ~Processor();
 
-                class Processor : public DeviceInterface, virtual public Qube::Hardware::Ifaces::Processor
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::Processor)
+                virtual int number() const;
+                virtual int maxSpeed() const;
+                virtual bool canChangeFrequency() const;
+                virtual VProcessor::InstructionSets instructionSets() const;
 
-                public:
-                    Processor(UDevDevice *device);
-                    virtual ~Processor();
-
-                    virtual int number() const;
-                    virtual int maxSpeed() const;
-                    virtual bool canChangeFrequency() const;
-                    virtual Qube::Hardware::Processor::InstructionSets instructionSets() const;
-
-                private:
-                    enum CanChangeFrequencyEnum {
-                        NotChecked,
-                        CanChangeFreq,
-                        CannotChangeFreq
-                    };
-                    mutable CanChangeFrequencyEnum m_canChangeFrequency;
-                    mutable int m_maxSpeed;
+            private:
+                enum CanChangeFrequencyEnum {
+                    NotChecked,
+                    CanChangeFreq,
+                    CannotChangeFreq
                 };
-            }
+                mutable CanChangeFrequencyEnum m_canChangeFrequency;
+                mutable int m_maxSpeed;
+            };
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_UDEV_PROCESSOR_H
+#endif // VHARDWARE_BACKENDS_UDEV_PROCESSOR_H

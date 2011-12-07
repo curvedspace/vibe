@@ -28,145 +28,142 @@
 #include <QtCore/QObject>
 #include <QtCore/QStringList>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UPower
         {
-            namespace UPower
+            class DeviceInterface : public QObject, virtual public VHardware::Ifaces::DeviceInterface
             {
-                class DeviceInterface : public QObject, virtual public Qube::Hardware::Ifaces::DeviceInterface
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::DeviceInterface)
-                public:
-                    DeviceInterface(UPowerDevice *device);
-                    virtual ~DeviceInterface();
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::DeviceInterface)
+            public:
+                DeviceInterface(UPowerDevice *device);
+                virtual ~DeviceInterface();
 
-                protected:
-                    UPowerDevice *m_device;
+            protected:
+                UPowerDevice *m_device;
 
-                public:
-                    inline static QStringList toStringList(Qube::Hardware::DeviceInterface::Type type) {
-                        QStringList list;
+            public:
+                inline static QStringList toStringList(VDeviceInterface::Type type) {
+                    QStringList list;
 
-                        switch(type) {
-                        case Qube::Hardware::DeviceInterface::GenericInterface:
+                    switch (type) {
+                        case VDeviceInterface::GenericInterface:
                             list << "generic";
                             break;
-                        case Qube::Hardware::DeviceInterface::Processor:
+                        case VDeviceInterface::Processor:
                             // Doesn't exist with UDisks
                             break;
-                        case Qube::Hardware::DeviceInterface::Block:
+                        case VDeviceInterface::Block:
                             list << "block";
                             break;
-                        case Qube::Hardware::DeviceInterface::StorageAccess:
+                        case VDeviceInterface::StorageAccess:
                             list << "volume";
                             break;
-                        case Qube::Hardware::DeviceInterface::StorageDrive:
+                        case VDeviceInterface::StorageDrive:
                             list << "storage";
                             break;
-                        case Qube::Hardware::DeviceInterface::OpticalDrive:
+                        case VDeviceInterface::OpticalDrive:
                             list << "storage.cdrom";
                             break;
-                        case Qube::Hardware::DeviceInterface::StorageVolume:
+                        case VDeviceInterface::StorageVolume:
                             list << "volume";
                             break;
-                        case Qube::Hardware::DeviceInterface::OpticalDisc:
+                        case VDeviceInterface::OpticalDisc:
                             list << "volume.disc";
                             break;
-                        case Qube::Hardware::DeviceInterface::Camera:
+                        case VDeviceInterface::Camera:
                             // Doesn't exist with UDisks
                             break;
-                        case Qube::Hardware::DeviceInterface::PortableMediaPlayer:
+                        case VDeviceInterface::PortableMediaPlayer:
                             // Doesn't exist with UDisks
                             break;
-                        case Qube::Hardware::DeviceInterface::NetworkInterface:
+                        case VDeviceInterface::NetworkInterface:
                             // Doesn't exist with UDisks
                             break;
-                        case Qube::Hardware::DeviceInterface::AcAdapter:
+                        case VDeviceInterface::AcAdapter:
                             list << "acadapter";
                             break;
-                        case Qube::Hardware::DeviceInterface::Battery:
+                        case VDeviceInterface::Battery:
                             list << "battery";
                             break;
-                        case Qube::Hardware::DeviceInterface::Button:
+                        case VDeviceInterface::Button:
                             // Doesn't exist with UDisks
                             break;
-                        case Qube::Hardware::DeviceInterface::AudioInterface:
+                        case VDeviceInterface::AudioInterface:
                             // Doesn't exist with UDisks
                             break;
-                        case Qube::Hardware::DeviceInterface::DvbInterface:
+                        case VDeviceInterface::DvbInterface:
                             // Doesn't exist with UDisks
                             break;
-                        case Qube::Hardware::DeviceInterface::Video:
+                        case VDeviceInterface::Video:
                             // Doesn't exist with UDisks
                             break;
-                        case Qube::Hardware::DeviceInterface::SerialInterface:
+                        case VDeviceInterface::SerialInterface:
                             // Doesn't exist with UDisks
                             break;
-                        case Qube::Hardware::DeviceInterface::InternetGateway:
+                        case VDeviceInterface::InternetGateway:
                             break;
-                        case Qube::Hardware::DeviceInterface::SmartCardReader:
+                        case VDeviceInterface::SmartCardReader:
                             // Doesn't exist with UDisks
                             break;
-                        case Qube::Hardware::DeviceInterface::NetworkShare:
+                        case VDeviceInterface::NetworkShare:
                             // Doesn't exist with UPower
                             break;
-                        case Qube::Hardware::DeviceInterface::Unknown:
+                        case VDeviceInterface::Unknown:
                             break;
-                        case Qube::Hardware::DeviceInterface::Last:
+                        case VDeviceInterface::Last:
                             break;
-                        }
-
-                        return list;
                     }
 
-                    inline static Qube::Hardware::DeviceInterface::Type fromString(const QString &capability) {
-                        if (capability == "generic")
-                            return Qube::Hardware::DeviceInterface::GenericInterface;
-                        else if (capability == "processor")
-                            return Qube::Hardware::DeviceInterface::Processor;
-                        else if (capability == "block")
-                            return Qube::Hardware::DeviceInterface::Block;
-                        else if (capability == "storage")
-                            return Qube::Hardware::DeviceInterface::StorageDrive;
-                        else if (capability == "storage.cdrom")
-                            return Qube::Hardware::DeviceInterface::OpticalDrive;
-                        else if (capability == "volume")
-                            return Qube::Hardware::DeviceInterface::StorageVolume;
-                        else if (capability == "volume.disc")
-                            return Qube::Hardware::DeviceInterface::OpticalDisc;
-                        else if (capability == "camera")
-                            return Qube::Hardware::DeviceInterface::Camera;
-                        else if (capability == "portable_audio_player")
-                            return Qube::Hardware::DeviceInterface::PortableMediaPlayer;
-                        else if (capability == "net")
-                            return Qube::Hardware::DeviceInterface::NetworkInterface;
-                        else if (capability == "ac_adapter")
-                            return Qube::Hardware::DeviceInterface::AcAdapter;
-                        else if (capability == "battery")
-                            return Qube::Hardware::DeviceInterface::Battery;
-                        else if (capability == "button")
-                            return Qube::Hardware::DeviceInterface::Button;
-                        else if (capability == "alsa" || capability == "oss")
-                            return Qube::Hardware::DeviceInterface::AudioInterface;
-                        else if (capability == "dvb")
-                            return Qube::Hardware::DeviceInterface::DvbInterface;
-                        else if (capability == "video4linux")
-                            return Qube::Hardware::DeviceInterface::Video;
-                        else if (capability == "serial")
-                            return Qube::Hardware::DeviceInterface::SerialInterface;
-                        else if (capability == "smart_card_reader")
-                            return Qube::Hardware::DeviceInterface::SmartCardReader;
-                        else if (capability == "networkshare")
-                            return Qube::Hardware::DeviceInterface::NetworkShare;
-                        else
-                            return Qube::Hardware::DeviceInterface::Unknown;
-                    }
-                };
-            }
+                    return list;
+                }
+
+                inline static VDeviceInterface::Type fromString(const QString &capability) {
+                    if (capability == "generic")
+                        return VDeviceInterface::GenericInterface;
+                    else if (capability == "processor")
+                        return VDeviceInterface::Processor;
+                    else if (capability == "block")
+                        return VDeviceInterface::Block;
+                    else if (capability == "storage")
+                        return VDeviceInterface::StorageDrive;
+                    else if (capability == "storage.cdrom")
+                        return VDeviceInterface::OpticalDrive;
+                    else if (capability == "volume")
+                        return VDeviceInterface::StorageVolume;
+                    else if (capability == "volume.disc")
+                        return VDeviceInterface::OpticalDisc;
+                    else if (capability == "camera")
+                        return VDeviceInterface::Camera;
+                    else if (capability == "portable_audio_player")
+                        return VDeviceInterface::PortableMediaPlayer;
+                    else if (capability == "net")
+                        return VDeviceInterface::NetworkInterface;
+                    else if (capability == "ac_adapter")
+                        return VDeviceInterface::AcAdapter;
+                    else if (capability == "battery")
+                        return VDeviceInterface::Battery;
+                    else if (capability == "button")
+                        return VDeviceInterface::Button;
+                    else if (capability == "alsa" || capability == "oss")
+                        return VDeviceInterface::AudioInterface;
+                    else if (capability == "dvb")
+                        return VDeviceInterface::DvbInterface;
+                    else if (capability == "video4linux")
+                        return VDeviceInterface::Video;
+                    else if (capability == "serial")
+                        return VDeviceInterface::SerialInterface;
+                    else if (capability == "smart_card_reader")
+                        return VDeviceInterface::SmartCardReader;
+                    else if (capability == "networkshare")
+                        return VDeviceInterface::NetworkShare;
+                    else
+                        return VDeviceInterface::Unknown;
+                }
+            };
         }
     }
 }

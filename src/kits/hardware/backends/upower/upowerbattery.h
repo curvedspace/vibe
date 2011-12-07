@@ -19,57 +19,53 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UPOWER_BATTERY_H
-#define QUBE_HARDWARE_BACKENDS_UPOWER_BATTERY_H
+#ifndef VHARDWARE_BACKENDS_UPOWER_BATTERY_H
+#define VHARDWARE_BACKENDS_UPOWER_BATTERY_H
 
 #include <ifaces/battery.h>
 #include "upowerdeviceinterface.h"
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UPower
         {
-            namespace UPower
+            class Battery : public DeviceInterface, virtual public VHardware::Ifaces::Battery
             {
-                class Battery : public DeviceInterface, virtual public Qube::Hardware::Ifaces::Battery
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::Battery)
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::Battery)
+            public:
+                Battery(UPowerDevice *device);
+                virtual ~Battery();
 
-                public:
-                    Battery(UPowerDevice *device);
-                    virtual ~Battery();
+                virtual bool isPlugged() const;
+                virtual VBattery::BatteryType type() const;
 
-                    virtual bool isPlugged() const;
-                    virtual Qube::Hardware::Battery::BatteryType type() const;
+                virtual int chargePercent() const;
 
-                    virtual int chargePercent() const;
+                virtual bool isRechargeable() const;
+                virtual VBattery::ChargeState chargeState() const;
 
-                    virtual bool isRechargeable() const;
-                    virtual Qube::Hardware::Battery::ChargeState chargeState() const;
+                // TODO report stuff like capacity, technology, time-to-full, time-to-empty, energy rates, vendor, etc.
 
-                    // TODO report stuff like capacity, technology, time-to-full, time-to-empty, energy rates, vendor, etc.
+            Q_SIGNALS:
+                void chargePercentChanged(int value, const QString &udi);
+                void chargeStateChanged(int newState, const QString &udi);
+                void plugStateChanged(bool newState, const QString &udi);
 
-                Q_SIGNALS:
-                    void chargePercentChanged(int value, const QString &udi);
-                    void chargeStateChanged(int newState, const QString &udi);
-                    void plugStateChanged(bool newState, const QString &udi);
+            private Q_SLOTS:
+                void slotChanged();
 
-                private Q_SLOTS:
-                    void slotChanged();
+            private:
+                void updateCache();
 
-                private:
-                    void updateCache();
-
-                    bool m_isPlugged;
-                    int m_chargePercent;
-                    Qube::Hardware::Battery::ChargeState m_chargeState;
-                };
-            }
+                bool m_isPlugged;
+                int m_chargePercent;
+                VBattery::ChargeState m_chargeState;
+            };
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_UPOWER_BATTERY_H
+#endif // VHARDWARE_BACKENDS_UPOWER_BATTERY_H

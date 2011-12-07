@@ -18,50 +18,46 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UDEV_UDEVMANAGER_H
-#define QUBE_HARDWARE_BACKENDS_UDEV_UDEVMANAGER_H
+#ifndef VHARDWARE_BACKENDS_UDEV_UDEVMANAGER_H
+#define VHARDWARE_BACKENDS_UDEV_UDEVMANAGER_H
 
 #include <ifaces/devicemanager.h>
 
 #include "../shared/udevqt.h"
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UDev
         {
-            namespace UDev
+            class UDevManager : public VHardware::Ifaces::DeviceManager
             {
-                class UDevManager : public Qube::Hardware::Ifaces::DeviceManager
-                {
-                    Q_OBJECT
+                Q_OBJECT
+            public:
+                UDevManager(QObject *parent);
+                virtual ~UDevManager();
 
-                public:
-                    UDevManager(QObject *parent);
-                    virtual ~UDevManager();
+                virtual QString udiPrefix() const;
+                virtual QSet<VDeviceInterface::Type> supportedInterfaces() const;
 
-                    virtual QString udiPrefix() const;
-                    virtual QSet<Qube::Hardware::DeviceInterface::Type> supportedInterfaces() const;
+                virtual QStringList allDevices();
 
-                    virtual QStringList allDevices();
+                virtual QStringList devicesFromQuery(const QString &parentUdi,
+                                                     VDeviceInterface::Type type);
 
-                    virtual QStringList devicesFromQuery(const QString &parentUdi,
-                                                         Qube::Hardware::DeviceInterface::Type type);
+                virtual QObject *createDevice(const QString &udi);
 
-                    virtual QObject *createDevice(const QString &udi);
+            private Q_SLOTS:
+                void slotDeviceAdded(const UdevQt::Device &device);
+                void slotDeviceRemoved(const UdevQt::Device &device);
 
-                private Q_SLOTS:
-                    void slotDeviceAdded(const UdevQt::Device &device);
-                    void slotDeviceRemoved(const UdevQt::Device &device);
-
-                private:
-                    class Private;
-                    Private *const d;
-                };
-            }
+            private:
+                class Private;
+                Private *const d;
+            };
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_UDEV_UDEVMANAGER_H
+#endif // VHARDWARE_BACKENDS_UDEV_UDEVMANAGER_H

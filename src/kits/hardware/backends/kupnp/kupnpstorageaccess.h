@@ -18,47 +18,43 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_KUPNP_STORAGEACCESS_H
-#define QUBE_HARDWARE_BACKENDS_KUPNP_STORAGEACCESS_H
+#ifndef VHARDWARE_BACKENDS_KUPNP_STORAGEACCESS_H
+#define VHARDWARE_BACKENDS_KUPNP_STORAGEACCESS_H
 
-// backend
-#include "kupnpdeviceinterface.h"
-// QubeHardware
 #include <ifaces/storageaccess.h>
 
-namespace Qube
+#include "kupnpdeviceinterface.h"
+
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace KUPnP
         {
-            namespace KUPnP
+            class StorageAccess : public DeviceInterface, virtual public VHardware::Ifaces::StorageAccess
             {
-                class StorageAccess : public DeviceInterface, virtual public Qube::Hardware::Ifaces::StorageAccess
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::StorageAccess)
-                public:
-                    explicit StorageAccess(KUPnPDevice* device);
-                    virtual ~StorageAccess();
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::StorageAccess)
+            public:
+                explicit StorageAccess(KUPnPDevice *device);
+                virtual ~StorageAccess();
 
-                public: // Qube::Hardware::Ifaces::StorageAccess API
-                    virtual bool isAccessible() const;
-                    virtual QString filePath() const;
-                    virtual bool isIgnored() const;
-                    virtual bool setup();
-                    virtual bool teardown();
+            public: // VHardware::Ifaces::StorageAccess API
+                virtual bool isAccessible() const;
+                virtual QString filePath() const;
+                virtual bool isIgnored() const;
+                virtual bool setup();
+                virtual bool teardown();
 
-                Q_SIGNALS: // Qube::Hardware::Ifaces::StorageAccess API
-                    void accessibilityChanged(bool accessible, const QString &udi);
-                    void setupDone(Qube::Hardware::ErrorType error, QVariant errorData, const QString &udi);
-                    void teardownDone(Qube::Hardware::ErrorType error, QVariant errorData, const QString &udi);
-                    void setupRequested(const QString &udi);
-                    void teardownRequested(const QString &udi);
-                };
-            }
+            Q_SIGNALS: // VHardware::Ifaces::StorageAccess API
+                void accessibilityChanged(bool accessible, const QString &udi);
+                void setupDone(VHardware::ErrorType error, QVariant errorData, const QString &udi);
+                void teardownDone(VHardware::ErrorType error, QVariant errorData, const QString &udi);
+                void setupRequested(const QString &udi);
+                void teardownRequested(const QString &udi);
+            };
         }
     }
 }
 
-#endif
+#endif // VHARDWARE_BACKENDS_KUPNP_STORAGEACCESS_H

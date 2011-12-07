@@ -18,77 +18,74 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_FSTAB_STORAGEACCESS_H
-#define QUBE_HARDWARE_BACKENDS_FSTAB_STORAGEACCESS_H
+#ifndef VHARDWARE_BACKENDS_FSTAB_STORAGEACCESS_H
+#define VHARDWARE_BACKENDS_FSTAB_STORAGEACCESS_H
 
 #include <ifaces/storageaccess.h>
 
 #include <QtCore/QObject>
 #include <QtCore/QProcess>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace Fstab
         {
-            namespace Fstab
+            class FstabDevice;
+
+            class FstabStorageAccess : public QObject, public VHardware::Ifaces::StorageAccess
             {
-                class FstabDevice;
-                class FstabStorageAccess : public QObject, public Qube::Hardware::Ifaces::StorageAccess
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::StorageAccess)
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::StorageAccess)
+            public:
+                explicit FstabStorageAccess(VHardware::Backends::Fstab::FstabDevice *device);
 
-                public:
-                    explicit FstabStorageAccess(Qube::Hardware::Backends::Fstab::FstabDevice *device);
+                virtual ~FstabStorageAccess();
 
-                    virtual ~FstabStorageAccess();
+                virtual bool isAccessible() const;
 
-                    virtual bool isAccessible() const;
+                virtual QString filePath() const;
 
-                    virtual QString filePath() const;
+                virtual bool isIgnored() const;
 
-                    virtual bool isIgnored() const;
+                virtual bool setup();
 
-                    virtual bool setup();
+                virtual bool teardown();
 
-                    virtual bool teardown();
+            public:
+                const VHardware::Backends::Fstab::FstabDevice *fstabDevice() const;
 
-                public:
-                    const Qube::Hardware::Backends::Fstab::FstabDevice* fstabDevice() const;
+            Q_SIGNALS:
+                void accessibilityChanged(bool accessible, const QString &udi);
 
-                Q_SIGNALS:
-                    void accessibilityChanged(bool accessible, const QString &udi);
+                void setupDone(VHardware::ErrorType error, QVariant data, const QString &udi);
 
-                    void setupDone(Qube::Hardware::ErrorType error, QVariant data, const QString &udi);
+                void teardownDone(VHardware::ErrorType error, QVariant data, const QString &udi);
 
-                    void teardownDone(Qube::Hardware::ErrorType error, QVariant data, const QString &udi);
+                void setupRequested(const QString &udi);
 
-                    void setupRequested(const QString &udi);
+                void teardownRequested(const QString &udi);
 
-                    void teardownRequested(const QString &udi);
+            private Q_SLOTS:
+                void slotSetupFinished(int exitCode, QProcess::ExitStatus exitStatus);
+                void slotTeardownFinished(int exitCode, QProcess::ExitStatus exitStatus);
+                void onMtabChanged();
+                void connectDBusSignals();
 
-                private Q_SLOTS:
-                    void slotSetupFinished(int exitCode, QProcess::ExitStatus exitStatus);
-                    void slotTeardownFinished(int exitCode, QProcess::ExitStatus exitStatus);
-                    void onMtabChanged();
-                    void connectDBusSignals();
+                void slotSetupRequested();
+                void slotSetupDone(int error, const QString &errorString);
+                void slotTeardownRequested();
+                void slotTeardownDone(int error, const QString &errorString);
 
-                    void slotSetupRequested();
-                    void slotSetupDone(int error, const QString &errorString);
-                    void slotTeardownRequested();
-                    void slotTeardownDone(int error, const QString &errorString);
+            private:
+                VHardware::Backends::Fstab::FstabDevice *m_fstabDevice;
+                QProcess *m_process;
+                QStringList m_currentMountPoints;
+            };
 
-                private:
-                    Qube::Hardware::Backends::Fstab::FstabDevice *m_fstabDevice;
-                    QProcess *m_process;
-                    QStringList m_currentMountPoints;
-                };
-
-            }
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_FSTAB_DEVICE_INTERFACE_H
+#endif // VHARDWARE_BACKENDS_FSTAB_DEVICE_INTERFACE_H

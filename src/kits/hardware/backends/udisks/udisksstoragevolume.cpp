@@ -21,7 +21,7 @@
 
 #include "udisksstoragevolume.h"
 
-using namespace Qube::Hardware::Backends::UDisks;
+using namespace VHardware::Backends::UDisks;
 
 UDisksStorageVolume::UDisksStorageVolume(UDisksDevice *device)
     : Block(device)
@@ -34,8 +34,8 @@ UDisksStorageVolume::~UDisksStorageVolume()
 
 QString UDisksStorageVolume::encryptedContainerUdi() const
 {
-    if ( m_device->prop( "DeviceIsLuksCleartext" ).toBool() )
-        return m_device->prop( "LuksCleartextSlave" ).value<QDBusObjectPath>().path();
+    if (m_device->prop("DeviceIsLuksCleartext").toBool())
+        return m_device->prop("LuksCleartextSlave").value<QDBusObjectPath>().path();
 
     return QString();
 }
@@ -63,22 +63,22 @@ QString UDisksStorageVolume::fsType() const
     return m_device->prop("IdType").toString();
 }
 
-Qube::Hardware::StorageVolume::UsageType UDisksStorageVolume::usage() const
+VStorageVolume::UsageType UDisksStorageVolume::usage() const
 {
     QString usage = m_device->prop("IdUsage").toString();
 
     if (usage == "filesystem") {
-        return Qube::Hardware::StorageVolume::FileSystem;
+        return VStorageVolume::FileSystem;
     } else if (usage == "partitiontable") {
-        return Qube::Hardware::StorageVolume::PartitionTable;
+        return VStorageVolume::PartitionTable;
     } else if (usage == "raid") {
-        return Qube::Hardware::StorageVolume::Raid;
+        return VStorageVolume::Raid;
     } else if (usage == "crypto") {
-        return Qube::Hardware::StorageVolume::Encrypted;
+        return VStorageVolume::Encrypted;
     } else if (usage == "unused") {
-        return Qube::Hardware::StorageVolume::Unused;
+        return VStorageVolume::Unused;
     } else {
-        return Qube::Hardware::StorageVolume::Other;
+        return VStorageVolume::Other;
     }
 }
 

@@ -18,41 +18,38 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UPNP_DEVICE_INTERFACE_H
-#define QUBE_HARDWARE_BACKENDS_UPNP_DEVICE_INTERFACE_H
-
-#include <ifaces/deviceinterface.h>
-#include <Qube/Hardware/backends/upnp/upnpdevice.h>
+#ifndef VHARDWARE_BACKENDS_UPNP_DEVICE_INTERFACE_H
+#define VHARDWARE_BACKENDS_UPNP_DEVICE_INTERFACE_H
 
 #include <QtCore/QObject>
 
-namespace Qube
+#include <backends/upnp/upnpdevice.h>
+#include <ifaces/deviceinterface.h>
+
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UPnP
         {
-            namespace UPnP
+            class UPnPDeviceInterface : public QObject, virtual public VHardware::Ifaces::DeviceInterface
             {
-                class UPnPDeviceInterface : public QObject, virtual public Qube::Hardware::Ifaces::DeviceInterface
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::DeviceInterface)
-                public:
-                    explicit UPnPDeviceInterface(Qube::Hardware::Backends::UPnP::UPnPDevice* device);
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::DeviceInterface)
+            public:
+                explicit UPnPDeviceInterface(VHardware::Backends::UPnP::UPnPDevice *device);
 
-                    virtual ~UPnPDeviceInterface();
+                virtual ~UPnPDeviceInterface();
 
-                public:
-                    const Qube::Hardware::Backends::UPnP::UPnPDevice* upnpDevice() const;
+            public:
+                const VHardware::Backends::UPnP::UPnPDevice *upnpDevice() const;
 
-                private:
-                    const Qube::Hardware::Backends::UPnP::UPnPDevice* m_upnpDevice;
+            private:
+                const VHardware::Backends::UPnP::UPnPDevice *m_upnpDevice;
 
-                };
-            }
+            };
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_UPNP_DEVICE_INTERFACE_H
+#endif // VHARDWARE_BACKENDS_UPNP_DEVICE_INTERFACE_H

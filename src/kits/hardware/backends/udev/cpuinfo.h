@@ -18,29 +18,26 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UDEV_CPUINFO_H
-#define QUBE_HARDWARE_BACKENDS_UDEV_CPUINFO_H
+#ifndef VHARDWARE_BACKENDS_UDEV_CPUINFO_H
+#define VHARDWARE_BACKENDS_UDEV_CPUINFO_H
 
 #include <QtCore/QString>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UDev
         {
-            namespace UDev
-            {
-                /**
-                 * Extracts a line from /proc/cpuinfo for a given processor
-                 *
-                 * The regexp should have exactly one capture, which should match the
-                 * value of the field.
-                 */
-                QString extractCpuInfoLine(int processorNumber, const QString &regExp);
-            }
+            /**
+             * Extracts a line from /proc/cpuinfo for a given processor
+             *
+             * The regexp should have exactly one capture, which should match the
+             * value of the field.
+             */
+            QString extractCpuInfoLine(int processorNumber, const QString &regExp);
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_UDEV_CPUINFO_H
+#endif // VHARDWARE_BACKENDS_UDEV_CPUINFO_H

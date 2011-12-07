@@ -18,82 +18,78 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_IFACES_OPTICALDISC_H
-#define QUBE_HARDWARE_IFACES_OPTICALDISC_H
+#ifndef VHARDWARE_IFACES_OPTICALDISC_H
+#define VHARDWARE_IFACES_OPTICALDISC_H
 
-#include <Qube/Hardware/opticaldisc.h>
+#include <VibeHardware/VOpticalDisc>
 #include <ifaces/storagevolume.h>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Ifaces
     {
-        namespace Ifaces
+        /**
+         * This device interface is available on optical discs.
+         *
+         * An optical disc is a volume that can be inserted in a cdrom drive.
+         */
+        class VIBE_EXPORT OpticalDisc : virtual public StorageVolume
         {
+        public:
             /**
-             * This device interface is available on optical discs.
-             *
-             * An optical disc is a volume that can be inserted in a cdrom drive.
+             * Destroys an OpticalDisc object.
              */
-            class OpticalDisc : virtual public StorageVolume
-            {
-            public:
-                /**
-                 * Destroys an OpticalDisc object.
-                 */
-                virtual ~OpticalDisc();
+            virtual ~OpticalDisc();
 
+            /**
+             * Retrieves the content types this disc contains (audio, video,
+             * data...).
+             *
+             * @return the flag set indicating the available contents
+             */
+            virtual VOpticalDisc::ContentTypes availableContent() const = 0;
 
-                /**
-                 * Retrieves the content types this disc contains (audio, video,
-                 * data...).
-                 *
-                 * @return the flag set indicating the available contents
-                 */
-                virtual Qube::Hardware::OpticalDisc::ContentTypes availableContent() const = 0;
+            /**
+             * Retrieves the disc type (cdr, cdrw...).
+             *
+             * @return the disc type
+             */
+            virtual VOpticalDisc::DiscType discType() const = 0;
 
-                /**
-                 * Retrieves the disc type (cdr, cdrw...).
-                 *
-                 * @return the disc type
-                 */
-                virtual Qube::Hardware::OpticalDisc::DiscType discType() const = 0;
+            /**
+             * Indicates if it's possible to write additional data to the disc.
+             *
+             * @return true if the disc is appendable, false otherwise
+             */
+            virtual bool isAppendable() const = 0;
 
-                /**
-                 * Indicates if it's possible to write additional data to the disc.
-                 *
-                 * @return true if the disc is appendable, false otherwise
-                 */
-                virtual bool isAppendable() const = 0;
+            /**
+             * Indicates if the disc is blank.
+             *
+             * @return true if the disc is blank, false otherwise
+             */
+            virtual bool isBlank() const = 0;
 
-                /**
-                 * Indicates if the disc is blank.
-                 *
-                 * @return true if the disc is blank, false otherwise
-                 */
-                virtual bool isBlank() const = 0;
+            /**
+             * Indicates if the disc is rewritable.
+             *
+             * A disc is rewritable if you can write on it several times.
+             *
+             * @return true if the disc is rewritable, false otherwise
+             */
+            virtual bool isRewritable() const = 0;
 
-                /**
-                 * Indicates if the disc is rewritable.
-                 *
-                 * A disc is rewritable if you can write on it several times.
-                 *
-                 * @return true if the disc is rewritable, false otherwise
-                 */
-                virtual bool isRewritable() const = 0;
-
-                /**
-                 * Retrieves the disc capacity (that is the maximum size of a
-                 * volume could have on this disc).
-                 *
-                 * @return the capacity of the disc in bytes
-                 */
-                virtual qulonglong capacity() const = 0;
-            };
-        }
+            /**
+             * Retrieves the disc capacity (that is the maximum size of a
+             * volume could have on this disc).
+             *
+             * @return the capacity of the disc in bytes
+             */
+            virtual qulonglong capacity() const = 0;
+        };
     }
 }
 
-Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::OpticalDisc, "org.vision.Qube.Hardware.Ifaces.OpticalDisc/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::OpticalDisc, "org.vision.Vibe.Hardware.Ifaces.OpticalDisc/0.1")
 
-#endif
+#endif // VHARDWARE_IFACES_OPTICALDISC_H

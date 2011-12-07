@@ -18,70 +18,66 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_KUPNP_KUPNPMANAGER_H
-#define QUBE_HARDWARE_BACKENDS_KUPNP_KUPNPMANAGER_H
+#ifndef VHARDWARE_BACKENDS_KUPNP_KUPNPMANAGER_H
+#define VHARDWARE_BACKENDS_KUPNP_KUPNPMANAGER_H
 
-// QubeHardware
-#include <ifaces/devicemanager.h>
-#include <Qube/Hardware/deviceinterface.h>
-// Qt
 #include <QtCore/QVariant>
 #include <QtCore/QStringList>
 #include <QtCore/QSet>
 #include <QtCore/QVector>
 #include <QtCore/QHash>
 
+#include <VibeHardware/VDeviceInterface>
+#include <ifaces/devicemanager.h>
+
 class QDBusInterface;
 
-typedef QHash<QString,QString> DeviceTypeMap;
+typedef QHash<QString, QString> DeviceTypeMap;
 Q_DECLARE_METATYPE(DeviceTypeMap)
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace KUPnP
         {
-            namespace KUPnP
+            class AbstractDeviceFactory;
+
+            class KUPnPManager : public VHardware::Ifaces::DeviceManager
             {
-                class AbstractDeviceFactory;
+                Q_OBJECT
+            public:
+                KUPnPManager(QObject *parent);
+                virtual ~KUPnPManager();
 
-                class KUPnPManager : public Qube::Hardware::Ifaces::DeviceManager
-                {
-                    Q_OBJECT
-                public:
-                    KUPnPManager(QObject* parent);
-                    virtual ~KUPnPManager();
+            public: // VHardware::Ifaces::DeviceManager API
+                virtual QString udiPrefix() const ;
+                virtual QSet<VDeviceInterface::Type> supportedInterfaces() const;
+                virtual QStringList allDevices();
+                virtual QStringList devicesFromQuery(const QString &parentUdi,
+                                                     VDeviceInterface::Type type);
+                virtual QObject *createDevice(const QString &udi);
 
-                public: // Qube::Hardware::Ifaces::DeviceManager API
-                    virtual QString udiPrefix() const ;
-                    virtual QSet<Qube::Hardware::DeviceInterface::Type> supportedInterfaces() const;
-                    virtual QStringList allDevices();
-                    virtual QStringList devicesFromQuery(const QString& parentUdi,
-                                                         Qube::Hardware::DeviceInterface::Type type);
-                    virtual QObject* createDevice(const QString& udi);
+            private Q_SLOTS:
+                void onDevicesAdded(const DeviceTypeMap &deviceTypeMap);
+                void onDevicesRemoved(const DeviceTypeMap &deviceTypeMap);
 
-                private Q_SLOTS:
-                    void onDevicesAdded(const DeviceTypeMap& deviceTypeMap);
-                    void onDevicesRemoved(const DeviceTypeMap& deviceTypeMap);
+            private:
+                QStringList findDeviceByParent(const QString &parentUdi, VDeviceInterface::Type type);
+                QStringList findDeviceByDeviceInterface(VDeviceInterface::Type type);
+                QString udiFromUdn(const QString &udn) const;
+                QString udnFromUdi(const QString &udi) const;
 
-                private:
-                    QStringList findDeviceByParent(const QString& parentUdi, Qube::Hardware::DeviceInterface::Type type);
-                    QStringList findDeviceByDeviceInterface(Qube::Hardware::DeviceInterface::Type type);
-                    QString udiFromUdn(const QString& udn) const;
-                    QString udnFromUdi(const QString& udi) const;
+            private:
+                QSet<VDeviceInterface::Type> mSupportedInterfaces;
 
-                private:
-                    QSet<Qube::Hardware::DeviceInterface::Type> mSupportedInterfaces;
+                QVector<AbstractDeviceFactory *> mDeviceFactories;
+                QString mUdiPrefix;
 
-                    QVector<AbstractDeviceFactory*> mDeviceFactories;
-                    QString mUdiPrefix;
-
-                    QDBusInterface* mDBusCagibiProxy;
-                };
-            }
+                QDBusInterface *mDBusCagibiProxy;
+            };
         }
     }
 }
 
-#endif
+#endif // VHARDWARE_BACKENDS_KUPNP_KUPNPMANAGER_H

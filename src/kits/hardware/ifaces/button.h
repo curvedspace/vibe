@@ -18,75 +18,72 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_IFACES_BUTTON_H
-#define QUBE_HARDWARE_IFACES_BUTTON_H
+#ifndef VHARDWARE_IFACES_BUTTON_H
+#define VHARDWARE_IFACES_BUTTON_H
 
+#include <VibeHardware/VButton>
 #include <ifaces/deviceinterface.h>
-#include <Qube/Hardware/button.h>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Ifaces
     {
-        namespace Ifaces
+        /**
+         * This device interface is available on button devices.
+         *
+         * A button is a device, like power button or lid switch, that can be pressed by user.
+         * Some buttons can have two states (Enabled/Disabled, On/Off ...), other buttons haven't state.
+         *
+         * @author Davide Bettio <davbet@aliceposta.it>
+         */
+        class VIBE_EXPORT Button : virtual public DeviceInterface
         {
+        public:
             /**
-             * This device interface is available on button devices.
-             *
-             * A button is a device, like power button or lid switch, that can be pressed by user.
-             * Some buttons can have two states (Enabled/Disabled, On/Off ...), other buttons haven't state.
-             *
-             * @author Davide Bettio <davbet@aliceposta.it>
+             * Destroys a Button object.
              */
-            class Button : virtual public DeviceInterface
-            {
-            public:
-                /**
-                 * Destroys a Button object.
-                 */
-                virtual ~Button();
+            virtual ~Button();
 
-                /**
-                 * Retrieves the type of button device.
-                 *
-                 * @return the type of button device.
-                 * @see Qube::Hardware::Button::ButtonType
-                 */
-                virtual Qube::Hardware::Button::ButtonType type() const = 0;
+            /**
+             * Retrieves the type of button device.
+             *
+             * @return the type of button device.
+             * @see VButton::ButtonType
+             */
+            virtual VButton::ButtonType type() const = 0;
 
-                /**
-                 * Indicates if the button mantains state (Can toggled on/off).
-                 *
-                 * @return true if the button maintains state, false otherwise.
-                 * @see stateValue()
-                 */
-                virtual bool hasState() const = 0;
+            /**
+             * Indicates if the button mantains state (Can toggled on/off).
+             *
+             * @return true if the button maintains state, false otherwise.
+             * @see stateValue()
+             */
+            virtual bool hasState() const = 0;
 
-                /**
-                 * Retrieves the state of the button.
-                 * A button can have two states (Enabled/Disabled, On/Off ...).
-                 * Available only if hasState is true.
-                 *
-                 * @return true if the button is enabled, false otherwise.
-                 * @see hasState()
-                 */
-                virtual bool stateValue() const = 0;
+            /**
+             * Retrieves the state of the button.
+             * A button can have two states (Enabled/Disabled, On/Off ...).
+             * Available only if hasState is true.
+             *
+             * @return true if the button is enabled, false otherwise.
+             * @see hasState()
+             */
+            virtual bool stateValue() const = 0;
 
-            protected:
-                //Q_SIGNALS:
-                /**
-                 * This signal is emitted when the button is pressed.
-                 *
-                 * @param type the type of button device, it's one of
-                 * the type Qube::Hardware::Button::ButtonType
-                 * @see Qube::Hardware::Button::ButtonType
-                 */
-                virtual void pressed(Qube::Hardware::Button::ButtonType type, const QString &udi) = 0;
-            };
-        }
+        protected:
+            //Q_SIGNALS:
+            /**
+             * This signal is emitted when the button is pressed.
+             *
+             * @param type the type of button device, it's one of
+             * the type VButton::ButtonType
+             * @see VButton::ButtonType
+             */
+            virtual void pressed(VButton::ButtonType type, const QString &udi) = 0;
+        };
     }
 }
 
-Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::Button, "org.vision.Qube.Hardware.Ifaces.Button/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::Button, "org.vision.Vibe.Hardware.Ifaces.Button/0.1")
 
-#endif
+#endif // VHARDWARE_IFACES_BUTTON_H

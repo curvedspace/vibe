@@ -20,7 +20,7 @@
 
 #include "networkinterface.h"
 
-Qube::Hardware::Ifaces::NetworkInterface::~NetworkInterface()
+VHardware::Ifaces::NetworkInterface::~NetworkInterface()
 {
 }
 

@@ -18,72 +18,66 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "internetgatewaydevice1.h"
-
-// QubeHardware
-#include "kupnpstorageaccess.h"
-// Qt
 #include <QtCore/QSet>
 
-namespace Qube
+#include "internetgatewaydevice1.h"
+#include "kupnpstorageaccess.h"
+
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace KUPnP
         {
-            namespace KUPnP
+            static const char InternetGatewayDevice1Udn[] =
+                "urn:schemas-upnp-org:device:InternetGatewayDevice:1";
+
+            InternetGatewayDevice1Factory::InternetGatewayDevice1Factory() {}
+
+
+            QObject *InternetGatewayDevice1Factory::tryCreateDevice(const Cagibi::Device &device) const
             {
-
-                static const char InternetGatewayDevice1Udn[] =
-                    "urn:schemas-upnp-org:device:InternetGatewayDevice:1";
-
-                InternetGatewayDevice1Factory::InternetGatewayDevice1Factory() {}
+                return (device.type() == QLatin1String(InternetGatewayDevice1Udn)) ?
+                       new InternetGatewayDevice1(device) : 0;
+            }
 
 
-                QObject* InternetGatewayDevice1Factory::tryCreateDevice(const Cagibi::Device& device) const
-                {
-                    return (device.type() == QLatin1String(InternetGatewayDevice1Udn)) ?
-                           new InternetGatewayDevice1(device) : 0;
-                }
+            InternetGatewayDevice1::InternetGatewayDevice1(const Cagibi::Device &device)
+                : KUPnPDevice(device)
+            {
+            }
+
+            InternetGatewayDevice1::~InternetGatewayDevice1()
+            {
+            }
+
+            QString InternetGatewayDevice1::icon() const
+            {
+                return QString::fromLatin1("network-server");
+            }
 
 
-                InternetGatewayDevice1::InternetGatewayDevice1(const Cagibi::Device& device)
-                    : KUPnPDevice(device)
-                {
-                }
+            QString InternetGatewayDevice1::description() const
+            {
+                return QObject::tr("UPnP Internet Gateway Device");
+            }
 
-                InternetGatewayDevice1::~InternetGatewayDevice1()
-                {
-                }
+            bool InternetGatewayDevice1::queryDeviceInterface(const VDeviceInterface::Type &type) const
+            {
+                Q_UNUSED(type);
 
-                QString InternetGatewayDevice1::icon() const
-                {
-                    return QString::fromLatin1("network-server");
-                }
+                bool result = false;
 
+                return result;
+            }
 
-                QString InternetGatewayDevice1::description() const
-                {
-                    return QObject::tr("UPnP Internet Gateway Device");
-                }
+            QObject *InternetGatewayDevice1::createDeviceInterface(const VDeviceInterface::Type &type)
+            {
+                Q_UNUSED(type);
 
-                bool InternetGatewayDevice1::queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type &type) const
-                {
-                    Q_UNUSED(type);
+                DeviceInterface *interface = 0;
 
-                    bool result = false;
-
-                    return result;
-                }
-
-                QObject* InternetGatewayDevice1::createDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type)
-                {
-                    Q_UNUSED(type);
-
-                    DeviceInterface* interface = 0;
-
-                    return interface;
-                }
+                return interface;
             }
         }
     }

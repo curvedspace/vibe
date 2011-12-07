@@ -18,69 +18,66 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UPNP_UPNP_DEVICE_H
-#define QUBE_HARDWARE_BACKENDS_UPNP_UPNP_DEVICE_H
+#ifndef VHARDWARE_BACKENDS_UPNP_UPNP_DEVICE_H
+#define VHARDWARE_BACKENDS_UPNP_UPNP_DEVICE_H
 
 #include <ifaces/device.h>
 
 #include <HUpnpCore/HClientDevice>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UPnP
         {
-            namespace UPnP
+            class UPnPDevice : public VHardware::Ifaces::Device
             {
-                class UPnPDevice : public Qube::Hardware::Ifaces::Device
-                {
-                    Q_OBJECT
-                public:
-                    explicit UPnPDevice(const Herqq::Upnp::HClientDevice* device);
+                Q_OBJECT
+            public:
+                explicit UPnPDevice(const Herqq::Upnp::HClientDevice *device);
 
-                    virtual ~UPnPDevice();
+                virtual ~UPnPDevice();
 
-                    virtual QString udi() const;
+                virtual QString udi() const;
 
-                    virtual QString parentUdi() const;
+                virtual QString parentUdi() const;
 
-                    virtual QString vendor() const;
+                virtual QString vendor() const;
 
-                    virtual QString product() const;
+                virtual QString product() const;
 
-                    virtual QString icon() const;
+                virtual QString icon() const;
 
-                    virtual QStringList emblems() const;
+                virtual QStringList emblems() const;
 
-                    virtual QString description() const;
+                virtual QString description() const;
 
-                    virtual bool queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type) const;
+                virtual bool queryDeviceInterface(const VDeviceInterface::Type &type) const;
 
-                    virtual QObject* createDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type);
+                virtual QObject *createDeviceInterface(const VDeviceInterface::Type &type);
 
-                    bool isValid() const;
+                bool isValid() const;
 
-                    const Herqq::Upnp::HClientDevice* device() const;
+                const Herqq::Upnp::HClientDevice *device() const;
 
-                    const QString specVersion() const;
+                const QString specVersion() const;
 
-                    const QString deviceType() const;
+                const QString deviceType() const;
 
-                    bool isMediaServer() const;
+                bool isMediaServer() const;
 
-                    bool isInternetGatewayDevice() const;
+                bool isInternetGatewayDevice() const;
 
-                protected:
-                    const Herqq::Upnp::HClientDevice* m_device;
+            protected:
+                const Herqq::Upnp::HClientDevice *m_device;
 
-                    const QString m_specVersion;
+                const QString m_specVersion;
 
-                    const QString m_deviceType;
-                };
-            }
+                const QString m_deviceType;
+            };
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_UPNP_UPNP_DEVICE_H
+#endif // VHARDWARE_BACKENDS_UPNP_UPNP_DEVICE_H

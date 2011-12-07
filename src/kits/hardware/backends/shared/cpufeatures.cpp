@@ -29,25 +29,23 @@
 #  define HAVE_GNU_INLINE_ASM
 #endif
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace Shared
         {
-            namespace Shared
-            {
-                typedef void (*kde_sighandler_t) (int);
+            typedef void (*kde_sighandler_t)(int);
 
 #if defined(__i386__) || defined(__x86_64__)
-                static jmp_buf env;
+            static jmp_buf env;
 
 #ifdef HAVE_X86_SSE
-// Sighandler for the SSE OS support check
-                static void sighandler(int)
-                {
-                    std::longjmp(env, 1);
-                }
+            // Sighandler for the SSE OS support check
+            static void sighandler(int)
+            {
+                std::longjmp(env, 1);
+            }
 #endif
 #endif
 
@@ -72,136 +70,135 @@ namespace Qube
 #endif
 
 #ifdef __PPC__
-                static sigjmp_buf jmpbuf;
-                static sig_atomic_t canjump = 0;
+            static sigjmp_buf jmpbuf;
+            static sig_atomic_t canjump = 0;
 
-                static void sigill_handler(int sig)
-                {
-                    if (!canjump) {
-                        signal(sig, SIG_DFL);
-                        raise(sig);
-                    }
-                    canjump = 0;
-                    siglongjmp(jmpbuf, 1);
+            static void sigill_handler(int sig)
+            {
+                if (!canjump) {
+                    signal(sig, SIG_DFL);
+                    raise(sig);
                 }
+                canjump = 0;
+                siglongjmp(jmpbuf, 1);
+            }
 #endif
 
-                Qube::Hardware::Processor::InstructionSets cpuFeatures()
-                {
-                    volatile unsigned int features = 0;
+            VProcessor::InstructionSets cpuFeatures()
+            {
+                volatile unsigned int features = 0;
 
 #if defined(HAVE_GNU_INLINE_ASM)
 #if defined(__i386__) || defined(__x86_64__)
-                    bool haveCPUID = false;
-                    unsigned int result = 0, result2 = 0;
+                bool haveCPUID = false;
+                unsigned int result = 0, result2 = 0;
 
-                    // First check if the CPU supports the CPUID instruction
+                // First check if the CPU supports the CPUID instruction
+                __asm__ __volatile__(
+                    // Try to toggle the CPUID bit in the EFLAGS register
+                    "pushf                      \n\t"   // Push the EFLAGS register onto the stack
+                    ASM_POP("cx")                       // Pop the value into ECX
+                    ASM_MOV_REG("cx", "dx")             // Copy ECX to EDX
+                    ASM_XOR_VAR("$0x00200000", "cx")    // Toggle bit 21 (CPUID) in ECX
+                    ASM_PUSH("cx")                      // Push the modified value onto the stack
+                    "popf                       \n\t"   // Pop it back into EFLAGS
+
+                    // Check if the CPUID bit was successfully toggled
+                    "pushf                      \n\t"   // Push EFLAGS back onto the stack
+                    ASM_POP("cx")                       // Pop the value into ECX
+                    ASM_XOR_REG("ax", "ax")             // Zero out the EAX register
+                    ASM_CMP_REG("cx", "dx")             // Compare ECX with EDX
+                    "je    .Lno_cpuid_support%= \n\t"   // Jump if they're identical
+                    ASM_MOV_VAR("$1", "ax")             // Set EAX to true
+                    ".Lno_cpuid_support%=:      \n\t"
+                    : "=a"(haveCPUID) : : ASM_REG("cx"), ASM_REG("dx"));
+
+                // If we don't have CPUID we won't have the other extensions either
+                if (haveCPUID) {
+                    // Execute CPUID with the feature request bit set
                     __asm__ __volatile__(
-                        // Try to toggle the CPUID bit in the EFLAGS register
-                        "pushf                      \n\t"   // Push the EFLAGS register onto the stack
-                        ASM_POP("cx")                       // Pop the value into ECX
-                        ASM_MOV_REG("cx", "dx")             // Copy ECX to EDX
-                        ASM_XOR_VAR("$0x00200000", "cx")    // Toggle bit 21 (CPUID) in ECX
-                        ASM_PUSH("cx")                      // Push the modified value onto the stack
-                        "popf                       \n\t"   // Pop it back into EFLAGS
+                        ASM_PUSH("bx")                      // Save EBX
+                        ASM_MOV_VAR("$1", "ax")             // Set EAX to 1 (features request)
+                        "cpuid                      \n\t"   // Call CPUID
+                        ASM_POP("bx")                       // Restore EBX
+                        : "=d"(result), "=c"(result2) : : ASM_REG("ax"));
 
-                        // Check if the CPUID bit was successfully toggled
-                        "pushf                      \n\t"   // Push EFLAGS back onto the stack
-                        ASM_POP("cx")                       // Pop the value into ECX
-                        ASM_XOR_REG("ax", "ax")             // Zero out the EAX register
-                        ASM_CMP_REG("cx", "dx")             // Compare ECX with EDX
-                        "je    .Lno_cpuid_support%= \n\t"   // Jump if they're identical
-                        ASM_MOV_VAR("$1", "ax")             // Set EAX to true
-                        ".Lno_cpuid_support%=:      \n\t"
-                        : "=a"(haveCPUID) : : ASM_REG("cx"), ASM_REG("dx"));
+                    features = result & 0x06800000; //copy the mmx and sse bits to features
+                    features |= result2 & 0x00080001; //copy the sse3 and sse4 bits to features
 
-                    // If we don't have CPUID we won't have the other extensions either
-                    if (haveCPUID) {
-                        // Execute CPUID with the feature request bit set
-                        __asm__ __volatile__(
-                            ASM_PUSH("bx")                      // Save EBX
-                            ASM_MOV_VAR("$1", "ax")             // Set EAX to 1 (features request)
-                            "cpuid                      \n\t"   // Call CPUID
-                            ASM_POP("bx")                       // Restore EBX
-                            : "=d"(result), "=c"(result2) : : ASM_REG("ax"));
+                    __asm__ __volatile__(
+                        ASM_PUSH("bx")
+                        ASM_PUSH("dx")
+                        ASM_MOV_VAR("$0x80000000", "ax")
+                        ASM_MOV_VAR("$0x80000000", "dx")
+                        "cpuid                   \n\t"
+                        ASM_CMP_REG("dx", "ax")
+                        "jbe .Lno_extended%=     \n\t"
+                        ASM_MOV_VAR("$0x80000001", "ax")
+                        "cpuid                   \n\t"
+                        ".Lno_extended%=:        \n\t"
+                        ASM_POP("dx")
+                        ASM_POP("bx")                      // Restore EBX
+                        : "=d"(result) : : ASM_REG("ax"), ASM_REG("cx"));
 
-                        features = result & 0x06800000; //copy the mmx and sse bits to features
-                        features |= result2 & 0x00080001; //copy the sse3 and sse4 bits to features
-
-                        __asm__ __volatile__ (
-                            ASM_PUSH("bx")
-                            ASM_PUSH("dx")
-                            ASM_MOV_VAR("$0x80000000", "ax")
-                            ASM_MOV_VAR("$0x80000000", "dx")
-                            "cpuid                   \n\t"
-                            ASM_CMP_REG("dx", "ax")
-                            "jbe .Lno_extended%=     \n\t"
-                            ASM_MOV_VAR("$0x80000001", "ax")
-                            "cpuid                   \n\t"
-                            ".Lno_extended%=:        \n\t"
-                            ASM_POP("dx")
-                            ASM_POP("bx")                      // Restore EBX
-                            : "=d"(result) : : ASM_REG("ax"), ASM_REG("cx"));
-
-                        if (result & 0x80000000)
-                            features |= 0x80000000;
+                    if (result & 0x80000000)
+                        features |= 0x80000000;
 
 #ifdef HAVE_X86_SSE
-                        // Test bit 25 (SSE support)
-                        if (features & 0x02000000) {
-                            // OS support test for SSE.
-                            // Install our own sighandler for SIGILL.
-                            kde_sighandler_t oldhandler = std::signal(SIGILL, sighandler);
+                    // Test bit 25 (SSE support)
+                    if (features & 0x02000000) {
+                        // OS support test for SSE.
+                        // Install our own sighandler for SIGILL.
+                        kde_sighandler_t oldhandler = std::signal(SIGILL, sighandler);
 
-                            // Try executing an SSE insn to see if we get a SIGILL
-                            if (setjmp(env))
-                                features &= ~0x06080001; // The OS support test failed
-                            else
-                                __asm__ __volatile__("xorps %xmm0, %xmm0");
+                        // Try executing an SSE insn to see if we get a SIGILL
+                        if (setjmp(env))
+                            features &= ~0x06080001; // The OS support test failed
+                        else
+                            __asm__ __volatile__("xorps %xmm0, %xmm0");
 
-                            // Restore the default sighandler
-                            std::signal(SIGILL, oldhandler);
+                        // Restore the default sighandler
+                        std::signal(SIGILL, oldhandler);
 
-                            // Note: The OS requirements for SSE2 are the same as for SSE
-                            //       so we don't have to do any additional tests for that.
-                        }
+                        // Note: The OS requirements for SSE2 are the same as for SSE
+                        //       so we don't have to do any additional tests for that.
+                    }
 #endif // HAVE_X86_SSE
-                    }
+                }
 #elif defined __PPC__ && defined HAVE_PPC_ALTIVEC
-                    signal(SIGILL, sigill_handler);
-                    if (sigsetjmp(jmpbuf, 1)) {
-                        signal(SIGILL, SIG_DFL);
-                    } else {
-                        canjump = 1;
-                        __asm__ __volatile__("mtspr 256, %0\n\t"
-                                             "vand %%v0, %%v0, %%v0"
-                                             : /* none */
-                                             : "r" (-1));
-                        signal(SIGILL, SIG_DFL);
-                        features = 0x2;
-                    }
+                signal(SIGILL, sigill_handler);
+                if (sigsetjmp(jmpbuf, 1)) {
+                    signal(SIGILL, SIG_DFL);
+                } else {
+                    canjump = 1;
+                    __asm__ __volatile__("mtspr 256, %0\n\t"
+                                         "vand %%v0, %%v0, %%v0"
+                                         : /* none */
+                                         : "r"(-1));
+                    signal(SIGILL, SIG_DFL);
+                    features = 0x2;
+                }
 #endif // __i386__ || __x86_64__
 #endif //HAVE_GNU_INLINE_ASM
-                    Qube::Hardware::Processor::InstructionSets featureflags;
+                VProcessor::InstructionSets featureflags;
 
-                    if (features & 0x80000000)
-                        featureflags |= Qube::Hardware::Processor::Amd3DNow;
-                    if (features & 0x00800000)
-                        featureflags |= Qube::Hardware::Processor::IntelMmx;
-                    if (features & 0x02000000)
-                        featureflags |= Qube::Hardware::Processor::IntelSse;
-                    if (features & 0x04000000)
-                        featureflags |= Qube::Hardware::Processor::IntelSse2;
-                    if (features & 0x00000001) // FIXME: Only SSE3. There is no flag for SSSE3.
-                        featureflags |= Qube::Hardware::Processor::IntelSse3;
-                    if (features & 0x00080000) // FIXME: Only SSE4.1. There is no flag for SSE4.2.
-                        featureflags |= Qube::Hardware::Processor::IntelSse4;
+                if (features & 0x80000000)
+                    featureflags |= VProcessor::Amd3DNow;
+                if (features & 0x00800000)
+                    featureflags |= VProcessor::IntelMmx;
+                if (features & 0x02000000)
+                    featureflags |= VProcessor::IntelSse;
+                if (features & 0x04000000)
+                    featureflags |= VProcessor::IntelSse2;
+                if (features & 0x00000001) // FIXME: Only SSE3. There is no flag for SSSE3.
+                    featureflags |= VProcessor::IntelSse3;
+                if (features & 0x00080000) // FIXME: Only SSE4.1. There is no flag for SSE4.2.
+                    featureflags |= VProcessor::IntelSse4;
 
-                    if (features & 0x2)
-                        featureflags |= Qube::Hardware::Processor::AltiVec;
+                if (features & 0x2)
+                    featureflags |= VProcessor::AltiVec;
 
-                    return featureflags;
-                }
+                return featureflags;
             }
         }
     }

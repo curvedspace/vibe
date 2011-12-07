@@ -21,7 +21,7 @@
 
 #include "upowerbattery.h"
 
-using namespace Qube::Hardware::Backends::UPower;
+using namespace VHardware::Backends::UPower;
 
 Battery::Battery(UPowerDevice *device)
     : DeviceInterface(device)
@@ -40,34 +40,34 @@ bool Battery::isPlugged() const
     return m_device->prop("IsPresent").toBool();
 }
 
-Qube::Hardware::Battery::BatteryType Battery::type() const
+VBattery::BatteryType Battery::type() const
 {
-    Qube::Hardware::Battery::BatteryType result = Qube::Hardware::Battery::UnknownBattery;
+    VBattery::BatteryType result = VBattery::UnknownBattery;
     const uint t = m_device->prop("Type").toUInt();
     switch (t) {
-    case 1: // TODO "Line Power"
-        break;
-    case 2:
-        result = Qube::Hardware::Battery::PrimaryBattery;
-        break;
-    case 3:
-        result = Qube::Hardware::Battery::UpsBattery;
-        break;
-    case 4:
-        result = Qube::Hardware::Battery::MonitorBattery;
-        break;
-    case 5:
-        result = Qube::Hardware::Battery::MouseBattery;
-        break;
-    case 6:
-        result = Qube::Hardware::Battery::KeyboardBattery;
-        break;
-    case 7:
-        result = Qube::Hardware::Battery::PdaBattery;
-        break;
-    case 8:
-        result = Qube::Hardware::Battery::PhoneBattery;
-        break;
+        case 1: // TODO "Line Power"
+            break;
+        case 2:
+            result = VBattery::PrimaryBattery;
+            break;
+        case 3:
+            result = VBattery::UpsBattery;
+            break;
+        case 4:
+            result = VBattery::MonitorBattery;
+            break;
+        case 5:
+            result = VBattery::MouseBattery;
+            break;
+        case 6:
+            result = VBattery::KeyboardBattery;
+            break;
+        case 7:
+            result = VBattery::PdaBattery;
+            break;
+        case 8:
+            result = VBattery::PhoneBattery;
+            break;
     }
     return result;
 }
@@ -82,28 +82,28 @@ bool Battery::isRechargeable() const
     return m_device->prop("IsRechargeable").toBool();
 }
 
-Qube::Hardware::Battery::ChargeState Battery::chargeState() const
+VBattery::ChargeState Battery::chargeState() const
 {
-    Qube::Hardware::Battery::ChargeState result = Qube::Hardware::Battery::NoCharge;
+    VBattery::ChargeState result = VBattery::NoCharge;
     const uint state = m_device->prop("State").toUInt();
     switch (state) {
-    case 0:
-        result = Qube::Hardware::Battery::NoCharge; // stable or unknown
-        break;
-    case 1:
-        result = Qube::Hardware::Battery::Charging;
-        break;
-    case 2:
-        result = Qube::Hardware::Battery::Discharging;
-        break;
-    case 3: // TODO "Empty"
-        break;
-    case 4: // TODO "Fully charged"
-        break;
-    case 5: // TODO "Pending charge"
-        break;
-    case 6: // TODO "Pending discharge"
-        break;
+        case 0:
+            result = VBattery::NoCharge; // stable or unknown
+            break;
+        case 1:
+            result = VBattery::Charging;
+            break;
+        case 2:
+            result = VBattery::Discharging;
+            break;
+        case 3: // TODO "Empty"
+            break;
+        case 4: // TODO "Fully charged"
+            break;
+        case 5: // TODO "Pending charge"
+            break;
+        case 6: // TODO "Pending discharge"
+            break;
     }
     return result;
 }
@@ -115,7 +115,7 @@ void Battery::slotChanged()
 
     const bool old_isPlugged = m_isPlugged;
     const int old_chargePercent = m_chargePercent;
-    const Qube::Hardware::Battery::ChargeState old_chargeState = m_chargeState;
+    const VBattery::ChargeState old_chargeState = m_chargeState;
     updateCache();
 
     if (old_chargePercent != m_chargePercent) {

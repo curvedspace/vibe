@@ -25,29 +25,26 @@
 #include <ifaces/storagedrive.h>
 #include "udisksblock.h"
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UDisks
         {
-            namespace UDisks
+            class UDisksStorageDrive: public Block, virtual public VHardware::Ifaces::StorageDrive
             {
-                class UDisksStorageDrive: public Block, virtual public Qube::Hardware::Ifaces::StorageDrive
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::StorageDrive)
-                public:
-                    UDisksStorageDrive(UDisksDevice *device);
-                    virtual ~UDisksStorageDrive();
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::StorageDrive)
+            public:
+                UDisksStorageDrive(UDisksDevice *device);
+                virtual ~UDisksStorageDrive();
 
-                    virtual qulonglong size() const;
-                    virtual bool isHotpluggable() const;
-                    virtual bool isRemovable() const;
-                    virtual Qube::Hardware::StorageDrive::DriveType driveType() const;
-                    virtual Qube::Hardware::StorageDrive::Bus bus() const;
-                };
-            }
+                virtual qulonglong size() const;
+                virtual bool isHotpluggable() const;
+                virtual bool isRemovable() const;
+                virtual VStorageDrive::DriveType driveType() const;
+                virtual VStorageDrive::Bus bus() const;
+            };
         }
     }
 }

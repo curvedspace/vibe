@@ -20,7 +20,7 @@
 
 #include "deviceinterface.h"
 
-Qube::Hardware::Ifaces::DeviceInterface::~DeviceInterface()
+VHardware::Ifaces::DeviceInterface::~DeviceInterface()
 {
 }
 

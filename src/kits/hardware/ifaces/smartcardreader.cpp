@@ -20,7 +20,7 @@
 
 #include "smartcardreader.h"
 
-Qube::Hardware::Ifaces::SmartCardReader::~SmartCardReader()
+VHardware::Ifaces::SmartCardReader::~SmartCardReader()
 {
 }
 

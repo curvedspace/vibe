@@ -19,38 +19,35 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_FSTAB_FSTABHANDLING_H
-#define QUBE_HARDWARE_BACKENDS_FSTAB_FSTABHANDLING_H
+#ifndef VHARDWARE_BACKENDS_FSTAB_FSTABHANDLING_H
+#define VHARDWARE_BACKENDS_FSTAB_FSTABHANDLING_H
 
 #include <QtCore/QString>
 
 class QProcess;
 class QObject;
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace Fstab
         {
-            namespace Fstab
+            class FstabHandling
             {
-                class FstabHandling
-                {
-                public:
-                    static QStringList deviceList();
-                    static QStringList currentMountPoints();
-                    static QStringList mountPoints(const QString &device);
-                    static QProcess *callSystemCommand(const QString &commandName,
-                                                       const QStringList &args,
-                                                       QObject *obj, const char *slot);
-                    static QProcess *callSystemCommand(const QString &commandName,
-                                                       const QString &device,
-                                                       QObject *obj, const char *slot);
-                };
-            }
+            public:
+                static QStringList deviceList();
+                static QStringList currentMountPoints();
+                static QStringList mountPoints(const QString &device);
+                static QProcess *callSystemCommand(const QString &commandName,
+                                                   const QStringList &args,
+                                                   QObject *obj, const char *slot);
+                static QProcess *callSystemCommand(const QString &commandName,
+                                                   const QString &device,
+                                                   QObject *obj, const char *slot);
+            };
         }
     }
 }
 
-#endif
+#endif // VHARDWARE_BACKENDS_FSTAB_FSTABHANDLING_H

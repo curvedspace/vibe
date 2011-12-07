@@ -26,57 +26,57 @@ namespace Cagibi
 {
 
     Device::Device()
-        : d( new DevicePrivate() )
+        : d(new DevicePrivate())
     {
     }
 
-    Device::Device( DevicePrivate* _d )
-        : d( _d )
+    Device::Device(DevicePrivate *_d)
+        : d(_d)
     {
     }
 
-    Device::Device( const Device& other )
-        : d( other.d )
+    Device::Device(const Device &other)
+        : d(other.d)
     {
     }
 
-    const QString& Device::type() const
+    const QString &Device::type() const
     {
         return d->type();
     }
-    const QString& Device::friendlyName() const
+    const QString &Device::friendlyName() const
     {
         return d->friendlyName();
     }
-    const QString& Device::manufacturerName() const
+    const QString &Device::manufacturerName() const
     {
         return d->manufacturerName();
     }
-    const QString& Device::modelDescription() const
+    const QString &Device::modelDescription() const
     {
         return d->modelDescription();
     }
-    const QString& Device::modelName() const
+    const QString &Device::modelName() const
     {
         return d->modelName();
     }
-    const QString& Device::modelNumber() const
+    const QString &Device::modelNumber() const
     {
         return d->modelNumber();
     }
-    const QString& Device::serialNumber() const
+    const QString &Device::serialNumber() const
     {
         return d->serialNumber();
     }
-    const QString& Device::udn() const
+    const QString &Device::udn() const
     {
         return d->udn();
     }
-    const QString& Device::presentationUrl() const
+    const QString &Device::presentationUrl() const
     {
         return d->presentationUrl();
     }
-    const QString& Device::ipAddress() const
+    const QString &Device::ipAddress() const
     {
         return d->ipAddress();
     }
@@ -89,12 +89,12 @@ namespace Cagibi
     {
         return d->hasParentDevice();
     }
-    const QString& Device::parentDeviceUdn() const
+    const QString &Device::parentDeviceUdn() const
     {
         return d->parentDeviceUdn();
     }
 
-    Device& Device::operator=( const Device& other )
+    Device &Device::operator=(const Device &other)
     {
         d = other.d;
         return *this;

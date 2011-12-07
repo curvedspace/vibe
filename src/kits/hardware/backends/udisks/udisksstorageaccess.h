@@ -28,74 +28,71 @@
 #include <QtDBus/QDBusMessage>
 #include <QtDBus/QDBusError>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UDisks
         {
-            namespace UDisks
+            class UDisksStorageAccess : public DeviceInterface, virtual public VHardware::Ifaces::StorageAccess
             {
-                class UDisksStorageAccess : public DeviceInterface, virtual public Qube::Hardware::Ifaces::StorageAccess
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::StorageAccess)
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::StorageAccess)
 
-                public:
-                    UDisksStorageAccess(UDisksDevice *device);
-                    virtual ~UDisksStorageAccess();
+            public:
+                UDisksStorageAccess(UDisksDevice *device);
+                virtual ~UDisksStorageAccess();
 
-                    virtual bool isAccessible() const;
-                    virtual QString filePath() const;
-                    virtual bool isIgnored() const;
-                    virtual bool setup();
-                    virtual bool teardown();
+                virtual bool isAccessible() const;
+                virtual QString filePath() const;
+                virtual bool isIgnored() const;
+                virtual bool setup();
+                virtual bool teardown();
 
-                Q_SIGNALS:
-                    void accessibilityChanged(bool accessible, const QString &udi);
-                    void setupDone(Qube::Hardware::ErrorType error, QVariant errorData, const QString &udi);
-                    void teardownDone(Qube::Hardware::ErrorType error, QVariant errorData, const QString &udi);
-                    void setupRequested(const QString &udi);
-                    void teardownRequested(const QString &udi);
+            Q_SIGNALS:
+                void accessibilityChanged(bool accessible, const QString &udi);
+                void setupDone(VHardware::ErrorType error, QVariant errorData, const QString &udi);
+                void teardownDone(VHardware::ErrorType error, QVariant errorData, const QString &udi);
+                void setupRequested(const QString &udi);
+                void teardownRequested(const QString &udi);
 
-                public Q_SLOTS:
-                    Q_SCRIPTABLE Q_NOREPLY void passphraseReply( const QString & passphrase );
+            public Q_SLOTS:
+                Q_SCRIPTABLE Q_NOREPLY void passphraseReply(const QString &passphrase);
 
-                private Q_SLOTS:
-                    void slotChanged();
-                    void slotDBusReply( const QDBusMessage & reply );
-                    void slotDBusError( const QDBusError & error );
+            private Q_SLOTS:
+                void slotChanged();
+                void slotDBusReply(const QDBusMessage &reply);
+                void slotDBusError(const QDBusError &error);
 
-                    void connectDBusSignals();
+                void connectDBusSignals();
 
-                    void slotSetupRequested();
-                    void slotSetupDone(int error, const QString &errorString);
-                    void slotTeardownRequested();
-                    void slotTeardownDone(int error, const QString &errorString);
+                void slotSetupRequested();
+                void slotSetupDone(int error, const QString &errorString);
+                void slotTeardownRequested();
+                void slotTeardownDone(int error, const QString &errorString);
 
-                private:
-                    /// @return true if this device is luks and unlocked
-                    bool isLuksDevice() const;
+            private:
+                /// @return true if this device is luks and unlocked
+                bool isLuksDevice() const;
 
-                    void updateCache();
+                void updateCache();
 
-                    bool mount();
-                    bool unmount();
+                bool mount();
+                bool unmount();
 
-                    bool requestPassphrase();
-                    void callCryptoSetup( const QString & passphrase );
-                    bool callCryptoTeardown();
+                bool requestPassphrase();
+                void callCryptoSetup(const QString &passphrase);
+                bool callCryptoTeardown();
 
-                    QString generateReturnObjectPath();
+                QString generateReturnObjectPath();
 
-                private:
-                    bool m_isAccessible;
-                    bool m_setupInProgress;
-                    bool m_teardownInProgress;
-                    bool m_passphraseRequested;
-                    QString m_lastReturnObject;
-                };
-            }
+            private:
+                bool m_isAccessible;
+                bool m_setupInProgress;
+                bool m_teardownInProgress;
+                bool m_passphraseRequested;
+                QString m_lastReturnObject;
+            };
         }
     }
 }

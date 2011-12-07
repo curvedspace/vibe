@@ -28,7 +28,7 @@
 #include <QtCore/QTextStream>
 #include <QtCore/QTime>
 
-#include <Qube/Core/Global>
+#include <VibeCore/VGlobal>
 
 #include <config.h>
 #include <stdlib.h>
@@ -105,7 +105,7 @@
 #endif
 
 typedef QMultiHash<QString, QString> QStringMultiHash;
-QUBE_GLOBAL_STATIC(QStringMultiHash, globalMountPointsCache)
+VIBE_GLOBAL_STATIC(QStringMultiHash, globalMountPointsCache)
 
 bool _q_isFstabNetworkFileSystem(const QString &fstype, const QString &devName)
 {
@@ -128,7 +128,7 @@ void _q_updateFstabMountPointsCache()
     if (firstCall) {
         firstCall = false;
         elapsedTime.start();
-    } else if (elapsedTime.elapsed()>10000) {
+    } else if (elapsedTime.elapsed() > 10000) {
         elapsedTime.restart();
     } else {
         return;
@@ -196,13 +196,13 @@ void _q_updateFstabMountPointsCache()
 #endif
 }
 
-QStringList Qube::Hardware::Backends::Fstab::FstabHandling::deviceList()
+QStringList VHardware::Backends::Fstab::FstabHandling::deviceList()
 {
     _q_updateFstabMountPointsCache();
     return globalMountPointsCache->keys();
 }
 
-QStringList Qube::Hardware::Backends::Fstab::FstabHandling::mountPoints(const QString &device)
+QStringList VHardware::Backends::Fstab::FstabHandling::mountPoints(const QString &device)
 {
     _q_updateFstabMountPointsCache();
     const QString deviceToFind = device;
@@ -210,7 +210,7 @@ QStringList Qube::Hardware::Backends::Fstab::FstabHandling::mountPoints(const QS
     return globalMountPointsCache->values(deviceToFind);
 }
 
-QProcess *Qube::Hardware::Backends::Fstab::FstabHandling::callSystemCommand(const QString &commandName,
+QProcess *VHardware::Backends::Fstab::FstabHandling::callSystemCommand(const QString &commandName,
         const QStringList &args,
         QObject *obj, const char *slot)
 {
@@ -233,14 +233,14 @@ QProcess *Qube::Hardware::Backends::Fstab::FstabHandling::callSystemCommand(cons
     }
 }
 
-QProcess *Qube::Hardware::Backends::Fstab::FstabHandling::callSystemCommand(const QString &commandName,
+QProcess *VHardware::Backends::Fstab::FstabHandling::callSystemCommand(const QString &commandName,
         const QString &device,
         QObject *obj, const char *slot)
 {
     return callSystemCommand(commandName, QStringList() << device, obj, slot);
 }
 
-QStringList Qube::Hardware::Backends::Fstab::FstabHandling::currentMountPoints()
+QStringList VHardware::Backends::Fstab::FstabHandling::currentMountPoints()
 {
     QStringList result;
 
@@ -254,7 +254,7 @@ QStringList Qube::Hardware::Backends::Fstab::FstabHandling::currentMountPoints()
 
     int num_fs = getmntinfo(&mounted, MNT_NOWAIT);
 
-    for (int i=0; i< num_fs; i++) {
+    for (int i = 0; i < num_fs; i++) {
 #ifdef __osf__
         QString type = QFile::decodeName(mnt_names[mounted[i].f_type]);
 #else
@@ -274,27 +274,27 @@ QStringList Qube::Hardware::Backends::Fstab::FstabHandling::currentMountPoints()
     int fsname_len, num;
     int buf_sz = 4096;
 
-    mntctl_buffer = (struct vmount*)malloc(buf_sz);
+    mntctl_buffer = (struct vmount *)malloc(buf_sz);
     num = mntctl(MCTL_QUERY, buf_sz, mntctl_buffer);
     if (num == 0) {
-        buf_sz = *(int*)mntctl_buffer;
+        buf_sz = *(int *)mntctl_buffer;
         free(mntctl_buffer);
-        mntctl_buffer = (struct vmount*)malloc(buf_sz);
+        mntctl_buffer = (struct vmount *)malloc(buf_sz);
         num = mntctl(MCTL_QUERY, buf_sz, mntctl_buffer);
     }
 
     if (num > 0) {
         /* iterate through items in the vmount structure: */
         vm = (struct vmount *)mntctl_buffer;
-        for ( ; num > 0; --num ) {
+        for (; num > 0; --num) {
             /* get the name of the mounted file systems: */
             fsname_len = vmt2datasize(vm, VMT_STUB);
-            mountedto     = (char*)malloc(fsname_len + 1);
+            mountedto     = (char *)malloc(fsname_len + 1);
             mountedto[fsname_len] = '\0';
             strncpy(mountedto, (char *)vmt2dataptr(vm, VMT_STUB), fsname_len);
 
             fsname_len = vmt2datasize(vm, VMT_OBJECT);
-            mountedfrom     = (char*)malloc(fsname_len + 1);
+            mountedfrom     = (char *)malloc(fsname_len + 1);
             mountedfrom[fsname_len] = '\0';
             strncpy(mountedfrom, (char *)vmt2dataptr(vm, VMT_OBJECT), fsname_len);
 
@@ -302,7 +302,7 @@ QStringList Qube::Hardware::Backends::Fstab::FstabHandling::currentMountPoints()
              * as listed in /etc/vfs.
              * ex.: nfs,jfs,afs,cdrfs,sfs,cachefs,nfs3,autofs
              */
-            struct vfs_ent* ent = getvfsbytype(vm->vmt_gfstype);
+            struct vfs_ent *ent = getvfsbytype(vm->vmt_gfstype);
 
             QString type = QFile::decodeName(ent->vfsent_name);
             if (_q_isFstabNetworkFileSystem(type, QString())) {
@@ -316,10 +316,10 @@ QStringList Qube::Hardware::Backends::Fstab::FstabHandling::currentMountPoints()
             vm = (struct vmount *)((char *)vm + vm->vmt_length);
         }
 
-        endvfsent( );
+        endvfsent();
     }
 
-    free( mntctl_buffer );
+    free(mntctl_buffer);
 #else
     STRUCT_SETMNTENT mnttab;
     if ((mnttab = SETMNTENT(MNTTAB, "r")) == 0)
@@ -336,4 +336,3 @@ QStringList Qube::Hardware::Backends::Fstab::FstabHandling::currentMountPoints()
 #endif
     return result;
 }
-

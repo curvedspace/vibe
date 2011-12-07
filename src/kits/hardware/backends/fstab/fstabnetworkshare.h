@@ -18,48 +18,45 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_FSTAB_NETWORKSHARE_H
-#define QUBE_HARDWARE_BACKENDS_FSTAB_NETWORKSHARE_H
+#ifndef VHARDWARE_BACKENDS_FSTAB_NETWORKSHARE_H
+#define VHARDWARE_BACKENDS_FSTAB_NETWORKSHARE_H
 
 #include <ifaces/networkshare.h>
 
 #include <QtCore/QObject>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace Fstab
         {
-            namespace Fstab
+            class FstabDevice;
+
+            class FstabNetworkShare : public QObject, public VHardware::Ifaces::NetworkShare
             {
-                class FstabDevice;
-                class FstabNetworkShare : public QObject, public Qube::Hardware::Ifaces::NetworkShare
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::NetworkShare)
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::NetworkShare)
+            public:
+                explicit FstabNetworkShare(VHardware::Backends::Fstab::FstabDevice *device);
 
-                public:
-                    explicit FstabNetworkShare(Qube::Hardware::Backends::Fstab::FstabDevice *device);
+                virtual ~FstabNetworkShare();
 
-                    virtual ~FstabNetworkShare();
+                virtual VNetworkShare::ShareType type() const;
 
-                    virtual Qube::Hardware::NetworkShare::ShareType type() const;
+                virtual QUrl url() const;
 
-                    virtual QUrl url() const;
+            public:
+                const VHardware::Backends::Fstab::FstabDevice *fstabDevice() const;
 
-                public:
-                    const Qube::Hardware::Backends::Fstab::FstabDevice* fstabDevice() const;
+            private:
+                VHardware::Backends::Fstab::FstabDevice *m_fstabDevice;
+                VNetworkShare::ShareType m_type;
+                QUrl m_url;
+            };
 
-                private:
-                    Qube::Hardware::Backends::Fstab::FstabDevice *m_fstabDevice;
-                    Qube::Hardware::NetworkShare::ShareType m_type;
-                    QUrl m_url;
-                };
-
-            }
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_FSTAB_NETWORKSHARE_H
+#endif // VHARDWARE_BACKENDS_FSTAB_NETWORKSHARE_H

@@ -18,65 +18,62 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_IFACE_NETWORKINTERFACE_H
-#define QUBE_HARDWARE_IFACE_NETWORKINTERFACE_H
+#ifndef VHARDWARE_IFACE_NETWORKINTERFACE_H
+#define VHARDWARE_IFACE_NETWORKINTERFACE_H
 
 #include <ifaces/deviceinterface.h>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Ifaces
     {
-        namespace Ifaces
+        /**
+         * This device interface is available on network interfaces.
+         */
+        class VIBE_EXPORT NetworkInterface : virtual public DeviceInterface
         {
+        public:
             /**
-             * This device interface is available on network interfaces.
+             * Destroys a NetworkInterface object.
              */
-            class NetworkInterface : virtual public DeviceInterface
-            {
-            public:
-                /**
-                 * Destroys a NetworkInterface object.
-                 */
-                virtual ~NetworkInterface();
+            virtual ~NetworkInterface();
 
 
-                /* TODO for KDE 5 - rename ifaceName() to interfaceName() */
-                /**
-                 * Retrieves the name of the interface in the system.
-                 * This name is system dependent, it allows to identify the interface
-                 * in the system. For example it can be of the form "eth0" under Linux.
-                 *
-                 * @return the interface name
-                 */
-                virtual QString ifaceName() const = 0;
+            /* TODO for KDE 5 - rename ifaceName() to interfaceName() */
+            /**
+             * Retrieves the name of the interface in the system.
+             * This name is system dependent, it allows to identify the interface
+             * in the system. For example it can be of the form "eth0" under Linux.
+             *
+             * @return the interface name
+             */
+            virtual QString ifaceName() const = 0;
 
-                /**
-                 * Indicates if this interface is wireless.
-                 *
-                 * @return true if the interface is wireless, false otherwise
-                 */
-                virtual bool isWireless() const = 0;
+            /**
+             * Indicates if this interface is wireless.
+             *
+             * @return true if the interface is wireless, false otherwise
+             */
+            virtual bool isWireless() const = 0;
 
 
-                /**
-                 * Retrieves the hardware address of the interface.
-                 *
-                 * @return the hardware address as a string
-                 */
-                virtual QString hwAddress() const = 0;
+            /**
+             * Retrieves the hardware address of the interface.
+             *
+             * @return the hardware address as a string
+             */
+            virtual QString hwAddress() const = 0;
 
-                /**
-                 * Retrieves the MAC address of the interface.
-                 *
-                 * @return the MAC address
-                 */
-                virtual qulonglong macAddress() const = 0;
-            };
-        }
+            /**
+             * Retrieves the MAC address of the interface.
+             *
+             * @return the MAC address
+             */
+            virtual qulonglong macAddress() const = 0;
+        };
     }
 }
 
-Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::NetworkInterface, "org.vision.Qube.Hardware.Ifaces.NetworkInterface/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::NetworkInterface, "org.vision.Vibe.Hardware.Ifaces.NetworkInterface/0.1")
 
-#endif // QUBE_HARDWARE_IFACE_NETWORKINTERFACE_H
+#endif // VHARDWARE_IFACE_NETWORKINTERFACE_H

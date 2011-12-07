@@ -22,7 +22,7 @@
 
 #include "udisksdevice.h"
 
-using namespace Qube::Hardware::Backends::UDisks;
+using namespace VHardware::Backends::UDisks;
 
 GenericInterface::GenericInterface(UDisksDevice *device)
     : DeviceInterface(device)

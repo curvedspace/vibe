@@ -34,14 +34,14 @@
 #include "udisks.h"
 #include "udisksdevice.h"
 
-using namespace Qube::Hardware::Backends::UDisks;
+using namespace VHardware::Backends::UDisks;
 
 UDisksOpticalDrive::UDisksOpticalDrive(UDisksDevice *device)
     : UDisksStorageDrive(device), m_ejectInProgress(false), m_readSpeed(0), m_writeSpeed(0), m_speedsInit(false)
 {
     m_device->registerAction("eject", this,
                              SLOT(slotEjectRequested()),
-                             SLOT(slotEjectDone(int, const QString&)));
+                             SLOT(slotEjectDone(int, const QString &)));
 
     connect(m_device, SIGNAL(changed()), this, SLOT(slotChanged()));
 }
@@ -83,8 +83,8 @@ void UDisksOpticalDrive::slotDBusReply(const QDBusMessage &/*reply*/)
 void UDisksOpticalDrive::slotDBusError(const QDBusError &error)
 {
     m_ejectInProgress = false;
-    m_device->broadcastActionDone("eject", m_device->errorToQubeHardwareError(error.name()),
-                                  m_device->errorToString(error.name()) + ": " +error.message());
+    m_device->broadcastActionDone("eject", m_device->errorToVibeHardwareError(error.name()),
+                                  m_device->errorToString(error.name()) + ": " + error.message());
 }
 
 void UDisksOpticalDrive::slotEjectRequested()
@@ -96,7 +96,7 @@ void UDisksOpticalDrive::slotEjectRequested()
 void UDisksOpticalDrive::slotEjectDone(int error, const QString &errorString)
 {
     m_ejectInProgress = false;
-    emit ejectDone(static_cast<Qube::Hardware::ErrorType>(error), errorString, m_device->udi());
+    emit ejectDone(static_cast<VHardware::ErrorType>(error), errorString, m_device->udi());
 }
 
 void UDisksOpticalDrive::initReadWriteSpeeds() const
@@ -109,7 +109,7 @@ void UDisksOpticalDrive::initReadWriteSpeeds() const
     //qDebug("Doing open (\"%s\", O_RDONLY | O_NONBLOCK)", device_file.constData());
     int fd = open(device_file, O_RDONLY | O_NONBLOCK);
     if (fd < 0) {
-        qWarning("Cannot open %s: %s", device_file.constData(), strerror (errno));
+        qWarning("Cannot open %s: %s", device_file.constData(), strerror(errno));
         return;
     }
 
@@ -118,7 +118,7 @@ void UDisksOpticalDrive::initReadWriteSpeeds() const
         m_writeSpeed = write_speed;
 
         QStringList list = QString::fromLatin1(write_speeds).split(',', QString::SkipEmptyParts);
-        foreach (const QString & speed, list)
+        foreach(const QString & speed, list)
         m_writeSpeeds.append(speed.toInt());
 
         free(write_speeds);
@@ -134,7 +134,7 @@ QList<int> UDisksOpticalDrive::writeSpeeds() const
 {
     if (!m_speedsInit)
         initReadWriteSpeeds();
-    //qDebug() << "QubeHardware write speeds:" << m_writeSpeeds;
+    //qDebug() << "VibeHardware write speeds:" << m_writeSpeeds;
     return m_writeSpeeds;
 }
 
@@ -152,35 +152,35 @@ int UDisksOpticalDrive::readSpeed() const
     return m_readSpeed;
 }
 
-Qube::Hardware::OpticalDrive::MediumTypes UDisksOpticalDrive::supportedMedia() const
+VOpticalDrive::MediumTypes UDisksOpticalDrive::supportedMedia() const
 {
     const QStringList mediaTypes = m_device->prop("DriveMediaCompatibility").toStringList();
-    Qube::Hardware::OpticalDrive::MediumTypes supported;
+    VOpticalDrive::MediumTypes supported;
 
-    QMap<Qube::Hardware::OpticalDrive::MediumType, QString> map;
-    map[Qube::Hardware::OpticalDrive::Cdr] = "optical_cd_r";
-    map[Qube::Hardware::OpticalDrive::Cdrw] = "optical_cd_rw";
-    map[Qube::Hardware::OpticalDrive::Dvd] = "optical_dvd";
-    map[Qube::Hardware::OpticalDrive::Dvdr] = "optical_dvd_r";
-    map[Qube::Hardware::OpticalDrive::Dvdrw] ="optical_dvd_rw";
-    map[Qube::Hardware::OpticalDrive::Dvdram] ="optical_dvd_ram";
-    map[Qube::Hardware::OpticalDrive::Dvdplusr] ="optical_dvd_plus_r";
-    map[Qube::Hardware::OpticalDrive::Dvdplusrw] ="optical_dvd_plus_rw";
-    map[Qube::Hardware::OpticalDrive::Dvdplusdl] ="optical_dvd_plus_r_dl";
-    map[Qube::Hardware::OpticalDrive::Dvdplusdlrw] ="optical_dvd_plus_rw_dl";
-    map[Qube::Hardware::OpticalDrive::Bd] ="optical_bd";
-    map[Qube::Hardware::OpticalDrive::Bdr] ="optical_bd_r";
-    map[Qube::Hardware::OpticalDrive::Bdre] ="optical_bd_re";
-    map[Qube::Hardware::OpticalDrive::HdDvd] ="optical_hddvd";
-    map[Qube::Hardware::OpticalDrive::HdDvdr] ="optical_hddvd_r";
-    map[Qube::Hardware::OpticalDrive::HdDvdrw] ="optical_hddvd_rw";
-    // TODO add these to QubeHardware
-    //map[Qube::Hardware::OpticalDrive::Mo] ="optical_mo";
-    //map[Qube::Hardware::OpticalDrive::Mr] ="optical_mrw";
-    //map[Qube::Hardware::OpticalDrive::Mrw] ="optical_mrw_w";
+    QMap<VOpticalDrive::MediumType, QString> map;
+    map[VOpticalDrive::Cdr] = "optical_cd_r";
+    map[VOpticalDrive::Cdrw] = "optical_cd_rw";
+    map[VOpticalDrive::Dvd] = "optical_dvd";
+    map[VOpticalDrive::Dvdr] = "optical_dvd_r";
+    map[VOpticalDrive::Dvdrw] = "optical_dvd_rw";
+    map[VOpticalDrive::Dvdram] = "optical_dvd_ram";
+    map[VOpticalDrive::Dvdplusr] = "optical_dvd_plus_r";
+    map[VOpticalDrive::Dvdplusrw] = "optical_dvd_plus_rw";
+    map[VOpticalDrive::Dvdplusdl] = "optical_dvd_plus_r_dl";
+    map[VOpticalDrive::Dvdplusdlrw] = "optical_dvd_plus_rw_dl";
+    map[VOpticalDrive::Bd] = "optical_bd";
+    map[VOpticalDrive::Bdr] = "optical_bd_r";
+    map[VOpticalDrive::Bdre] = "optical_bd_re";
+    map[VOpticalDrive::HdDvd] = "optical_hddvd";
+    map[VOpticalDrive::HdDvdr] = "optical_hddvd_r";
+    map[VOpticalDrive::HdDvdrw] = "optical_hddvd_rw";
+    // TODO add these to VibeHardware
+    //map[VOpticalDrive::Mo] ="optical_mo";
+    //map[VOpticalDrive::Mr] ="optical_mrw";
+    //map[VOpticalDrive::Mrw] ="optical_mrw_w";
 
-    foreach ( const Qube::Hardware::OpticalDrive::MediumType & type, map.keys() ) {
-        if ( mediaTypes.contains( map[type] ) ) {
+    foreach(const VOpticalDrive::MediumType & type, map.keys()) {
+        if (mediaTypes.contains(map[type])) {
             supported |= type;
         }
     }

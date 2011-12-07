@@ -18,24 +18,20 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_CPUFEATURES_H
-#define QUBE_HARDWARE_CPUFEATURES_H
+#ifndef VHARDWARE_CPUFEATURES_H
+#define VHARDWARE_CPUFEATURES_H
 
-#include <Qube/Hardware/processor.h>
+#include <VibeHardware/VProcessor>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace Shared
         {
-            namespace Shared
-            {
-
-                Qube::Hardware::Processor::InstructionSets cpuFeatures();
-            }
+            VProcessor::InstructionSets cpuFeatures();
         }
     }
 }
 
-#endif // QUBE_HARDWARE_CPUFEATURES_H
+#endif // VHARDWARE_CPUFEATURES_H

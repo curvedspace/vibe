@@ -30,20 +30,20 @@
 
 #include "../shared/rootdevice.h"
 
-using namespace Qube::Hardware::Backends::UPower;
-using namespace Qube::Hardware::Backends::Shared;
+using namespace VHardware::Backends::UPower;
+using namespace VHardware::Backends::Shared;
 
 UPowerManager::UPowerManager(QObject *parent)
-    : Qube::Hardware::Ifaces::DeviceManager(parent),
+    : VHardware::Ifaces::DeviceManager(parent),
       m_manager(UP_DBUS_SERVICE,
                 UP_DBUS_PATH,
                 UP_DBUS_INTERFACE,
                 QDBusConnection::systemBus())
 {
     m_supportedInterfaces
-            << Qube::Hardware::DeviceInterface::GenericInterface
-            << Qube::Hardware::DeviceInterface::AcAdapter
-            << Qube::Hardware::DeviceInterface::Battery;
+            << VDeviceInterface::GenericInterface
+            << VDeviceInterface::AcAdapter
+            << VDeviceInterface::Battery;
 
     qDBusRegisterMetaType<QList<QDBusObjectPath> >();
     qDBusRegisterMetaType<QVariantMap>();
@@ -75,9 +75,9 @@ UPowerManager::~UPowerManager()
 {
 }
 
-QObject* UPowerManager::createDevice(const QString& udi)
+QObject *UPowerManager::createDevice(const QString &udi)
 {
-    if (udi==udiPrefix()) {
+    if (udi == udiPrefix()) {
         RootDevice *root = new RootDevice(udiPrefix());
 
         root->setProduct(tr("Power Management"));
@@ -94,21 +94,21 @@ QObject* UPowerManager::createDevice(const QString& udi)
     }
 }
 
-QStringList UPowerManager::devicesFromQuery(const QString& parentUdi, Qube::Hardware::DeviceInterface::Type type)
+QStringList UPowerManager::devicesFromQuery(const QString &parentUdi, VDeviceInterface::Type type)
 {
     QStringList allDev = allDevices();
     QStringList result;
 
     if (!parentUdi.isEmpty()) {
-        foreach (const QString & udi, allDev) {
+        foreach(const QString & udi, allDev) {
             UPowerDevice device(udi);
             if (device.queryDeviceInterface(type) && device.parentUdi() == parentUdi)
                 result << udi;
         }
 
         return result;
-    } else if (type != Qube::Hardware::DeviceInterface::Unknown) {
-        foreach (const QString & udi, allDev) {
+    } else if (type != VDeviceInterface::Unknown) {
+        foreach(const QString & udi, allDev) {
             UPowerDevice device(udi);
             if (device.queryDeviceInterface(type))
                 result << udi;
@@ -131,14 +131,14 @@ QStringList UPowerManager::allDevices()
     QStringList retList;
     retList << udiPrefix();
 
-    foreach (const QDBusObjectPath &path, reply.value()) {
+    foreach(const QDBusObjectPath & path, reply.value()) {
         retList << path.path();
     }
 
     return retList;
 }
 
-QSet< Qube::Hardware::DeviceInterface::Type > UPowerManager::supportedInterfaces() const
+QSet< VDeviceInterface::Type > UPowerManager::supportedInterfaces() const
 {
     return m_supportedInterfaces;
 }

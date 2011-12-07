@@ -1,5 +1,5 @@
 /****************************************************************************
- * This file is part of Qube.
+ * This file is part of Vibe.
  *
  * Copyright (c) 2006 Kevin Ottens
  *
@@ -7,18 +7,18 @@
  *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *	Kevin Ottens <ervin@kde.org>
  *
- * Qube is free software: you can redistribute it and/or modify
+ * Vibe is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Qube is distributed in the hope that it will be useful,
+ * Vibe is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Qube.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
 #include <QString>
@@ -27,11 +27,11 @@
 #include <QMetaEnum>
 #include <QTimer>
 
-#include <Qube/Hardware/Device>
-#include <Qube/Hardware/GenericInterface>
-#include <Qube/Hardware/StorageAccess>
-#include <Qube/Hardware/OpticalDrive>
-#include <Qube/Core/CommandOptions>
+#include <VibeHardware/VDevice>
+#include <VibeHardware/VGenericInterface>
+#include <VibeHardware/VStorageAccess>
+#include <VibeHardware/VOpticalDrive>
+#include <VibeCore/VCommandOptions>
 
 #include "lshw.h"
 
@@ -46,77 +46,77 @@ std::ostream &operator<<(std::ostream &out, const QString &msg)
 std::ostream &operator<<(std::ostream &out, const QVariant &value)
 {
     switch (value.type()) {
-    case QVariant::StringList: {
-        out << "{";
+        case QVariant::StringList: {
+            out << "{";
 
-        const QStringList list = value.toStringList();
+            const QStringList list = value.toStringList();
 
-        QStringList::ConstIterator it = list.constBegin();
-        QStringList::ConstIterator end = list.constEnd();
+            QStringList::ConstIterator it = list.constBegin();
+            QStringList::ConstIterator end = list.constEnd();
 
-        for (; it!=end; ++it) {
-            out << "'" << *it << "'";
+            for (; it != end; ++it) {
+                out << "'" << *it << "'";
 
-            if (it+1!=end) {
-                out << ", ";
+                if (it + 1 != end) {
+                    out << ", ";
+                }
             }
-        }
 
-        out << "}  (string list)";
-        break;
-    }
-    case QVariant::Bool:
-        out << (value.toBool()?"true":"false") << "  (bool)";
-        break;
-    case QVariant::Int:
-    case QVariant::LongLong:
-        out << value.toString()
-            << "  (0x" << QString::number(value.toLongLong(), 16) << ")  (" << QVariant::typeToName(value.type()) << ")";
-        break;
-    case QVariant::UInt:
-    case QVariant::ULongLong:
-        out << value.toString()
-            << "  (0x" << QString::number(value.toULongLong(), 16) << ")  (" << QVariant::typeToName(value.type()) << ")";
-        break;
-    case QVariant::UserType: {
-        //qDebug() << "got variant type:" << value.typeName();
-        if (value.canConvert<QList<int> >()) {
-            QList<int> intlist = value.value<QList<int> >();
-            QStringList tmp;
-            foreach (int val, intlist)
-            tmp.append(QString::number(val));
-            out << "{" << tmp.join(",") << "} (int list)";
+            out << "}  (string list)";
+            break;
         }
-        break;
-    }
-    default:
-        out << "'" << value.toString() << "'  (string)";
-        break;
+        case QVariant::Bool:
+            out << (value.toBool() ? "true" : "false") << "  (bool)";
+            break;
+        case QVariant::Int:
+        case QVariant::LongLong:
+            out << value.toString()
+                << "  (0x" << QString::number(value.toLongLong(), 16) << ")  (" << QVariant::typeToName(value.type()) << ")";
+            break;
+        case QVariant::UInt:
+        case QVariant::ULongLong:
+            out << value.toString()
+                << "  (0x" << QString::number(value.toULongLong(), 16) << ")  (" << QVariant::typeToName(value.type()) << ")";
+            break;
+        case QVariant::UserType: {
+            //qDebug() << "got variant type:" << value.typeName();
+            if (value.canConvert<QList<int> >()) {
+                QList<int> intlist = value.value<QList<int> >();
+                QStringList tmp;
+                foreach(int val, intlist)
+                tmp.append(QString::number(val));
+                out << "{" << tmp.join(",") << "} (int list)";
+            }
+            break;
+        }
+        default:
+            out << "'" << value.toString() << "'  (string)";
+            break;
     }
 
     return out;
 }
 
-std::ostream &operator<<(std::ostream &out, const Qube::Hardware::Device &device)
+std::ostream &operator<<(std::ostream &out, const VDevice &device)
 {
     out << "  parent = " << QVariant(device.parentUdi()) << endl;
     out << "  vendor = " << QVariant(device.vendor()) << endl;
     out << "  product = " << QVariant(device.product()) << endl;
     out << "  description = " << QVariant(device.description()) << endl;
 
-    int index = Qube::Hardware::DeviceInterface::staticMetaObject.indexOfEnumerator("Type");
-    QMetaEnum typeEnum = Qube::Hardware::DeviceInterface::staticMetaObject.enumerator(index);
+    int index = VDeviceInterface::staticMetaObject.indexOfEnumerator("Type");
+    QMetaEnum typeEnum = VDeviceInterface::staticMetaObject.enumerator(index);
 
-    for (int i=0; i<typeEnum.keyCount(); i++) {
-        Qube::Hardware::DeviceInterface::Type type = (Qube::Hardware::DeviceInterface::Type)typeEnum.value(i);
-        const Qube::Hardware::DeviceInterface *interface = device.asDeviceInterface(type);
+    for (int i = 0; i < typeEnum.keyCount(); i++) {
+        VDeviceInterface::Type type = (VDeviceInterface::Type)typeEnum.value(i);
+        const VDeviceInterface *interface = device.asDeviceInterface(type);
 
         if (interface) {
             const QMetaObject *meta = interface->metaObject();
 
-            for (int i=meta->propertyOffset(); i<meta->propertyCount(); i++) {
+            for (int i = meta->propertyOffset(); i < meta->propertyCount(); i++) {
                 QMetaProperty property = meta->property(i);
-                out << "  " << QString(meta->className()).mid(7) << "." << property.name()
+                out << "  " << QString(meta->className()) << "." << property.name()
                     << " = ";
 
                 QVariant value = property.read(interface);
@@ -141,9 +141,9 @@ std::ostream &operator<<(std::ostream &out, const Qube::Hardware::Device &device
     return out;
 }
 
-std::ostream &operator<<(std::ostream &out, const QMap<QString,QVariant> &properties)
+std::ostream &operator<<(std::ostream &out, const QMap<QString, QVariant> &properties)
 {
-    foreach (const QString &key, properties.keys()) {
+    foreach(const QString & key, properties.keys()) {
         out << "  " << key << " = " << properties[key] << endl;
     }
 
@@ -154,8 +154,8 @@ int main(int argc, char **argv)
 {
     HardwareConsole shell(argc, argv);
 
-    Qube::Core::CommandOptions options;
-    options.setParamStyle(Qube::Core::CommandOptions::Equals);
+    VCommandOptions options;
+    options.setParamStyle(VCommandOptions::Equals);
     options.add("list", QT_TRANSLATE_NOOP("HardwareShell",
                                           "list the hardware available in the system"));
     options.alias("list", "l");
@@ -167,30 +167,30 @@ int main(int argc, char **argv)
                 "listed (be careful, in this case property names are backend dependent)"));
     options.add("capabilities", QT_TRANSLATE_NOOP("HardwareShell", "display all the interfaces "
                 "and properties of the device corresponding to 'x' in a platform neutral fashion"),
-                Qube::Core::CommandOptions::ValueRequired);
+                VCommandOptions::ValueRequired);
     options.alias("capabilities", "c");
     options.add("properties", QT_TRANSLATE_NOOP("HardwareShell",
                 "display all the properties of the device corresponding to 'x' (be careful, "
                 "in this case property names are backend dependent)"),
-                Qube::Core::CommandOptions::ValueRequired);
+                VCommandOptions::ValueRequired);
     options.alias("properties", "p");
     options.add("query", QT_TRANSLATE_NOOP("HardwareShell",
                                            "list the UDI of devices corresponding to 'x'"),
-                Qube::Core::CommandOptions::ValueRequired);
+                VCommandOptions::ValueRequired);
     options.alias("query", "q");
     options.add("parent", QT_TRANSLATE_NOOP("HardwareShell",
                                             "specify parent 'x' to restrict the search to the branch of the "
                                             "corresponding device, while performing a query"),
-                Qube::Core::CommandOptions::ValueRequired);
+                VCommandOptions::ValueRequired);
     options.add("mount", QT_TRANSLATE_NOOP("HardwareShell",
                                            "mount the device corresponding to 'x'"),
-                Qube::Core::CommandOptions::ValueRequired);
+                VCommandOptions::ValueRequired);
     options.add("unmount", QT_TRANSLATE_NOOP("HardwareShell",
                 "unmount the device corresponding to 'x'"),
-                Qube::Core::CommandOptions::ValueRequired);
+                VCommandOptions::ValueRequired);
     options.add("eject", QT_TRANSLATE_NOOP("HardwareShell",
                                            "eject the device corresponding to 'x'"),
-                Qube::Core::CommandOptions::ValueRequired);
+                VCommandOptions::ValueRequired);
     options.add("help", QT_TRANSLATE_NOOP("HardwareShell", "show this help text"));
     options.alias("help", "h");
     options.parse(QCoreApplication::arguments());
@@ -235,15 +235,15 @@ HardwareConsole::HardwareConsole(int &argc, char *argv[]) :
 
 bool HardwareConsole::hwList(bool interfaces, bool system)
 {
-    const QList<Qube::Hardware::Device> all = Qube::Hardware::Device::allDevices();
+    const QList<VDevice> all = VDevice::allDevices();
 
-    foreach (const Qube::Hardware::Device &device, all) {
+    foreach(const VDevice & device, all) {
         cout << "udi = '" << device.udi() << "'" << endl;
 
         if (interfaces) {
             cout << device << endl;
-        } else if (system && device.is<Qube::Hardware::GenericInterface>()) {
-            QMap<QString,QVariant> properties = device.as<Qube::Hardware::GenericInterface>()->allProperties();
+        } else if (system && device.is<VGenericInterface>()) {
+            QMap<QString, QVariant> properties = device.as<VGenericInterface>()->allProperties();
             cout << properties << endl;
         }
     }
@@ -253,7 +253,7 @@ bool HardwareConsole::hwList(bool interfaces, bool system)
 
 bool HardwareConsole::hwCapabilities(const QString &udi)
 {
-    const Qube::Hardware::Device device(udi);
+    const VDevice device(udi);
 
     cout << "udi = '" << device.udi() << "'" << endl;
     cout << device << endl;
@@ -263,11 +263,11 @@ bool HardwareConsole::hwCapabilities(const QString &udi)
 
 bool HardwareConsole::hwProperties(const QString &udi)
 {
-    const Qube::Hardware::Device device(udi);
+    const VDevice device(udi);
 
     cout << "udi = '" << device.udi() << "'" << endl;
-    if (device.is<Qube::Hardware::GenericInterface>()) {
-        QMap<QString,QVariant> properties = device.as<Qube::Hardware::GenericInterface>()->allProperties();
+    if (device.is<VGenericInterface>()) {
+        QMap<QString, QVariant> properties = device.as<VGenericInterface>()->allProperties();
         cout << properties << endl;
     }
 
@@ -276,10 +276,10 @@ bool HardwareConsole::hwProperties(const QString &udi)
 
 bool HardwareConsole::hwQuery(const QString &parentUdi, const QString &query)
 {
-    const QList<Qube::Hardware::Device> devices =
-        Qube::Hardware::Device::listFromQuery(query, parentUdi);
+    const QList<VDevice> devices =
+        VDevice::listFromQuery(query, parentUdi);
 
-    foreach (const Qube::Hardware::Device &device, devices) {
+    foreach(const VDevice & device, devices) {
         cout << "udi = '" << device.udi() << "'" << endl;
     }
 
@@ -288,38 +288,38 @@ bool HardwareConsole::hwQuery(const QString &parentUdi, const QString &query)
 
 bool HardwareConsole::hwVolumeCall(HardwareConsole::VolumeCallType type, const QString &udi)
 {
-    Qube::Hardware::Device device(udi);
+    VDevice device(udi);
 
-    if (!device.is<Qube::Hardware::StorageAccess>() && type!=Eject) {
+    if (!device.is<VStorageAccess>() && type != Eject) {
         cerr << tr("Error: %1 does not have the interface StorageAccess.").arg(udi) << endl;
         return false;
-    } else if (!device.is<Qube::Hardware::OpticalDrive>() && type==Eject) {
+    } else if (!device.is<VOpticalDrive>() && type == Eject) {
         cerr << tr("Error: %1 does not have the interface OpticalDrive.").arg(udi) << endl;
         return false;
     }
 
     switch (type) {
-    case Mount:
-        connect(device.as<Qube::Hardware::StorageAccess>(),
-                SIGNAL(setupDone(Qube::Hardware::ErrorType, QVariant, const QString &)),
-                this,
-                SLOT(slotStorageResult(Qube::Hardware::ErrorType, QVariant)));
-        device.as<Qube::Hardware::StorageAccess>()->setup();
-        break;
-    case Unmount:
-        connect(device.as<Qube::Hardware::StorageAccess>(),
-                SIGNAL(teardownDone(Qube::Hardware::ErrorType, QVariant, const QString &)),
-                this,
-                SLOT(slotStorageResult(Qube::Hardware::ErrorType, QVariant)));
-        device.as<Qube::Hardware::StorageAccess>()->teardown();
-        break;
-    case Eject:
-        connect(device.as<Qube::Hardware::OpticalDrive>(),
-                SIGNAL(ejectDone(Qube::Hardware::ErrorType, QVariant, const QString &)),
-                this,
-                SLOT(slotStorageResult(Qube::Hardware::ErrorType, QVariant)));
-        device.as<Qube::Hardware::OpticalDrive>()->eject();
-        break;
+        case Mount:
+            connect(device.as<VStorageAccess>(),
+                    SIGNAL(setupDone(VHardware::ErrorType, QVariant, const QString &)),
+                    this,
+                    SLOT(slotStorageResult(VHardware::ErrorType, QVariant)));
+            device.as<VStorageAccess>()->setup();
+            break;
+        case Unmount:
+            connect(device.as<VStorageAccess>(),
+                    SIGNAL(teardownDone(VHardware::ErrorType, QVariant, const QString &)),
+                    this,
+                    SLOT(slotStorageResult(VHardware::ErrorType, QVariant)));
+            device.as<VStorageAccess>()->teardown();
+            break;
+        case Eject:
+            connect(device.as<VOpticalDrive>(),
+                    SIGNAL(ejectDone(VHardware::ErrorType, QVariant, const QString &)),
+                    this,
+                    SLOT(slotStorageResult(VHardware::ErrorType, QVariant)));
+            device.as<VOpticalDrive>()->eject();
+            break;
     }
 
     m_loop.exec();
@@ -332,7 +332,7 @@ bool HardwareConsole::hwVolumeCall(HardwareConsole::VolumeCallType type, const Q
     return true;
 }
 
-void HardwareConsole::slotStorageResult(Qube::Hardware::ErrorType error, const QVariant &errorData)
+void HardwareConsole::slotStorageResult(VHardware::ErrorType error, const QVariant &errorData)
 {
     if (error) {
         m_error = 1;

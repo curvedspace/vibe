@@ -18,38 +18,34 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_KUPNP_DEVICEINTERFACE_H
-#define QUBE_HARDWARE_BACKENDS_KUPNP_DEVICEINTERFACE_H
+#ifndef VHARDWARE_BACKENDS_KUPNP_DEVICEINTERFACE_H
+#define VHARDWARE_BACKENDS_KUPNP_DEVICEINTERFACE_H
 
-// QubeHardware
-#include <ifaces/deviceinterface.h>
-// Qt
 #include <QtCore/QObject>
 
-namespace Qube
+#include <ifaces/deviceinterface.h>
+
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace KUPnP
         {
-            namespace KUPnP
+            class KUPnPDevice;
+
+            class DeviceInterface : public QObject, virtual public VHardware::Ifaces::DeviceInterface
             {
-                class KUPnPDevice;
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::DeviceInterface)
+            public:
+                DeviceInterface(KUPnPDevice *device);
+                virtual ~DeviceInterface();
 
-                class DeviceInterface : public QObject, virtual public Qube::Hardware::Ifaces::DeviceInterface
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::DeviceInterface)
-                public:
-                    DeviceInterface(KUPnPDevice* device);
-                    virtual ~DeviceInterface();
-
-                protected:
-                    KUPnPDevice* mDevice;
-                };
-            }
+            protected:
+                KUPnPDevice *mDevice;
+            };
         }
     }
 }
 
-#endif
+#endif // VHARDWARE_BACKENDS_KUPNP_DEVICEINTERFACE_H

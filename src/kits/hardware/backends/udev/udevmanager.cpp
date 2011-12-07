@@ -30,8 +30,8 @@
 
 #define DETAILED_OUTPUT 0
 
-using namespace Qube::Hardware::Backends::UDev;
-using namespace Qube::Hardware::Backends::Shared;
+using namespace VHardware::Backends::UDev;
+using namespace VHardware::Backends::Shared;
 
 class UDevManager::Private
 {
@@ -42,7 +42,7 @@ public:
     bool isOfInterest(const UdevQt::Device &device);
 
     UdevQt::Client *m_client;
-    QSet<Qube::Hardware::DeviceInterface::Type> m_supportedInterfaces;
+    QSet<VDeviceInterface::Type> m_supportedInterfaces;
 };
 
 UDevManager::Private::Private()
@@ -69,7 +69,7 @@ bool UDevManager::Private::isOfInterest(const UdevQt::Device &device)
     qDebug() << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
     qDebug() << "Path:" << device.sysfsPath();
     qDebug() << "Properties:" << device.deviceProperties();
-    Q_FOREACH (const QString &key, device.deviceProperties()) {
+    Q_FOREACH(const QString & key, device.deviceProperties()) {
         qDebug() << "\t" << key << ":" << device.deviceProperty(key).toString();
     }
     qDebug() << "Driver:" << device.driver();
@@ -89,7 +89,7 @@ bool UDevManager::Private::isOfInterest(const UdevQt::Device &device)
     if (device.subsystem() == QLatin1String("tty")) {
         QString path = device.deviceProperty("DEVPATH").toString();
 
-        int lastSlash = path.length() - path.lastIndexOf(QLatin1String("/")) -1;
+        int lastSlash = path.length() - path.lastIndexOf(QLatin1String("/")) - 1;
         QByteArray lastElement = path.right(lastSlash).toAscii();
 
         if (lastElement.startsWith("tty") && !path.startsWith("/devices/virtual")) {
@@ -104,22 +104,22 @@ bool UDevManager::Private::isOfInterest(const UdevQt::Device &device)
 }
 
 UDevManager::UDevManager(QObject *parent)
-    : Qube::Hardware::Ifaces::DeviceManager(parent),
+    : VHardware::Ifaces::DeviceManager(parent),
       d(new Private)
 {
     connect(d->m_client, SIGNAL(deviceAdded(UdevQt::Device)), this, SLOT(slotDeviceAdded(UdevQt::Device)));
     connect(d->m_client, SIGNAL(deviceRemoved(UdevQt::Device)), this, SLOT(slotDeviceRemoved(UdevQt::Device)));
 
-    d->m_supportedInterfaces << Qube::Hardware::DeviceInterface::GenericInterface
-                             << Qube::Hardware::DeviceInterface::Processor
-                             << Qube::Hardware::DeviceInterface::AudioInterface
-                             << Qube::Hardware::DeviceInterface::NetworkInterface
-                             << Qube::Hardware::DeviceInterface::SerialInterface
-                             << Qube::Hardware::DeviceInterface::Camera
-                             << Qube::Hardware::DeviceInterface::PortableMediaPlayer
-                             << Qube::Hardware::DeviceInterface::DvbInterface
-                             << Qube::Hardware::DeviceInterface::Block
-                             << Qube::Hardware::DeviceInterface::Video;
+    d->m_supportedInterfaces << VDeviceInterface::GenericInterface
+                             << VDeviceInterface::Processor
+                             << VDeviceInterface::AudioInterface
+                             << VDeviceInterface::NetworkInterface
+                             << VDeviceInterface::SerialInterface
+                             << VDeviceInterface::Camera
+                             << VDeviceInterface::PortableMediaPlayer
+                             << VDeviceInterface::DvbInterface
+                             << VDeviceInterface::Block
+                             << VDeviceInterface::Video;
 }
 
 UDevManager::~UDevManager()
@@ -132,7 +132,7 @@ QString UDevManager::udiPrefix() const
     return QString::fromLatin1(UDEV_UDI_PREFIX);
 }
 
-QSet<Qube::Hardware::DeviceInterface::Type> UDevManager::supportedInterfaces() const
+QSet<VDeviceInterface::Type> UDevManager::supportedInterfaces() const
 {
     return d->m_supportedInterfaces;
 }
@@ -141,7 +141,7 @@ QStringList UDevManager::allDevices()
 {
     QStringList res;
     const UdevQt::DeviceList deviceList = d->m_client->allDevices();
-    foreach (const UdevQt::Device &device, deviceList) {
+    foreach(const UdevQt::Device & device, deviceList) {
         if (d->isOfInterest(device)) {
             res << udiPrefix() + device.sysfsPath();
         }
@@ -150,13 +150,13 @@ QStringList UDevManager::allDevices()
 }
 
 QStringList UDevManager::devicesFromQuery(const QString &parentUdi,
-        Qube::Hardware::DeviceInterface::Type type)
+        VDeviceInterface::Type type)
 {
     QStringList allDev = allDevices();
     QStringList result;
 
     if (!parentUdi.isEmpty()) {
-        foreach (const QString &udi, allDev) {
+        foreach(const QString & udi, allDev) {
             UDevDevice device(d->m_client->deviceBySysfsPath(udi.right(udi.size() - udiPrefix().size())));
             if (device.queryDeviceInterface(type) && device.parentUdi() == parentUdi) {
                 result << udi;
@@ -164,8 +164,8 @@ QStringList UDevManager::devicesFromQuery(const QString &parentUdi,
         }
 
         return result;
-    } else if (type != Qube::Hardware::DeviceInterface::Unknown) {
-        foreach (const QString &udi, allDev) {
+    } else if (type != VDeviceInterface::Unknown) {
+        foreach(const QString & udi, allDev) {
             UDevDevice device(d->m_client->deviceBySysfsPath(udi.right(udi.size() - udiPrefix().size())));
             if (device.queryDeviceInterface(type)) {
                 result << udi;

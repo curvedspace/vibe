@@ -18,38 +18,37 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_IFACES_DEVICEINTERFACE_H
-#define QUBE_HARDWARE_IFACES_DEVICEINTERFACE_H
+#ifndef VHARDWARE_IFACES_DEVICEINTERFACE_H
+#define VHARDWARE_IFACES_DEVICEINTERFACE_H
 
 #include <QtCore/QObject>
 #include <QtCore/QBool>
 
-namespace Qube
+#include <VibeCore/VGlobal>
+
+namespace VHardware
 {
-    namespace Hardware
+    namespace Ifaces
     {
-        namespace Ifaces
+        /**
+         * Base interface of all the device interfaces.
+         *
+         * A device interface describes what a device can do. A device generally has
+         * a set of device interfaces.
+         *
+         * @see VHardware::Ifaces::AbstractDeviceInterface
+         */
+        class VIBE_EXPORT DeviceInterface
         {
+        public:
             /**
-             * Base interface of all the device interfaces.
-             *
-             * A device interface describes what a device can do. A device generally has
-             * a set of device interfaces.
-             *
-             * @see Qube::Hardware::Ifaces::AbstractDeviceInterface
+             * Destroys a DeviceInterface object.
              */
-            class DeviceInterface
-            {
-            public:
-                /**
-                 * Destroys a DeviceInterface object.
-                 */
-                virtual ~DeviceInterface();
-            };
-        }
+            virtual ~DeviceInterface();
+        };
     }
 }
 
-Q_DECLARE_INTERFACE(Qube::Hardware::Ifaces::DeviceInterface, "org.vision.Qube.Hardware.Ifaces.DeviceInterface/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::DeviceInterface, "org.vision.Vibe.Hardware.Ifaces.DeviceInterface/0.1")
 
-#endif
+#endif // VHARDWARE_IFACES_DEVICEINTERFACE_H

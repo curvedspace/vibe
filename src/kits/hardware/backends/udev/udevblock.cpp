@@ -20,7 +20,7 @@
 
 #include "udevblock.h"
 
-using namespace Qube::Hardware::Backends::UDev;
+using namespace VHardware::Backends::UDev;
 
 Block::Block(UDevDevice *device)
     : DeviceInterface(device)

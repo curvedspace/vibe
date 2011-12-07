@@ -27,76 +27,73 @@
 
 #include "upnpcontrolpoint.h"
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UPnP
         {
-            namespace UPnP
+            UPnPControlPoint::UPnPControlPoint() :
+                m_controlPoint(new Herqq::Upnp::HControlPoint(this))
             {
-                UPnPControlPoint::UPnPControlPoint() :
-                    m_controlPoint(new Herqq::Upnp::HControlPoint(this))
-                {
-                    if (!m_controlPoint->init()) {
-                        qDebug() << "control point init error:" << m_controlPoint->errorDescription();
-                        return;
-                    }
+                if (!m_controlPoint->init()) {
+                    qDebug() << "control point init error:" << m_controlPoint->errorDescription();
+                    return;
+                }
+            }
+
+            UPnPControlPoint::~UPnPControlPoint()
+            {
+                delete m_controlPoint;
+            }
+
+            UPnPControlPoint *UPnPControlPoint::inst = 0;
+
+            UPnPControlPoint *UPnPControlPoint::instance()
+            {
+                if (!inst) {
+                    inst = new UPnPControlPoint;
                 }
 
-                UPnPControlPoint::~UPnPControlPoint()
-                {
-                    delete m_controlPoint;
+                return inst;
+            }
+
+            QMutex UPnPControlPoint::mutex;
+
+            UPnPControlPoint *UPnPControlPoint::acquireInstance()
+            {
+                mutex.lock();
+
+                return instance();
+            }
+
+            void UPnPControlPoint::releaseInstance()
+            {
+                mutex.unlock();
+            }
+
+            Herqq::Upnp::HControlPoint *UPnPControlPoint::controlPoint()
+            {
+                return m_controlPoint;
+            }
+
+            QStringList UPnPControlPoint::allDevices()
+            {
+                QStringList result;
+                Herqq::Upnp::HDiscoveryType discoveryType = Herqq::Upnp::HDiscoveryType::createDiscoveryTypeForRootDevices();
+
+                Herqq::Upnp::HClientDevices list = m_controlPoint->rootDevices();
+
+                for (int i = 0; i < list.size(); ++i) {
+                    Herqq::Upnp::HClientDevice *device = list[i];
+                    Herqq::Upnp::HDeviceInfo info = device->info();
+
+                    result << (QString::fromLatin1("/org/kde/upnp") + '/' + info.udn().toString());
+                    qDebug() << "Found device:" << (QString::fromLatin1("/org/kde/upnp") + '/' + info.udn().toString());
+                    // listing only root devices
                 }
 
-                UPnPControlPoint* UPnPControlPoint::inst = 0;
-
-                UPnPControlPoint* UPnPControlPoint::instance()
-                {
-                    if (!inst) {
-                        inst = new UPnPControlPoint;
-                    }
-
-                    return inst;
-                }
-
-                QMutex UPnPControlPoint::mutex;
-
-                UPnPControlPoint* UPnPControlPoint::acquireInstance()
-                {
-                    mutex.lock();
-
-                    return instance();
-                }
-
-                void UPnPControlPoint::releaseInstance()
-                {
-                    mutex.unlock();
-                }
-
-                Herqq::Upnp::HControlPoint* UPnPControlPoint::controlPoint()
-                {
-                    return m_controlPoint;
-                }
-
-                QStringList UPnPControlPoint::allDevices()
-                {
-                    QStringList result;
-                    Herqq::Upnp::HDiscoveryType discoveryType = Herqq::Upnp::HDiscoveryType::createDiscoveryTypeForRootDevices();
-
-                    Herqq::Upnp::HClientDevices list = m_controlPoint->rootDevices();
-
-                    for (int i = 0; i < list.size(); ++i) {
-                        Herqq::Upnp::HClientDevice* device = list[i];
-                        Herqq::Upnp::HDeviceInfo info = device->info();
-
-                        result << ( QString::fromLatin1("/org/kde/upnp") + '/' + info.udn().toString() );
-                        qDebug() << "Found device:" << ( QString::fromLatin1("/org/kde/upnp") + '/' + info.udn().toString() );
-                        // listing only root devices
-                    }
-
-                    return result;
-                }
+                return result;
             }
         }
     }

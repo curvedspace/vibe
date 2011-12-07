@@ -26,7 +26,7 @@
 
 #include <QtCore/QFile>
 
-using namespace Qube::Hardware::Backends::UDev;
+using namespace VHardware::Backends::UDev;
 
 Processor::Processor(UDevDevice *device)
     : DeviceInterface(device),
@@ -89,9 +89,9 @@ bool Processor::canChangeFrequency() const
     return m_canChangeFrequency == CanChangeFreq;
 }
 
-Qube::Hardware::Processor::InstructionSets Processor::instructionSets() const
+VProcessor::InstructionSets Processor::instructionSets() const
 {
-    static Qube::Hardware::Processor::InstructionSets cpuextensions = Qube::Hardware::Backends::Shared::cpuFeatures();
+    static VProcessor::InstructionSets cpuextensions = VHardware::Backends::Shared::cpuFeatures();
 
     return cpuextensions;
 }

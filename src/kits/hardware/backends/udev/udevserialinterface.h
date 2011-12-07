@@ -18,41 +18,36 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_UDEV_UDEVSERIALINTERFACE_H
-#define QUBE_HARDWARE_BACKENDS_UDEV_UDEVSERIALINTERFACE_H
+#ifndef VHARDWARE_BACKENDS_UDEV_UDEVSERIALINTERFACE_H
+#define VHARDWARE_BACKENDS_UDEV_UDEVSERIALINTERFACE_H
 
 #include <ifaces/serialinterface.h>
 #include "udevdeviceinterface.h"
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UDev
         {
-            namespace UDev
+            class SerialInterface : public DeviceInterface, virtual public VHardware::Ifaces::SerialInterface
             {
+                Q_OBJECT
+                Q_INTERFACES(VHardware::Ifaces::SerialInterface)
+            public:
+                SerialInterface(UDevDevice *device);
+                virtual ~SerialInterface();
 
-                class SerialInterface : public DeviceInterface, virtual public Qube::Hardware::Ifaces::SerialInterface
-                {
-                    Q_OBJECT
-                    Q_INTERFACES(Qube::Hardware::Ifaces::SerialInterface)
+                virtual QVariant driverHandle() const;
+                virtual VSerialInterface::SerialType serialType() const;
+                virtual int port() const;
 
-                public:
-                    SerialInterface(UDevDevice *device);
-                    virtual ~SerialInterface();
-
-                    virtual QVariant driverHandle() const;
-                    virtual Qube::Hardware::SerialInterface::SerialType serialType() const;
-                    virtual int port() const;
-
-                private:
-                    int                                 m_portnum;
-                    Qube::Hardware::SerialInterface::SerialType  m_type;
-                };
-            }
+            private:
+                int m_portnum;
+                VSerialInterface::SerialType m_type;
+            };
         }
     }
 }
 
-#endif // QUBE_HARDWARE_BACKENDS_UDEV_UDEVSERIALINTERFACE_H
+#endif // VHARDWARE_BACKENDS_UDEV_UDEVSERIALINTERFACE_H

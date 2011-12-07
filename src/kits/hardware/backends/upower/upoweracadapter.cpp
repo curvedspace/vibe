@@ -21,7 +21,7 @@
 
 #include "upoweracadapter.h"
 
-using namespace Qube::Hardware::Backends::UPower;
+using namespace VHardware::Backends::UPower;
 
 AcAdapter::AcAdapter(UPowerDevice *device)
     : DeviceInterface(device)

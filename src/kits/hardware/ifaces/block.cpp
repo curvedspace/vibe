@@ -20,7 +20,7 @@
 
 #include "block.h"
 
-Qube::Hardware::Ifaces::Block::~Block()
+VHardware::Ifaces::Block::~Block()
 {
 }
 

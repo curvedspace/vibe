@@ -18,85 +18,79 @@
     License along with this library. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QUBE_HARDWARE_BACKENDS_KUPnP_KUPNPDEVICE_H
-#define QUBE_HARDWARE_BACKENDS_KUPnP_KUPNPDEVICE_H
+#ifndef VHARDWARE_BACKENDS_KUPnP_KUPNPDEVICE_H
+#define VHARDWARE_BACKENDS_KUPnP_KUPNPDEVICE_H
 
-// KUPnP
-#include "cagibidevice.h"
-// QubeHardware
 #include <ifaces/device.h>
 
-namespace Qube
+#include "cagibidevice.h"
+
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace KUPnP
         {
-            namespace KUPnP
+            class AbstractDeviceFactory
             {
-                class AbstractDeviceFactory
-                {
-                public:
-                    virtual ~AbstractDeviceFactory();
+            public:
+                virtual ~AbstractDeviceFactory();
 
-                public:
-                    virtual void addSupportedInterfaces( QSet<Qube::Hardware::DeviceInterface::Type>& interfaces ) const;
-//     virtual bool hasDeviceInterface( const Cagibi::Device& device,
-//                                      Qube::Hardware::DeviceInterface::Type type ) const;
-                    virtual QStringList typeNames( Qube::Hardware::DeviceInterface::Type type ) const;
-                    virtual QObject* tryCreateDevice( const Cagibi::Device& device ) const = 0;
-                };
+            public:
+                virtual void addSupportedInterfaces(QSet<VDeviceInterface::Type>& interfaces) const;
+                //     virtual bool hasDeviceInterface( const Cagibi::Device& device,
+                //                                      VDeviceInterface::Type type ) const;
+                virtual QStringList typeNames(VDeviceInterface::Type type) const;
+                virtual QObject *tryCreateDevice(const Cagibi::Device &device) const = 0;
+            };
 
 
-                class DeviceFactory : public AbstractDeviceFactory
-                {
-                public:
-                    DeviceFactory();
+            class DeviceFactory : public AbstractDeviceFactory
+            {
+            public:
+                DeviceFactory();
 
-                public: // AbstractDeviceFactory API
-                    virtual QObject* tryCreateDevice( const Cagibi::Device& device ) const;
-                };
-
-
-                class KUPnPDevice : public Qube::Hardware::Ifaces::Device
-                {
-                    Q_OBJECT
-
-                public:
-                    explicit KUPnPDevice(const Cagibi::Device& device);
-                    virtual ~KUPnPDevice();
-
-                public: // Qube::Hardware::Ifaces::Device API
-                    virtual QString udi() const;
-                    virtual QString parentUdi() const;
-
-                    virtual QString vendor() const;
-                    virtual QString product() const;
-                    virtual QString icon() const;
-                    virtual QStringList emblems() const;
-                    virtual QString description() const;
-
-                    virtual bool queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type) const;
-                    virtual QObject* createDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type);
-
-                public:
-                    const Cagibi::Device& device() const;
-
-                protected:
-                    Cagibi::Device mDevice;
-
-                    KUPnPDevice* mParentDevice;
-                };
+            public: // AbstractDeviceFactory API
+                virtual QObject *tryCreateDevice(const Cagibi::Device &device) const;
+            };
 
 
-                inline const Cagibi::Device& KUPnPDevice::device() const
-                {
-                    return mDevice;
-                }
+            class KUPnPDevice : public VHardware::Ifaces::Device
+            {
+                Q_OBJECT
 
+            public:
+                explicit KUPnPDevice(const Cagibi::Device &device);
+                virtual ~KUPnPDevice();
+
+            public: // VHardware::Ifaces::Device API
+                virtual QString udi() const;
+                virtual QString parentUdi() const;
+
+                virtual QString vendor() const;
+                virtual QString product() const;
+                virtual QString icon() const;
+                virtual QStringList emblems() const;
+                virtual QString description() const;
+
+                virtual bool queryDeviceInterface(const VDeviceInterface::Type &type) const;
+                virtual QObject *createDeviceInterface(const VDeviceInterface::Type &type);
+
+            public:
+                const Cagibi::Device &device() const;
+
+            protected:
+                Cagibi::Device mDevice;
+
+                KUPnPDevice *mParentDevice;
+            };
+
+            inline const Cagibi::Device &KUPnPDevice::device() const
+            {
+                return mDevice;
             }
         }
     }
 }
 
-#endif
+#endif // VHARDWARE_BACKENDS_KUPnP_KUPNPDEVICE_H

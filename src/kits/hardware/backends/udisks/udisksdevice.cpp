@@ -35,13 +35,13 @@
 #include <QtDBus/QDBusMetaType>
 #include <QtDBus/QDBusPendingReply>
 
-#include <Qube/Hardware/genericinterface.h>
-#include <Qube/Hardware/deviceinterface.h>
-#include <Qube/Hardware/device.h>
+#include <VibeHardware/VGenericInterface>
+#include <VibeHardware/VDeviceInterface>
+#include <VibeHardware/VDevice>
 
-using namespace Qube::Hardware::Backends::UDisks;
+using namespace VHardware::Backends::UDisks;
 
-// Adapted from KLocale as QubeHardware needs to be Qt-only
+// Adapted from KLocale as VibeHardware needs to be Qt-only
 static QString formatByteSize(double size)
 {
     // Per IEC 60027-2
@@ -54,25 +54,25 @@ static QString formatByteSize(double size)
 
     QString s;
     // Gibi-byte
-    if ( size >= 1073741824.0 ) {
+    if (size >= 1073741824.0) {
         size /= 1073741824.0;
-        if ( size > 1024 ) // Tebi-byte
+        if (size > 1024)   // Tebi-byte
             s = QObject::tr("%1 TiB").arg(QLocale().toString(size / 1024.0, 'f', 1));
         else
             s = QObject::tr("%1 GiB").arg(QLocale().toString(size, 'f', 1));
     }
     // Mebi-byte
-    else if ( size >= 1048576.0 ) {
+    else if (size >= 1048576.0) {
         size /= 1048576.0;
         s = QObject::tr("%1 MiB").arg(QLocale().toString(size, 'f', 1));
     }
     // Kibi-byte
-    else if ( size >= 1024.0 ) {
+    else if (size >= 1024.0) {
         size /= 1024.0;
         s = QObject::tr("%1 KiB").arg(QLocale().toString(size, 'f', 1));
     }
     // Just byte
-    else if ( size > 0 ) {
+    else if (size > 0) {
         s = QObject::tr("%1 B").arg(QLocale().toString(size, 'f', 1));
     }
     // Nothing
@@ -82,14 +82,13 @@ static QString formatByteSize(double size)
     return s;
 }
 
-UDisksDevice::UDisksDevice(const QString &udi)
-    : Qube::Hardware::Ifaces::Device()
-    , m_udi(udi)
+UDisksDevice::UDisksDevice(const QString &udi) :
+    VHardware::Ifaces::Device(),
+    m_udi(udi)
 {
     QString realUdi = m_udi;
-    if (realUdi.endsWith(":media")) {
+    if (realUdi.endsWith(":media"))
         realUdi.chop(6);
-    }
     m_device = new QDBusInterface(UD_DBUS_SERVICE, realUdi,
                                   UD_DBUS_INTERFACE_DISKS_DEVICE,
                                   QDBusConnection::systemBus());
@@ -103,7 +102,7 @@ UDisksDevice::~UDisksDevice()
     delete m_device;
 }
 
-QObject* UDisksDevice::createDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type)
+QObject *UDisksDevice::createDeviceInterface(const VDeviceInterface::Type &type)
 {
     if (!queryDeviceInterface(type)) {
         return 0;
@@ -111,68 +110,68 @@ QObject* UDisksDevice::createDeviceInterface(const Qube::Hardware::DeviceInterfa
 
     DeviceInterface *iface = 0;
     switch (type) {
-    case Qube::Hardware::DeviceInterface::GenericInterface:
-        iface = new GenericInterface(this);
-        break;
-    case Qube::Hardware::DeviceInterface::Block:
-        iface = new Block(this);
-        break;
-    case Qube::Hardware::DeviceInterface::StorageAccess:
-        iface = new UDisksStorageAccess(this);
-        break;
-    case Qube::Hardware::DeviceInterface::StorageDrive:
-        iface = new UDisksStorageDrive(this);
-        break;
-    case Qube::Hardware::DeviceInterface::OpticalDrive:
-        iface = new UDisksOpticalDrive(this);
-        break;
-    case Qube::Hardware::DeviceInterface::StorageVolume:
-        iface = new UDisksStorageVolume(this);
-        break;
-    case Qube::Hardware::DeviceInterface::OpticalDisc:
-        iface = new OpticalDisc(this);
-        break;
-    default:
-        break;
+        case VDeviceInterface::GenericInterface:
+            iface = new GenericInterface(this);
+            break;
+        case VDeviceInterface::Block:
+            iface = new Block(this);
+            break;
+        case VDeviceInterface::StorageAccess:
+            iface = new UDisksStorageAccess(this);
+            break;
+        case VDeviceInterface::StorageDrive:
+            iface = new UDisksStorageDrive(this);
+            break;
+        case VDeviceInterface::OpticalDrive:
+            iface = new UDisksOpticalDrive(this);
+            break;
+        case VDeviceInterface::StorageVolume:
+            iface = new UDisksStorageVolume(this);
+            break;
+        case VDeviceInterface::OpticalDisc:
+            iface = new OpticalDisc(this);
+            break;
+        default:
+            break;
     }
     return iface;
 }
 
-bool UDisksDevice::queryDeviceInterface(const Qube::Hardware::DeviceInterface::Type& type) const
+bool UDisksDevice::queryDeviceInterface(const VDeviceInterface::Type &type) const
 {
     switch (type) {
-    case Qube::Hardware::DeviceInterface::GenericInterface:
-        return true;
-    case Qube::Hardware::DeviceInterface::Block:
-        return prop("DeviceMajor").toInt() != -1;
-    case Qube::Hardware::DeviceInterface::StorageVolume:
-        if (prop("DeviceIsOpticalDisc").toBool()) {
-            return m_udi.endsWith(":media");
-        } else {
-            return prop("DeviceIsPartition").toBool()
-                   || prop("IdUsage").toString()=="filesystem";
-        }
+        case VDeviceInterface::GenericInterface:
+            return true;
+        case VDeviceInterface::Block:
+            return prop("DeviceMajor").toInt() != -1;
+        case VDeviceInterface::StorageVolume:
+            if (prop("DeviceIsOpticalDisc").toBool()) {
+                return m_udi.endsWith(":media");
+            } else {
+                return prop("DeviceIsPartition").toBool()
+                       || prop("IdUsage").toString() == "filesystem";
+            }
 
-    case Qube::Hardware::DeviceInterface::StorageAccess:
-        if (prop("DeviceIsOpticalDisc").toBool()) {
-            return prop("IdUsage").toString()=="filesystem"
-                   && m_udi.endsWith(":media");
+        case VDeviceInterface::StorageAccess:
+            if (prop("DeviceIsOpticalDisc").toBool()) {
+                return prop("IdUsage").toString() == "filesystem"
+                       && m_udi.endsWith(":media");
 
-        } else {
-            return prop("IdUsage").toString()=="filesystem"
-                   || prop("IdUsage").toString()=="crypto";
-        }
+            } else {
+                return prop("IdUsage").toString() == "filesystem"
+                       || prop("IdUsage").toString() == "crypto";
+            }
 
-    case Qube::Hardware::DeviceInterface::StorageDrive:
-        return !m_udi.endsWith(":media") && prop("DeviceIsDrive").toBool();
-    case Qube::Hardware::DeviceInterface::OpticalDrive:
-        return !m_udi.endsWith(":media")
-               && prop( "DeviceIsDrive" ).toBool()
-               && !prop( "DriveMediaCompatibility" ).toStringList().filter( "optical_" ).isEmpty();
-    case Qube::Hardware::DeviceInterface::OpticalDisc:
-        return m_udi.endsWith(":media") && prop("DeviceIsOpticalDisc").toBool();
-    default:
-        return false;
+        case VDeviceInterface::StorageDrive:
+            return !m_udi.endsWith(":media") && prop("DeviceIsDrive").toBool();
+        case VDeviceInterface::OpticalDrive:
+            return !m_udi.endsWith(":media")
+                   && prop("DeviceIsDrive").toBool()
+                   && !prop("DriveMediaCompatibility").toStringList().filter("optical_").isEmpty();
+        case VDeviceInterface::OpticalDisc:
+            return m_udi.endsWith(":media") && prop("DeviceIsOpticalDisc").toBool();
+        default:
+            return false;
     }
 }
 
@@ -180,12 +179,12 @@ QStringList UDisksDevice::emblems() const
 {
     QStringList res;
 
-    if (queryDeviceInterface(Qube::Hardware::DeviceInterface::StorageAccess)) {
+    if (queryDeviceInterface(VDeviceInterface::StorageAccess)) {
 
         bool isEncrypted = false;
-        if (queryDeviceInterface(Qube::Hardware::DeviceInterface::StorageVolume)) {
+        if (queryDeviceInterface(VDeviceInterface::StorageVolume)) {
             const UDisks::UDisksStorageVolume volIface(const_cast<UDisksDevice *>(this));
-            isEncrypted = (volIface.usage() == Qube::Hardware::StorageVolume::Encrypted);
+            isEncrypted = (volIface.usage() == VStorageVolume::Encrypted);
         }
 
         const UDisks::UDisksStorageAccess accessIface(const_cast<UDisksDevice *>(this));
@@ -207,9 +206,9 @@ QStringList UDisksDevice::emblems() const
 
 QString UDisksDevice::description() const
 {
-    if (queryDeviceInterface(Qube::Hardware::DeviceInterface::StorageDrive))
+    if (queryDeviceInterface(VDeviceInterface::StorageDrive))
         return storageDescription();
-    else if (queryDeviceInterface(Qube::Hardware::DeviceInterface::StorageVolume))
+    else if (queryDeviceInterface(VDeviceInterface::StorageVolume))
         return volumeDescription();
     else
         return product();
@@ -218,58 +217,58 @@ QString UDisksDevice::description() const
 QString UDisksDevice::storageDescription() const
 {
     QString description;
-    const UDisks::UDisksStorageDrive storageDrive(const_cast<UDisksDevice*>(this));
-    Qube::Hardware::StorageDrive::DriveType drive_type = storageDrive.driveType();
+    const UDisks::UDisksStorageDrive storageDrive(const_cast<UDisksDevice *>(this));
+    VStorageDrive::DriveType drive_type = storageDrive.driveType();
     bool drive_is_hotpluggable = storageDrive.isHotpluggable();
-    const UDisks::UDisksStorageVolume storageVolume(const_cast<UDisksDevice*>(this));
+    const UDisks::UDisksStorageVolume storageVolume(const_cast<UDisksDevice *>(this));
 
-    if (drive_type == Qube::Hardware::StorageDrive::CdromDrive) {
-        const UDisks::UDisksOpticalDrive opticalDrive(const_cast<UDisksDevice*>(this));
-        Qube::Hardware::OpticalDrive::MediumTypes mediumTypes = opticalDrive.supportedMedia();
+    if (drive_type == VStorageDrive::CdromDrive) {
+        const UDisks::UDisksOpticalDrive opticalDrive(const_cast<UDisksDevice *>(this));
+        VOpticalDrive::MediumTypes mediumTypes = opticalDrive.supportedMedia();
         QString first;
         QString second;
 
         first = QObject::tr("CD-ROM", "First item of %1%2 Drive sentence");
-        if (mediumTypes & Qube::Hardware::OpticalDrive::Cdr)
+        if (mediumTypes & VOpticalDrive::Cdr)
             first = QObject::tr("CD-R", "First item of %1%2 Drive sentence");
-        if (mediumTypes & Qube::Hardware::OpticalDrive::Cdrw)
+        if (mediumTypes & VOpticalDrive::Cdrw)
             first = QObject::tr("CD-RW", "First item of %1%2 Drive sentence");
 
-        if (mediumTypes & Qube::Hardware::OpticalDrive::Dvd)
+        if (mediumTypes & VOpticalDrive::Dvd)
             second = QObject::tr("/DVD-ROM", "Second item of %1%2 Drive sentence");
-        if (mediumTypes & Qube::Hardware::OpticalDrive::Dvdplusr)
+        if (mediumTypes & VOpticalDrive::Dvdplusr)
             second = QObject::tr("/DVD+R", "Second item of %1%2 Drive sentence");
-        if (mediumTypes & Qube::Hardware::OpticalDrive::Dvdplusrw)
+        if (mediumTypes & VOpticalDrive::Dvdplusrw)
             second = QObject::tr("/DVD+RW", "Second item of %1%2 Drive sentence");
-        if (mediumTypes & Qube::Hardware::OpticalDrive::Dvdr)
+        if (mediumTypes & VOpticalDrive::Dvdr)
             second = QObject::tr("/DVD-R", "Second item of %1%2 Drive sentence");
-        if (mediumTypes & Qube::Hardware::OpticalDrive::Dvdrw)
+        if (mediumTypes & VOpticalDrive::Dvdrw)
             second = QObject::tr("/DVD-RW", "Second item of %1%2 Drive sentence");
-        if (mediumTypes & Qube::Hardware::OpticalDrive::Dvdram)
+        if (mediumTypes & VOpticalDrive::Dvdram)
             second = QObject::tr("/DVD-RAM", "Second item of %1%2 Drive sentence");
-        if ((mediumTypes & Qube::Hardware::OpticalDrive::Dvdr) && (mediumTypes & Qube::Hardware::OpticalDrive::Dvdplusr)) {
-            if(mediumTypes & Qube::Hardware::OpticalDrive::Dvdplusdl)
+        if ((mediumTypes & VOpticalDrive::Dvdr) && (mediumTypes & VOpticalDrive::Dvdplusr)) {
+            if (mediumTypes & VOpticalDrive::Dvdplusdl)
                 second = QObject::tr("/DVD±R DL", "Second item of %1%2 Drive sentence");
             else
                 second = QObject::tr("/DVD±R", "Second item of %1%2 Drive sentence");
         }
-        if ((mediumTypes & Qube::Hardware::OpticalDrive::Dvdrw) && (mediumTypes & Qube::Hardware::OpticalDrive::Dvdplusrw)) {
-            if((mediumTypes & Qube::Hardware::OpticalDrive::Dvdplusdl) || (mediumTypes & Qube::Hardware::OpticalDrive::Dvdplusdlrw))
+        if ((mediumTypes & VOpticalDrive::Dvdrw) && (mediumTypes & VOpticalDrive::Dvdplusrw)) {
+            if ((mediumTypes & VOpticalDrive::Dvdplusdl) || (mediumTypes & VOpticalDrive::Dvdplusdlrw))
                 second = QObject::tr("/DVD±RW DL", "Second item of %1%2 Drive sentence");
             else
                 second = QObject::tr("/DVD±RW", "Second item of %1%2 Drive sentence");
         }
-        if (mediumTypes & Qube::Hardware::OpticalDrive::Bd)
+        if (mediumTypes & VOpticalDrive::Bd)
             second = QObject::tr("/BD-ROM", "Second item of %1%2 Drive sentence");
-        if (mediumTypes & Qube::Hardware::OpticalDrive::Bdr)
+        if (mediumTypes & VOpticalDrive::Bdr)
             second = QObject::tr("/BD-R", "Second item of %1%2 Drive sentence");
-        if (mediumTypes & Qube::Hardware::OpticalDrive::Bdre)
+        if (mediumTypes & VOpticalDrive::Bdre)
             second = QObject::tr("/BD-RE", "Second item of %1%2 Drive sentence");
-        if (mediumTypes & Qube::Hardware::OpticalDrive::HdDvd)
+        if (mediumTypes & VOpticalDrive::HdDvd)
             second = QObject::tr("/HD DVD-ROM", "Second item of %1%2 Drive sentence");
-        if (mediumTypes & Qube::Hardware::OpticalDrive::HdDvdr)
+        if (mediumTypes & VOpticalDrive::HdDvdr)
             second = QObject::tr("/HD DVD-R", "Second item of %1%2 Drive sentence");
-        if (mediumTypes & Qube::Hardware::OpticalDrive::HdDvdrw)
+        if (mediumTypes & VOpticalDrive::HdDvdrw)
             second = QObject::tr("/HD DVD-RW", "Second item of %1%2 Drive sentence");
 
         if (drive_is_hotpluggable)
@@ -280,7 +279,7 @@ QString UDisksDevice::storageDescription() const
         return description;
     }
 
-    if (drive_type == Qube::Hardware::StorageDrive::Floppy) {
+    if (drive_type == VStorageDrive::Floppy) {
         if (drive_is_hotpluggable)
             description = QObject::tr("External Floppy Drive");
         else
@@ -291,7 +290,7 @@ QString UDisksDevice::storageDescription() const
 
     bool drive_is_removable = storageDrive.isRemovable();
 
-    if (drive_type == Qube::Hardware::StorageDrive::HardDisk && !drive_is_removable) {
+    if (drive_type == VStorageDrive::HardDisk && !drive_is_removable) {
         QString size_str = formatByteSize(storageVolume.size());
         if (!size_str.isEmpty()) {
             if (drive_is_hotpluggable)
@@ -333,131 +332,131 @@ QString UDisksDevice::storageDescription() const
 QString UDisksDevice::volumeDescription() const
 {
     QString description;
-    const UDisks::UDisksStorageVolume storageVolume(const_cast<UDisksDevice*>(this));
+    const UDisks::UDisksStorageVolume storageVolume(const_cast<UDisksDevice *>(this));
     QString volume_label = prop("IdLabel").toString();
     if (volume_label.isEmpty())
         volume_label = prop("PartitionLabel").toString();
     if (!volume_label.isEmpty())
         return volume_label;
 
-    const UDisks::UDisksStorageDrive storageDrive(const_cast<UDisksDevice*>(this));
-    Qube::Hardware::StorageDrive::DriveType drive_type = storageDrive.driveType();
+    const UDisks::UDisksStorageDrive storageDrive(const_cast<UDisksDevice *>(this));
+    VStorageDrive::DriveType drive_type = storageDrive.driveType();
 
     // Handle media in optical drives
-    if (drive_type == Qube::Hardware::StorageDrive::CdromDrive) {
-        const UDisks::OpticalDisc disc(const_cast<UDisksDevice*>(this));
+    if (drive_type == VStorageDrive::CdromDrive) {
+        const UDisks::OpticalDisc disc(const_cast<UDisksDevice *>(this));
         switch (disc.discType()) {
-        case Qube::Hardware::OpticalDisc::UnknownDiscType:
-        case Qube::Hardware::OpticalDisc::CdRom:
-            description = QObject::tr("CD-ROM");
-            break;
+            case VOpticalDisc::UnknownDiscType:
+            case VOpticalDisc::CdRom:
+                description = QObject::tr("CD-ROM");
+                break;
 
-        case Qube::Hardware::OpticalDisc::CdRecordable:
-            if (disc.isBlank())
-                description = QObject::tr("Blank CD-R");
-            else
-                description = QObject::tr("CD-R");
-            break;
+            case VOpticalDisc::CdRecordable:
+                if (disc.isBlank())
+                    description = QObject::tr("Blank CD-R");
+                else
+                    description = QObject::tr("CD-R");
+                break;
 
-        case Qube::Hardware::OpticalDisc::CdRewritable:
-            if (disc.isBlank())
-                description = QObject::tr("Blank CD-RW");
-            else
-                description = QObject::tr("CD-RW");
-            break;
+            case VOpticalDisc::CdRewritable:
+                if (disc.isBlank())
+                    description = QObject::tr("Blank CD-RW");
+                else
+                    description = QObject::tr("CD-RW");
+                break;
 
-        case Qube::Hardware::OpticalDisc::DvdRom:
-            description = QObject::tr("DVD-ROM");
-            break;
+            case VOpticalDisc::DvdRom:
+                description = QObject::tr("DVD-ROM");
+                break;
 
-        case Qube::Hardware::OpticalDisc::DvdRam:
-            if (disc.isBlank())
-                description = QObject::tr("Blank DVD-RAM");
-            else
-                description = QObject::tr("DVD-RAM");
-            break;
+            case VOpticalDisc::DvdRam:
+                if (disc.isBlank())
+                    description = QObject::tr("Blank DVD-RAM");
+                else
+                    description = QObject::tr("DVD-RAM");
+                break;
 
-        case Qube::Hardware::OpticalDisc::DvdRecordable:
-            if (disc.isBlank())
-                description = QObject::tr("Blank DVD-R");
-            else
-                description = QObject::tr("DVD-R");
-            break;
+            case VOpticalDisc::DvdRecordable:
+                if (disc.isBlank())
+                    description = QObject::tr("Blank DVD-R");
+                else
+                    description = QObject::tr("DVD-R");
+                break;
 
-        case Qube::Hardware::OpticalDisc::DvdPlusRecordableDuallayer:
-            if (disc.isBlank())
-                description = QObject::tr("Blank DVD+R Dual-Layer");
-            else
-                description = QObject::tr("DVD+R Dual-Layer");
-            break;
+            case VOpticalDisc::DvdPlusRecordableDuallayer:
+                if (disc.isBlank())
+                    description = QObject::tr("Blank DVD+R Dual-Layer");
+                else
+                    description = QObject::tr("DVD+R Dual-Layer");
+                break;
 
-        case Qube::Hardware::OpticalDisc::DvdRewritable:
-            if (disc.isBlank())
-                description = QObject::tr("Blank DVD-RW");
-            else
-                description = QObject::tr("DVD-RW");
-            break;
+            case VOpticalDisc::DvdRewritable:
+                if (disc.isBlank())
+                    description = QObject::tr("Blank DVD-RW");
+                else
+                    description = QObject::tr("DVD-RW");
+                break;
 
-        case Qube::Hardware::OpticalDisc::DvdPlusRecordable:
-            if (disc.isBlank())
-                description = QObject::tr("Blank DVD+R");
-            else
-                description = QObject::tr("DVD+R");
-            break;
+            case VOpticalDisc::DvdPlusRecordable:
+                if (disc.isBlank())
+                    description = QObject::tr("Blank DVD+R");
+                else
+                    description = QObject::tr("DVD+R");
+                break;
 
-        case Qube::Hardware::OpticalDisc::DvdPlusRewritable:
-            if (disc.isBlank())
-                description = QObject::tr("Blank DVD+RW");
-            else
-                description = QObject::tr("DVD+RW");
-            break;
+            case VOpticalDisc::DvdPlusRewritable:
+                if (disc.isBlank())
+                    description = QObject::tr("Blank DVD+RW");
+                else
+                    description = QObject::tr("DVD+RW");
+                break;
 
-        case Qube::Hardware::OpticalDisc::DvdPlusRewritableDuallayer:
-            if (disc.isBlank())
-                description = QObject::tr("Blank DVD+RW Dual-Layer");
-            else
-                description = QObject::tr("DVD+RW Dual-Layer");
-            break;
+            case VOpticalDisc::DvdPlusRewritableDuallayer:
+                if (disc.isBlank())
+                    description = QObject::tr("Blank DVD+RW Dual-Layer");
+                else
+                    description = QObject::tr("DVD+RW Dual-Layer");
+                break;
 
-        case Qube::Hardware::OpticalDisc::BluRayRom:
-            description = QObject::tr("BD-ROM");
-            break;
+            case VOpticalDisc::BluRayRom:
+                description = QObject::tr("BD-ROM");
+                break;
 
-        case Qube::Hardware::OpticalDisc::BluRayRecordable:
-            if (disc.isBlank())
-                description = QObject::tr("Blank BD-R");
-            else
-                description = QObject::tr("BD-R");
-            break;
+            case VOpticalDisc::BluRayRecordable:
+                if (disc.isBlank())
+                    description = QObject::tr("Blank BD-R");
+                else
+                    description = QObject::tr("BD-R");
+                break;
 
-        case Qube::Hardware::OpticalDisc::BluRayRewritable:
-            if (disc.isBlank())
-                description = QObject::tr("Blank BD-RE");
-            else
-                description = QObject::tr("BD-RE");
-            break;
+            case VOpticalDisc::BluRayRewritable:
+                if (disc.isBlank())
+                    description = QObject::tr("Blank BD-RE");
+                else
+                    description = QObject::tr("BD-RE");
+                break;
 
-        case Qube::Hardware::OpticalDisc::HdDvdRom:
-            description = QObject::tr("HD DVD-ROM");
-            break;
+            case VOpticalDisc::HdDvdRom:
+                description = QObject::tr("HD DVD-ROM");
+                break;
 
-        case Qube::Hardware::OpticalDisc::HdDvdRecordable:
-            if (disc.isBlank())
-                description = QObject::tr("Blank HD DVD-R");
-            else
-                description = QObject::tr("HD DVD-R");
-            break;
+            case VOpticalDisc::HdDvdRecordable:
+                if (disc.isBlank())
+                    description = QObject::tr("Blank HD DVD-R");
+                else
+                    description = QObject::tr("HD DVD-R");
+                break;
 
-        case Qube::Hardware::OpticalDisc::HdDvdRewritable:
-            if (disc.isBlank())
-                description = QObject::tr("Blank HD DVD-RW");
-            else
-                description = QObject::tr("HD DVD-RW");
-            break;
+            case VOpticalDisc::HdDvdRewritable:
+                if (disc.isBlank())
+                    description = QObject::tr("Blank HD DVD-RW");
+                else
+                    description = QObject::tr("HD DVD-RW");
+                break;
         }
 
         // Special case for pure audio disc
-        if (disc.availableContent() == Qube::Hardware::OpticalDisc::Audio)
+        if (disc.availableContent() == VOpticalDisc::Audio)
             description = QObject::tr("Audio CD");
 
         return description;
@@ -465,7 +464,7 @@ QString UDisksDevice::volumeDescription() const
 
     bool drive_is_removable = storageDrive.isRemovable();
     bool drive_is_hotpluggable = storageDrive.isHotpluggable();
-    bool drive_is_encrypted_container = (storageVolume.usage() == Qube::Hardware::StorageVolume::Encrypted);
+    bool drive_is_encrypted_container = (storageVolume.usage() == VStorageVolume::Encrypted);
 
     QString size_str = formatByteSize(storageVolume.size());
     if (drive_is_encrypted_container) {
@@ -473,7 +472,7 @@ QString UDisksDevice::volumeDescription() const
             description = QObject::tr("%1 Encrypted Container", "%1 is the size").arg(size_str);
         else
             description = QObject::tr("Encrypted Container");
-    } else if (drive_type == Qube::Hardware::StorageDrive::HardDisk && !drive_is_removable) {
+    } else if (drive_type == VStorageDrive::HardDisk && !drive_is_removable) {
         if (!size_str.isEmpty()) {
             if (drive_is_hotpluggable)
                 description = QObject::tr("%1 External Hard Drive", "%1 is the size").arg(size_str);
@@ -497,53 +496,53 @@ QString UDisksDevice::volumeDescription() const
 
 QString UDisksDevice::icon() const
 {
-    QString iconName = prop( "DevicePresentationIconName" ).toString();
+    QString iconName = prop("DevicePresentationIconName").toString();
 
-    if ( !iconName.isEmpty() ) {
+    if (!iconName.isEmpty()) {
         return iconName;
     } else {
-        bool isPartition = prop( "DeviceIsPartition" ).toBool();
-        if ( isPartition ) {    // this is a slave device, we need to return its parent's icon
-            UDisksDevice* parent = 0;
-            if ( !parentUdi().isEmpty() )
-                parent = new UDisksDevice( parentUdi() );
+        bool isPartition = prop("DeviceIsPartition").toBool();
+        if (isPartition) {      // this is a slave device, we need to return its parent's icon
+            UDisksDevice *parent = 0;
+            if (!parentUdi().isEmpty())
+                parent = new UDisksDevice(parentUdi());
 
-            if ( parent ) {
+            if (parent) {
                 iconName = parent->icon();
                 delete parent;
             }
 
-            if ( !iconName.isEmpty() )
+            if (!iconName.isEmpty())
                 return iconName;
         }
 
         // handle media
-        const QString media = prop( "DriveMedia" ).toString();
-        bool isOptical = prop( "DeviceIsOpticalDisc" ).toBool();
+        const QString media = prop("DriveMedia").toString();
+        bool isOptical = prop("DeviceIsOpticalDisc").toBool();
 
-        if ( !media.isEmpty() ) {
-            if ( isOptical ) {  // optical stuff
-                bool isWritable = prop( "OpticalDiscIsBlank" ).toBool() || prop("OpticalDiscIsAppendable").toBool();
+        if (!media.isEmpty()) {
+            if (isOptical) {    // optical stuff
+                bool isWritable = prop("OpticalDiscIsBlank").toBool() || prop("OpticalDiscIsAppendable").toBool();
 
-                const UDisks::OpticalDisc disc(const_cast<UDisksDevice*>(this));
-                Qube::Hardware::OpticalDisc::ContentTypes availContent = disc.availableContent();
+                const UDisks::OpticalDisc disc(const_cast<UDisksDevice *>(this));
+                VOpticalDisc::ContentTypes availContent = disc.availableContent();
 
-                if (availContent & Qube::Hardware::OpticalDisc::VideoDvd) // Video DVD
+                if (availContent & VOpticalDisc::VideoDvd) // Video DVD
                     return "media-optical-dvd-video";
-                else if ((availContent & Qube::Hardware::OpticalDisc::VideoCd) || (availContent & Qube::Hardware::OpticalDisc::SuperVideoCd)) // Video CD
+                else if ((availContent & VOpticalDisc::VideoCd) || (availContent & VOpticalDisc::SuperVideoCd)) // Video CD
                     return "media-optical-video";
-                else if ((availContent & Qube::Hardware::OpticalDisc::Data) && (availContent & Qube::Hardware::OpticalDisc::Audio)) // Mixed CD
+                else if ((availContent & VOpticalDisc::Data) && (availContent & VOpticalDisc::Audio)) // Mixed CD
                     return "media-optical-mixed-cd";
-                else if (availContent & Qube::Hardware::OpticalDisc::Audio) // Audio CD
+                else if (availContent & VOpticalDisc::Audio) // Audio CD
                     return "media-optical-audio";
-                else if (availContent & Qube::Hardware::OpticalDisc::Data) // Data CD
+                else if (availContent & VOpticalDisc::Data) // Data CD
                     return "media-optical-data";
-                else if ( isWritable )
+                else if (isWritable)
                     return "media-optical-recordable";
                 else {
-                    if ( media.startsWith( "optical_dvd" ) || media.startsWith( "optical_hddvd" ) ) // DVD
+                    if (media.startsWith("optical_dvd") || media.startsWith("optical_hddvd"))       // DVD
                         return "media-optical-dvd";
-                    else if ( media.startsWith( "optical_bd" ) ) // BluRay
+                    else if (media.startsWith("optical_bd"))     // BluRay
                         return "media-optical-blu-ray";
                 }
 
@@ -551,27 +550,27 @@ QString UDisksDevice::icon() const
                 return "media-optical";
             }
 
-            if ( media == "flash_ms" ) // Flash & Co.
+            if (media == "flash_ms")   // Flash & Co.
                 return "media-flash-memory-stick";
-            else if ( media == "flash_sd" || media == "flash_sdhc" || media == "flash_mmc" )
+            else if (media == "flash_sd" || media == "flash_sdhc" || media == "flash_mmc")
                 return "media-flash-sd-mmc";
-            else if ( media == "flash_sm" )
+            else if (media == "flash_sm")
                 return "media-flash-smart-media";
-            else if ( media.startsWith( "flash" ) )
+            else if (media.startsWith("flash"))
                 return "media-flash";
-            else if ( media == "floppy" ) // the good ol' floppy
+            else if (media == "floppy")   // the good ol' floppy
                 return "media-floppy";
 
         }
 
         // handle drives
-        bool isRemovable = prop( "DeviceIsRemovable" ).toBool();
-        const QString conn = prop( "DriveConnectionInterface" ).toString();
+        bool isRemovable = prop("DeviceIsRemovable").toBool();
+        const QString conn = prop("DriveConnectionInterface").toString();
 
-        if ( queryDeviceInterface(Qube::Hardware::DeviceInterface::OpticalDrive) )
+        if (queryDeviceInterface(VDeviceInterface::OpticalDrive))
             return "drive-optical";
-        else if ( isRemovable && !isOptical ) {
-            if ( conn == "usb" )
+        else if (isRemovable && !isOptical) {
+            if (conn == "usb")
                 return "drive-removable-media-usb";
             else
                 return "drive-removable-media";
@@ -584,7 +583,7 @@ QString UDisksDevice::icon() const
 QString UDisksDevice::product() const
 {
     QString product = prop("DriveModel").toString();
-    const bool isDrive = prop( "DeviceIsDrive" ).toBool() && !m_udi.endsWith(":media");
+    const bool isDrive = prop("DeviceIsDrive").toBool() && !m_udi.endsWith(":media");
 
     if (!isDrive) {
         QString label = prop("IdLabel").toString();
@@ -611,11 +610,11 @@ QString UDisksDevice::parentUdi() const
     if (m_udi.endsWith(QLatin1String(":media"))) {
         QString result = m_udi;
         return result.remove(":media");
-    } else if ( prop( "DeviceIsLuksCleartext" ).toBool() )
-        return prop( "LuksCleartextSlave" ).value<QDBusObjectPath>().path();
+    } else if (prop("DeviceIsLuksCleartext").toBool())
+        return prop("LuksCleartextSlave").value<QDBusObjectPath>().path();
     else {
         QString parent = prop("PartitionSlave").value<QDBusObjectPath>().path();
-        if (parent.isEmpty() || parent=="/") {
+        if (parent.isEmpty() || parent == "/") {
             parent = UD_UDI_DISKS_PREFIX;
         }
         return parent;
@@ -678,10 +677,10 @@ bool UDisksDevice::isDeviceBlacklisted() const
     return prop("DevicePresentationHide").toBool() || prop("DevicePresentationNopolicy").toBool() ||
            prop("DeviceMountPaths").toStringList().contains("/boot") ||
            prop("IdLabel").toString() == "System Reserved" ||
-           ( prop("IdUsage").toString().isEmpty() && !prop("OpticalDiscIsBlank").toBool());
+           (prop("IdUsage").toString().isEmpty() && !prop("OpticalDiscIsBlank").toBool());
 }
 
-QString UDisksDevice::errorToString(const QString & error) const
+QString UDisksDevice::errorToString(const QString &error) const
 {
     if (error == UD_ERROR_UNAUTHORIZED)
         return QObject::tr("You are not authorized to perform this operation.");
@@ -699,18 +698,18 @@ QString UDisksDevice::errorToString(const QString & error) const
         return QObject::tr("An unspecified error has occurred.");
 }
 
-Qube::Hardware::ErrorType UDisksDevice::errorToQubeHardwareError(const QString & error) const
+VHardware::ErrorType UDisksDevice::errorToVibeHardwareError(const QString &error) const
 {
     if (error == UD_ERROR_BUSY)
-        return Qube::Hardware::DeviceBusy;
+        return VHardware::DeviceBusy;
     else if (error == UD_ERROR_FAILED)
-        return Qube::Hardware::OperationFailed;
+        return VHardware::OperationFailed;
     else if (error == UD_ERROR_CANCELED)
-        return Qube::Hardware::UserCanceled;
+        return VHardware::UserCanceled;
     else if (error == UD_ERROR_INVALID_OPTION)
-        return Qube::Hardware::InvalidOption;
+        return VHardware::InvalidOption;
     else if (error == UD_ERROR_MISSING_DRIVER)
-        return Qube::Hardware::MissingDriver;
+        return VHardware::MissingDriver;
     else
-        return Qube::Hardware::UnauthorizedOperation;
+        return VHardware::UnauthorizedOperation;
 }

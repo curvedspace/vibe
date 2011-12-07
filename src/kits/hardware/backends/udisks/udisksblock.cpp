@@ -20,7 +20,7 @@
 
 #include "udisksblock.h"
 
-using namespace Qube::Hardware::Backends::UDisks;
+using namespace VHardware::Backends::UDisks;
 
 Block::Block(UDisksDevice *device)
     : DeviceInterface(device)
@@ -47,4 +47,3 @@ int Block::deviceMajor() const
 {
     return m_device->prop("DeviceMajor").toInt();
 }
-

@@ -18,7 +18,7 @@
 #include <QtDesigner/QDesignerFormEditorInterface>
 #include <QtDesigner/QExtensionManager>
 
-#include <Qube/Gui/NavBar>
+#include <VibeGui/VNavBar>
 
 #include "navbarplugin.h"
 #include "navbarplugintaskmenu.h"
@@ -56,8 +56,8 @@ bool NavBarPlugin::isContainer() const
 
 QWidget *NavBarPlugin::createWidget(QWidget *parent)
 {
-    Qube::Gui::NavBar *navBar = new Qube::Gui::NavBar(parent);
-    Qube::Gui::NavBarGroup *group = navBar->addGroup("GROUP");
+    VNavBar *navBar = new VNavBar(parent);
+    VNavBarGroup *group = navBar->addGroup("GROUP");
     group->addItem(QPixmap(":/qt.png"), "Item #0");
     group->addItem(QPixmap(":/qt.png"), "Item #1");
     return navBar;
@@ -70,7 +70,7 @@ QString NavBarPlugin::name() const
 
 QString NavBarPlugin::group() const
 {
-    return QLatin1String("Qube");
+    return QLatin1String("Vibe");
 }
 
 QIcon NavBarPlugin::icon() const
@@ -92,7 +92,7 @@ QString NavBarPlugin::domXml() const
 {
     return QLatin1String(""
 			 "<ui language=\"c++\">"
-			 "    <widget class=\"Qube::Gui::NavBar\" name=\"navBar\">"
+			 "    <widget class=\"VNavBar\" name=\"navBar\">"
 			 "        <property name=\"geometry\">"
 			 "            <rect>"
 			 "                <x>0</x>"

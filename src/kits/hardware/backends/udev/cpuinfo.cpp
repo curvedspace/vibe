@@ -25,48 +25,44 @@
 #include <QtCore/QRegExp>
 #include <QtCore/QStringList>
 
-namespace Qube
+namespace VHardware
 {
-    namespace Hardware
+    namespace Backends
     {
-        namespace Backends
+        namespace UDev
         {
-            namespace UDev
+            QString extractCpuInfoLine(int processorNumber, const QString &regExpStr)
             {
-                QString extractCpuInfoLine(int processorNumber, const QString &regExpStr)
-                {
-                    if (processorNumber == -1) {
-                        return QString();
-                    }
-
-                    QFile cpuInfoFile("/proc/cpuinfo");
-                    if (!cpuInfoFile.open(QIODevice::ReadOnly)) {
-                        return QString();
-                    }
-                    QStringList cpuInfo = QString(cpuInfoFile.readAll()).split('\n', QString::SkipEmptyParts);
-                    cpuInfoFile.close();
-
-                    const QRegExp processorRegExp("processor\\s+:\\s+(\\d+)");
-                    const QRegExp regExp(regExpStr);
-
-                    int line = 0;
-                    while (line < cpuInfo.size()) {
-                        if (processorRegExp.exactMatch(cpuInfo.at(line))) {
-                            int recordProcNum = processorRegExp.capturedTexts()[1].toInt();
-                            if (recordProcNum == processorNumber) {
-                                ++line;
-                                while (line < cpuInfo.size()) {
-                                    if (regExp.exactMatch(cpuInfo.at(line)))
-                                        return regExp.capturedTexts()[1];
-                                    ++line;
-                                }
-                            }
-                        }
-                        ++line;
-                    }
-
+                if (processorNumber == -1) {
                     return QString();
                 }
+
+                QFile cpuInfoFile("/proc/cpuinfo");
+                if (!cpuInfoFile.open(QIODevice::ReadOnly))
+                    return QString();
+                QStringList cpuInfo = QString(cpuInfoFile.readAll()).split('\n', QString::SkipEmptyParts);
+                cpuInfoFile.close();
+
+                const QRegExp processorRegExp("processor\\s+:\\s+(\\d+)");
+                const QRegExp regExp(regExpStr);
+
+                int line = 0;
+                while (line < cpuInfo.size()) {
+                    if (processorRegExp.exactMatch(cpuInfo.at(line))) {
+                        int recordProcNum = processorRegExp.capturedTexts()[1].toInt();
+                        if (recordProcNum == processorNumber) {
+                            ++line;
+                            while (line < cpuInfo.size()) {
+                                if (regExp.exactMatch(cpuInfo.at(line)))
+                                    return regExp.capturedTexts()[1];
+                                ++line;
+                            }
+                        }
+                    }
+                    ++line;
+                }
+
+                return QString();
             }
         }
     }
