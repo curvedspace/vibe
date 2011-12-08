@@ -401,8 +401,8 @@ bool VFilePlacesModel::dropMimeData(const QMimeData *data, Qt::DropAction action
             }
 
             Bookmark bookmark = VFilePlacesItem::createBookmark(d->bookmarkManager,
-                                url.fileName(), url,
-                                mimetype->iconName(url));
+                                                                url.fileName(), url,
+                                                                mimetype->iconName(url));
             group.moveBookmark(bookmark, afterBookmark);
             afterBookmark = bookmark;
         }
@@ -429,7 +429,7 @@ void VFilePlacesModel::addPlace(const QString &text, const QUrl &url,
                                 const QModelIndex &after)
 {
     VBookmark bookmark = VFilePlacesItem::createBookmark(d->bookmarkManager,
-                         text, url, iconName);
+                                                         text, url, iconName);
 
     if (!appName.isEmpty())
         bookmark.setMetaDataItem("OnlyInApp", appName);
@@ -609,8 +609,8 @@ void VFilePlacesModel::requestSetup(const QModelIndex &index)
     VDevice device = deviceForIndex(index);
 
     if (device.is<VStorageAccess>()
-        && !d->setupInProgress.contains(device.as<VStorageAccess>())
-        && !device.as<VStorageAccess>()->isAccessible()) {
+            && !d->setupInProgress.contains(device.as<VStorageAccess>())
+            && !device.as<VStorageAccess>()->isAccessible()) {
 
         VStorageAccess *access = device.as<VStorageAccess>();
 
@@ -663,7 +663,7 @@ QList<VFilePlacesItem *> VFilePlacesModel::Private::loadBookmarkList()
         bookmark = VFilePlacesItem::createDeviceBookmark(bookmarkManager, udi);
         if (!bookmark.isNull()) {
             VFilePlacesItem *item = new VFilePlacesItem(bookmarkManager,
-                    bookmark.address(), udi);
+                                                        bookmark.address(), udi);
             connect(item, SIGNAL(itemChanged(const QString &)),
                     q, SLOT(_q_itemChanged(const QString &)));
             // TODO: Update bookmark internal element

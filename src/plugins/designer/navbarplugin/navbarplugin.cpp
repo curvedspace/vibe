@@ -34,12 +34,12 @@ NavBarPlugin::NavBarPlugin(const QIcon &icon, QObject *parent)
 void NavBarPlugin::initialize(QDesignerFormEditorInterface *formEditor)
 {
     if (m_initialized)
-	return;
+        return;
     QExtensionManager *manager = formEditor->extensionManager();
     Q_ASSERT(manager != 0);
 #if 0
     manager->registerExtensions(new NavBarPluginTaskMenuFactory(manager),
-				Q_TYPEID(QDesignerTaskMenuExtension));
+                                Q_TYPEID(QDesignerTaskMenuExtension));
 #endif
     m_initialized = true;
 }
@@ -91,18 +91,18 @@ QString NavBarPlugin::whatsThis() const
 QString NavBarPlugin::domXml() const
 {
     return QLatin1String(""
-			 "<ui language=\"c++\">"
-			 "    <widget class=\"VNavBar\" name=\"navBar\">"
-			 "        <property name=\"geometry\">"
-			 "            <rect>"
-			 "                <x>0</x>"
-			 "                <y>0</y>"
-			 "                <width>100</width>"
-			 "                <height>80</height>"
-			 "            </rect>"
-			 "        </property>"
-			 "    </widget>"
-			 "</ui>");
+                         "<ui language=\"c++\">"
+                         "    <widget class=\"VNavBar\" name=\"navBar\">"
+                         "        <property name=\"geometry\">"
+                         "            <rect>"
+                         "                <x>0</x>"
+                         "                <y>0</y>"
+                         "                <width>100</width>"
+                         "                <height>80</height>"
+                         "            </rect>"
+                         "        </property>"
+                         "    </widget>"
+                         "</ui>");
 }
 
 QString NavBarPlugin::includeFile() const

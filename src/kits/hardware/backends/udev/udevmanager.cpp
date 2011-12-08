@@ -82,7 +82,7 @@ bool UDevManager::Private::isOfInterest(const UdevQt::Device &device)
         return QFile::exists(device.sysfsPath() + "/sysdev");
     }
     if (device.subsystem() == QLatin1String("sound") &&
-        device.deviceProperty("SOUND_FORM_FACTOR").toString() != "internal") {
+            device.deviceProperty("SOUND_FORM_FACTOR").toString() != "internal") {
         return true;
     }
 
@@ -150,7 +150,7 @@ QStringList UDevManager::allDevices()
 }
 
 QStringList UDevManager::devicesFromQuery(const QString &parentUdi,
-        VDeviceInterface::Type type)
+                                          VDeviceInterface::Type type)
 {
     QStringList allDev = allDevices();
     QStringList result;

@@ -24,13 +24,13 @@
 #define VIBE_INTERFACEMACROS_H
 
 #define VIBE_DECLARE_UI(Class) \
-	inline Class##Ui *ui_func() { return reinterpret_cast<Class##Ui *>(ui_ptr); } \
-	inline const Class##Ui *ui_func() const { return reinterpret_cast<const Class##Ui *>(ui_ptr); } \
-	friend class Class##Ui;
+    inline Class##Ui *ui_func() { return reinterpret_cast<Class##Ui *>(ui_ptr); } \
+    inline const Class##Ui *ui_func() const { return reinterpret_cast<const Class##Ui *>(ui_ptr); } \
+    friend class Class##Ui;
 
 #define VIBE_UI(Class) Class##Ui *ui = ui_func()
 #define VIBE_WIDGET(Class) Class *w = w_func()
 #define VIBE_WIDGET_CAST inline QWidget *toWidget() { return this; } \
-	inline const QWidget * toWidget() const { return this; }
+    inline const QWidget * toWidget() const { return this; }
 
 #endif // VIBE_INTERFACEMACROS_H

@@ -229,10 +229,10 @@ QVariant VFilePlacesItem::deviceData(int role) const
 }
 
 VBookmark VFilePlacesItem::createBookmark(VBookmarkManager *manager,
-        const QString &label,
-        const QUrl &url,
-        const QString &iconName,
-        VFilePlacesItem *after)
+                                          const QString &label,
+                                          const QUrl &url,
+                                          const QString &iconName,
+                                          VFilePlacesItem *after)
 {
     VBookmarkGroup root = manager->root();
     if (root.isNull())
@@ -255,10 +255,10 @@ VBookmark VFilePlacesItem::createBookmark(VBookmarkManager *manager,
 }
 
 VBookmark VFilePlacesItem::createSystemBookmark(VBookmarkManager *manager,
-        const QString &untranslatedLabel,
-        const QString &translatedLabel,
-        const QUrl &url,
-        const QString &iconName)
+                                                const QString &untranslatedLabel,
+                                                const QString &translatedLabel,
+                                                const QUrl &url,
+                                                const QString &iconName)
 {
     Q_UNUSED(translatedLabel); // parameter is only necessary to force the caller
     // providing a translated string for the label
@@ -271,7 +271,7 @@ VBookmark VFilePlacesItem::createSystemBookmark(VBookmarkManager *manager,
 
 
 VBookmark VFilePlacesItem::createDeviceBookmark(VBookmarkManager *manager,
-        const QString &udi)
+                                                const QString &udi)
 {
     VBookmarkGroup root = manager->root();
     if (root.isNull())

@@ -43,7 +43,7 @@ class VIBE_EXPORT VBreadCrumbBar : public QWidget
     Q_PROPERTY(bool editable READ isEditable WRITE setEditable RESET goToDefault DESIGNABLE true)
     Q_PROPERTY(QString location READ location WRITE setLocation DESIGNABLE true NOTIFY locationChanged)
 public:
-    explicit VBreadCrumbBar(QWidget * parent = 0);
+    explicit VBreadCrumbBar(QWidget *parent = 0);
     ~VBreadCrumbBar();
 
     QSize sizeHint() const;
@@ -54,9 +54,9 @@ public:
     QString location() const;
     void setLocation(const QString &);
 
-    QComboBox * comboBox() const;
+    QComboBox *comboBox() const;
 
-    VAbstractBreadCrumbModel * model() const;
+    VAbstractBreadCrumbModel *model() const;
     void setModel(VAbstractBreadCrumbModel *);
 
     void refresh();

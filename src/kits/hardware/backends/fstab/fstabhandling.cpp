@@ -110,10 +110,10 @@ VIBE_GLOBAL_STATIC(QStringMultiHash, globalMountPointsCache)
 bool _q_isFstabNetworkFileSystem(const QString &fstype, const QString &devName)
 {
     if (fstype == "nfs"
-        || fstype == "nfs4"
-        || fstype == "smbfs"
-        || fstype == "cifs"
-        || devName.startsWith(QLatin1String("//"))) {
+            || fstype == "nfs4"
+            || fstype == "smbfs"
+            || fstype == "cifs"
+            || devName.startsWith(QLatin1String("//"))) {
         return true;
     }
     return false;
@@ -211,8 +211,8 @@ QStringList VHardware::Backends::Fstab::FstabHandling::mountPoints(const QString
 }
 
 QProcess *VHardware::Backends::Fstab::FstabHandling::callSystemCommand(const QString &commandName,
-        const QStringList &args,
-        QObject *obj, const char *slot)
+                                                                       const QStringList &args,
+                                                                       QObject *obj, const char *slot)
 {
     QStringList env = QProcess::systemEnvironment();
     env.replaceInStrings(QRegExp("^PATH=(.*)", Qt::CaseInsensitive), "PATH=/sbin:/bin:/usr/sbin/:/usr/bin");
@@ -234,8 +234,8 @@ QProcess *VHardware::Backends::Fstab::FstabHandling::callSystemCommand(const QSt
 }
 
 QProcess *VHardware::Backends::Fstab::FstabHandling::callSystemCommand(const QString &commandName,
-        const QString &device,
-        QObject *obj, const char *slot)
+                                                                       const QString &device,
+                                                                       QObject *obj, const char *slot)
 {
     return callSystemCommand(commandName, QStringList() << device, obj, slot);
 }

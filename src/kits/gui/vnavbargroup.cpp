@@ -281,12 +281,12 @@ void VNavBarGroup::expand(bool expand)
         return;
 
     if (expand) {
-        foreach(VNavBarItem *item, d->listItems) {
+        foreach(VNavBarItem * item, d->listItems) {
             d->layout->addWidget(item);
             item->show();
         }
     } else {
-        foreach(VNavBarItem *item, d->listItems) {
+        foreach(VNavBarItem * item, d->listItems) {
             d->layout->removeWidget(item);
             item->hide();
         }

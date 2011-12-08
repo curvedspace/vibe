@@ -189,9 +189,9 @@ void VPowerManagementPrivate::slotServiceRegistered(const QString &serviceName)
 
     // Is the resume signal available?
     QDBusMessage call = QDBusMessage::createMethodCall("org.vision.Vibe.Hardware.PowerManagement",
-                        "/org/vision/Vibe/Hardware/PowerManagement",
-                        "org.vision.Vibe.Hardware.PowerManagement",
-                        "backendCapabilities");
+                                                       "/org/vision/Vibe/Hardware/PowerManagement",
+                                                       "org.vision.Vibe.Hardware.PowerManagement",
+                                                       "backendCapabilities");
     QDBusPendingReply< uint > reply = QDBusConnection::sessionBus().asyncCall(call);
     reply.waitForFinished();
 

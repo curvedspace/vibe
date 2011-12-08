@@ -117,7 +117,7 @@ bool VSaveFile::open(OpenMode flags)
     // permissions are the same as existing file so the existing
     // file's permissions are preserved. this will succeed completely
     // only if we are the same owner and group - or allmighty root.
-    QFileInfo fi (d->realFileName);
+    QFileInfo fi(d->realFileName);
     if (fi.exists()) {
         //Qt apparently has no way to change owner/group of file :(
         if (fchown(tempFile.handle(), fi.ownerId(), fi.groupId())) {
@@ -128,7 +128,7 @@ bool VSaveFile::open(OpenMode flags)
         tempFile.setPermissions(fi.permissions());
     } else {
         mode_t umsk = umask(0);
-        fchmod(tempFile.handle(), 0666&(~umsk));
+        fchmod(tempFile.handle(), 0666 & (~umsk));
     }
 
     //Open oursleves with the temporary file
@@ -139,7 +139,7 @@ bool VSaveFile::open(OpenMode flags)
     }
 
     d->tempFileName = tempFile.fileName();
-    d->error=QFile::NoError;
+    d->error = QFile::NoError;
     d->errorString.clear();
     return true;
 }
@@ -227,8 +227,8 @@ bool VSaveFile::finalize()
         //to the temp file without creating a small race condition. So we use
         //the standard rename call instead, which will do the copy without the
         //race condition.
-        else if (rename(d->tempFileName,d->realFileName) == 0) {
-            d->error=QFile::NoError;
+        else if (rename(d->tempFileName, d->realFileName) == 0) {
+            d->error = QFile::NoError;
             d->errorString.clear();
             success = true;
         } else {
@@ -245,7 +245,7 @@ bool VSaveFile::finalize()
 
 #undef FDATASYNC
 
-bool VSaveFile::backupFile(const QString& qFilename, const QString& backupDir)
+bool VSaveFile::backupFile(const QString &qFilename, const QString &backupDir)
 {
     // get backup type from config, by default use "simple"
     // get extension from config, by default use "~"
@@ -262,14 +262,14 @@ bool VSaveFile::backupFile(const QString& qFilename, const QString& backupDir)
         return simpleBackupFile(qFilename, backupDir, extension);
 }
 
-bool VSaveFile::simpleBackupFile(const QString& qFilename,
-                                 const QString& backupDir,
-                                 const QString& backupExtension)
+bool VSaveFile::simpleBackupFile(const QString &qFilename,
+                                 const QString &backupDir,
+                                 const QString &backupExtension)
 {
     QString backupFileName = qFilename + backupExtension;
 
     if (!backupDir.isEmpty()) {
-        QFileInfo fileInfo (qFilename);
+        QFileInfo fileInfo(qFilename);
         backupFileName = backupDir + QLatin1Char('/') + fileInfo.fileName() + backupExtension;
     }
 
@@ -278,12 +278,12 @@ bool VSaveFile::simpleBackupFile(const QString& qFilename,
     return QFile::copy(qFilename, backupFileName);
 }
 
-bool VSaveFile::numberedBackupFile(const QString& qFilename,
-                                   const QString& backupDir,
-                                   const QString& backupExtension,
+bool VSaveFile::numberedBackupFile(const QString &qFilename,
+                                   const QString &backupDir,
+                                   const QString &backupExtension,
                                    const uint maxBackups)
 {
-    QFileInfo fileInfo (qFilename);
+    QFileInfo fileInfo(qFilename);
 
     // The backup file name template.
     QString sTemplate;
@@ -301,16 +301,16 @@ bool VSaveFile::numberedBackupFile(const QString& qFilename,
     d.setSorting(QDir::Name);
 
     uint maxBackupFound = 0;
-    foreach (const QFileInfo &fi, d.entryInfoList()) {
+    foreach(const QFileInfo & fi, d.entryInfoList()) {
         if (fi.fileName().endsWith(backupExtension)) {
             // sTemp holds the file name, without the ending backupExtension
             QString sTemp = fi.fileName();
-            sTemp.truncate(fi.fileName().length()-backupExtension.length());
+            sTemp.truncate(fi.fileName().length() - backupExtension.length());
             // compute the backup number
             int idex = sTemp.lastIndexOf(QLatin1Char('.'));
             if (idex > 0) {
                 bool ok;
-                uint num = sTemp.mid(idex+1).toUInt(&ok);
+                uint num = sTemp.mid(idex + 1).toUInt(&ok);
                 if (ok) {
                     if (num >= maxBackups) {
                         QFile::remove(fi.filePath());
@@ -323,8 +323,8 @@ bool VSaveFile::numberedBackupFile(const QString& qFilename,
     }
 
     // Next, rename max-1 to max, max-2 to max-1, etc.
-    QString to=sTemplate.arg(maxBackupFound+1);
-    for (int i=maxBackupFound; i>0; i--) {
+    QString to = sTemplate.arg(maxBackupFound + 1);
+    for (int i = maxBackupFound; i > 0; i--) {
         QString from = sTemplate.arg(i);
         //qDebug() << "VSaveFile renaming " << from << " to " << to;
         QFile::rename(from, to);

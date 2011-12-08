@@ -63,7 +63,7 @@ public:
     inline QRect rect() const {
         return m_rect;
     }
-    inline void setRect(const QRect & rect) {
+    inline void setRect(const QRect &rect) {
         m_rect = rect;
     }
 
@@ -74,19 +74,19 @@ public:
         return m_visible;
     }
 
-    inline VBreadCrumbComboBoxContainer * container() const {
+    inline VBreadCrumbComboBoxContainer *container() const {
         return m_container;
     }
     inline Type type() const {
         return m_type;
     }
 
-    virtual void clicked(const QPoint & pos) = 0;
+    virtual void clicked(const QPoint &pos) = 0;
 
 private:
     bool m_visible;
     VBreadCrumbItem::Type m_type;
-    VBreadCrumbComboBoxContainer * m_container;
+    VBreadCrumbComboBoxContainer *m_container;
     QRect m_rect;
 };
 
@@ -96,7 +96,7 @@ public:
     VBreadCrumbEmptyArea(VBreadCrumbComboBoxContainer *);
     ~VBreadCrumbEmptyArea() {}
 
-    void clicked(const QPoint & pos);
+    void clicked(const QPoint &pos);
 };
 
 class VIBE_EXPORT VBreadCrumbIndicator : public VBreadCrumbItem
@@ -112,15 +112,15 @@ public:
         m_trunc = trunc;
     }
 
-    inline VBreadCrumbLabel * label() const {
+    inline VBreadCrumbLabel *label() const {
         return m_label;
     }
 
-    void clicked(const QPoint & pos);
+    void clicked(const QPoint &pos);
 
 private:
     bool m_trunc;
-    VBreadCrumbLabel * m_label;
+    VBreadCrumbLabel *m_label;
 };
 
 class VIBE_EXPORT VBreadCrumbLabel : public VBreadCrumbItem
@@ -133,28 +133,28 @@ public:
         return m_node;
     }
 
-    inline VBreadCrumbIndicator * indicator() {
+    inline VBreadCrumbIndicator *indicator() {
         return m_indicator;
     }
-    inline void setIndicator(VBreadCrumbIndicator * indicator)  {
+    inline void setIndicator(VBreadCrumbIndicator *indicator)  {
         m_indicator = indicator;
     }
 
-    void clicked(const QPoint & pos);
+    void clicked(const QPoint &pos);
 
 private:
     VBreadCrumbModelNode m_node;
-    VBreadCrumbIndicator * m_indicator;
+    VBreadCrumbIndicator *m_indicator;
 };
 
 class VIBE_EXPORT VBreadCrumbComboBoxContainer : public QWidget
 {
     Q_OBJECT
 public:
-    VBreadCrumbComboBoxContainer(VBreadCrumbComboBox * comboBox);
+    VBreadCrumbComboBoxContainer(VBreadCrumbComboBox *comboBox);
     ~VBreadCrumbComboBoxContainer();
 
-    inline VBreadCrumbComboBox * comboBox() const {
+    inline VBreadCrumbComboBox *comboBox() const {
         return m_comboBox;
     }
 
@@ -179,16 +179,16 @@ private:
     void clear();
     void clearAll();
     void updateGeometries();
-    int itemAt(const QPoint & pos);
+    int itemAt(const QPoint &pos);
 
     QList< VBreadCrumbItem * > m_items;
     VBreadCrumbModelNodeList m_nodeList;
-    VBreadCrumbIndicator * m_rootIndicator;
-    VBreadCrumbEmptyArea * m_emptyArea;
+    VBreadCrumbIndicator *m_rootIndicator;
+    VBreadCrumbEmptyArea *m_emptyArea;
 
     int m_hoverItem;
     int m_downItem;
-    VBreadCrumbComboBox * m_comboBox;
+    VBreadCrumbComboBox *m_comboBox;
     bool m_clicked;
 };
 
@@ -196,12 +196,12 @@ class VIBE_EXPORT VBreadCrumbIconWidget : public QWidget
 {
     Q_OBJECT
 public:
-    VBreadCrumbIconWidget(VBreadCrumbComboBox * comboBox);
+    VBreadCrumbIconWidget(VBreadCrumbComboBox *comboBox);
 
     inline QPixmap pixmap() const {
         return m_pixmap;
     }
-    inline void setPixmap(const QPixmap & p) {
+    inline void setPixmap(const QPixmap &p) {
         m_pixmap = p;
         update();
     }
@@ -215,7 +215,7 @@ private slots:
     void slotEditAddress();
 
 private:
-    VBreadCrumbComboBox * m_comboBox;
+    VBreadCrumbComboBox *m_comboBox;
     QPixmap m_pixmap;
     bool m_clicked;
 };
@@ -224,14 +224,14 @@ class VIBE_EXPORT VBreadCrumbComboBox : public QComboBox
 {
     Q_OBJECT
 public:
-    explicit VBreadCrumbComboBox(VBreadCrumbBar * parent);
+    explicit VBreadCrumbComboBox(VBreadCrumbBar *parent);
     ~VBreadCrumbComboBox();
 
     inline bool isFlat() const {
         return m_flat;
     }
     void setFlat(bool f);
-    inline VBreadCrumbBar * bar() const {
+    inline VBreadCrumbBar *bar() const {
         return m_bar;
     }
     inline QString location() const {
@@ -244,7 +244,7 @@ public:
     void showVBreadCrumbs(bool popupError = true);
     void edit();
 
-    inline VBreadCrumbComboBoxContainer * container() const {
+    inline VBreadCrumbComboBoxContainer *container() const {
         return m_container;
     }
     void updateGeometries();
@@ -261,9 +261,9 @@ protected:
 private:
     bool m_flat;
     QString m_location;
-    VBreadCrumbIconWidget * m_iconLabel;
-    VBreadCrumbComboBoxContainer * m_container;
-    VBreadCrumbBar * m_bar;
+    VBreadCrumbIconWidget *m_iconLabel;
+    VBreadCrumbComboBoxContainer *m_container;
+    VBreadCrumbBar *m_bar;
     bool m_clicked;
 };
 

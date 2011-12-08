@@ -45,7 +45,7 @@ namespace Cagibi
         friend QDBusArgument &::operator<<(QDBusArgument &argument,
                                            const Cagibi::Device &device);
         friend const QDBusArgument &::operator>>(const QDBusArgument &argument,
-                Cagibi::Device &device);
+                                                 Cagibi::Device &device);
 
     protected:
         explicit Device(DevicePrivate *_d);

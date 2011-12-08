@@ -96,29 +96,29 @@ public:
     void setScreenWidth(quint16 width);
     quint16 screenWidth() const;
 
-    void addSection(const QString& name);
-    void add(const QString& name, const QString& desc = QString(), ParamTypes paramType = NoValue, int group = -1);
-    void alias(const QString& from, const QString& to);
+    void addSection(const QString &name);
+    void add(const QString &name, const QString &desc = QString(), ParamTypes paramType = NoValue, int group = -1);
+    void alias(const QString &from, const QString &to);
 
     QStringList positional() const;
     QStringList unrecognized() const;
-    int count(const QString& name) const;
-    QVariant value(const QString& name) const;
+    int count(const QString &name) const;
+    QVariant value(const QString &name) const;
     QMultiHash<QString, QVariant> parameters() const;
 
-    void parse(int argc, char** argv);
+    void parse(int argc, char **argv);
     void parse(QStringList params);
 
-    void showUsage(bool showQtOptions = false, QIODevice* device = 0) const;
-    void showUsage(bool showQtOptions, QTextStream& stream) const;
+    void showUsage(bool showQtOptions = false, QIODevice *device = 0) const;
+    void showUsage(bool showQtOptions, QTextStream &stream) const;
     QString getUsage(bool showQtOptions = false) const;
 
-    bool showUnrecognizedWarning(QIODevice* device = 0) const;
-    bool showUnrecognizedWarning(QTextStream& stream) const;
+    bool showUnrecognizedWarning(QIODevice *device = 0) const;
+    bool showUnrecognizedWarning(QTextStream &stream) const;
     QString getUnrecognizedWarning() const;
 
 private:
-    VCommandOptionsPrivate * const d_ptr;
+    VCommandOptionsPrivate *const d_ptr;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(VCommandOptions::ParamTypes)

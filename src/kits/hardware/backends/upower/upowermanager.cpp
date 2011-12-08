@@ -52,9 +52,9 @@ UPowerManager::UPowerManager(QObject *parent)
     if (!serviceFound) {
         // find out whether it will be activated automatically
         QDBusMessage message = QDBusMessage::createMethodCall("org.freedesktop.DBus",
-                               "/org/freedesktop/DBus",
-                               "org.freedesktop.DBus",
-                               "ListActivatableNames");
+                                                              "/org/freedesktop/DBus",
+                                                              "org.freedesktop.DBus",
+                                                              "ListActivatableNames");
 
         QDBusReply<QStringList> reply = QDBusConnection::systemBus().call(message);
         if (reply.isValid() && reply.value().contains(UP_DBUS_SERVICE)) {

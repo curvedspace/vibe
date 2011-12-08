@@ -25,7 +25,7 @@
 #include "vstyleoptionbreadcrumbbar.h"
 
 VStyleOptionBreadCrumbIndicator::VStyleOptionBreadCrumbIndicator() :
-    QStyleOption(Version,Type),
+    QStyleOption(Version, Type),
     isTruncated(false),
     hasLabel(true),
     usePseudoState(false),

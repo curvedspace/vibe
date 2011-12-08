@@ -77,7 +77,7 @@ namespace VHardware
             }
 #if 0
             bool AbstractDeviceFactory::hasDeviceInterface(const Cagibi::Device &device,
-                    VDeviceInterface::Type type) const
+                                                           VDeviceInterface::Type type) const
             {
                 Q_UNUSED(device);
                 Q_UNUSED(type);

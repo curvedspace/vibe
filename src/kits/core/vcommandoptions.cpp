@@ -95,7 +95,7 @@ if(options.count("level")) {
 \sa QCoreApplication::arguments()
 */
 
-static const char* qxt_qt_options[] = {
+static const char *qxt_qt_options[] = {
     "=style",       QT_TRANSLATE_NOOP("VCommandOptions", "sets the application GUI style"),
     "=stylesheet",  QT_TRANSLATE_NOOP("VCommandOptions", "sets the application stylesheet"),
     "=session",     QT_TRANSLATE_NOOP("VCommandOptions", "restores the application from an earlier session"),
@@ -138,7 +138,7 @@ static const char* qxt_qt_options[] = {
  * This function is used to check to see if a parameter
  * is used by Qt.
  */
-static int isQtOption(const QString& param)
+static int isQtOption(const QString &param)
 {
     // Qt options all start with a single dash regardless of platform
     if (param.length() < 2)
@@ -163,7 +163,7 @@ static int isQtOption(const QString& param)
         hasEquals = false;
     }
 
-    const char* option;
+    const char *option;
     bool optionHasValue;
     for (int i = 0; qxt_qt_options[i]; i += 2) {
         option = qxt_qt_options[i];
@@ -201,8 +201,8 @@ class VCommandOptionsPrivate
     Q_DECLARE_TR_FUNCTIONS(VCommandOptions)
 public:
     QList<CommandOption> options;
-    QHash<QString, CommandOption*> lookup;       // cache structure to simplify processing
-    QHash<int, QList<CommandOption*> > groups;   // cache structure to simplify processing
+    QHash<QString, CommandOption *> lookup;      // cache structure to simplify processing
+    QHash<int, QList<CommandOption *> > groups;  // cache structure to simplify processing
     VCommandOptions::FlagStyle flagStyle;
     VCommandOptions::ParamStyle paramStyle;
     QStringList positional;                         // prefixless parameters
@@ -213,10 +213,10 @@ public:
 
     VCommandOptionsPrivate(VCommandOptions *q);
 
-    CommandOption* findOption(const QString& name);
-    const CommandOption* findOption(const QString& name) const;
-    void setOption(CommandOption* option, const QString& value = QString());
-    void parse(const QStringList& params);
+    CommandOption *findOption(const QString &name);
+    const CommandOption *findOption(const QString &name) const;
+    void setOption(CommandOption *option, const QString &value = QString());
+    void parse(const QStringList &params);
 
 private:
     VCommandOptions *q_ptr;
@@ -228,7 +228,7 @@ VCommandOptionsPrivate::VCommandOptionsPrivate(VCommandOptions *q) :
 }
 
 /* Looks up an option in d->options by canonical name */
-CommandOption* VCommandOptionsPrivate::findOption(const QString& name)
+CommandOption *VCommandOptionsPrivate::findOption(const QString &name)
 {
     // The backwards loop will find what we're looking for more quickly in the
     // typical use case, where you add aliases immediately after adding the option.
@@ -242,7 +242,7 @@ CommandOption* VCommandOptionsPrivate::findOption(const QString& name)
 
 /* Looks up an option in d->options by canonical name
  * This is a const overload for const functions */
-const CommandOption* VCommandOptionsPrivate::findOption(const QString& name) const
+const CommandOption *VCommandOptionsPrivate::findOption(const QString &name) const
 {
     // The backwards loop will find what we're looking for more quickly in the
     // typical use case, where you add aliases immediately after adding the option.
@@ -343,7 +343,7 @@ quint16 VCommandOptions::screenWidth() const
  * help text, and can be used to visually separate related groups of
  * options.
  */
-void VCommandOptions::addSection(const QString& name)
+void VCommandOptions::addSection(const QString &name)
 {
     Q_D(VCommandOptions);
 
@@ -364,7 +364,7 @@ void VCommandOptions::addSection(const QString& name)
  * If more than one option in the same group is passed on the command line,
  * only the last one takes effect.
  */
-void VCommandOptions::add(const QString& name, const QString& desc, ParamTypes paramType, int group)
+void VCommandOptions::add(const QString &name, const QString &desc, ParamTypes paramType, int group)
 {
     Q_D(VCommandOptions);
 
@@ -388,16 +388,16 @@ void VCommandOptions::add(const QString& name, const QString& desc, ParamTypes p
  *
  * The from parameter must be a name has previously been added with the add() method.
  */
-void VCommandOptions::alias(const QString& from, const QString& to)
+void VCommandOptions::alias(const QString &from, const QString &to)
 {
     Q_D(VCommandOptions);
 
-    CommandOption* option = d->findOption(from);
+    CommandOption *option = d->findOption(from);
     if (!option)
         return; // findOption outputs the warning
     option->names.append(to);
     d->lookup[to] = option;
-    if (option->paramType & ValueOptional && d->flagStyle == DoubleDash && to.length() == 1)
+    if (option->paramType &ValueOptional && d->flagStyle == DoubleDash && to.length() == 1)
         qWarning() << qPrintable(QString("VCommandOptions: ") + tr("Short options cannot have optional parameters"));
 }
 
@@ -438,13 +438,13 @@ QStringList VCommandOptions::unrecognized() const
  * This function will only return 0 or 1 for options that were not created with the
  * VCommandOptions::AllowMultiple flag set.
  */
-int VCommandOptions::count(const QString& name) const
+int VCommandOptions::count(const QString &name) const
 {
     Q_D(const VCommandOptions);
 
     if (!d->parsed)
         qWarning() << qPrintable(QString("VCommandOptions: ") + tr("count() called before parse()"));
-    const CommandOption* option = d->findOption(name);
+    const CommandOption *option = d->findOption(name);
     if (!option)
         return 0; // findOption outputs the warning
     return option->values.count();
@@ -461,13 +461,13 @@ int VCommandOptions::count(const QString& name) const
  * line and for which no value is provided, an empty but non-null QString will be returned
  * in the QVariant.
  */
-QVariant VCommandOptions::value(const QString& name) const
+QVariant VCommandOptions::value(const QString &name) const
 {
     Q_D(const VCommandOptions);
 
     if (!d->parsed)
         qWarning() << qPrintable(QString("VCommandOptions: ") + tr("value() called before parse()"));
-    const CommandOption* option = d->findOption(name);
+    const CommandOption *option = d->findOption(name);
     if (!option)
         return QVariant(); // findOption outputs the warning
     int ct = option->values.count();
@@ -489,7 +489,7 @@ QMultiHash<QString, QVariant> VCommandOptions::parameters() const
         qWarning() << qPrintable(QString("VCommandOptions: ") + tr("parameters() called before parse()"));
     QMultiHash<QString, QVariant> params;
     int ct;
-    foreach(const CommandOption& option, d->options) {
+    foreach(const CommandOption & option, d->options) {
         ct = option.values.count();
         if (!ct) {
             continue;
@@ -497,7 +497,7 @@ QMultiHash<QString, QVariant> VCommandOptions::parameters() const
             // Valueless options are really a true/false flag
             params.insert(option.canonicalName, true);
         } else {
-            foreach(const QVariant& value, option.values)
+            foreach(const QVariant & value, option.values)
             params.insert(option.canonicalName, value);
         }
     }
@@ -513,7 +513,7 @@ QMultiHash<QString, QVariant> VCommandOptions::parameters() const
  * Note that parse() may be invoked multiple times to handle arguments from
  * more than one source.
  */
-void VCommandOptions::parse(int argc, char** argv)
+void VCommandOptions::parse(int argc, char **argv)
 {
     QStringList args;
     for (int i = 0; i < argc; i++)
@@ -539,12 +539,12 @@ void VCommandOptions::parse(QStringList params)
 }
 
 /* Update the internal data structures with an option from the command line. */
-void VCommandOptionsPrivate::setOption(CommandOption* option, const QString& value)
+void VCommandOptionsPrivate::setOption(CommandOption *option, const QString &value)
 {
     if (groups.contains(option->group)) {
         // Clear mutually-exclusive options
-        QList<CommandOption*>& others = groups[option->group];
-        foreach(CommandOption* other, others) {
+        QList<CommandOption *>& others = groups[option->group];
+        foreach(CommandOption * other, others) {
             if (other != option) other->values.clear();
         }
     }
@@ -555,7 +555,7 @@ void VCommandOptionsPrivate::setOption(CommandOption* option, const QString& val
 }
 
 /* Do the work of parsing the command line */
-void VCommandOptionsPrivate::parse(const QStringList& params)
+void VCommandOptionsPrivate::parse(const QStringList &params)
 {
     int pos = 1;    // 0 is the application name
     int ct = params.count();
@@ -591,7 +591,7 @@ void VCommandOptionsPrivate::parse(const QStringList& params)
             } else if (flagStyle == VCommandOptions::DoubleDash && param[1] != '-') {
                 // Handle short-form options
                 int len = param.length();
-                CommandOption* option;
+                CommandOption *option;
                 for (int i = 1; i < len; i++) {
                     QString ch(param[i]);
                     if (ch == "-") {
@@ -633,7 +633,7 @@ void VCommandOptionsPrivate::parse(const QStringList& params)
                 else
                     name = param.mid(1);
 
-                CommandOption* option = lookup.value(name, 0);
+                CommandOption *option = lookup.value(name, 0);
                 if (!option) {
                     unrecognized.append(param);
                 } else {
@@ -650,7 +650,7 @@ void VCommandOptionsPrivate::parse(const QStringList& params)
                                && !hasEquals) {
                         if (pos < params.count()) {
                             if (!((flagStyle == VCommandOptions::Slash && params.at(pos)[0] == '/') ||
-                                  (flagStyle != VCommandOptions::Slash && params.at(pos)[0] == '-'))) {
+                                    (flagStyle != VCommandOptions::Slash && params.at(pos)[0] == '-'))) {
                                 value = params[pos];
                                 pos++;
                             }
@@ -681,7 +681,7 @@ void VCommandOptionsPrivate::parse(const QStringList& params)
  *
  * \sa QCoreApplication::applicationFilePath()
  */
-bool VCommandOptions::showUnrecognizedWarning(QIODevice* device) const
+bool VCommandOptions::showUnrecognizedWarning(QIODevice *device) const
 {
     if (!device) {
         QTextStream stream(stderr);
@@ -722,7 +722,7 @@ QString VCommandOptions::getUnrecognizedWarning() const
  *
  * \sa QCoreApplication::applicationFilePath()
  */
-bool VCommandOptions::showUnrecognizedWarning(QTextStream& stream) const
+bool VCommandOptions::showUnrecognizedWarning(QTextStream &stream) const
 {
     Q_D(const VCommandOptions);
 
@@ -738,7 +738,7 @@ bool VCommandOptions::showUnrecognizedWarning(QTextStream& stream) const
     if (d->unrecognized.count())
         stream << name << ": " << tr("unrecognized parameters: ") << d->unrecognized.join(" ") << endl;
 
-    foreach(const QString& param, d->missingParams)
+    foreach(const QString & param, d->missingParams)
     stream << name << ": " << tr("%1 requires a parameter").arg(param) << endl;
 
     return true;
@@ -755,7 +755,7 @@ bool VCommandOptions::showUnrecognizedWarning(QTextStream& stream) const
  *
  * \sa QApplication
  */
-void VCommandOptions::showUsage(bool showQtOptions, QIODevice* device) const
+void VCommandOptions::showUsage(bool showQtOptions, QIODevice *device) const
 {
     if (!device) {
         QTextStream stream(stdout);
@@ -788,7 +788,7 @@ QString VCommandOptions::getUsage(bool showQtOptions) const
  *
  * \sa QApplication
  */
-void VCommandOptions::showUsage(bool showQtOptions, QTextStream& stream) const
+void VCommandOptions::showUsage(bool showQtOptions, QTextStream &stream) const
 {
     Q_D(const VCommandOptions);
 
@@ -797,11 +797,11 @@ void VCommandOptions::showUsage(bool showQtOptions, QTextStream& stream) const
     int maxNameLength = 0;
     QString name;
 
-    foreach(const CommandOption& option, d->options) {
+    foreach(const CommandOption & option, d->options) {
         // Don't generate usage for undocumented parameters
         if (option.paramType & Undocumented) continue;
 
-        foreach(const QString& n, option.names) {
+        foreach(const QString & n, option.names) {
             if (name.length()) name += ", ";
             if (d->flagStyle == Slash)
                 name += '/';
@@ -836,7 +836,7 @@ void VCommandOptions::showUsage(bool showQtOptions, QTextStream& stream) const
         descs.append("Common Qt Options");
 
         // Parse through qxt_qt_options
-        const char* option;
+        const char *option;
         bool optionHasValue;
         for (int i = 0; qxt_qt_options[i]; i += 2) {
             option = qxt_qt_options[i];
@@ -855,12 +855,12 @@ void VCommandOptions::showUsage(bool showQtOptions, QTextStream& stream) const
             name += option;
             if (optionHasValue) name += "[=]x";
 
-            if (qxt_qt_options[i+1][0] != 0) {
+            if (qxt_qt_options[i + 1][0] != 0) {
                 // The last alias for the option has the description
                 if (name.length() > maxNameLength)
                     maxNameLength = name.length();
                 names.append(name);
-                descs.append(qxt_qt_options[i+1]);
+                descs.append(qxt_qt_options[i + 1]);
                 name = "";
             }
         }
@@ -875,7 +875,7 @@ void VCommandOptions::showUsage(bool showQtOptions, QTextStream& stream) const
             continue;
         }
         line = ' ' + names[i] + QString(maxNameLength - names[i].length() + 2, ' ');
-        foreach(const QString& word, descs[i].split(' ', QString::SkipEmptyParts)) {
+        foreach(const QString & word, descs[i].split(' ', QString::SkipEmptyParts)) {
             if (d->screenWidth > 0 && line.length() + word.length() >= d->screenWidth) {
                 stream << line << endl;
                 line = wrap;

@@ -252,7 +252,7 @@ namespace UdevQt
             return Device();
 
         struct udev_device *p = udev_device_get_parent_with_subsystem_devtype(d->udev,
-                                subsys.toLatin1().constData(), devtype.toLatin1().constData());
+                                                                              subsys.toLatin1().constData(), devtype.toLatin1().constData());
 
         if (!p)
             return Device();

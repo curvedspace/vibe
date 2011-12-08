@@ -45,26 +45,26 @@ class VIBE_EXPORT VBreadCrumbDirModelMenuManager : public QObject
 {
     Q_OBJECT
 public:
-    VBreadCrumbDirModelMenuManager(QObject * parent = 0);
+    VBreadCrumbDirModelMenuManager(QObject *parent = 0);
     ~VBreadCrumbDirModelMenuManager();
 
-    VBreadCrumbDirModelMenu * menu(const QString & path) const;
-    void registerPath(const QString & path);
-    bool isRegisteredPath(const QString & path) const;
-    QMenu * mainMenu() const;
-    QMenu * driveMenu() const;
+    VBreadCrumbDirModelMenu *menu(const QString &path) const;
+    void registerPath(const QString &path);
+    bool isRegisteredPath(const QString &path) const;
+    QMenu *mainMenu() const;
+    QMenu *driveMenu() const;
 
     void clearAll();
     void clean();
 
 protected slots:
-    void handleDirectoryChanged(const QString & path);
+    void handleDirectoryChanged(const QString &path);
 
 private:
     QMap< QString, VBreadCrumbDirModelMenu * > m_menuMapping;
-    QMenu * m_mainMenu;
-    QMenu * m_driveMenu;
-    QFileSystemWatcher * m_watcher;
+    QMenu *m_mainMenu;
+    QMenu *m_driveMenu;
+    QFileSystemWatcher *m_watcher;
 };
 
 class VIBE_EXPORT VBreadCrumbDirModel : public VAbstractBreadCrumbModel
@@ -75,15 +75,15 @@ public:
 
     QString defaultPath() const;
     QString cleanPath(const QString &) const;
-    bool isValid(const QString & path) const;
-    VBreadCrumbModelNodeList splitPath(const QString & path) const;
+    bool isValid(const QString &path) const;
+    VBreadCrumbModelNodeList splitPath(const QString &path) const;
 
     QIcon icon(const VBreadCrumbModelNode &) const;
     QString label(const VBreadCrumbModelNode &) const;
 
-    QMimeData * mimeData(const VBreadCrumbModelNode &) const;
+    QMimeData *mimeData(const VBreadCrumbModelNode &) const;
 
-    QMenu * buildMenu(const VBreadCrumbModelNode &);
+    QMenu *buildMenu(const VBreadCrumbModelNode &);
 
     inline bool supportsMenuNavigation() const {
         return true;
@@ -93,8 +93,8 @@ protected:
     void makeCurrent() const;
 
 private:
-    static VBreadCrumbDirModelMenuManager * m_menuManager;
-    static QDirModel * m_dirModel;
+    static VBreadCrumbDirModelMenuManager *m_menuManager;
+    static QDirModel *m_dirModel;
 };
 
 #endif // VBREADCRUMBDIRMODEL_H

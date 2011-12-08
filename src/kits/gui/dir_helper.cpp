@@ -34,13 +34,13 @@
 #include <QSettings>
 #include <QLibrary>
 typedef BOOL (WINAPI *PtrGetVolumeInformation)(LPCTSTR lpRootPathName,
-        LPTSTR lpVolumeNameBuffer,
-        DWORD nVolumeNameSize,
-        LPDWORD lpVolumeSerialNumber,
-        LPDWORD lpMaximumComponentLength,
-        LPDWORD lpFileSystemFlags,
-        LPTSTR lpFileSystemNameBuffer,
-        DWORD nFileSystemNameSize);
+                                               LPTSTR lpVolumeNameBuffer,
+                                               DWORD nVolumeNameSize,
+                                               LPDWORD lpVolumeSerialNumber,
+                                               LPDWORD lpMaximumComponentLength,
+                                               LPDWORD lpFileSystemFlags,
+                                               LPTSTR lpFileSystemNameBuffer,
+                                               DWORD nFileSystemNameSize);
 
 static PtrGetVolumeInformation pGetVolumeInformation = 0;
 #endif
@@ -52,39 +52,39 @@ void DirHelper::init()
 {
     QString homePath = QDir::homePath(), folder;
 
-    m_specialFolderMap.insert(DirHelper::Home,homePath);
+    m_specialFolderMap.insert(DirHelper::Home, homePath);
 #if defined(Q_OS_WIN) && !defined(Q_OS_WINCE)
     QMap< SpecialFolder, QString > registerKeys;
 
-    registerKeys.insert(DirHelper::Desktop,"Desktop");
-    registerKeys.insert(DirHelper::Documents,"Personal");
-    registerKeys.insert(DirHelper::Music,"My Music");
-    registerKeys.insert(DirHelper::Pictures,"My Pictures");
-    registerKeys.insert(DirHelper::Video,"My Video");
+    registerKeys.insert(DirHelper::Desktop, "Desktop");
+    registerKeys.insert(DirHelper::Documents, "Personal");
+    registerKeys.insert(DirHelper::Music, "My Music");
+    registerKeys.insert(DirHelper::Pictures, "My Pictures");
+    registerKeys.insert(DirHelper::Video, "My Video");
 
-    QSettings settings(QSettings::UserScope,"Microsoft","Windows");
+    QSettings settings(QSettings::UserScope, "Microsoft", "Windows");
 
-    foreach (DirHelper::SpecialFolder key, registerKeys.keys()) {
+    foreach(DirHelper::SpecialFolder key, registerKeys.keys()) {
         folder = registerKeys.value(key);
-        folder = settings.value(QString("CurrentVersion/Explorer/User Shell Folders/") + folder).toString().replace("%USERPROFILE%",homePath);
-        m_specialFolderMap.insert(key,folder);
+        folder = settings.value(QString("CurrentVersion/Explorer/User Shell Folders/") + folder).toString().replace("%USERPROFILE%", homePath);
+        m_specialFolderMap.insert(key, folder);
     }
 #else
-    m_specialFolderMap.insert(DirHelper::Desktop,homePath + QDir::separator() + "Desktop");
-    m_specialFolderMap.insert(DirHelper::Documents,homePath + QDir::separator() + "Documents");
-    m_specialFolderMap.insert(DirHelper::Music,homePath + QDir::separator() + "Music");
-    m_specialFolderMap.insert(DirHelper::Pictures,homePath + QDir::separator() + "Pictures");
+    m_specialFolderMap.insert(DirHelper::Desktop, homePath + QDir::separator() + "Desktop");
+    m_specialFolderMap.insert(DirHelper::Documents, homePath + QDir::separator() + "Documents");
+    m_specialFolderMap.insert(DirHelper::Music, homePath + QDir::separator() + "Music");
+    m_specialFolderMap.insert(DirHelper::Pictures, homePath + QDir::separator() + "Pictures");
 #if defined(Q_OS_MAC)
-    m_specialFolderMap.insert(DirHelper::Video,homePath + QDir::separator() + "Movies");
+    m_specialFolderMap.insert(DirHelper::Video, homePath + QDir::separator() + "Movies");
 #else
-    m_specialFolderMap.insert(DirHelper::Video,homePath + QDir::separator() + "Videos");
+    m_specialFolderMap.insert(DirHelper::Video, homePath + QDir::separator() + "Videos");
 #endif // Q_OS_MAC
 #endif // Q_OS_WIN
 
     m_initialized = true;
 }
 
-QStringList DirHelper::splitPath( const QString & path )
+QStringList DirHelper::splitPath(const QString &path)
 {
     QString pathCopy = QDir::toNativeSeparators(path);
     QString sep = QDir::separator();
@@ -113,12 +113,12 @@ QStringList DirHelper::splitPath( const QString & path )
     return parts;
 }
 
-QString DirHelper::setupPath(const QStringList & list, int index)
+QString DirHelper::setupPath(const QStringList &list, int index)
 {
     QString str;
     int startIndex = 0;
 
-    if ( list.isEmpty() )
+    if (list.isEmpty())
         return QString();
     str = list[0];
     startIndex = 1;
@@ -128,20 +128,20 @@ QString DirHelper::setupPath(const QStringList & list, int index)
     return str;
 }
 
-QString DirHelper::specialFolder( DirHelper::SpecialFolder folder )
+QString DirHelper::specialFolder(DirHelper::SpecialFolder folder)
 {
-    if ( folder < DirHelper::Home || folder > DirHelper::Video ) {
+    if (folder < DirHelper::Home || folder > DirHelper::Video) {
         qWarning("DirHelper::specialDirPath(): Invalid special directory.");
         return QString();
     }
-    if ( !m_initialized )
+    if (!m_initialized)
         init();
     return m_specialFolderMap[folder];
 }
 QString DirHelper::myComputer()
 {
 #if defined(Q_OS_WIN)
-    if ( QSysInfo::windowsVersion() < QSysInfo::WV_VISTA )
+    if (QSysInfo::windowsVersion() < QSysInfo::WV_VISTA)
         return QObject::tr("My Computer");
     else
         return QObject::tr("Computer");
@@ -150,7 +150,7 @@ QString DirHelper::myComputer()
 #endif
 }
 
-QString DirHelper::driveLabel( const QString & drive )
+QString DirHelper::driveLabel(const QString &drive)
 {
 #if defined(Q_OS_WIN) && !(Q_OS_WINCE)
     QString name;
@@ -163,16 +163,16 @@ QString DirHelper::driveLabel( const QString & drive )
     LPCTSTR dr = (const TCHAR *) QStringToTCHAR(d);
     static bool tried = false;
 
-    if ( !tried ) {
+    if (!tried) {
         tried = true;
         QLibrary lib(QString::fromAscii("Kernel32"));
 
-        if ( !lib.isLoaded() ) {
+        if (!lib.isLoaded()) {
             lib.load();
         }
         pGetVolumeInformation = (PtrGetVolumeInformation)lib.resolve("GetVolumeInformationW");
     }
-    if ( pGetVolumeInformation  ) {
+    if (pGetVolumeInformation) {
         pGetVolumeInformation(dr,
                               volumeName,
                               MAX_PATH + 1,
@@ -184,7 +184,7 @@ QString DirHelper::driveLabel( const QString & drive )
         name = TCHARToQString(volumeName);
     }
     d = d.remove(QDir::separator());
-    if ( name.isEmpty() )
+    if (name.isEmpty())
         name = d;
     else
         name = name + QString(" (%1)").arg(d);

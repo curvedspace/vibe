@@ -35,14 +35,14 @@ VNetworkingPrivate::VNetworkingPrivate()
       connectPolicy(VHardware::Networking::Managed),
       disconnectPolicy(VHardware::Networking::Managed),
       iface(new OrgVisionVibeHardwareNetworkingClientInterface("org.kde.kded",
-              "/modules/networkstatus",
-              QDBusConnection::sessionBus(),
-              this))
+                                                               "/modules/networkstatus",
+                                                               QDBusConnection::sessionBus(),
+                                                               this))
 {
     //connect( iface, SIGNAL( statusChanged( uint ) ), globalNetworkManager, SIGNAL( statusChanged( Networking::Status ) ) );
     connect(iface, SIGNAL(statusChanged(uint)), this, SLOT(serviceStatusChanged(uint)));
     QDBusServiceWatcher *watcher = new QDBusServiceWatcher("org.kde.kded", QDBusConnection::sessionBus(),
-            QDBusServiceWatcher::WatchForOwnerChange, this);
+                                                           QDBusServiceWatcher::WatchForOwnerChange, this);
     connect(watcher, SIGNAL(serviceOwnerChanged(QString, QString, QString)),
             this, SLOT(serviceOwnerChanged(QString, QString, QString)));
 

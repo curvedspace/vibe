@@ -160,18 +160,18 @@ int main(int argc, char **argv)
                                           "list the hardware available in the system"));
     options.alias("list", "l");
     options.add("list-capabilities", QT_TRANSLATE_NOOP("HardwareShell",
-                "list the hardware available in the system, the device interfaces and "
-                "the corresponding properties are listed in a platform natural fashion"));
+                                                       "list the hardware available in the system, the device interfaces and "
+                                                       "the corresponding properties are listed in a platform natural fashion"));
     options.add("list-properties", QT_TRANSLATE_NOOP("HardwareShell",
-                "list the hardware available in the system, the device properties are "
-                "listed (be careful, in this case property names are backend dependent)"));
+                                                     "list the hardware available in the system, the device properties are "
+                                                     "listed (be careful, in this case property names are backend dependent)"));
     options.add("capabilities", QT_TRANSLATE_NOOP("HardwareShell", "display all the interfaces "
-                "and properties of the device corresponding to 'x' in a platform neutral fashion"),
+                                                  "and properties of the device corresponding to 'x' in a platform neutral fashion"),
                 VCommandOptions::ValueRequired);
     options.alias("capabilities", "c");
     options.add("properties", QT_TRANSLATE_NOOP("HardwareShell",
-                "display all the properties of the device corresponding to 'x' (be careful, "
-                "in this case property names are backend dependent)"),
+                                                "display all the properties of the device corresponding to 'x' (be careful, "
+                                                "in this case property names are backend dependent)"),
                 VCommandOptions::ValueRequired);
     options.alias("properties", "p");
     options.add("query", QT_TRANSLATE_NOOP("HardwareShell",
@@ -186,7 +186,7 @@ int main(int argc, char **argv)
                                            "mount the device corresponding to 'x'"),
                 VCommandOptions::ValueRequired);
     options.add("unmount", QT_TRANSLATE_NOOP("HardwareShell",
-                "unmount the device corresponding to 'x'"),
+                                             "unmount the device corresponding to 'x'"),
                 VCommandOptions::ValueRequired);
     options.add("eject", QT_TRANSLATE_NOOP("HardwareShell",
                                            "eject the device corresponding to 'x'"),
@@ -201,7 +201,7 @@ int main(int argc, char **argv)
     }
 
     if (options.count("list") || options.count("list-capabilities")
-        || options.count("list-properties")) {
+            || options.count("list-properties")) {
         bool details = options.count("list-capabilities") > 0;
         bool nonportableinfo = options.count("list-properties") > 0;
         return shell.hwList(details, nonportableinfo) ? 0 : 1;

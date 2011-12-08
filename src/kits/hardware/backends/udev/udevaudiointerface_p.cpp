@@ -90,9 +90,9 @@ VAudioInterface::SoundcardType UdevAudioInterfacePrivate::soundcardType()
         QString productName = parentDevice.sysfsProperty("product").toString();
         QString deviceName = m_name;
         if (productName.contains("headset", Qt::CaseInsensitive) ||
-            productName.contains("headphone", Qt::CaseInsensitive) ||
-            deviceName.contains("headset", Qt::CaseInsensitive) ||
-            deviceName.contains("headphone", Qt::CaseInsensitive)) {
+                productName.contains("headphone", Qt::CaseInsensitive) ||
+                deviceName.contains("headset", Qt::CaseInsensitive) ||
+                deviceName.contains("headphone", Qt::CaseInsensitive)) {
             m_soundcardType = VAudioInterface::Headset;
         } else if (productName.contains("modem", Qt::CaseInsensitive) ||
                    deviceName.contains("modem", Qt::CaseInsensitive)) {

@@ -37,7 +37,7 @@ void QNavBarPluginDialog::resetGroups()
 void QNavBarPluginDialog::saveGroups()
 {
 #if 0
-    if (QDesignerFormWindowInterface *formWindow
+    if (QDesignerFormWindowInterface * formWindow
             = QDesignerFormWindowInterface::findFormWindow(m_navBar)) {
         formWindow->cursor()->setProperty("state", editor->groups());
     }

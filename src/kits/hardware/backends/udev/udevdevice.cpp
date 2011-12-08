@@ -148,7 +148,7 @@ QString UDevDevice::icon() const
                 return QLatin1String("audio-card-firewire");
             case VAudioInterface::Headset:
                 if (udi().contains("usb", Qt::CaseInsensitive) ||
-                    audioIface.name().contains("usb", Qt::CaseInsensitive)) {
+                        audioIface.name().contains("usb", Qt::CaseInsensitive)) {
                     return QLatin1String("audio-headset-usb");
                 } else {
                     return QLatin1String("audio-headset");

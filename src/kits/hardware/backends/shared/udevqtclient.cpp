@@ -126,7 +126,7 @@ namespace UdevQt
         list = udev_enumerate_get_list_entry(en);
         udev_list_entry_foreach(entry, list) {
             struct udev_device *ud = udev_device_new_from_syspath(udev_enumerate_get_udev(en),
-                                     udev_list_entry_get_name(entry));
+                                                                  udev_list_entry_get_name(entry));
 
             if (!ud)
                 continue;
@@ -243,8 +243,8 @@ namespace UdevQt
     Device Client::deviceBySubsystemAndName(const QString &subsystem, const QString &name)
     {
         struct udev_device *ud = udev_device_new_from_subsystem_sysname(d->udev,
-                                 subsystem.toLatin1().constData(),
-                                 name.toLatin1().constData());
+                                                                        subsystem.toLatin1().constData(),
+                                                                        name.toLatin1().constData());
 
         if (!ud)
             return Device();

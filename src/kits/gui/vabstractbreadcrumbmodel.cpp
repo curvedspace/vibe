@@ -36,7 +36,7 @@ VBreadCrumbModelNode::VBreadCrumbModelNode(const QString &path, Type type,  cons
         m_label = model->label(*this);
 }
 
-VBreadCrumbModelNode & VBreadCrumbModelNode::operator =(const VBreadCrumbModelNode &other)
+VBreadCrumbModelNode &VBreadCrumbModelNode::operator =(const VBreadCrumbModelNode &other)
 {
     m_path = other.m_path;
     m_type = other.m_type;

@@ -55,10 +55,10 @@ public:
         Pictures,
         Video
     };
-    static QStringList splitPath( const QString & );
+    static QStringList splitPath(const QString &);
     static QString setupPath(const QStringList &, int index);
-    static QString specialFolder( DirHelper::SpecialFolder );
-    static QString driveLabel( const QString & drive );
+    static QString specialFolder(DirHelper::SpecialFolder);
+    static QString driveLabel(const QString &drive);
 
     static void init();
 

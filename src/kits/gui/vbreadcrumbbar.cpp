@@ -55,7 +55,7 @@
  * VBreadCrumbItem
  */
 
-VBreadCrumbItem::VBreadCrumbItem(VBreadCrumbComboBoxContainer * container, VBreadCrumbItem::Type type) :
+VBreadCrumbItem::VBreadCrumbItem(VBreadCrumbComboBoxContainer *container, VBreadCrumbItem::Type type) :
     m_visible(false),
     m_type(type),
     m_container(container)
@@ -66,7 +66,7 @@ VBreadCrumbItem::VBreadCrumbItem(VBreadCrumbComboBoxContainer * container, VBrea
  * VBreadCrumbEmptyArea
  */
 
-VBreadCrumbEmptyArea::VBreadCrumbEmptyArea(VBreadCrumbComboBoxContainer * container) :
+VBreadCrumbEmptyArea::VBreadCrumbEmptyArea(VBreadCrumbComboBoxContainer *container) :
     VBreadCrumbItem(container, EmptyArea)
 {
     setVisible(true);
@@ -82,8 +82,8 @@ void VBreadCrumbEmptyArea::clicked(const QPoint &)
  * VBreadCrumbIndicator
  */
 
-VBreadCrumbIndicator::VBreadCrumbIndicator(VBreadCrumbLabel * label, VBreadCrumbComboBoxContainer * container)
-    : VBreadCrumbItem(container,Indicator), m_trunc(false), m_label(label)
+VBreadCrumbIndicator::VBreadCrumbIndicator(VBreadCrumbLabel *label, VBreadCrumbComboBoxContainer *container)
+    : VBreadCrumbItem(container, Indicator), m_trunc(false), m_label(label)
 {
     if (!label)
         setVisible(true);
@@ -97,16 +97,16 @@ VBreadCrumbIndicator::~VBreadCrumbIndicator()
 
 void VBreadCrumbIndicator::clicked(const QPoint &)
 {
-    VBreadCrumbComboBoxContainer * cont = container();
-    VBreadCrumbComboBox * comboBox = cont->comboBox();
-    VAbstractBreadCrumbModel * model = comboBox->bar()->model();
-    VBreadCrumbModelNode node("",VBreadCrumbModelNode::Global);
-    QMenu * menu;
+    VBreadCrumbComboBoxContainer *cont = container();
+    VBreadCrumbComboBox *comboBox = cont->comboBox();
+    VAbstractBreadCrumbModel *model = comboBox->bar()->model();
+    VBreadCrumbModelNode node("", VBreadCrumbModelNode::Global);
+    QMenu *menu;
 
     menu = model->buildMenu(m_label ? m_label->node() : node);
     if (!menu || (menu && menu->actions().isEmpty()))
         return;
-    menu->connect(menu,SIGNAL(triggered(QAction *)),container()->comboBox(),SLOT(slotSetLocation(QAction *)));
+    menu->connect(menu, SIGNAL(triggered(QAction *)), container()->comboBox(), SLOT(slotSetLocation(QAction *)));
     menu->exec(cont->mapToGlobal(rect().bottomLeft()));
 }
 
@@ -114,7 +114,7 @@ void VBreadCrumbIndicator::clicked(const QPoint &)
  * VBreadCrumbLabel
  */
 
-VBreadCrumbLabel::VBreadCrumbLabel(VBreadCrumbIndicator * indicator, VBreadCrumbComboBoxContainer * container, const VBreadCrumbModelNode &node) :
+VBreadCrumbLabel::VBreadCrumbLabel(VBreadCrumbIndicator *indicator, VBreadCrumbComboBoxContainer *container, const VBreadCrumbModelNode &node) :
     VBreadCrumbItem(container, Label),
     m_node(node),
     m_indicator(indicator)
@@ -123,7 +123,7 @@ VBreadCrumbLabel::VBreadCrumbLabel(VBreadCrumbIndicator * indicator, VBreadCrumb
 
 void VBreadCrumbLabel::clicked(const QPoint &)
 {
-    VBreadCrumbComboBoxContainer * cont = container();
+    VBreadCrumbComboBoxContainer *cont = container();
 
     //To change
     cont->comboBox()->setLocation(m_node.path());
@@ -133,11 +133,11 @@ void VBreadCrumbLabel::clicked(const QPoint &)
  * VBreadCrumbComboBoxContainer
  */
 
-VBreadCrumbComboBoxContainer::VBreadCrumbComboBoxContainer(VBreadCrumbComboBox * comboBox)
+VBreadCrumbComboBoxContainer::VBreadCrumbComboBoxContainer(VBreadCrumbComboBox *comboBox)
     : QWidget(comboBox), m_hoverItem(-1), m_downItem(-1),  m_comboBox(comboBox), m_clicked(false)
 {
     setMouseTracking(true);
-    m_rootIndicator = new VBreadCrumbIndicator(0,this);
+    m_rootIndicator = new VBreadCrumbIndicator(0, this);
     m_emptyArea = new VBreadCrumbEmptyArea(this);
 
 }
@@ -147,9 +147,9 @@ VBreadCrumbComboBoxContainer::~VBreadCrumbComboBoxContainer()
     clearAll();
 }
 
-void VBreadCrumbComboBoxContainer::splitPath(const QString & location)
+void VBreadCrumbComboBoxContainer::splitPath(const QString &location)
 {
-    VAbstractBreadCrumbModel * model = m_comboBox->bar()->model();
+    VAbstractBreadCrumbModel *model = m_comboBox->bar()->model();
 
     m_nodeList = model->splitPath(location);
     refresh();
@@ -157,10 +157,10 @@ void VBreadCrumbComboBoxContainer::splitPath(const QString & location)
 
 void VBreadCrumbComboBoxContainer::refresh()
 {
-    VAbstractBreadCrumbModel * model = m_comboBox->bar()->model();
-    VBreadCrumbModelNode node("",VBreadCrumbModelNode::Global);
-    VBreadCrumbLabel * item;
-    VBreadCrumbIndicator * indic;
+    VAbstractBreadCrumbModel *model = m_comboBox->bar()->model();
+    VBreadCrumbModelNode node("", VBreadCrumbModelNode::Global);
+    VBreadCrumbLabel *item;
+    VBreadCrumbIndicator *indic;
 
     clear();
 
@@ -172,10 +172,10 @@ void VBreadCrumbComboBoxContainer::refresh()
     for (int i = 0; i < m_nodeList.count(); i++) {
         node = m_nodeList[i];
         indic = 0;
-        item = new VBreadCrumbLabel(0,this,node);
+        item = new VBreadCrumbLabel(0, this, node);
         m_items.append(item);
         if (node.type() != VBreadCrumbModelNode::Leaf && model->supportsMenuNavigation())
-            m_items.append(indic = new VBreadCrumbIndicator(item,this));
+            m_items.append(indic = new VBreadCrumbIndicator(item, this));
         if (i == m_nodeList.count() - 1) {
             item->setVisible(true);
             if (indic)
@@ -187,7 +187,7 @@ void VBreadCrumbComboBoxContainer::refresh()
     update();
 }
 
-void VBreadCrumbComboBoxContainer::mousePressEvent(QMouseEvent * evt)
+void VBreadCrumbComboBoxContainer::mousePressEvent(QMouseEvent *evt)
 {
     if (evt->button() == Qt::LeftButton) {
         m_downItem = itemAt(evt->pos());
@@ -203,7 +203,7 @@ void VBreadCrumbComboBoxContainer::mousePressEvent(QMouseEvent * evt)
     }
 }
 
-void VBreadCrumbComboBoxContainer::mouseMoveEvent(QMouseEvent * evt)
+void VBreadCrumbComboBoxContainer::mouseMoveEvent(QMouseEvent *evt)
 {
     int hover = m_hoverItem;
 
@@ -212,7 +212,7 @@ void VBreadCrumbComboBoxContainer::mouseMoveEvent(QMouseEvent * evt)
         update();
 }
 
-void VBreadCrumbComboBoxContainer::mouseReleaseEvent(QMouseEvent * evt)
+void VBreadCrumbComboBoxContainer::mouseReleaseEvent(QMouseEvent *evt)
 {
     if (evt->button() == Qt::LeftButton) {
         if (m_downItem != -1 && m_downItem == m_hoverItem &&  m_items[m_downItem]->type() != VBreadCrumbItem::Indicator)
@@ -225,12 +225,12 @@ void VBreadCrumbComboBoxContainer::mouseReleaseEvent(QMouseEvent * evt)
 void VBreadCrumbComboBoxContainer::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-    VBreadCrumbBar * bar =  m_comboBox->bar();
-    VBreadCrumbIndicator * indicator;
-    VBreadCrumbLabel * label;
-    VAbstractBreadCrumbModel * model = bar->model();
+    VBreadCrumbBar *bar =  m_comboBox->bar();
+    VBreadCrumbIndicator *indicator;
+    VBreadCrumbLabel *label;
+    VAbstractBreadCrumbModel *model = bar->model();
     QStyle *style = bar->style();
-    VBreadCrumbItem * item;
+    VBreadCrumbItem *item;
     QStyleOptionComboBox option;
 
     VStyleOptionBreadCrumbIndicator incOption;
@@ -245,7 +245,7 @@ void VBreadCrumbComboBoxContainer::paintEvent(QPaintEvent *)
     if (bar->isEditable()) {
         option.rect = style->subControlRect(QStyle::CC_ComboBox, &option, (QStyle::SubControl)VStyle::SC_BreadCrumbEditField, bar);
         option.rect.moveTopLeft(mapFromParent(option.rect.topLeft()));
-        style->drawPrimitive((QStyle::PrimitiveElement)VStyle::PE_BreadCrumbContainerBase,&option,&painter,bar);
+        style->drawPrimitive((QStyle::PrimitiveElement)VStyle::PE_BreadCrumbContainerBase, &option, &painter, bar);
     }
     for (int i = 0; i < m_items.count(); i++) {
         state = isEnabled() ? QStyle::State_Enabled : QStyle::State_None;
@@ -274,7 +274,7 @@ void VBreadCrumbComboBoxContainer::paintEvent(QPaintEvent *)
                     }
                 }
                 incOption.state = state;
-                style->drawControl((QStyle::ControlElement)VStyle::CE_BreadCrumbIndicator,&incOption,&painter,bar);
+                style->drawControl((QStyle::ControlElement)VStyle::CE_BreadCrumbIndicator, &incOption, &painter, bar);
             } else if (item->type() == VBreadCrumbItem::Label) {
                 nextIndex = i + 1;
                 label = static_cast< VBreadCrumbLabel * >(item);
@@ -297,11 +297,11 @@ void VBreadCrumbComboBoxContainer::paintEvent(QPaintEvent *)
                     }
                 }
                 labelOption.state = state;
-                style->drawControl((QStyle::ControlElement)VStyle::CE_BreadCrumbLabel,&labelOption,&painter,bar);
+                style->drawControl((QStyle::ControlElement)VStyle::CE_BreadCrumbLabel, &labelOption, &painter, bar);
             } else {
                 option.state = state;
                 option.rect = item->rect();
-                style->drawControl((QStyle::ControlElement)VStyle::CE_BreadCrumbEmptyArea,&option,&painter,bar);
+                style->drawControl((QStyle::ControlElement)VStyle::CE_BreadCrumbEmptyArea, &option, &painter, bar);
             }
         }
     }
@@ -336,12 +336,12 @@ void VBreadCrumbComboBoxContainer::clearAll()
 
 void VBreadCrumbComboBoxContainer::updateGeometries()
 {
-    VBreadCrumbBar * bar = m_comboBox->bar();
+    VBreadCrumbBar *bar = m_comboBox->bar();
     QStyle *style = bar->style();
     VStyleOptionBreadCrumbIndicator arrowOption;
     VStyleOptionBreadCrumbLabel labelOption;
     QStyleOption emptyAreaOption;
-    VAbstractBreadCrumbModel * model = bar->model();
+    VAbstractBreadCrumbModel *model = bar->model();
     QRect r = rect(), arrowRect, labelRect, tempRect, emptyAreaRect;
     int lastLabelWidth,
         incWidth = 0,
@@ -352,9 +352,9 @@ void VBreadCrumbComboBoxContainer::updateGeometries()
         i;
     bool trunc = false;
     QPoint startPoint;
-    VBreadCrumbItem * item;
-    VBreadCrumbIndicator * indic;
-    VBreadCrumbLabel * label;
+    VBreadCrumbItem *item;
+    VBreadCrumbIndicator *indic;
+    VBreadCrumbLabel *label;
     QRect containerRect;
 
     if (m_items.isEmpty())
@@ -363,7 +363,7 @@ void VBreadCrumbComboBoxContainer::updateGeometries()
     arrowOption.rect = rect();
 
     if (model->supportsMenuNavigation())
-        arrowRect = style->subElementRect((QStyle::SubElement)VStyle::SE_BreadCrumbIndicator,&arrowOption,bar);
+        arrowRect = style->subElementRect((QStyle::SubElement)VStyle::SE_BreadCrumbIndicator, &arrowOption, bar);
     if (m_items[lastLabelIndex]->type() == VBreadCrumbItem::Indicator) {
         incWidth = arrowRect.width();
         lastLabelIndex = m_items.count() - 3;
@@ -371,10 +371,10 @@ void VBreadCrumbComboBoxContainer::updateGeometries()
     }
     labelOption.text = static_cast< VBreadCrumbLabel * >(m_items[lastLabelIndex])->node().label();
     labelOption.rect = rect();
-    labelRect = style->subElementRect((QStyle::SubElement)VStyle::SE_BreadCrumbLabel,&labelOption,bar);
+    labelRect = style->subElementRect((QStyle::SubElement)VStyle::SE_BreadCrumbLabel, &labelOption, bar);
     lastLabelWidth = labelRect.width();
     emptyAreaOption.initFrom(this);
-    emptyAreaRect = style->subElementRect((QStyle::SubElement)VStyle::SE_BreadCrumbEmptyArea,&emptyAreaOption,bar);
+    emptyAreaRect = style->subElementRect((QStyle::SubElement)VStyle::SE_BreadCrumbEmptyArea, &emptyAreaOption, bar);
     r.setWidth(r.width() - emptyAreaRect.width() - (arrowRect.width() + incWidth) - lastLabelWidth);
     m_items[lastLabelIndex]->setVisible(true);
     if (model->supportsMenuNavigation()) {
@@ -385,7 +385,7 @@ void VBreadCrumbComboBoxContainer::updateGeometries()
             indic->setVisible(false);
             label->setVisible(false);
             labelOption.text = label->node().label();
-            labelRect = style->subElementRect((QStyle::SubElement)VStyle::SE_BreadCrumbLabel,&labelOption,bar);
+            labelRect = style->subElementRect((QStyle::SubElement)VStyle::SE_BreadCrumbLabel, &labelOption, bar);
             if (!trunc) {
                 tempWidth = arrowRect.width() + labelRect.width();
                 if (r.width() < (accWidth + tempWidth)) {
@@ -403,7 +403,7 @@ void VBreadCrumbComboBoxContainer::updateGeometries()
             label = static_cast< VBreadCrumbLabel * >(item);
             label->setVisible(false);
             labelOption.text = label->node().label();
-            labelRect = style->subElementRect((QStyle::SubElement)VStyle::SE_BreadCrumbLabel,&labelOption,bar);
+            labelRect = style->subElementRect((QStyle::SubElement)VStyle::SE_BreadCrumbLabel, &labelOption, bar);
             if (!trunc) {
                 tempWidth = labelRect.width();
                 if (r.width() < (accWidth + tempWidth)) {
@@ -419,14 +419,14 @@ void VBreadCrumbComboBoxContainer::updateGeometries()
     remainingWidth = r.width() - accWidth + emptyAreaRect.width();
 
     m_rootIndicator->setTruncated(trunc);
-    foreach (VBreadCrumbItem * item, m_items) {
+    foreach(VBreadCrumbItem * item, m_items) {
         if (item->isVisible()) {
             if (item == m_emptyArea)  {
                 tempRect = emptyAreaRect;
                 tempRect.setWidth(remainingWidth);
             } else if (item->type() == VBreadCrumbItem::Label) {
                 labelOption.text = static_cast< VBreadCrumbLabel * >(item)->node().label();
-                tempRect = style->subElementRect((QStyle::SubElement)VStyle::SE_BreadCrumbLabel,&labelOption,bar);
+                tempRect = style->subElementRect((QStyle::SubElement)VStyle::SE_BreadCrumbLabel, &labelOption, bar);
             } else
                 tempRect = arrowRect;
             tempRect.moveTo(startPoint);
@@ -436,7 +436,7 @@ void VBreadCrumbComboBoxContainer::updateGeometries()
     }
 }
 
-int VBreadCrumbComboBoxContainer::itemAt(const QPoint & pos)
+int VBreadCrumbComboBoxContainer::itemAt(const QPoint &pos)
 {
     for (int i = 0; i < m_items.count(); i++)
         if (m_items[i]->isVisible())
@@ -457,10 +457,10 @@ VBreadCrumbIconWidget::VBreadCrumbIconWidget(VBreadCrumbComboBox *comboBox) :
     QAction *action;
 
     setContextMenuPolicy(Qt::ActionsContextMenu);
-    addAction(action = new QAction("Copy Address",this));
-    connect(action,SIGNAL(triggered()),this,SLOT(slotCopyAddress()));
-    addAction(action = new QAction("Edit Address",this));
-    connect(action,SIGNAL(triggered()),this,SLOT(slotEditAddress()));
+    addAction(action = new QAction("Copy Address", this));
+    connect(action, SIGNAL(triggered()), this, SLOT(slotCopyAddress()));
+    addAction(action = new QAction("Edit Address", this));
+    connect(action, SIGNAL(triggered()), this, SLOT(slotEditAddress()));
 }
 
 void VBreadCrumbIconWidget::paintEvent(QPaintEvent *)
@@ -471,17 +471,17 @@ void VBreadCrumbIconWidget::paintEvent(QPaintEvent *)
         return;
     QIcon icon(m_pixmap);
 
-    QRect r(QPoint(),m_pixmap.size());
+    QRect r(QPoint(), m_pixmap.size());
 
     if (m_comboBox->bar()->isEditable())
-        painter.fillRect(rect(),m_comboBox->palette().base().color());
+        painter.fillRect(rect(), m_comboBox->palette().base().color());
 
     r.moveCenter(rect().center());
 
-    painter.drawPixmap(r,icon.pixmap(m_pixmap.size(),isEnabled() ? QIcon::Normal : QIcon::Disabled));
+    painter.drawPixmap(r, icon.pixmap(m_pixmap.size(), isEnabled() ? QIcon::Normal : QIcon::Disabled));
 }
 
-void VBreadCrumbIconWidget::mousePressEvent(QMouseEvent * evt)
+void VBreadCrumbIconWidget::mousePressEvent(QMouseEvent *evt)
 {
     if (evt->button() == Qt::LeftButton) {
         m_comboBox->edit();
@@ -502,33 +502,33 @@ void VBreadCrumbIconWidget::slotEditAddress()
  * VBreadCrumbComboBox
  */
 
-VBreadCrumbComboBox::VBreadCrumbComboBox(VBreadCrumbBar * parent) : QComboBox(parent),
+VBreadCrumbComboBox::VBreadCrumbComboBox(VBreadCrumbBar *parent) : QComboBox(parent),
     m_flat(false), m_bar(parent), m_clicked(false)
 {
     QPalette pal = palette();
-    QCompleter * c;
+    QCompleter *c;
 
     setObjectName("Location Bar");
     setDuplicatesEnabled(false);
     c = new QCompleter(this);
     setCompleter(c);
     m_iconLabel = new VBreadCrumbIconWidget(this);
-    pal.setBrush(QPalette::Normal,QPalette::Window,pal.brush(QPalette::Normal,QPalette::Base));
-    pal.setBrush(QPalette::Disabled,QPalette::Window,pal.brush(QPalette::Disabled,QPalette::Base));
-    pal.setBrush(QPalette::Inactive,QPalette::Window,pal.brush(QPalette::Inactive,QPalette::Base));
+    pal.setBrush(QPalette::Normal, QPalette::Window, pal.brush(QPalette::Normal, QPalette::Base));
+    pal.setBrush(QPalette::Disabled, QPalette::Window, pal.brush(QPalette::Disabled, QPalette::Base));
+    pal.setBrush(QPalette::Inactive, QPalette::Window, pal.brush(QPalette::Inactive, QPalette::Base));
     m_iconLabel->setPalette(pal);
     setEditable(true);
-    connect(lineEdit(),SIGNAL(returnPressed()),this,SLOT(slotHandleEditTextChanged()));
+    connect(lineEdit(), SIGNAL(returnPressed()), this, SLOT(slotHandleEditTextChanged()));
     m_container = new VBreadCrumbComboBoxContainer(this);
     m_container->setAutoFillBackground(false);
-    connect(this,SIGNAL(activated(int)),this,SLOT(slotActivated()));
+    connect(this, SIGNAL(activated(int)), this, SLOT(slotActivated()));
 }
 
 VBreadCrumbComboBox::~VBreadCrumbComboBox()
 {
 }
 
-bool VBreadCrumbComboBox::event(QEvent * e)
+bool VBreadCrumbComboBox::event(QEvent *e)
 {
     if (e->type() == QEvent::Paint) {
         if (!m_bar->isEditable())
@@ -540,9 +540,9 @@ bool VBreadCrumbComboBox::event(QEvent * e)
 
 }
 
-void VBreadCrumbComboBox::setLocation(const QString & location)
+void VBreadCrumbComboBox::setLocation(const QString &location)
 {
-    VAbstractBreadCrumbModel * model = m_bar->model();
+    VAbstractBreadCrumbModel *model = m_bar->model();
     QString tempLocation = location;
     if (tempLocation.isEmpty())
         tempLocation = model->defaultPath();
@@ -551,7 +551,7 @@ void VBreadCrumbComboBox::setLocation(const QString & location)
     m_location = model->cleanPath(tempLocation);
     setEditText(m_location);
     m_container->splitPath(m_location);
-    m_iconLabel->setPixmap(model->icon(m_container->m_nodeList.last()).pixmap(ICON_SIZE,ICON_SIZE));
+    m_iconLabel->setPixmap(model->icon(m_container->m_nodeList.last()).pixmap(ICON_SIZE, ICON_SIZE));
 }
 
 void VBreadCrumbComboBox::showPopup()
@@ -565,7 +565,7 @@ void VBreadCrumbComboBox::showPopup()
 void VBreadCrumbComboBox::showVBreadCrumbs(bool popupError)
 {
     QString text = currentText();
-    VAbstractBreadCrumbModel * model = m_bar->model();
+    VAbstractBreadCrumbModel *model = m_bar->model();
 
     if (!m_flat) {
         if (text.isEmpty())
@@ -577,7 +577,7 @@ void VBreadCrumbComboBox::showVBreadCrumbs(bool popupError)
                 if (!caption.isEmpty())
                     caption += " - ";
                 caption += objectName();
-                QMessageBox::critical(this,caption,QString("Location '%1' cannot be found. Check the spelling and try again.").arg(text));
+                QMessageBox::critical(this, caption, QString("Location '%1' cannot be found. Check the spelling and try again.").arg(text));
                 lineEdit()->selectAll();
                 setFocus(Qt::OtherFocusReason);
             } else
@@ -610,7 +610,7 @@ void VBreadCrumbComboBox::setFlat(bool f)
 
 void VBreadCrumbComboBox::edit()
 {
-    QLineEdit * lineEdit = this->lineEdit();
+    QLineEdit *lineEdit = this->lineEdit();
 
     if (m_flat)
         return;
@@ -619,7 +619,7 @@ void VBreadCrumbComboBox::edit()
     lineEdit->selectAll();
 }
 
-void VBreadCrumbComboBox::slotSetLocation(QAction * action)
+void VBreadCrumbComboBox::slotSetLocation(QAction *action)
 {
     setLocation(action->data().toString());
 }
@@ -635,15 +635,15 @@ void VBreadCrumbComboBox::slotActivated()
     showVBreadCrumbs(false);
 }
 
-void VBreadCrumbComboBox::resizeEvent(QResizeEvent * evt)
+void VBreadCrumbComboBox::resizeEvent(QResizeEvent *evt)
 {
     QComboBox::resizeEvent(evt);
     updateGeometries();
 }
 
-void VBreadCrumbComboBox::focusOutEvent(QFocusEvent * evt)
+void VBreadCrumbComboBox::focusOutEvent(QFocusEvent *evt)
 {
-    QWidget * focus = qApp->focusWidget();
+    QWidget *focus = qApp->focusWidget();
 
     if (focus && focus != this && evt->reason() != Qt::PopupFocusReason)
         showVBreadCrumbs(false);
@@ -653,14 +653,14 @@ void VBreadCrumbComboBox::focusOutEvent(QFocusEvent * evt)
 void VBreadCrumbComboBox::updateGeometries()
 {
     QStyleOptionComboBox option;
-    QLineEdit * lineEdit = this->lineEdit();
+    QLineEdit *lineEdit = this->lineEdit();
     QStyle *style = m_bar->style();
 
     initStyleOption(&option);
-    m_iconLabel->setGeometry(style->subControlRect(QStyle::CC_ComboBox,&option,(QStyle::SubControl)VStyle::SC_BreadCrumbIcon,m_bar));
+    m_iconLabel->setGeometry(style->subControlRect(QStyle::CC_ComboBox, &option, (QStyle::SubControl)VStyle::SC_BreadCrumbIcon, m_bar));
     if (!m_flat && lineEdit)
-        lineEdit->setGeometry(style->subControlRect(QStyle::CC_ComboBox,&option,(QStyle::SubControl)VStyle::SC_BreadCrumbEditField,m_bar));
-    m_container->setGeometry(style->subControlRect(QStyle::CC_ComboBox,&option,(QStyle::SubControl)VStyle::SC_BreadCrumbContainer,m_bar));
+        lineEdit->setGeometry(style->subControlRect(QStyle::CC_ComboBox, &option, (QStyle::SubControl)VStyle::SC_BreadCrumbEditField, m_bar));
+    m_container->setGeometry(style->subControlRect(QStyle::CC_ComboBox, &option, (QStyle::SubControl)VStyle::SC_BreadCrumbContainer, m_bar));
 }
 
 /*
@@ -700,7 +700,7 @@ VBreadCrumbBar::~VBreadCrumbBar()
 {
 }
 
-QComboBox * VBreadCrumbBar::comboBox() const
+QComboBox *VBreadCrumbBar::comboBox() const
 {
     Q_D(const VBreadCrumbBar);
 
@@ -738,11 +738,11 @@ QSize VBreadCrumbBar::sizeHint() const
     QStyle *s = style();
 
     option.initFrom(d->comboBox);
-    size = QSize(size.width() + s->subElementRect((QStyle::SubElement)VStyle::SE_BreadCrumbEmptyArea,&option,this).width(),size.height());
+    size = QSize(size.width() + s->subElementRect((QStyle::SubElement)VStyle::SE_BreadCrumbEmptyArea, &option, this).width(), size.height());
     return size;
 }
 
-void VBreadCrumbBar::setLocation(const QString & location)
+void VBreadCrumbBar::setLocation(const QString &location)
 {
     Q_D(VBreadCrumbBar);
     QString old = this->location(), current;
@@ -752,17 +752,17 @@ void VBreadCrumbBar::setLocation(const QString & location)
         emit locationChanged(current);
 }
 
-VAbstractBreadCrumbModel * VBreadCrumbBar::model() const
+VAbstractBreadCrumbModel *VBreadCrumbBar::model() const
 {
     Q_D(const VBreadCrumbBar);
 
     return d->model;
 }
 
-void VBreadCrumbBar::setModel(VAbstractBreadCrumbModel * model)
+void VBreadCrumbBar::setModel(VAbstractBreadCrumbModel *model)
 {
     Q_D(VBreadCrumbBar);
-    QAbstractItemModel * itemModel;
+    QAbstractItemModel *itemModel;
 
     if (!model)
         return;
@@ -802,7 +802,7 @@ void VBreadCrumbBar::resizeEvent(QResizeEvent *)
 {
     Q_D(VBreadCrumbBar);
 
-    d->comboBox->setGeometry(QRect(QPoint(),size()));
+    d->comboBox->setGeometry(QRect(QPoint(), size()));
 }
 
 void VBreadCrumbBar::paintEvent(QPaintEvent *)
@@ -814,7 +814,7 @@ void VBreadCrumbBar::paintEvent(QPaintEvent *)
 
     if (!d->editable) {
         option.initFrom(this);
-        style()->drawPrimitive((QStyle::PrimitiveElement)VStyle::PE_FrameBreadCrumbBar,&option,&painter,this);
+        style()->drawPrimitive((QStyle::PrimitiveElement)VStyle::PE_FrameBreadCrumbBar, &option, &painter, this);
     }
 }
 

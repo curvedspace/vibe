@@ -39,14 +39,14 @@
 #include "vbreadcrumbdirmodel.h"
 #include "dir_helper.h"
 
-QDirModel * VBreadCrumbDirModel::m_dirModel = 0;
-VBreadCrumbDirModelMenuManager * VBreadCrumbDirModel::m_menuManager = 0;
+QDirModel *VBreadCrumbDirModel::m_dirModel = 0;
+VBreadCrumbDirModelMenuManager *VBreadCrumbDirModel::m_menuManager = 0;
 
 class VBreadCrumbDirModelMenuAction : public QAction
 {
 public:
-    VBreadCrumbDirModelMenuAction(const QIcon & icon, const QString & fileName, const QString & path, QObject * parent) :
-        QAction(icon,fileName,parent) {
+    VBreadCrumbDirModelMenuAction(const QIcon &icon, const QString &fileName, const QString &path, QObject *parent) :
+        QAction(icon, fileName, parent) {
         setData(path);
     }
 };
@@ -89,35 +89,35 @@ void VBreadCrumbDirModelMenu::setFilter(VAbstractBreadCrumbModel::Filters filter
  * VBreadCrumbDirModelMenuManager
  */
 
-VBreadCrumbDirModelMenuManager::VBreadCrumbDirModelMenuManager(QObject * parent) :
+VBreadCrumbDirModelMenuManager::VBreadCrumbDirModelMenuManager(QObject *parent) :
     QObject(parent)
 {
     m_watcher = new QFileSystemWatcher(this);
     m_mainMenu = new QMenu;
     m_driveMenu = new QMenu;
-    connect(m_watcher,SIGNAL(directoryChanged(QString)),this,SLOT(handleDirectoryChanged(QString)));
+    connect(m_watcher, SIGNAL(directoryChanged(QString)), this, SLOT(handleDirectoryChanged(QString)));
 }
 
 VBreadCrumbDirModelMenuManager::~VBreadCrumbDirModelMenuManager()
 {
     delete m_mainMenu;
     delete m_driveMenu;
-    foreach (QString path, m_menuMapping.keys()) {
+    foreach(QString path, m_menuMapping.keys()) {
         delete m_menuMapping.take(path);
     }
 }
 
-QMenu * VBreadCrumbDirModelMenuManager::mainMenu() const
+QMenu *VBreadCrumbDirModelMenuManager::mainMenu() const
 {
     return m_mainMenu;
 }
 
-QMenu * VBreadCrumbDirModelMenuManager::driveMenu() const
+QMenu *VBreadCrumbDirModelMenuManager::driveMenu() const
 {
     return m_driveMenu;
 }
 
-void VBreadCrumbDirModelMenuManager::registerPath(const QString & path)
+void VBreadCrumbDirModelMenuManager::registerPath(const QString &path)
 {
     QString tempPath = path;
 
@@ -129,7 +129,7 @@ void VBreadCrumbDirModelMenuManager::registerPath(const QString & path)
     m_menuMapping[tempPath] = new VBreadCrumbDirModelMenu;
 }
 
-bool VBreadCrumbDirModelMenuManager::isRegisteredPath(const QString & path) const
+bool VBreadCrumbDirModelMenuManager::isRegisteredPath(const QString &path) const
 {
     QString tempPath = path;
 
@@ -138,7 +138,7 @@ bool VBreadCrumbDirModelMenuManager::isRegisteredPath(const QString & path) cons
     return m_watcher->directories().contains(tempPath);
 }
 
-VBreadCrumbDirModelMenu * VBreadCrumbDirModelMenuManager::menu(const QString & path) const
+VBreadCrumbDirModelMenu *VBreadCrumbDirModelMenuManager::menu(const QString &path) const
 {
     QString tempPath = path;
 
@@ -151,7 +151,7 @@ VBreadCrumbDirModelMenu * VBreadCrumbDirModelMenuManager::menu(const QString & p
 
 void VBreadCrumbDirModelMenuManager::clean()
 {
-    foreach (QString path, m_watcher->directories()) {
+    foreach(QString path, m_watcher->directories()) {
         QDir dir(path);
 
         if (!dir.exists()) {
@@ -161,7 +161,7 @@ void VBreadCrumbDirModelMenuManager::clean()
     }
 }
 
-void VBreadCrumbDirModelMenuManager::handleDirectoryChanged(const QString & path)
+void VBreadCrumbDirModelMenuManager::handleDirectoryChanged(const QString &path)
 {
     m_menuMapping[path]->setNeedBeRebuilt(true);
 }
@@ -189,7 +189,7 @@ QString VBreadCrumbDirModel::defaultPath() const
     return QDir::homePath();
 }
 
-QString VBreadCrumbDirModel::cleanPath(const QString & path) const
+QString VBreadCrumbDirModel::cleanPath(const QString &path) const
 {
     makeCurrent();
 #if defined(Q_OS_WIN) && !defined(Q_OS_WINCE)
@@ -205,7 +205,7 @@ QString VBreadCrumbDirModel::cleanPath(const QString & path) const
     return QDir::toNativeSeparators(QDir::cleanPath(path));
 }
 
-bool VBreadCrumbDirModel::isValid(const QString & path) const
+bool VBreadCrumbDirModel::isValid(const QString &path) const
 {
     bool valid;
 
@@ -217,7 +217,7 @@ bool VBreadCrumbDirModel::isValid(const QString & path) const
     return valid;
 }
 
-VBreadCrumbModelNodeList VBreadCrumbDirModel::splitPath(const QString & path) const
+VBreadCrumbModelNodeList VBreadCrumbDirModel::splitPath(const QString &path) const
 {
     QStringList list = DirHelper::splitPath(cleanPath(path));
     QString tempPath;
@@ -226,13 +226,13 @@ VBreadCrumbModelNodeList VBreadCrumbDirModel::splitPath(const QString & path) co
 
     makeCurrent();
     if (path == DirHelper::myComputer()) {
-        nodeList.append(VBreadCrumbModelNode(path,VBreadCrumbModelNode::Global,this));
+        nodeList.append(VBreadCrumbModelNode(path, VBreadCrumbModelNode::Global, this));
         return nodeList;
     }
     isDir = m_dirModel->isDir(m_dirModel->index(path));
-    nodeList.append(VBreadCrumbModelNode(DirHelper::myComputer(),VBreadCrumbModelNode::Global,this));
+    nodeList.append(VBreadCrumbModelNode(DirHelper::myComputer(), VBreadCrumbModelNode::Global, this));
     for (int i = 0; i < list.count(); i++) {
-        tempPath = DirHelper::setupPath(list,i);
+        tempPath = DirHelper::setupPath(list, i);
 #if defined(Q_OS_WIN) && !defined(Q_OS_WINCE)
         if ((i == list.count() - 1) && isDir)
 #else
@@ -242,17 +242,17 @@ VBreadCrumbModelNodeList VBreadCrumbDirModel::splitPath(const QString & path) co
 
         bool Dir = QDir(tempPath).exists();
 
-        nodeList.append(VBreadCrumbModelNode(tempPath,i == 0 ? VBreadCrumbModelNode::Root : Dir ? VBreadCrumbModelNode::Container : VBreadCrumbModelNode::Leaf,this));
+        nodeList.append(VBreadCrumbModelNode(tempPath, i == 0 ? VBreadCrumbModelNode::Root : Dir ? VBreadCrumbModelNode::Container : VBreadCrumbModelNode::Leaf, this));
     }
     return nodeList;
 }
 
-QIcon VBreadCrumbDirModel::icon(const VBreadCrumbModelNode & node) const
+QIcon VBreadCrumbDirModel::icon(const VBreadCrumbModelNode &node) const
 {
     return m_dirModel->fileIcon(m_dirModel->index(node.path()));
 }
 
-QString VBreadCrumbDirModel::label(const VBreadCrumbModelNode & node) const
+QString VBreadCrumbDirModel::label(const VBreadCrumbModelNode &node) const
 {
 
     if (node.type() == VBreadCrumbModelNode::Root)
@@ -266,7 +266,7 @@ QString VBreadCrumbDirModel::label(const VBreadCrumbModelNode & node) const
     }
 }
 
-QMimeData * VBreadCrumbDirModel::mimeData(const VBreadCrumbModelNode & node) const
+QMimeData *VBreadCrumbDirModel::mimeData(const VBreadCrumbModelNode &node) const
 {
     QModelIndex index;
 
@@ -278,7 +278,7 @@ QMimeData * VBreadCrumbDirModel::mimeData(const VBreadCrumbModelNode & node) con
 
 }
 
-QMenu * VBreadCrumbDirModel::buildMenu(const VBreadCrumbModelNode & node)
+QMenu *VBreadCrumbDirModel::buildMenu(const VBreadCrumbModelNode &node)
 {
     QFileInfo info;
     QString name;
@@ -287,7 +287,7 @@ QMenu * VBreadCrumbDirModel::buildMenu(const VBreadCrumbModelNode & node)
 
     makeCurrent();
     if (node.path().isEmpty()) {
-        QMenu * menu = m_menuManager->driveMenu();
+        QMenu *menu = m_menuManager->driveMenu();
 
         if (!menu->actions().isEmpty())
             return menu;
@@ -297,18 +297,18 @@ QMenu * VBreadCrumbDirModel::buildMenu(const VBreadCrumbModelNode & node)
             if (folder.isEmpty())
                 continue;
             index = m_dirModel->index(folder);
-            menu->addAction(new VBreadCrumbDirModelMenuAction(m_dirModel->fileIcon(index),m_dirModel->fileName(index),m_dirModel->filePath(index),menu));
+            menu->addAction(new VBreadCrumbDirModelMenuAction(m_dirModel->fileIcon(index), m_dirModel->fileName(index), m_dirModel->filePath(index), menu));
         }
         return menu;
     }
     if (node.type() == VBreadCrumbModelNode::Global) {
-        QMenu * menu = m_menuManager->mainMenu();
+        QMenu *menu = m_menuManager->mainMenu();
 
         menu->clear();
-        foreach (QFileInfo info, QDir::drives()) {
+        foreach(QFileInfo info, QDir::drives()) {
             folder = info.absoluteFilePath();
             index = m_dirModel->index(folder);
-            menu->addAction(new VBreadCrumbDirModelMenuAction(m_dirModel->fileIcon(index),DirHelper::driveLabel(folder),m_dirModel->filePath(index),menu));
+            menu->addAction(new VBreadCrumbDirModelMenuAction(m_dirModel->fileIcon(index), DirHelper::driveLabel(folder), m_dirModel->filePath(index), menu));
         }
         return menu;
     } else {
@@ -321,7 +321,7 @@ QMenu * VBreadCrumbDirModel::buildMenu(const VBreadCrumbModelNode & node)
             return 0;
         if (!m_menuManager->isRegisteredPath(node.path()))
             m_menuManager->registerPath(qPrintable(node.path()));
-        VBreadCrumbDirModelMenu * menu = m_menuManager->menu(node.path());
+        VBreadCrumbDirModelMenu *menu = m_menuManager->menu(node.path());
 
         menu->setFilter(filter());
         if (!menu || (menu && !menu->needBeRebuilt()))
@@ -329,9 +329,9 @@ QMenu * VBreadCrumbDirModel::buildMenu(const VBreadCrumbModelNode & node)
         menu->clear();
         count = m_dirModel->rowCount(index);
         for (int i = 0; i < count; i++) {
-            childIndex = index.child(i,0);
+            childIndex = index.child(i, 0);
             if (childIndex.isValid())
-                menu->addAction(new VBreadCrumbDirModelMenuAction(m_dirModel->fileIcon(childIndex),m_dirModel->fileName(childIndex),m_dirModel->filePath(childIndex),menu));
+                menu->addAction(new VBreadCrumbDirModelMenuAction(m_dirModel->fileIcon(childIndex), m_dirModel->fileName(childIndex), m_dirModel->filePath(childIndex), menu));
         }
         menu->setNeedBeRebuilt(false);
         return menu;
@@ -340,7 +340,7 @@ QMenu * VBreadCrumbDirModel::buildMenu(const VBreadCrumbModelNode & node)
 
 void VBreadCrumbDirModel::makeCurrent() const
 {
-    QDir::Filters filter = QDir::Dirs|QDir::NoDotAndDotDot|QDir::NoSymLinks|QDir::Readable;
+    QDir::Filters filter = QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks | QDir::Readable;
 
     if (this->filter() & VAbstractBreadCrumbModel::AllNodes)
         filter |= QDir::Files;

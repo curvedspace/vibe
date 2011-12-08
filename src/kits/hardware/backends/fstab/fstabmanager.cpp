@@ -62,10 +62,10 @@ QStringList FstabManager::allDevices()
 }
 
 QStringList FstabManager::devicesFromQuery(const QString &parentUdi,
-        VDeviceInterface::Type type)
+                                           VDeviceInterface::Type type)
 {
     if (type == VDeviceInterface::StorageAccess
-        || type == VDeviceInterface::NetworkShare) {
+            || type == VDeviceInterface::NetworkShare) {
         if (parentUdi.isEmpty() || parentUdi == udiPrefix()) {
             QStringList list = allDevices();
             list.removeFirst();

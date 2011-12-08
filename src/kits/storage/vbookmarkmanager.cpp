@@ -152,7 +152,7 @@ public:
 static VBookmarkManager *lookupExisting(const QString &bookmarksFile)
 {
     for (VBookmarkManagerList::ConstIterator bmit = s_pSelf->constBegin(), bmend = s_pSelf->constEnd();
-         bmit != bmend; ++bmit) {
+            bmit != bmend; ++bmit) {
         if ((*bmit)->path() == bookmarksFile)
             return *bmit;
     }
@@ -450,8 +450,8 @@ VBookmarkGroup VBookmarkManager::toolbar()
         QFileInfo bmInfo(d->m_bookmarksFile);
         QFileInfo cacheInfo(cacheFilename);
         if (d->m_toolbarDoc.isNull() &&
-            QFile::exists(cacheFilename) &&
-            bmInfo.lastModified() < cacheInfo.lastModified()) {
+                QFile::exists(cacheFilename) &&
+                bmInfo.lastModified() < cacheInfo.lastModified()) {
             qDebug() << "VBookmarkManager::toolbar reading file";
             QFile file(cacheFilename);
 
@@ -579,7 +579,7 @@ bool VBookmarkManager::updateAccessMetadata(const QString &url)
         return false;
 
     for (QList<VBookmark>::iterator it = list.begin();
-         it != list.end(); ++it)
+            it != list.end(); ++it)
         (*it).updateAccessMetadata();
 
     return true;
@@ -590,7 +590,7 @@ void VBookmarkManager::updateFavicon(const QString &url, const QString &/*favico
     d->m_map.update(this);
     QList<VBookmark> list = d->m_map.find(url);
     for (QList<VBookmark>::iterator it = list.begin();
-         it != list.end(); ++it) {
+            it != list.end(); ++it) {
         // TODO - update favicon data based on faviconurl
         //        but only when the previously used icon
         //        isn't a manually set one.

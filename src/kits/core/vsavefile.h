@@ -195,8 +195,8 @@ public:
      * @param backupDir optional directory where to save the backup file in.
      * @return true if successful, or false if an error has occurred.
      */
-    static bool backupFile( const QString& filename,
-                            const QString& backupDir = QString() );
+    static bool backupFile(const QString &filename,
+                           const QString &backupDir = QString());
 
     /**
      * @brief Static method to create a backup file for a given filename.
@@ -209,9 +209,9 @@ public:
      * @param backupExtension the extension to append to @p filename, "~" by default.
      * @return true if successful, or false if an error has occurred.
      */
-    static bool simpleBackupFile( const QString& filename,
-                                  const QString& backupDir = QString(),
-                                  const QString& backupExtension = QLatin1String( "~" ) );
+    static bool simpleBackupFile(const QString &filename,
+                                 const QString &backupDir = QString(),
+                                 const QString &backupExtension = QLatin1String("~"));
 
     /**
      * @brief Static method to create a backup file for a given filename.
@@ -240,9 +240,9 @@ public:
      * For best performance a small number (10) is recommended.
      * @return true if successful, or false if an error has occurred.
      */
-    static bool numberedBackupFile(const QString& filename,
-                                   const QString& backupDir = QString(),
-                                   const QString& backupExtension = QString::fromLatin1( "~" ),
+    static bool numberedBackupFile(const QString &filename,
+                                   const QString &backupDir = QString(),
+                                   const QString &backupExtension = QString::fromLatin1("~"),
                                    const uint maxBackups = 10
                                   );
 

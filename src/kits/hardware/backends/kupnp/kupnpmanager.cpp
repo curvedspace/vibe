@@ -115,7 +115,7 @@ namespace VHardware
 
 
             QStringList KUPnPManager::devicesFromQuery(const QString &parentUdi,
-                    VDeviceInterface::Type type)
+                                                       VDeviceInterface::Type type)
             {
                 return
                     (!parentUdi.isEmpty()) ?
@@ -153,7 +153,7 @@ namespace VHardware
             }
 
             QStringList KUPnPManager::findDeviceByParent(const QString &parentUdi,
-                    VDeviceInterface::Type type)
+                                                         VDeviceInterface::Type type)
             {
                 QStringList result;
 

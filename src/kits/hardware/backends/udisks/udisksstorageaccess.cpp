@@ -310,7 +310,7 @@ bool UDisksStorageAccess::requestPassphrase()
 
     QDBusInterface soliduiserver("org.kde.kded", "/modules/soliduiserver", "org.vision.Vibe.HardwareUiServer");
     QDBusReply<void> reply = soliduiserver.call("showPassphraseDialog", udi, returnService,
-                             m_lastReturnObject, wId, appId);
+                                                m_lastReturnObject, wId, appId);
     m_passphraseRequested = reply.isValid();
     if (!m_passphraseRequested)
         qWarning() << "Failed to call the VibeHardwareUiServer, D-Bus said:" << reply.error();

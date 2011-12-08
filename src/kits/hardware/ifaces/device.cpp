@@ -40,9 +40,9 @@ QString VHardware::Ifaces::Device::parentUdi() const
 }
 
 void VHardware::Ifaces::Device::registerAction(const QString &actionName,
-        QObject *dest,
-        const char *requestSlot,
-        const char *doneSlot) const
+                                               QObject *dest,
+                                               const char *requestSlot,
+                                               const char *doneSlot) const
 {
     QDBusConnection::sessionBus().connect(QString(), deviceDBusPath(),
                                           "org.vision.Vibe.Hardware.Device", actionName + "Requested",
@@ -54,7 +54,7 @@ void VHardware::Ifaces::Device::registerAction(const QString &actionName,
 }
 
 void VHardware::Ifaces::Device::broadcastActionDone(const QString &actionName,
-        int error, const QString &errorString) const
+                                                    int error, const QString &errorString) const
 {
     QDBusMessage signal = QDBusMessage::createSignal(deviceDBusPath(), "org.vision.Vibe.Hardware.Device", actionName + "Done");
     signal << error << errorString;

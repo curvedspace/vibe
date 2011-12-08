@@ -95,7 +95,7 @@ QString FstabDevice::description() const
 bool FstabDevice::queryDeviceInterface(const VDeviceInterface::Type &type) const
 {
     if (type == VDeviceInterface::StorageAccess
-        || type == VDeviceInterface::NetworkShare) {
+            || type == VDeviceInterface::NetworkShare) {
         return true;
     }
     return false;

@@ -653,7 +653,7 @@ bool UDisksDevice::propertyExists(const QString &key) const
 QMap<QString, QVariant> UDisksDevice::allProperties() const
 {
     QDBusMessage call = QDBusMessage::createMethodCall(m_device->service(), m_device->path(),
-                        "org.freedesktop.DBus.Properties", "GetAll");
+                                                       "org.freedesktop.DBus.Properties", "GetAll");
     QDBusPendingReply< QVariantMap > reply = QDBusConnection::systemBus().asyncCall(call);
     reply.waitForFinished();
 
