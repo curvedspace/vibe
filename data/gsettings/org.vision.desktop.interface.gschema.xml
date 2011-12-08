@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="gsettings-vision-desktop-schemas">
-  <schema id="org.vision.desktop.interface" path="/org/vision/desktop/interface">
+  <schema id="org.vision.desktop.interface" path="/org/vision/desktop/interface/">
     <key type="s" name="font-name">
       <default>'DejaVu Sans 11'</default>
       <summary>Font</summary>
@@ -37,7 +37,7 @@
       <description>Size of icons in toolbars, either "small" or "large".</description>
     </key>
     <key name="toolbar-style" enum="org.vision.desktop.ToolbarStyle">
-      <default>'icons'</default>
+      <default>'icon-only'</default>
       <summary>Toolbar Buttons Style</summary>
       <description>Style of toolbar buttons. Valid values are "icon-only", "text-only", "text-beside-icon" or "text-under-icon".</description>
     </key>
