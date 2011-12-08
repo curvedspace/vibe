@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="gsettings-vision-desktop-schemas">
+  <schema id="org.vision.desktop.interface" path="/org/vision/desktop/interface">
+    <key type="s" name="font-name">
+      <default>'DejaVu Sans 11'</default>
+      <summary>Font</summary>
+      <description>Font used to display user interface elements, such as check box labels, menu items, etc.</description>
+    </key>
+    <key type="s" name="monospace-font-name">
+      <default>'DejaVu Sans Mono 11'</default>
+      <summary>Fixed-width Font</summary>
+      <description>Font used to display fixed-width characters, mostly used by terminal windows.</description>
+    </key>
+    <key type="s" name="decorator">
+      <default>'Vanish'</default>
+      <summary>Window Decorator Style</summary>
+      <description>Style used to draw window decorations.</description>
+    </key>
+    <key type="s" name="style">
+      <default>'Vanish'</default>
+      <summary>User Interface Style</summary>
+      <description>Style used to draw all user interface elements.</description>
+    </key>
+    <key type="s" name="color-scheme">
+      <default>'Vanish'</default>
+      <summary>User Interface Color Scheme</summary>
+      <description>Color scheme to be applied to the user interface style.</description>
+    </key>
+    <key type="s" name="icon-theme">
+      <default>'Vanish'</default>
+      <summary>Icon Theme</summary>
+      <description>Theme used for all the icons.</description>
+    </key>
+    <key name="toolbar-icon-size" enum="org.vision.desktop.ToolbarIconSize">
+      <default>'small'</default>
+      <summary>Toolbar Icon Size</summary>
+      <description>Size of icons in toolbars, either "small" or "large".</description>
+    </key>
+    <key name="toolbar-style" enum="org.vision.desktop.ToolbarStyle">
+      <default>'icons'</default>
+      <summary>Toolbar Buttons Style</summary>
+      <description>Style of toolbar buttons. Valid values are "icon-only", "text-only", "text-beside-icon" or "text-under-icon".</description>
+    </key>
+  </schema>
+</schemalist>

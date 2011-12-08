@@ -6,4 +6,4 @@ set(HEADERS
 )
 
 install(FILES ${HEADERS}
-    DESTINATION include/VibeStorage COMPONENT Devel)
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/VibeStorage COMPONENT Devel)

@@ -1,0 +1,12 @@
+<schemalist>
+  <enum id="org.vision.desktop.ToolbarIconSize">
+    <value nick="small" value="24"/>
+    <value nick="large" value="32"/>
+  </enum>
+  <enum id="org.vision.desktop.ToolbarStyle">
+    <value nick="icon-only" value="0"/>        <!-- Qt::ToolButtonIconOnly -->
+    <value nick="text-only" value="1"/>        <!-- Qt::ToolButtonTextOnly -->
+    <value nick="text-beside-icon" value="2"/> <!-- Qt::ToolButtonTextBesideIcon -->
+    <value nick="text-under-icon" value="3"/>  <!-- Qt::ToolButtonTextUnderIcon -->
+  </enum>
+</schemalist>

@@ -32,7 +32,7 @@ set(HEADERS
     vbreadcrumbdirmodel.h
     vcolorscheme.h
     vclickablelabel.h
-    interfacemacros.h
+    vinterfacemacros.h
     vnavbar.h
     vnavbargroup.h
     vnavbaritem.h
@@ -52,5 +52,5 @@ set_target_properties(VibeGui PROPERTIES
 
 install(FILES ${HEADERS}
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/VibeGui COMPONENT Devel)
-install(TARGETS VibeGui
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Framework)
+install(TARGETS VibeGui LIBRARY
+    DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Framework)

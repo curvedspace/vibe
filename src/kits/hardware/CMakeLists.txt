@@ -270,8 +270,8 @@ set_target_properties(VibeHardware PROPERTIES
 
 install(FILES ${HEADERS}
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/VibeHardware COMPONENT Devel)
-install(TARGETS VibeHardware
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Framework)
+install(TARGETS VibeHardware LIBRARY
+    DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Framework)
 
 ########### parser build ###############
 

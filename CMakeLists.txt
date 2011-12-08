@@ -52,6 +52,10 @@ if (_failed)
 endif (_failed)
 string(REGEX REPLACE "[ \t\n]+" \; DBUS_SESSION_BUS_SERVICES_DIR "${DBUS_SESSION_BUS_SERVICES_DIR}")
 
+# Find QConf
+# FIXME: Replace dconf and GSettings with our configuration system
+pkg_check_modules(QCONF REQUIRED dconf-qt)
+
 # Subdirectories
 add_subdirectory(cmake)
 add_subdirectory(data)

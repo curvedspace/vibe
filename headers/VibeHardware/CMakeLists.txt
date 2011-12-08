@@ -30,4 +30,4 @@ set(HEADERS
 )
 
 install(FILES ${HEADERS}
-    DESTINATION include/VibeHardware COMPONENT Devel)
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/VibeHardware COMPONENT Devel)
