@@ -6,9 +6,9 @@ set(cmakeFiles
     CheckStructMember.cmake
     FindFlex.cmake
     FindHUpnp.cmake
-    FindUDev.cmake
     FindQt4.cmake
     FindSharedMimeInfo.cmake
+    FindUDev.cmake
     HandleImportedTargetsInCMakeRequiredLibraries.cmake
     MacroAddCompileFlags.cmake
     MacroAdditionalCleanFiles.cmake
