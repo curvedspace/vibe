@@ -5,6 +5,9 @@ cmake_minimum_required(VERSION 2.8)
 # Our CMake modules
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
+# Support GNU installation directories
+include(GNUInstallDirs)
+
 # Make CPack available to easy generate binary packages
 include(CPack)
 
@@ -33,7 +36,8 @@ configure_file(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
 # Find Qt
 set(QT_MIN_VERSION "4.7.0")
-find_package(Qt4 ${QT_MIN_VERSION} COMPONENTS QtCore QtXml QtDBus QtGui REQUIRED)
+find_package(Qt4 ${QT_MIN_VERSION} REQUIRED)
+include(${QT_USE_FILE})
 
 # Find Automoc
 find_package(Automoc4 REQUIRED)
