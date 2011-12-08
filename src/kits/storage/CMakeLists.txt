@@ -17,6 +17,7 @@ set(SOURCES
     vfileplacesmodel.cpp
     vfileplacesitem.cpp
     vfileplacessharedbookmarks.cpp
+    vfilesystemmodel.cpp
     vfinddirectory.cpp
 )
 
@@ -24,6 +25,7 @@ set(HEADERS
     vbookmark.h
     vbookmarkmanager.h
     vfileplacesmodel.h
+    vfilesystemmodel.h
     vfinddirectory.h
 )
 
