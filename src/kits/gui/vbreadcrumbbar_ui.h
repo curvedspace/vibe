@@ -248,6 +248,7 @@ public:
         return m_container;
     }
     void updateGeometries();
+
 private slots:
     void slotSetLocation(QAction *);
     void slotHandleEditTextChanged();

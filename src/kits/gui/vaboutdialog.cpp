@@ -23,71 +23,108 @@
 #include <QtGui/QApplication>
 #include <QtGui/QTableWidget>
 #include <QtGui/QTextBrowser>
+#include <QtGui/QLabel>
+#include <QtGui/QPushButton>
+#include <QtGui/QSpacerItem>
+#include <QtGui/QVBoxLayout>
 
 #include "vaboutdialog.h"
-#include "vaboutdialog_p.h"
 
 /*
  * VAboutDialog::Private
  */
 
-VAboutDialogPrivate::VAboutDialogPrivate(VAboutDialog *q) :
-    q_ptr(q)
+class VAboutDialog::Private
 {
-    verticalLayout = new QVBoxLayout(q);
-    logoLabel = new QLabel(q);
-    logoLabel->setAlignment(Qt::AlignCenter);
-    verticalLayout->addWidget(logoLabel);
+public:
+    Private(VAboutDialog *self) :
+        q(self) {
+        verticalLayout = new QVBoxLayout(q);
+        logoLabel = new QLabel(q);
+        logoLabel->setAlignment(Qt::AlignCenter);
+        verticalLayout->addWidget(logoLabel);
 
-    appVerLabel = new QLabel(q);
-    QFont font;
-    font.setPointSize(16);
-    appVerLabel->setFont(font);
-    appVerLabel->setAlignment(Qt::AlignCenter);
-    appVerLabel->setText(QString("<strong>%1 %2</strong>")
-                         .arg(qApp->applicationName())
-                         .arg(qApp->applicationVersion()));
-    verticalLayout->addWidget(appVerLabel);
+        appVerLabel = new QLabel(q);
+        QFont font;
+        font.setPointSize(16);
+        appVerLabel->setFont(font);
+        appVerLabel->setAlignment(Qt::AlignCenter);
+        appVerLabel->setText(QString("<strong>%1 %2</strong>")
+                             .arg(qApp->applicationName())
+                             .arg(qApp->applicationVersion()));
+        verticalLayout->addWidget(appVerLabel);
 
-    descrLabel = new QLabel(q);
-    descrLabel->setAlignment(Qt::AlignCenter);
-    verticalLayout->addWidget(descrLabel);
+        descrLabel = new QLabel(q);
+        descrLabel->setAlignment(Qt::AlignCenter);
+        verticalLayout->addWidget(descrLabel);
 
-    copyrightLabel = new QLabel(q);
-    copyrightLabel->setAlignment(Qt::AlignCenter);
-    copyrightLabel->setWordWrap(true);
-    verticalLayout->addWidget(copyrightLabel);
+        copyrightLabel = new QLabel(q);
+        copyrightLabel->setAlignment(Qt::AlignCenter);
+        copyrightLabel->setWordWrap(true);
+        verticalLayout->addWidget(copyrightLabel);
 
-    websiteLabel = new QLabel(q);
-    websiteLabel->setAlignment(Qt::AlignCenter);
-    verticalLayout->addWidget(websiteLabel);
+        websiteLabel = new QLabel(q);
+        websiteLabel->setAlignment(Qt::AlignCenter);
+        verticalLayout->addWidget(websiteLabel);
 
-    verticalSpacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
-    verticalLayout->addItem(verticalSpacer);
+        verticalSpacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalLayout->addItem(verticalSpacer);
 
-    horizontalLayout = new QHBoxLayout();
-    horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-    horizontalLayout->addItem(horizontalSpacer);
+        horizontalLayout = new QHBoxLayout();
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalLayout->addItem(horizontalSpacer);
 
-    moreInfoButton = new QPushButton(q);
-    moreInfoButton->setText(tr("More Information.."));
-    moreInfoButton->hide();
-    horizontalLayout->addWidget(moreInfoButton);
+        moreInfoButton = new QPushButton(q);
+        moreInfoButton->setText(tr("More Information.."));
+        moreInfoButton->hide();
+        horizontalLayout->addWidget(moreInfoButton);
 
-    closeButton = new QPushButton(q);
-    closeButton->setDefault(true);
-    closeButton->setText(tr("Close"));
-    horizontalLayout->addWidget(closeButton);
+        closeButton = new QPushButton(q);
+        closeButton->setDefault(true);
+        closeButton->setText(tr("Close"));
+        horizontalLayout->addWidget(closeButton);
 
-    verticalLayout->addLayout(horizontalLayout);
+        verticalLayout->addLayout(horizontalLayout);
+    }
 
-    connect(moreInfoButton, SIGNAL(clicked()),
-            this, SLOT(slotMoreInformation()));
-    connect(closeButton, SIGNAL(clicked()),
-            this, SLOT(slotClose()));
-}
+    QString licenseText() const {
+        return m_licenseText;
+    }
+    void setLicenseText(const QString &text);
 
-void VAboutDialogPrivate::setLicenseText(const QString &text)
+    QStringList authors() const {
+        return m_authors;
+    }
+    void setAuthors(const QStringList &authors);
+
+    QUrl link() const {
+        return m_link;
+    }
+    void setLink(const QUrl &url);
+
+    VAboutDialog *q;
+
+    QVBoxLayout *verticalLayout;
+    QLabel *logoLabel;
+    QLabel *appVerLabel;
+    QLabel *descrLabel;
+    QLabel *copyrightLabel;
+    QLabel *websiteLabel;
+    QSpacerItem *verticalSpacer;
+    QHBoxLayout *horizontalLayout;
+    QSpacerItem *horizontalSpacer;
+    QPushButton *moreInfoButton;
+    QPushButton *closeButton;
+
+    QString m_licenseText;
+    QStringList m_authors;
+    QUrl m_link;
+
+    void _q_moreInformation();
+    void _q_close();
+};
+
+void VAboutDialog::Private::setLicenseText(const QString &text)
 {
     m_licenseText = text;
     if (m_licenseText == QString::null && m_authors.count() == 0)
@@ -96,7 +133,7 @@ void VAboutDialogPrivate::setLicenseText(const QString &text)
         moreInfoButton->show();
 }
 
-void VAboutDialogPrivate::setAuthors(const QStringList &authors)
+void VAboutDialog::Private::setAuthors(const QStringList &authors)
 {
     m_authors = authors;
     if (m_licenseText == QString::null && m_authors.count() == 0)
@@ -105,7 +142,7 @@ void VAboutDialogPrivate::setAuthors(const QStringList &authors)
         moreInfoButton->show();
 }
 
-void VAboutDialogPrivate::setLink(const QUrl &url)
+void VAboutDialog::Private::setLink(const QUrl &url)
 {
     m_link = url;
     if (!url.isValid())
@@ -114,7 +151,7 @@ void VAboutDialogPrivate::setLink(const QUrl &url)
         websiteLabel->setText(QString("<a href=\"%1\">%1</a>").arg(url.toString()));
 }
 
-void VAboutDialogPrivate::slotMoreInformation()
+void VAboutDialog::Private::_q_moreInformation()
 {
     QDialog *dialog = new QDialog();
     dialog->setWindowTitle(tr("More Information"));
@@ -140,9 +177,8 @@ void VAboutDialogPrivate::slotMoreInformation()
     dialog->show();
 }
 
-void VAboutDialogPrivate::slotClose()
+void VAboutDialog::Private::_q_close()
 {
-    Q_Q(VAboutDialog);
     q->close();
 }
 
@@ -152,86 +188,79 @@ void VAboutDialogPrivate::slotClose()
 
 VAboutDialog::VAboutDialog(QWidget *parent) :
     QDialog(parent),
-    d_ptr(new VAboutDialogPrivate(this))
+    d(new Private(this))
 {
     setWindowTitle(tr("About"));
     setSizeGripEnabled(false);
+
+    connect(d->moreInfoButton, SIGNAL(clicked()),
+            this, SLOT(_q_moreInformation()));
+    connect(d->closeButton, SIGNAL(clicked()),
+            this, SLOT(_q_close()));
 }
 
 VAboutDialog::~VAboutDialog()
 {
-    delete d_ptr;
+    delete d;
 }
 
 QPixmap *VAboutDialog::logo() const
 {
-    Q_D(const VAboutDialog);
     return const_cast<QPixmap *>(d->logoLabel->pixmap());
 }
 
 void VAboutDialog::setLogo(const QPixmap &pixmap)
 {
-    Q_D(VAboutDialog);
     d->logoLabel->setPixmap(pixmap);
 }
 
 QString VAboutDialog::description() const
 {
-    Q_D(const VAboutDialog);
     return d->descrLabel->text();
 }
 
 void VAboutDialog::setDescription(const QString &descr)
 {
-    Q_D(VAboutDialog);
     d->descrLabel->setText(descr);
 }
 
 QString VAboutDialog::copyright() const
 {
-    Q_D(const VAboutDialog);
     return d->copyrightLabel->text();
 }
 
 void VAboutDialog::setCopyright(const QString &text)
 {
-    Q_D(VAboutDialog);
     d->copyrightLabel->setText(text);
 }
 
 QString VAboutDialog::licenseText() const
 {
-    Q_D(const VAboutDialog);
     return d->licenseText();
 }
 
 void VAboutDialog::setLicenseText(const QString &text)
 {
-    Q_D(VAboutDialog);
     d->setLicenseText(text);
 }
 
 QStringList VAboutDialog::authors() const
 {
-    Q_D(const VAboutDialog);
     return d->authors();
 }
 
 void VAboutDialog::setAuthors(const QStringList &authors)
 {
-    Q_D(VAboutDialog);
     d->setAuthors(authors);
 }
 
 QUrl VAboutDialog::link() const
 {
-    Q_D(const VAboutDialog);
     return d->link();
 }
 
 void VAboutDialog::setLink(const QUrl &url)
 {
-    Q_D(VAboutDialog);
     d->setLink(url);
 }
 

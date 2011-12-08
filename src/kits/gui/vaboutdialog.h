@@ -28,12 +28,9 @@
 
 #include <VibeCore/VGlobal>
 
-class VAboutDialogPrivate;
-
 class VIBE_EXPORT VAboutDialog : public QDialog
 {
     Q_OBJECT
-    Q_DECLARE_PRIVATE(VAboutDialog)
     Q_PROPERTY(QPixmap logo READ logo WRITE setLogo)
     Q_PROPERTY(QString description READ description WRITE setDescription)
     Q_PROPERTY(QString copyright READ copyright WRITE setCopyright)
@@ -63,7 +60,12 @@ public:
     void setLink(const QUrl &url);
 
 private:
-    VAboutDialogPrivate *const d_ptr;
+    Q_PRIVATE_SLOT(d, void _q_moreInformation())
+    Q_PRIVATE_SLOT(d, void _q_close())
+
+    class Private;
+    Private *const d;
+    friend class Private;
 };
 
 #endif // VABOUTDIALOG_H

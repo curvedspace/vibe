@@ -819,3 +819,4 @@ void VBreadCrumbBar::paintEvent(QPaintEvent *)
 }
 
 #include "vbreadcrumbbar.moc"
+#include "vbreadcrumbbar_ui.moc"

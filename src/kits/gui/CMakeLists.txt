@@ -37,6 +37,7 @@ set(HEADERS
     vnavbargroup.h
     vnavbaritem.h
     vselectablewidget.h
+    vstyle.h
     vstyleoptionbreadcrumbbar.h
     vtheme.h
 )
