@@ -1,8 +1,12 @@
 add_definitions(-DVIBE_BUILDING)
 
-include_directories(${QT_INCLUDE_DIR})
-include_directories(${QT_QTCORE_INCLUDE_DIR} ${QT_QTXML_INCLUDE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/headers ${CMAKE_CURRENT_BINARY_DIR})
+include_directories(
+    ${QT_INCLUDE_DIR}
+    ${QT_QTCORE_INCLUDE_DIR}
+    ${QT_QTXML_INCLUDE_DIR}
+    ${CMAKE_SOURCE_DIR}/headers
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/vglobal.h.in"
@@ -40,6 +44,6 @@ set_target_properties(VibeCore PROPERTIES
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_RELEASE})
 
 install(FILES ${PUBLIC_HEADERS}
-    DESTINATION include/VibeCore COMPONENT Devel)
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/VibeCore COMPONENT Devel)
 install(TARGETS VibeCore LIBRARY
-    DESTINATION lib COMPONENT Framework)
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Framework)

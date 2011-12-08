@@ -1,10 +1,16 @@
 add_definitions(-DVIBE_BUILDING)
 
-include_directories(${QT_INCLUDE_DIR})
-include_directories(${QT_QTCORE_INCLUDE_DIR} ${QT_QTDBUS_INCLUDE_DIR} ${QT_QTXML_INCLUDE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/headers ${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${CMAKE_BINARY_DIR}/src/kits/core ${CMAKE_CURRENT_BINARY_DIR})
-include_directories(${CMAKE_BINARY_DIR})
+include_directories(
+    ${QT_INCLUDE_DIR}
+    ${QT_QTCORE_INCLUDE_DIR}
+    ${QT_QTDBUS_INCLUDE_DIR}
+    ${QT_QTXML_INCLUDE_DIR}
+    ${CMAKE_SOURCE_DIR}/headers
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_BINARY_DIR}/src/kits/core
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_BINARY_DIR}
+)
 
 # Check whether some processor features are supported.
 check_cxx_source_compiles("	#ifdef __SUNPRO_CC
@@ -93,6 +99,37 @@ set(SOURCES
 
    backends/shared/rootdevice.cpp
    backends/shared/cpufeatures.cpp
+)
+
+set(HEADERS
+    vhardware.h
+    vdevice.h
+    vdevicenotifier.h
+    vdeviceinterface.h
+    vgenericinterface.h
+    vprocessor.h
+    vblock.h
+    vstorageaccess.h
+    vstoragedrive.h
+    vopticaldrive.h
+    vstoragevolume.h
+    vopticaldisc.h
+    vcamera.h
+    vportablemediaplayer.h
+    vnetworkinterface.h
+    vacadapter.h
+    vbattery.h
+    vbutton.h
+    vaudiointerface.h
+    vdvbinterface.h
+    vpredicate.h
+    vpowermanagement.h
+    vnetworking.h
+    vvideo.h
+    vserialinterface.h
+    vsmartcardreader.h
+    vinternetgateway.h
+    vnetworkshare.h
 )
 
 # Look for HUpnp
@@ -204,9 +241,7 @@ qt4_add_dbus_interfaces(SOURCES org.freedesktop.PowerManagement.xml
 qt4_add_dbus_interface(SOURCES org.vision.Vibe.Hardware.Networking.Client.xml
                        org_vision_vibe_hardware_networking_client)
 
-# Library target
 automoc4(VibeHardare SOURCES)
-add_library(VibeHardware SHARED ${SOURCES})
 
 # Prepare for optional libraries dependencies
 set(OPTIONAL_LIBS)
@@ -221,11 +256,9 @@ if(UDEV_FOUND)
     set(OPTIONAL_LIBS ${OPTIONAL_LIBS} ${UDEV_LIBS})
 endif(UDEV_FOUND)
 
-# Link libraries
+add_library(VibeHardware SHARED ${SOURCES})
 target_link_libraries(VibeHardware ${QT_QTCORE_LIBRARY} ${QT_QTDBUS_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTGUI_LIBRARY} ${OPTIONAL_LIBS})
 target_link_libraries(VibeHardware LINK_INTERFACE_LIBRARIES ${QT_CORE_LIBRARY})
-
-# Library properties
 set_target_properties(VibeHardware PROPERTIES
     VERSION ${VIBE_VERSION_STR}
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_RELEASE})
@@ -235,18 +268,10 @@ set_target_properties(VibeHardware PROPERTIES
 #install(FILES org.freedesktop.PowerManagement.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR})
 #install(FILES org.freedesktop.PowerManagement.Inhibit.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR})
 
-########### install files ###############
-
-install(FILES
-    vhardware.h vdevice.h
-    vdevicenotifier.h vdeviceinterface.h vgenericinterface.h vprocessor.h vblock.h
-    vstorageaccess.h vstoragedrive.h vopticaldrive.h vstoragevolume.h vopticaldisc.h
-    vcamera.h vportablemediaplayer.h vnetworkinterface.h vacadapter.h vbattery.h
-    vbutton.h vaudiointerface.h vdvbinterface.h vpredicate.h vpowermanagement.h
-    vnetworking.h vvideo.h vserialinterface.h vsmartcardreader.h vinternetgateway.h
-    vnetworkshare.h DESTINATION include/VibeHardware COMPONENT Devel)
+install(FILES ${HEADERS}
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/VibeHardware COMPONENT Devel)
 install(TARGETS VibeHardware
-    LIBRARY DESTINATION lib COMPONENT Framework)
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Framework)
 
 ########### parser build ###############
 

@@ -1,9 +1,13 @@
 add_definitions(-DVIBE_BUILDING)
 
-include_directories(${QT_INCLUDE_DIR})
-include_directories(${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/headers)
-include_directories(${CMAKE_BINARY_DIR}/src/kits/core ${CMAKE_CURRENT_BINARY_DIR})
+include_directories(
+    ${QT_INCLUDE_DIR}
+    ${QT_QTCORE_INCLUDE_DIR}
+    ${QT_QTGUI_INCLUDE_DIR}
+    ${CMAKE_SOURCE_DIR}/headers
+    ${CMAKE_BINARY_DIR}/src/kits/core
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 set(SOURCES
     vaboutdialog.cpp
@@ -47,6 +51,6 @@ set_target_properties(VibeGui PROPERTIES
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_RELEASE})
 
 install(FILES ${HEADERS}
-    DESTINATION include/Vibe/Gui COMPONENT Devel)
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/VibeGui COMPONENT Devel)
 install(TARGETS VibeGui
-    LIBRARY DESTINATION lib COMPONENT Framework)
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Framework)
