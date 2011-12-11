@@ -44,7 +44,7 @@ extern void qt_x11_apply_settings_in_all_apps();
 
 VibePlatform::VibePlatform()
 {
-qDebug() << "constructor";
+    qDebug() << "constructor";
     m_conf = new QConf("org.vision.desktop.interface");
 
 #if 0
@@ -84,7 +84,7 @@ QStringList VibePlatform::keys() const
 
 QString VibePlatform::styleName()
 {
-qDebug() << "style:" << m_conf->property("style").toString();
+    qDebug() << "style:" << m_conf->property("style").toString();
     return m_conf->property("style").toString();
 }
 

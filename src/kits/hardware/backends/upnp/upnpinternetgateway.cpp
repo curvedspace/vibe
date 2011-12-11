@@ -101,7 +101,7 @@ namespace VHardware
             {
                 foreach(Herqq::Upnp::HClientDevice * device, devices) {
                     QString deviceType = device->info().deviceType().toString(Herqq::Upnp::HResourceType::TypeSuffix |
-                                         Herqq::Upnp::HResourceType::Version);
+                                                                              Herqq::Upnp::HResourceType::Version);
                     if (deviceType.startsWith(typePreffix)) {
                         return device;
                     };
@@ -225,7 +225,7 @@ namespace VHardware
             }
 
             void UPnPInternetGateway::addPortMapping(const QString &remoteHost, qint16 externalPort, const VInternetGateway::NetworkProtocol &mappingProtocol,
-                    qint16 internalPort, const QString &internalClient)
+                                                     qint16 internalPort, const QString &internalClient)
             {
                 Herqq::Upnp::HClientDevices embeddedDevices = upnpDevice()->device()->embeddedDevices();
                 Herqq::Upnp::HClientDevice *wanDevice = getDevice(QString::fromLatin1("WANDevice"), embeddedDevices);

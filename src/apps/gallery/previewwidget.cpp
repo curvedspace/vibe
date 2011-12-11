@@ -53,7 +53,7 @@ PreviewWidget::PreviewWidget(QWidget *parent)
 #if 0
     // install event filter on child widgets
     QList<QWidget *> l = findChildren<QWidget *>();
-    foreach(QWidget *w, l) {
+    foreach(QWidget * w, l) {
         w->installEventFilter(this);
         w->setFocusPolicy(Qt::NoFocus);
     }
@@ -62,24 +62,24 @@ PreviewWidget::PreviewWidget(QWidget *parent)
 
 PreviewWidget::~PreviewWidget()
 {
-  delete ui;
+    delete ui;
 }
 
 bool PreviewWidget::eventFilter(QObject *o, QEvent *e)
 {
     return QWidget::eventFilter(o, e);
     switch (e->type()) {
-    case QEvent::MouseButtonPress:
-    case QEvent::MouseButtonRelease:
-    case QEvent::MouseButtonDblClick:
-    case QEvent::MouseMove:
-    case QEvent::KeyPress:
-    case QEvent::KeyRelease:
-    case QEvent::Enter:
-    case QEvent::Leave:
-        return true; // ignore;
-    default:
-        break;
+        case QEvent::MouseButtonPress:
+        case QEvent::MouseButtonRelease:
+        case QEvent::MouseButtonDblClick:
+        case QEvent::MouseMove:
+        case QEvent::KeyPress:
+        case QEvent::KeyRelease:
+        case QEvent::Enter:
+        case QEvent::Leave:
+            return true; // ignore;
+        default:
+            break;
     }
     return false;
 }

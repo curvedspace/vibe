@@ -46,8 +46,9 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace Ui {
-  class PreviewWidget;
+namespace Ui
+{
+    class PreviewWidget;
 }
 
 
