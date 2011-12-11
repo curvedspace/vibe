@@ -20,6 +20,7 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
+#include <QtCore/QDebug>
 #include <QtCore/QEvent>
 #include <QtCore/QFileInfo>
 #include <QtDBus/QDBusConnection>
@@ -33,7 +34,7 @@
 #include <VibeCore/VMimeType>
 #include <VibeGui/VColorScheme>
 
-#include <qconf.h>
+#include <dconf-qt/qconf.h>
 
 #include "vibeplatform.h"
 
@@ -43,12 +44,10 @@ extern void qt_x11_apply_settings_in_all_apps();
 
 VibePlatform::VibePlatform()
 {
-    m_conf = new QConf("org.vision.desktop", "/desktop/mirage");
-    QDBusConnection connection = QDBusConnection::sessionBus();
-    m_settings =
-        new org::qubeos::Settings(
-        "org.qubeos.Settings", "/", connection);
+qDebug() << "constructor";
+    m_conf = new QConf("org.vision.desktop.interface");
 
+#if 0
     connect(m_settings, SIGNAL(plainFontChanged(QString)),
             this, SLOT(updateFonts()));
     connect(m_settings, SIGNAL(fixedSizeFontChanged(QString)),
@@ -63,6 +62,14 @@ VibePlatform::VibePlatform()
             this, SLOT(updateToolBarIconSize()));
     connect(m_settings, SIGNAL(toolButtonStyleChanged(int)),
             this, SLOT(updateToolButtonStyle()));
+#endif
+
+    updateFonts();
+    updateWidgetStyle();
+    updateIconTheme();
+    updateColorScheme();
+    updateToolBarIconSize();
+    updateToolButtonStyle();
 }
 
 VibePlatform::~VibePlatform()
@@ -77,18 +84,20 @@ QStringList VibePlatform::keys() const
 
 QString VibePlatform::styleName()
 {
-    return m_conf->style();
+qDebug() << "style:" << m_conf->property("style").toString();
+    return m_conf->property("style").toString();
 }
 
 QPalette VibePlatform::palette()
 {
-    VColorScheme colorScheme(m_conf->colorScheme());
+    QString fileName(m_conf->property("color-scheme").toString());
+    VColorScheme colorScheme("/usr/local/share/color-schemes/" + fileName);
     return colorScheme.palette();
 }
 
 QString VibePlatform::systemIconThemeName()
 {
-    return m_conf->iconTheme();
+    return m_conf->property("icon-theme").toString();
 }
 
 QStringList VibePlatform::iconThemeSearchPaths()
@@ -113,9 +122,9 @@ int VibePlatform::platformHint(PlatformHint hint)
         case PH_ItemView_ActivateItemOnSingleClick:
             return 0;
         case PH_ToolBarIconSize:
-            return m_conf->toolbarIconSize();
+            return m_conf->property("toolbar-icon-size").toInt();
         case PH_ToolButtonStyle:
-            return m_conf->toolbarStyle();
+            return m_conf->property("toolbar-style").toInt();
     }
 
     return QGuiPlatformPlugin::platformHint(hint);
@@ -124,7 +133,7 @@ int VibePlatform::platformHint(PlatformHint hint)
 void VibePlatform::updateFonts()
 {
     QFont font;
-    if (font.fromString(m_conf->fontName())) {
+    if (font.fromString(m_conf->property("font-name").toString())) {
         QApplication::setFont(font);
 
 #ifdef Q_WS_X11

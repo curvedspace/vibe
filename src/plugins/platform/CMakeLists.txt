@@ -4,11 +4,11 @@ include_directories(
     ${QT_QTGUI_INCLUDE_DIR}
     ${QCONF_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}/headers
+    ${CMAKE_BINARY_DIR}/src/kits/core
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_BINARY_DIR}/src/servers/settings
 )
 
-add_definitions(-DQT_PLUGIN -DQT_SHARED)
+add_definitions(${QT_DEFINITIONS} -DQT_PLUGIN -DQT_SHARED)
 
 set(SOURCES
     vibeplatform.cpp

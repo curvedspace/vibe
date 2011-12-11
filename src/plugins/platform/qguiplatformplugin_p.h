@@ -80,7 +80,7 @@ Q_DECLARE_INTERFACE(QGuiPlatformPluginInterface, QGuiPlatformPluginInterface_iid
 class Q_GUI_EXPORT QGuiPlatformPlugin : public QObject, public QGuiPlatformPluginInterface
 {
     Q_OBJECT
-Q_INTERFACES(QGuiPlatformPluginInterface:QFactoryInterface)
+Q_INTERFACES(QGuiPlatformPluginInterface: QFactoryInterface)
 public:
     explicit QGuiPlatformPlugin(QObject *parent = 0);
     ~QGuiPlatformPlugin();
