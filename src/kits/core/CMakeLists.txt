@@ -14,6 +14,7 @@ configure_file(
     IMMEDIATE @ONLY)
 
 set(SOURCES
+    vapplicationinfo.cpp
     vcommandoptions.cpp
     vglobals.cpp
     vmimetype.cpp
@@ -21,7 +22,8 @@ set(SOURCES
     vstringhandler.cpp
 )
 
-set(PUBLIC_HEADERS
+set(HEADERS
+    vapplicationinfo.h
     vcommandoptions.h
     vmimetype.h
     vsavefile.h
@@ -43,7 +45,7 @@ set_target_properties(VibeCore PROPERTIES
     VERSION ${VIBE_VERSION_STR}
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_RELEASE})
 
-install(FILES ${PUBLIC_HEADERS}
+install(FILES ${HEADERS}
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/VibeCore COMPONENT Devel)
 install(TARGETS VibeCore LIBRARY
     DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Framework)

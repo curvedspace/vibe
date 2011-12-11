@@ -1,4 +1,5 @@
 set(HEADERS
+    VApplicationInfo
     VCommandOptions
     VGlobal
     VMimeType
