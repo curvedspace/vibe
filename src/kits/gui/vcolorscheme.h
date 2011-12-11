@@ -40,16 +40,25 @@ public:
 
     QPalette palette() const;
 
-    QColor background(QPalette::ColorGroup group) const;
-    QColor foreground(QPalette::ColorGroup group) const;
+    QColor window(QPalette::ColorGroup group) const;
+    QColor windowText(QPalette::ColorGroup group) const;
     QColor base(QPalette::ColorGroup group) const;
+    QColor alternateBase(QPalette::ColorGroup group) const;
+    QColor toolTipBase(QPalette::ColorGroup group) const;
+    QColor toolTipText(QPalette::ColorGroup group) const;
     QColor text(QPalette::ColorGroup group) const;
     QColor button(QPalette::ColorGroup group) const;
     QColor buttonText(QPalette::ColorGroup group) const;
-    QColor link(QPalette::ColorGroup group) const;
-    QColor linkVisited(QPalette::ColorGroup group) const;
+    QColor brightText(QPalette::ColorGroup group) const;
+    QColor light(QPalette::ColorGroup group) const;
+    QColor midlight(QPalette::ColorGroup group) const;
+    QColor dark(QPalette::ColorGroup group) const;
+    QColor mid(QPalette::ColorGroup group) const;
+    QColor shadow(QPalette::ColorGroup group) const;
     QColor highlight(QPalette::ColorGroup group) const;
     QColor highlightedText(QPalette::ColorGroup group) const;
+    QColor link(QPalette::ColorGroup group) const;
+    QColor linkVisited(QPalette::ColorGroup group) const;
 
 private:
     VColorSchemePrivate *const d_ptr;

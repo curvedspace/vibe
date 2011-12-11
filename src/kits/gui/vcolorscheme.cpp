@@ -67,26 +67,44 @@ VColorSchemePrivate::VColorSchemePrivate(VColorScheme *q, const QString &name) :
 
             // Now add this color to the palette
             QPalette::ColorRole role;
-            if (key == "Background")
-                role = QPalette::Background;
-            else if (key == "Foreground")
-                role = QPalette::Foreground;
+            if (key == "Window")
+                role = QPalette::Window;
+            else if (key == "WindowText")
+                role = QPalette::WindowText;
             else if (key == "Base")
                 role = QPalette::Base;
+            else if (key == "AlternateBase")
+                role = QPalette::AlternateBase;
+            else if (key == "ToolTipBase")
+                role = QPalette::ToolTipBase;
+            else if (key == "ToolTipText")
+                role = QPalette::ToolTipText;
             else if (key == "Text")
                 role = QPalette::Text;
             else if (key == "Button")
                 role = QPalette::Button;
             else if (key == "ButtonText")
                 role = QPalette::ButtonText;
-            else if (key == "Link")
-                role = QPalette::Link;
-            else if (key == "LinkVisited")
-                role = QPalette::LinkVisited;
+            else if (key == "BrightText")
+                role = QPalette::BrightText;
+            else if (key == "Light")
+                role = QPalette::Light;
+            else if (key == "Midlight")
+                role = QPalette::Midlight;
+            else if (key == "Dark")
+                role = QPalette::Dark;
+            else if (key == "Mid")
+                role = QPalette::Mid;
+            else if (key == "Shadow")
+                role = QPalette::Shadow;
             else if (key == "Highlight")
                 role = QPalette::Highlight;
             else if (key == "HighlightedText")
                 role = QPalette::HighlightedText;
+            else if (key == "Link")
+                role = QPalette::Link;
+            else if (key == "LinkVisited")
+                role = QPalette::LinkVisited;
             palette.setColor(entry.first, role, color.second);
         }
     }
@@ -134,22 +152,40 @@ QPalette VColorScheme::palette() const
     return d->palette;
 }
 
-QColor VColorScheme::background(QPalette::ColorGroup group) const
+QColor VColorScheme::window(QPalette::ColorGroup group) const
 {
     Q_D(const VColorScheme);
-    return d->value(group, "Background");
+    return d->value(group, "Window");
 }
 
-QColor VColorScheme::foreground(QPalette::ColorGroup group) const
+QColor VColorScheme::windowText(QPalette::ColorGroup group) const
 {
     Q_D(const VColorScheme);
-    return d->value(group, "Foreground");
+    return d->value(group, "WindowText");
 }
 
 QColor VColorScheme::base(QPalette::ColorGroup group) const
 {
     Q_D(const VColorScheme);
     return d->value(group, "Base");
+}
+
+QColor VColorScheme::alternateBase(QPalette::ColorGroup group) const
+{
+    Q_D(const VColorScheme);
+    return d->value(group, "AlternateBase");
+}
+
+QColor VColorScheme::toolTipBase(QPalette::ColorGroup group) const
+{
+    Q_D(const VColorScheme);
+    return d->value(group, "ToolTipBase");
+}
+
+QColor VColorScheme::toolTipText(QPalette::ColorGroup group) const
+{
+    Q_D(const VColorScheme);
+    return d->value(group, "ToolTipText");
 }
 
 QColor VColorScheme::text(QPalette::ColorGroup group) const
@@ -170,16 +206,40 @@ QColor VColorScheme::buttonText(QPalette::ColorGroup group) const
     return d->value(group, "ButtonText");
 }
 
-QColor VColorScheme::link(QPalette::ColorGroup group) const
+QColor VColorScheme::brightText(QPalette::ColorGroup group) const
 {
     Q_D(const VColorScheme);
-    return d->value(group, "Link");
+    return d->value(group, "BrightText");
 }
 
-QColor VColorScheme::linkVisited(QPalette::ColorGroup group) const
+QColor VColorScheme::light(QPalette::ColorGroup group) const
 {
     Q_D(const VColorScheme);
-    return d->value(group, "LinkVisited");
+    return d->value(group, "Light");
+}
+
+QColor VColorScheme::midlight(QPalette::ColorGroup group) const
+{
+    Q_D(const VColorScheme);
+    return d->value(group, "Midlight");
+}
+
+QColor VColorScheme::dark(QPalette::ColorGroup group) const
+{
+    Q_D(const VColorScheme);
+    return d->value(group, "Dark");
+}
+
+QColor VColorScheme::mid(QPalette::ColorGroup group) const
+{
+    Q_D(const VColorScheme);
+    return d->value(group, "Mid");
+}
+
+QColor VColorScheme::shadow(QPalette::ColorGroup group) const
+{
+    Q_D(const VColorScheme);
+    return d->value(group, "Shadow");
 }
 
 QColor VColorScheme::highlight(QPalette::ColorGroup group) const
@@ -192,4 +252,16 @@ QColor VColorScheme::highlightedText(QPalette::ColorGroup group) const
 {
     Q_D(const VColorScheme);
     return d->value(group, "HighlightedText");
+}
+
+QColor VColorScheme::link(QPalette::ColorGroup group) const
+{
+    Q_D(const VColorScheme);
+    return d->value(group, "Link");
+}
+
+QColor VColorScheme::linkVisited(QPalette::ColorGroup group) const
+{
+    Q_D(const VColorScheme);
+    return d->value(group, "LinkVisited");
 }
