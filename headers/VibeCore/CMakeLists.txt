@@ -1,6 +1,7 @@
 set(HEADERS
     VApplicationInfo
     VCommandOptions
+    VDesktopFile
     VGlobal
     VMimeType
     VSaveFile

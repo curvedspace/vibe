@@ -16,6 +16,7 @@ configure_file(
 set(SOURCES
     vapplicationinfo.cpp
     vcommandoptions.cpp
+    vdesktopfile.cpp
     vglobals.cpp
     vmimetype.cpp
     vsavefile.cpp
@@ -25,6 +26,7 @@ set(SOURCES
 set(HEADERS
     vapplicationinfo.h
     vcommandoptions.h
+    vdesktopfile.h
     vmimetype.h
     vsavefile.h
     vstringhandler.h
