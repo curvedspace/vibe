@@ -37,6 +37,10 @@ class QUrl;
 
 class VMimeTypePrivate;
 
+/** \addtogroup core Core Kit
+ *  @{
+ */
+
 class VIBE_EXPORT VMimeType : public QObject
 {
     Q_OBJECT
@@ -76,5 +80,7 @@ private:
     bool checkMagicString(const QString &offset, const QByteArray &value,
                           const QByteArray &mask, QFile *file);
 };
+
+/** @}*/
 
 #endif // VMIMETYPE_H

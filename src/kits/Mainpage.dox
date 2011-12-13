@@ -1,0 +1,100 @@
+/** @mainpage Vibe API Reference
+
+<p><b>
+Overview |
+@ref kits |
+@ref development |
+@ref search
+</b></p>
+
+This is the online reference for developing with the Vibe libraries.
+
+The Vibe libraries are the foundation of Vision applications and build
+on the <a href="http://www.trolltech.com/products/qt/">Qt</a> framework to
+provide a powerful framework to make writing applications easier,
+and provide consistency across the Vision operating system.
+
+@authors
+See the copyright notices on the individual files, as well as the pages
+for individual kits.
+
+@maintainers
+The maintainer is Pier Luigi Fiorini.
+
+@licenses
+Libraries: @lgpl<br>
+Some helper binaries: @gpl<br>
+Some code may have more permissive licenses.
+
+*/
+
+/** @page kits Kits
+
+<p><b>
+@ref index "Overview" |
+Kits |
+@ref development |
+@ref search
+</b></p>
+
+Below is a brief summary of the various libraries you may want to use
+when developing a Vision application.
+
+<dl>
+	<dt>Core Kit</dt>
+	<dd>Core classes that are not related to the user interface.<br>
+		[ <a href="html/group__core.html">Documentation</a> |
+		  <a href="core/html/classes.html">Classes</a> ]</dd>
+</dl>
+
+*/
+
+/** @page development Development
+
+<p><b>
+@ref index "Overview" |
+@ref kits |
+Development |
+@ref search
+</b></p>
+
+To follow or get involved with the development of the Vibe libraries,
+.....
+
+todo
+
+Instructions for building a development version of Vibe can be found in the
+.....
+
+todo
+
+*/
+
+/** @page search Search
+
+<p><b>
+@ref index "Overview" |
+@ref kits |
+@ref development |
+Search
+</b></p>
+
+You can search for any class in the public API of the Vibe libraries
+here.
+
+Note: only enter the class name, without any namespace qualifiers.
+
+@htmlonly
+<form action="http://api.vision-os.org/classmapper.php" method="get">
+<input type="text" name="class" value="[classname]" style="width:100%;" onClick="this.value='';"/>
+<input type="submit" name="go" value="Go" />
+<input type=hidden name="module" value="vibe">
+<input type=hidden name="version" value="0.0.0">
+</form>
+@endhtmlonly
+
+*/
+
+// DOXYGEN_NAME=vibe
+// DOXYGEN_ENABLE=YES
+// vim:ts=4:sw=4:expandtab:filetype=doxygen

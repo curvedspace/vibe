@@ -36,6 +36,10 @@
 
 #include <VibeCore/VGlobal>
 
+/** \addtogroup core Core Kit
+ *  @{
+ */
+
 /**
  * \class VSaveFile vsavefile.h <VSaveFile>
  *
@@ -252,5 +256,7 @@ private:
     class Private;
     Private *const d;
 };
+
+/** @}*/
 
 #endif // VSAVEFILE_H

@@ -25,10 +25,16 @@
 
 #include <VibeCore/VGlobal>
 
+/** \addtogroup core Core Kit
+ *  @{
+ */
+
 class VIBE_EXPORT VCoreGlobals
 {
 public:
     VCoreGlobals();
 };
+
+/** @}*/
 
 #endif // VGLOBALS_H

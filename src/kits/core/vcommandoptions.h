@@ -38,6 +38,10 @@ QT_FORWARD_DECLARE_CLASS(QIODevice)
 
 class VCommandOptionsPrivate;
 
+/** \addtogroup core Core Kit
+ *  @{
+ */
+
 class VIBE_EXPORT VCommandOptions
 {
     Q_DECLARE_PRIVATE(VCommandOptions)
@@ -122,5 +126,7 @@ private:
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(VCommandOptions::ParamTypes)
+
+/** @}*/
 
 #endif // VCOMMANDOPTIONS_H

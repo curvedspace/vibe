@@ -27,6 +27,10 @@
 
 #include <VibeCore/VGlobal>
 
+/** \addtogroup core Core Kit
+ *  @{
+ */
+
 /**
  * This namespace contains utility functions for handling strings.
  *
@@ -66,5 +70,7 @@ namespace VStringHandler
      */
     VIBE_EXPORT QString elide(const QString &str, Qt::TextElideMode mode, int maxlen = 40);
 }
+
+/** @}*/
 
 #endif // VSTRINGHANDLER_H
