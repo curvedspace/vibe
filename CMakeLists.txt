@@ -58,6 +58,7 @@ pkg_check_modules(QCONF REQUIRED dconf-qt)
 
 # Subdirectories
 add_subdirectory(cmake)
+add_subdirectory(doxygen)
 add_subdirectory(data)
 add_subdirectory(headers)
 add_subdirectory(src)
