@@ -1,4 +1,4 @@
-prefix=@CMAKE_PREFIX@
+prefix=@CMAKE_INSTALL_PREFIX@
 exec_prefix=${prefix}
 bindir=${prefix}/bin
 libdir=${prefix}/lib
