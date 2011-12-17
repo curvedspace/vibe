@@ -20,6 +20,7 @@ set(SOURCES
     vglobals.cpp
     vmimetype.cpp
     vsavefile.cpp
+    vstandarddirectories.cpp
     vstringhandler.cpp
 )
 
@@ -29,6 +30,7 @@ set(HEADERS
     vdesktopfile.h
     vmimetype.h
     vsavefile.h
+    vstandarddirectories.h
     vstringhandler.h
     ${CMAKE_CURRENT_BINARY_DIR}/vglobal.h
 )
