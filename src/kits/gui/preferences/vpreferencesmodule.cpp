@@ -77,3 +77,5 @@ void VPreferencesModule::showEvent(QShowEvent *event)
 
     QWidget::showEvent(event);
 }
+
+#include "vpreferencesmodule.moc"

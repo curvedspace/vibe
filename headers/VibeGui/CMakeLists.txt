@@ -14,7 +14,7 @@ set(HEADERS
     VPageWidget
     VPageWidgetModel
     VPreferencesModule
-    VPreferencesModuleInfo
+    VPreferencesModulePlugin
     VSelectableWidget
     VStyle
     VStyleOptionBreadCrumbBar

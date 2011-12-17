@@ -187,8 +187,6 @@ private:
     VPreferencesModulePrivate *const d_ptr;
 };
 
-Q_DECLARE_INTERFACE(VPreferencesModule, "org.vision.Preferences.Module/1.0")
-
 /** @}*/
 
 #endif // VPREFERENCESMODULE_H

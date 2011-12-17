@@ -1,4 +1,5 @@
 add_definitions(-DVIBE_BUILDING)
+add_definitions(${QT_DEFINITIONS})
 
 include_directories(
     ${QT_INCLUDE_DIR}
@@ -36,7 +37,6 @@ set(SOURCES
     paged/vpagewidgetmodel.cpp
 
     preferences/vpreferencesmodule.cpp
-    preferences/vpreferencesmoduleinfo.cpp
 )
 
 set(HEADERS
@@ -63,14 +63,13 @@ set(HEADERS
     paged/vpagewidgetmodel.h
 
     preferences/vpreferencesmodule.h
-    preferences/vpreferencesmoduleinfo.h
+    preferences/vpreferencesmoduleplugin.h
 )
 
 automoc4(VibeGui SOURCES)
 
 add_library(VibeGui SHARED ${SOURCES})
-target_link_libraries(VibeGui
-    LINK_INTERFACE_LIBRARIES ${QT_QTGUI_LIBRARY} VibeCore)
+target_link_libraries(VibeGui ${QT_QTGUI_LIBRARIES} VibeCore)
 set_target_properties(VibeGui PROPERTIES
     VERSION ${VIBE_VERSION_STR}
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_RELEASE})
