@@ -9,9 +9,14 @@ set(HEADERS
     VNavBar
     VNavBarGroup
     VNavBarItem
+    VPageModel
+    VPageView
+    VPageWidget
+    VPageWidgetModel
     VSelectableWidget
     VStyle
     VStyleOptionBreadCrumbBar
+    VTitleWidget
 )
 
 install(FILES ${HEADERS}

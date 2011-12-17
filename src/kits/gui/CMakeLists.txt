@@ -6,6 +6,8 @@ include_directories(
     ${QT_QTGUI_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_BINARY_DIR}/src/kits/core
+    ${CMAKE_CURRENT_SOURCE_DIR}/widgets
+    ${CMAKE_CURRENT_SOURCE_DIR}/paged
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
@@ -23,6 +25,14 @@ set(SOURCES
     vselectablewidget.cpp
     vstyleoptionbreadcrumbbar.cpp
     vtheme.cpp
+
+    widgets/vtitlewidget.cpp
+
+    paged/vpagemodel.cpp
+    paged/vpageview.cpp
+    paged/vpageview_p.cpp
+    paged/vpagewidget.cpp
+    paged/vpagewidgetmodel.cpp
 )
 
 set(HEADERS
@@ -40,6 +50,13 @@ set(HEADERS
     vstyle.h
     vstyleoptionbreadcrumbbar.h
     vtheme.h
+
+    widgets/vtitlewidget.h
+
+    paged/vpagemodel.h
+    paged/vpageview.h
+    paged/vpagewidget.h
+    paged/vpagewidgetmodel.h
 )
 
 automoc4(VibeGui SOURCES)
