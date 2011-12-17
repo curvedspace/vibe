@@ -3,7 +3,6 @@ set(HEADERS
     VBookmarkManager
     VFilePlacesModel
     VFileSystemModel
-    VFindDirectory
 )
 
 install(FILES ${HEADERS}

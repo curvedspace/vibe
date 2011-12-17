@@ -5,6 +5,7 @@ set(HEADERS
     VGlobal
     VMimeType
     VSaveFile
+    VStandardDirectories
     VStringHandler
 )
 

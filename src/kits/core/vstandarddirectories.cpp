@@ -20,11 +20,11 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QtGui/QDesktopServices>
+#include <QDir>
 
-#include "vfinddirectory.h"
+#include "vstandarddirectories.h"
 
-namespace VStorage
+namespace VStandardDirectories
 {
     QString findDirectory(DirectoryWhich which)
     {
@@ -113,65 +113,35 @@ namespace VStorage
             case UsersDirectory:
                 return "/users";
             case UserHomeDirectory:
-                return QDesktopServices::storageLocation(QDesktopServices::HomeLocation);
-            case UserSettingsDirectory: {
-                QString path(QDesktopServices::storageLocation(QDesktopServices::HomeLocation));
-                return path + "/.settings";
-            }
-            case UserBundlesDirectory: {
-                QString path(QDesktopServices::storageLocation(QDesktopServices::HomeLocation));
-                return path + "/.bundles";
-            }
-            case UserApplicationsDirectory: {
-                QString path(QDesktopServices::storageLocation(QDesktopServices::HomeLocation));
-                return path + "/.apps";
-            }
+                return QDir::homePath();
+            case UserSettingsDirectory:
+                return QDir::homePath() + "/.settings";
+            case UserBundlesDirectory:
+                return QDir::homePath() + "/.bundles";
+            case UserApplicationsDirectory:
+                return QDir::homePath() + "/.apps";
             case UserDesktopDirectory:
-                return QDesktopServices::storageLocation(QDesktopServices::DesktopLocation);
+                return QDir::homePath() + "/.desktop";
             case UserDocumentsDirectory:
-                return QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
+                return QDir::homePath() + "/documents";
             case UserMusicDirectory:
-                return QDesktopServices::storageLocation(QDesktopServices::MusicLocation);
+                return QDir::homePath() + "/music";
             case UserMoviesDirectory:
-                return QDesktopServices::storageLocation(QDesktopServices::MoviesLocation);
+                return QDir::homePath() + "/movies";
             case UserPicturesDirectory:
-                return QDesktopServices::storageLocation(QDesktopServices::PicturesLocation);
+                return QDir::homePath() + "/pictures";
             case UserTemporaryDirectory:
-                return QDesktopServices::storageLocation(QDesktopServices::TempLocation);
-            case UserDataDirectory: {
-                QString path(QDesktopServices::storageLocation(QDesktopServices::HomeLocation));
-                return path + "/.data";
-            }
-            case UserThemesDirectory: {
-                QString path(QDesktopServices::storageLocation(QDesktopServices::HomeLocation));
-                return path + "/.data/themes";
-            }
-            case UserFontsDirectory: {
-                QString path(QDesktopServices::storageLocation(QDesktopServices::HomeLocation));
-                return path + "/.data/fonts";
-            }
-            case UserCacheDirectory: {
-                QString path(QDesktopServices::storageLocation(QDesktopServices::HomeLocation));
-                return path + "/.cache";
-            }
+                return QDir::homePath() + "/.tmp";
+            case UserDataDirectory:
+                return QDir::homePath() + "/.data";
+            case UserThemesDirectory:
+                return QDir::homePath() + "/.data/themes";
+            case UserFontsDirectory:
+                return QDir::homePath() + "/.data/fonts";
+            case UserCacheDirectory:
+                return QDir::homePath() + "/.data/cache";
             default:
                 break;
         }
     }
-}
-
-int find_directory(VStorage::DirectoryWhich which, char **name)
-{
-    /* Sanity check */
-    if (name == NULL)
-        return -1;
-
-    /* Find directory or return NULL */
-    QString location = VStorage::findDirectory(which);
-    if (!location.isEmpty())
-        *name = strdup(location.toLocal8Bit());
-    else
-        *name = NULL;
-
-    return 0;
 }

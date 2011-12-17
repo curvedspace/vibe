@@ -20,12 +20,12 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#ifndef VFINDDIRECTORY_H
-#define VFINDDIRECTORY_H
+#ifndef VSTANDARDDIRECTORIES_H
+#define VSTANDARDDIRECTORIES_H
 
 #include <QtCore/QString>
 
-namespace VStorage
+namespace VStandardDirectories
 {
     typedef enum {
         /*
@@ -214,18 +214,4 @@ namespace VStorage
     QString findDirectory(DirectoryWhich which);
 }
 
-/* C interface */
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-    /*!
-     * C utility function.
-     */
-    int find_directory(VStorage::DirectoryWhich which, char **name);
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif // VFINDDIRECTORY_H
+#endif // VSTANDARDDIRECTORIES_H
