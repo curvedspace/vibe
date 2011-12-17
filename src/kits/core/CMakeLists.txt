@@ -1,7 +1,7 @@
 add_definitions(-DVIBE_BUILDING)
+add_definitions(${QT_DEFINITIONS})
 
 include_directories(
-    ${QT_INCLUDE_DIR}
     ${QT_QTCORE_INCLUDE_DIR}
     ${QT_QTXML_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}/headers

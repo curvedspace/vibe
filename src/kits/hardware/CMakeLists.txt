@@ -1,4 +1,5 @@
 add_definitions(-DVIBE_BUILDING)
+add_definitions(${QT_DEFINITIONS})
 
 include_directories(
     ${QT_INCLUDE_DIR}
