@@ -8,6 +8,7 @@ include_directories(
     ${CMAKE_BINARY_DIR}/src/kits/core
     ${CMAKE_CURRENT_SOURCE_DIR}/widgets
     ${CMAKE_CURRENT_SOURCE_DIR}/paged
+    ${CMAKE_CURRENT_SOURCE_DIR}/preferences
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
@@ -33,6 +34,9 @@ set(SOURCES
     paged/vpageview_p.cpp
     paged/vpagewidget.cpp
     paged/vpagewidgetmodel.cpp
+
+    preferences/vpreferencesmodule.cpp
+    preferences/vpreferencesmoduleinfo.cpp
 )
 
 set(HEADERS
@@ -57,6 +61,9 @@ set(HEADERS
     paged/vpageview.h
     paged/vpagewidget.h
     paged/vpagewidgetmodel.h
+
+    preferences/vpreferencesmodule.h
+    preferences/vpreferencesmoduleinfo.h
 )
 
 automoc4(VibeGui SOURCES)
