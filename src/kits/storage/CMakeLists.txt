@@ -18,7 +18,6 @@ set(SOURCES
     vfileplacesitem.cpp
     vfileplacessharedbookmarks.cpp
     vfilesystemmodel.cpp
-    vfinddirectory.cpp
 )
 
 set(HEADERS
@@ -26,11 +25,9 @@ set(HEADERS
     vbookmarkmanager.h
     vfileplacesmodel.h
     vfilesystemmodel.h
-    vfinddirectory.h
 )
 
 automoc4(VibeStorage SOURCES)
-
 add_library(VibeStorage SHARED ${SOURCES})
 target_link_libraries(VibeStorage
     LINK_INTERFACE_LIBRARIES ${QT_QTGUI_LIBRARY} ${QT_QTXML_LIBRARY} VibeCore VibeHardware)
