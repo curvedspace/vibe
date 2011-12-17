@@ -81,6 +81,10 @@ namespace VStandardDirectories
                 return "/common/bundles";
             case CommonApplicationsDirectory:
                 return "/common/apps";
+            case CommonDevelopmentDirectory:
+                return "/common/development";
+            case CommonHeadersDirectory:
+                return "/common/development/headers";
             case CommonDataDirectory:
                 return "/common/data";
             case CommonFontsDirectory:

@@ -115,6 +115,12 @@ namespace VStandardDirectories
         /*! Common applications directory (/common/apps) */
         CommonApplicationsDirectory,
 
+        /*! Common development directory (/common/development) */
+        CommonDevelopmentDirectory,
+
+        /*! Common headers directory (/common/development/headers) */
+        CommonHeadersDirectory,
+
         /*! Common data directory (/common/data) */
         CommonDataDirectory,
 
