@@ -160,7 +160,7 @@ namespace VStandardDirectories
         /*! Common directory for run files (/common/var/run) */
         CommonRunDirectory,
 
-        /*! Common directory for lock files (/common/var/run/lock) */
+        /*! Common directory for lock files (/common/var/lock) */
         CommonLockDirectory,
 
         /*

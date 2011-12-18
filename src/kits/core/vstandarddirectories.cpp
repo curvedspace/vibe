@@ -112,7 +112,7 @@ namespace VStandardDirectories
             case CommonRunDirectory:
                 return "/common/var/run";
             case CommonLockDirectory:
-                return "/common/var/run/lock";
+                return "/common/var/lock";
 
             case UsersDirectory:
                 return "/users";
