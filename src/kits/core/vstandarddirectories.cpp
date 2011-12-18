@@ -99,10 +99,10 @@ namespace VStandardDirectories
                 return "/common/data/themes";
             case CommonDocumentationDirectory:
                 return "/common/doc";
-            case CommonCacheDirectory:
-                return "/common/cache";
             case CommonVariableDirectory:
                 return "/common/var";
+            case CommonCacheDirectory:
+                return "/common/cache";
             case CommonSpoolDirectory:
                 return "/common/var/spool";
             case CommonLogDirectory:

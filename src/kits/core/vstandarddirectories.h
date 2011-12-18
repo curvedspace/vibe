@@ -142,11 +142,11 @@ namespace VStandardDirectories
         /*! Common documentation directory (/common/doc) */
         CommonDocumentationDirectory,
 
-        /*! Common cache directory (/common/cache) */
-        CommonCacheDirectory,
-
         /*! Common variable directory (/common/var) */
         CommonVariableDirectory,
+
+        /*! Common cache directory (/common/var/cache) */
+        CommonCacheDirectory,
 
         /*! Common spool directory (/common/var/spool) */
         CommonSpoolDirectory,
