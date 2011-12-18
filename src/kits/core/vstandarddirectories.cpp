@@ -126,6 +126,8 @@ namespace VStandardDirectories
                 return QDir::homePath() + "/.apps";
             case UserDesktopDirectory:
                 return QDir::homePath() + "/.desktop";
+            case UserDownloadsDirectory:
+                return QDir::homePath() + "/downloads";
             case UserDocumentsDirectory:
                 return QDir::homePath() + "/documents";
             case UserMusicDirectory:

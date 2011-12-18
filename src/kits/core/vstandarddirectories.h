@@ -177,16 +177,19 @@ namespace VStandardDirectories
         /*! User's desktop directory (/users/$USER/.desktop) */
         UserDesktopDirectory,
 
-        /*! User's documents directory (/users/$USER/Documents) */
+        /*! User's downloads directory (/users/$USER/downloads) */
+        UserDownloadsDirectory,
+
+        /*! User's documents directory (/users/$USER/documents) */
         UserDocumentsDirectory,
 
-        /*! User's music directory (/users/$USER/Music) */
+        /*! User's music directory (/users/$USER/music) */
         UserMusicDirectory,
 
-        /*! User's movies directory (/users/$USER/Movies) */
+        /*! User's movies directory (/users/$USER/movies) */
         UserMoviesDirectory,
 
-        /*! User's pictures directory (/users/$USER/Pictures) */
+        /*! User's pictures directory (/users/$USER/pictures) */
         UserPicturesDirectory,
 
         /*! User's temporary directory (/users/$USER/.tmp) */
