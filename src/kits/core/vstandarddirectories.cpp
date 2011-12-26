@@ -29,6 +29,8 @@ namespace VStandardDirectories
     QString findDirectory(DirectoryWhich which)
     {
         switch (which) {
+            case KernelDirectory:
+                return "/system/kernel";
             case KernelBootDirectory:
                 return "/system/kernel/boot";
             case KernelDevicesDirectory:
@@ -52,6 +54,10 @@ namespace VStandardDirectories
                 return "/system/bundles";
             case SystemApplicationsDirectory:
                 return "/system/apps";
+            case SystemDevelopmentDirectory:
+                return "/system/develop";
+            case SystemHeadersDirectory:
+                return "/system/develop/headers";
             case SystemDataDirectory:
                 return "/system/data";
             case SystemFontsDirectory:
@@ -65,7 +71,7 @@ namespace VStandardDirectories
             case SystemThemesDirectory:
                 return "/system/data/themes";
             case SystemDocumentationDirectory:
-                return "/system/doc";
+                return "/system/data/doc";
 
             case CommonDirectory:
                 return "/common";
@@ -82,9 +88,9 @@ namespace VStandardDirectories
             case CommonApplicationsDirectory:
                 return "/common/apps";
             case CommonDevelopmentDirectory:
-                return "/common/development";
+                return "/common/develop";
             case CommonHeadersDirectory:
-                return "/common/development/headers";
+                return "/common/develop/headers";
             case CommonDataDirectory:
                 return "/common/data";
             case CommonFontsDirectory:
@@ -98,7 +104,7 @@ namespace VStandardDirectories
             case CommonThemesDirectory:
                 return "/common/data/themes";
             case CommonDocumentationDirectory:
-                return "/common/doc";
+                return "/common/data/doc";
             case CommonVariableDirectory:
                 return "/common/var";
             case CommonCacheDirectory:
@@ -146,6 +152,9 @@ namespace VStandardDirectories
                 return QDir::homePath() + "/.data/fonts";
             case UserCacheDirectory:
                 return QDir::homePath() + "/.data/cache";
+
+            case VolumesDirectory:
+                return "/volumes";
             default:
                 break;
         }

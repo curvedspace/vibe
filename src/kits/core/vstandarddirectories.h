@@ -32,6 +32,9 @@ namespace VStandardDirectories
          * Kernel directories.
          */
 
+        /*! Boot files directory (/system/kernel) */
+        KernelDirectory,
+
         /*! Boot files directory (/system/kernel/boot) */
         KernelBootDirectory,
 
@@ -69,6 +72,12 @@ namespace VStandardDirectories
         /*! System applications directory (/system/apps) */
         SystemApplicationsDirectory,
 
+        /*! System development directory (/system/develop) */
+        SystemDevelopmentDirectory,
+
+        /*! System headers directory (/system/develop/headers) */
+        SystemHeadersDirectory,
+
         /*! System data directory (/system/data) */
         SystemDataDirectory,
 
@@ -87,7 +96,7 @@ namespace VStandardDirectories
         /*! System themes directory (/system/data/themes) */
         SystemThemesDirectory,
 
-        /*! System documentation directory (/system/doc) */
+        /*! System documentation directory (/system/data/doc) */
         SystemDocumentationDirectory,
 
         /*
@@ -115,10 +124,10 @@ namespace VStandardDirectories
         /*! Common applications directory (/common/apps) */
         CommonApplicationsDirectory,
 
-        /*! Common development directory (/common/development) */
+        /*! Common development directory (/common/develop) */
         CommonDevelopmentDirectory,
 
-        /*! Common headers directory (/common/development/headers) */
+        /*! Common headers directory (/common/develop/headers) */
         CommonHeadersDirectory,
 
         /*! Common data directory (/common/data) */
@@ -139,7 +148,7 @@ namespace VStandardDirectories
         /*! Common themes directory (/common/data/themes) */
         CommonThemesDirectory,
 
-        /*! Common documentation directory (/common/doc) */
+        /*! Common documentation directory (/common/data/doc) */
         CommonDocumentationDirectory,
 
         /*! Common variable directory (/common/var) */
@@ -215,6 +224,13 @@ namespace VStandardDirectories
 
         /*! User's cache directory (/users/$USER/.cache) */
         UserCacheDirectory
+
+        /*
+         * Miscellaneous directories.
+         */
+
+        /*! Volumes directory (/volumes) */
+        VolumesDirectory = 4000,
     } DirectoryWhich;
 
     /*!
