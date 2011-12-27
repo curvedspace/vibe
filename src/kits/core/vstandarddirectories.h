@@ -223,14 +223,14 @@ namespace VStandardDirectories
         UserFontsDirectory,
 
         /*! User's cache directory (/users/$USER/.cache) */
-        UserCacheDirectory
+        UserCacheDirectory,
 
         /*
          * Miscellaneous directories.
          */
 
         /*! Volumes directory (/volumes) */
-        VolumesDirectory = 4000,
+        VolumesDirectory = 4000
     } DirectoryWhich;
 
     /*!
