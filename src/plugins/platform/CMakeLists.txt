@@ -18,5 +18,5 @@ automoc4(vibe SOURCES)
 add_library(vibe SHARED ${SOURCES})
 target_link_libraries(vibe ${QT_QTGUI_LIBRARIES} ${QCONF_LIBRARIES})
 
-install(TARGETS vibe LIBRARY
-    DESTINATION ${QT_PLUGINS_DIR}/gui_platform COMPONENT Framework)
+#install(TARGETS vibe LIBRARY
+#    DESTINATION ${QT_PLUGINS_DIR}/gui_platform COMPONENT Framework)
