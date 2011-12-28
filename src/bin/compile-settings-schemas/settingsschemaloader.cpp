@@ -29,6 +29,8 @@
 
 #include "settingsschemaloader.h"
 
+const quint32 kMagicNumber = 'VSSL';
+const quint32 kVersion = (1 << 16) + (0 << 8) + 0;
 const char *kCompiledSchemas = "registry";
 
 using namespace VPrivate;

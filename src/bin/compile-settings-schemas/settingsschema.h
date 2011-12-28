@@ -29,9 +29,6 @@
 
 namespace VPrivate
 {
-    const quint32 kMagicNumber = 'VSSL';
-    const quint32 kVersion = (1 << 16) + (0 << 8) + 0;
-
     class SettingsKey : public QObject
     {
         Q_OBJECT
