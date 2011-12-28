@@ -1,11 +1,9 @@
-add_definitions(-DVIBE_BUILDING)
-add_definitions(${QT_DEFINITIONS})
+add_definitions(-DVIBE_BUILDING ${QT_DEFINITIONS} -Wno-multichar)
 
 include_directories(
     ${QT_QTCORE_INCLUDE_DIR}
     ${QT_QTXML_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}/headers
-    ${CMAKE_SOURCE_DIR}/src/private/settings
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
@@ -25,6 +23,8 @@ set(SOURCES
     vstandarddirectories.cpp
     vstringhandler.cpp
 
+    settings/settingsschema.cpp
+    settings/settingsschemaloader.cpp
     settings/vsettings.cpp
 )
 
@@ -39,6 +39,8 @@ set(HEADERS
     vstringhandler.h
     ${CMAKE_CURRENT_BINARY_DIR}/vglobal.h
 
+    settings/settingsschema.h
+    settings/settingsschemaloader.h
     settings/vsettings.h
 )
 
@@ -52,8 +54,7 @@ qt4_add_resources(RESOURCES_RCC ${RESOURCES})
 add_library(VibeCore SHARED ${SOURCES} ${RESOURCES_RCC})
 target_link_libraries(VibeCore
     ${QT_QTCORE_LIBRARIES}
-    ${QT_QTXML_LIBRARIES}
-    VibeSettingsPrivate)
+    ${QT_QTXML_LIBRARIES})
 set_target_properties(VibeCore PROPERTIES
     VERSION ${VIBE_VERSION_STR}
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_RELEASE})

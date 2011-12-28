@@ -2,7 +2,7 @@ include_directories(
     ${QT_INCLUDE_DIR}
     ${QT_QTCORE_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}/headers
-    ${CMAKE_SOURCE_DIR}/src/private/settings
+    ${CMAKE_SOURCE_DIR}/src/kits/core
     ${CMAKE_BINARY_DIR}/src/kits/core
     ${CMAKE_CURRENT_BINARY_DIR}
 )
@@ -15,7 +15,4 @@ target_link_libraries(lshw VibeCore VibeHardware)
 set(compile-settings-schemas_SOURCES compile-settings-schemas.cpp)
 automoc4(compile-settings-schemas compile-settings-schemas_SOURCES)
 add_executable(compile-settings-schemas ${compile-settings-schemas_SOURCES})
-target_link_libraries(compile-settings-schemas
-    ${QT_QTCORE_LIBRARIES}
-    ${QT_QTXML_LIBRARIES}
-    VibeSettingsPrivate)
+target_link_libraries(compile-settings-schemas VibeCore)

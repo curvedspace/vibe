@@ -22,7 +22,7 @@
 
 #include <QDebug>
 
-#include "settingsschemaloader.h"
+#include "settings/settingsschemaloader.h"
 
 static void usage()
 {
