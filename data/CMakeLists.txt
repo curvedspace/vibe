@@ -1,2 +1,2 @@
 add_subdirectory(pkgconfig)
-add_subdirectory(gsettings)
+add_subdirectory(vsettings)

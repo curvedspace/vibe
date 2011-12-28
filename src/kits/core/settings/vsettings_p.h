@@ -20,49 +20,43 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#ifndef VSETTINGS_H
-#define VSETTINGS_H
+#ifndef VSETTINGS_P_H
+#define VSETTINGS_P_H
 
-#include <QObject>
+#include <QSettings>
 
-#include <VibeCore/VGlobal>
+#include "settingsschemaloader.h"
 
-class VSettingsPrivate;
+//
+//  W A R N I N G
+//  -------------
+//
+// This file is not part of the Vibe API.  It exists purely as an
+// implementation detail.  This header file may change from version to
+// version without notice, or even be removed.
+//
+// We mean it.
+//
 
-/**
- * \class VSettings vsetting.h <VSettings>
- *
- * \brief Settings management.
- */
-class VIBE_EXPORT VSettings : public QObject
+class VSettingsPrivate
 {
-    Q_OBJECT
-    Q_DECLARE_PRIVATE(VSettings)
+    Q_DECLARE_PUBLIC(VSettings)
 public:
-    explicit VSettings(const QString &schema, const QString &path = QString());
-    ~VSettings();
+    VSettingsPrivate(VSettings *parent);
+    ~VSettingsPrivate();
 
-    QString schema() const;
-    void setSchema(const QString &schema);
+    void setSchema(const QString &schemaId);
+    void setPath(const QString &pathName);
 
-    QString path() const;
-    void setPath(const QString &path);
+    VPrivate::SettingsSchemaLoader *loader;
+    VPrivate::SettingsSchema *schema;
+    VPrivate::SettingsPath *path;
+    bool dynamic;
+    QSettings *file;
+    QString fileName;
 
-    /**
-     * Returns the value of a key.
-     * @param key the key, with the complete path.
-     */
-    QVariant value(const QString &key) const;
-
-    /**
-     * Sets the value for the specified key.
-     * @param key full path of the key.
-     * @param value the value to set the key to.
-     */
-    void setValue(const QString &key, const QVariant &value);
-
-private:
-    VSettingsPrivate *const d_ptr;
+protected:
+    VSettings *const q_ptr;
 };
 
-#endif // VSETTINGS_H
+#endif // VSETTINGS_P_H

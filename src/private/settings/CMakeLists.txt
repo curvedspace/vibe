@@ -1,9 +1,10 @@
-add_definitions(-DVIBE_BUILDING ${QT_DEFINITIONS} -Wno-multichar)
+add_definitions(-DVIBE_BUILDING ${QT_DEFINITIONS} -Wno-multichar -fPIC)
 
 include_directories(
     ${QT_QTCORE_INCLUDE_DIR}
     ${QT_QTXML_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}/headers
+    ${CMAKE_BINARY_DIR}/src/kits/core
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
