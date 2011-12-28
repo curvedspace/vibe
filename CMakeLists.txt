@@ -5,9 +5,6 @@ cmake_minimum_required(VERSION 2.8)
 # Our CMake modules
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
-# Support GNU installation directories
-include(GNUInstallDirs)
-
 # Make CPack available to easy generate binary packages
 include(CPack)
 
@@ -55,6 +52,13 @@ string(REGEX REPLACE "[ \t\n]+" \; DBUS_SESSION_BUS_SERVICES_DIR "${DBUS_SESSION
 # Find QConf
 # FIXME: Replace dconf and GSettings with our configuration system
 pkg_check_modules(QCONF REQUIRED dconf-qt)
+
+# Installation directories.
+set(CMAKE_INSTALL_DEVELOPDIR "${CMAKE_INSTALL_PREFIX}/system/develop")
+set(CMAKE_INSTALL_INCLUDEDIR "${CMAKE_INSTALL_PREFIX}/system/develop/headers")
+set(CMAKE_INSTALL_BINDIR "${CMAKE_INSTALL_PREFIX}/system/bin")
+set(CMAKE_INSTALL_LIBDIR "${CMAKE_INSTALL_PREFIX}/system/lib")
+set(CMAKE_INSTALL_DATADIR "${CMAKE_INSTALL_PREFIX}/system/data")
 
 # Subdirectories
 add_subdirectory(cmake)
