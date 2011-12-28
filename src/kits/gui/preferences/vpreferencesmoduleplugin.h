@@ -44,7 +44,19 @@ class VPreferencesModule;
  */
 class VIBE_EXPORT VPreferencesModulePlugin
 {
+    Q_ENUMS(Category)
 public:
+    enum Category {
+        //! Personal preferences.
+        PersonalCategory,
+        //! Hardware preferences.
+        HardwareCategory,
+        //! System preferences.
+        SystemCategory,
+        //! Other preferences.
+        OtherCategory,
+    };
+
     /**
      * Destructs the VPreferencesModulePlugin object.
      */
@@ -73,7 +85,7 @@ public:
     /**
      * @returns the category for this module.
      */
-    virtual QString category() const = 0;
+    virtual Category category() const = 0;
 
     /**
      * @returns the module's weight.
