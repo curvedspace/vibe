@@ -6,12 +6,9 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-add_definitions(-Wno-multichar)
 
 set(SOURCES
     main.cpp
-    settingsschema.cpp
-    settingsschemaloader.cpp
 )
 
 automoc4(compile-settings-schemas SOURCES)

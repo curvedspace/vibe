@@ -5,6 +5,7 @@ include_directories(
     ${QT_QTCORE_INCLUDE_DIR}
     ${QT_QTXML_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}/headers
+    ${CMAKE_SOURCE_DIR}/src/private/settings
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
@@ -14,6 +15,7 @@ configure_file(
     IMMEDIATE @ONLY)
 
 set(SOURCES
+    vaccounts.cpp
     vapplicationinfo.cpp
     vcommandoptions.cpp
     vdesktopfile.cpp
@@ -22,9 +24,12 @@ set(SOURCES
     vsavefile.cpp
     vstandarddirectories.cpp
     vstringhandler.cpp
+
+    settings/vsettings.cpp
 )
 
 set(HEADERS
+    vaccounts.h
     vapplicationinfo.h
     vcommandoptions.h
     vdesktopfile.h
@@ -33,6 +38,8 @@ set(HEADERS
     vstandarddirectories.h
     vstringhandler.h
     ${CMAKE_CURRENT_BINARY_DIR}/vglobal.h
+
+    settings/vsettings.h
 )
 
 set(RESOURCES

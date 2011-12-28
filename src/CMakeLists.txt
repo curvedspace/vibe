@@ -1,4 +1,5 @@
 add_subdirectory(apps)
 add_subdirectory(bin)
+add_subdirectory(private)
 add_subdirectory(kits)
 add_subdirectory(plugins)
