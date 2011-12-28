@@ -25,15 +25,17 @@
 #include <QFileInfo>
 #include <QStringList>
 #include <QSize>
+#include <QUrl>
 #include <QXmlStreamReader>
 
 #include <VibeCore/VGlobal>
+#include <VibeCore/VStandardDirectories>
 
 #include "settingsschemaloader.h"
 
 const quint32 kMagicNumber = 'VSSL';
 const quint32 kVersion = (1 << 16) + (0 << 8) + 0;
-const char *kCompiledSchemas = "registry";
+const QString kCompiledSchemas = QLatin1String("schemas.compiled");
 
 using namespace VPrivate;
 
@@ -197,15 +199,17 @@ SettingsSchemaList SettingsSchemaLoader::readCompiledSchemas()
     SettingsSchemaList list;
 
     // If the compiled schemas file doesn't exist yet, just return an empty list
-    QFileInfo fileInfo(kCompiledSchemas);
+    QFileInfo fileInfo(compiledSchemasFileName());
     if (!fileInfo.exists())
         return list;
 
     // If the file cannot be read return an empty list
-    QFile file(kCompiledSchemas);
+    QFile file(compiledSchemasFileName());
     if (!file.open(QIODevice::ReadOnly)) {
         qWarning().nospace() << "Unable to read the compiled schemas file "
-                             << "\"" << kCompiledSchemas << "\": "
+                             << "\""
+                             << compiledSchemasFileName().toLatin1().constData()
+                             << "\": "
                              << file.errorString().toLatin1().constData();
         return list;
     }
@@ -219,13 +223,16 @@ SettingsSchemaList SettingsSchemaLoader::readCompiledSchemas()
     in >> magicNumber >> version;
 
     if (magicNumber != kMagicNumber) {
-        qWarning().nospace() << "\"" << kCompiledSchemas << "\" is not a valid "
+        qWarning().nospace() << "\""
+                             << compiledSchemasFileName().toLatin1().constData()
+                             << "\" is not a valid "
                              << "compiled schemas file or it's corrupted.";
         return list;
     }
 
     if (version > kVersion) {
-        qWarning().nospace() << "Compiled schemas file \"" << kCompiledSchemas
+        qWarning().nospace() << "Compiled schemas file \""
+                             << compiledSchemasFileName().toLatin1().constData()
                              << "\" was created by a newer version of this program, "
                              << "file format is at version"
                              << decodeVersion(version).toLatin1().constData()
@@ -306,10 +313,12 @@ bool SettingsSchemaLoader::appendParsedSchema()
         list.append(m_schema);
 
     // Open the binary file for writing
-    QFile file(kCompiledSchemas);
+    QFile file(compiledSchemasFileName());
     if (!file.open(QIODevice::WriteOnly)) {
         qWarning().nospace() << "Unable to write to the compiled schemas file "
-                             << "\"" << kCompiledSchemas << "\": "
+                             << "\""
+                             << compiledSchemasFileName().toLatin1().constData()
+                             << "\": "
                              << file.errorString().toLatin1().constData();
         return false;
     }
@@ -340,11 +349,17 @@ bool SettingsSchemaLoader::appendParsedSchema()
     return true;
 }
 
-QString SettingsSchemaLoader::decodeVersion(quint32 version)
+QString SettingsSchemaLoader::decodeVersion(quint32 version) const
 {
     quint32 major = (version >> 16) & 0xff;
     quint32 minor = (version >> 8) & 0xff;
     quint32 release = version & 0xff;
 
     return QString("%1.%2.%3").arg(major).arg(minor).arg(release);
+}
+
+QString SettingsSchemaLoader::compiledSchemasFileName() const
+{
+    QString path = VStandardDirectories::findDirectory(VStandardDirectories::SystemDataDirectory);
+    return QString("%1/vsettings/%2").arg(path).arg(kCompiledSchemas);
 }

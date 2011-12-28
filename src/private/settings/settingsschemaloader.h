@@ -41,7 +41,8 @@ namespace VPrivate
     private:
         SettingsSchema *m_schema;
 
-        QString decodeVersion(quint32 version);
+        QString decodeVersion(quint32 version) const;
+        QString compiledSchemasFileName() const;
     };
 }
 
