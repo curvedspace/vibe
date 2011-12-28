@@ -10,3 +10,5 @@ set(lshw_SOURCES lshw.cpp)
 automoc4(lshw lshw_SOURCES)
 add_executable(lshw ${lshw_SOURCES})
 target_link_libraries(lshw VibeCore VibeHardware)
+
+add_subdirectory(compile-settings-schemas)

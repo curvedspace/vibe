@@ -1,6 +1,7 @@
 /****************************************************************************
  * This file is part of Vibe.
  *
+ * Copyright (c) 2011 Pier Luigi Fiorini
  * Copyright (c) 2006 Kevin Ottens
  *
  * Author(s):
