@@ -47,7 +47,6 @@ set(HEADERS
     vstyleoptionbreadcrumbbar.h
     vtheme.h
 
-    widgets/navigationitemdelegate.h
     widgets/vnavigationbar.h
     widgets/vtitlewidget.h
 

@@ -13,7 +13,6 @@ configure_file(
     IMMEDIATE @ONLY)
 
 set(SOURCES
-    vaccounts.cpp
     vapplicationinfo.cpp
     vcommandoptions.cpp
     vdesktopfile.cpp
@@ -29,7 +28,6 @@ set(SOURCES
 )
 
 set(HEADERS
-    vaccounts.h
     vapplicationinfo.h
     vcommandoptions.h
     vdesktopfile.h
@@ -39,8 +37,6 @@ set(HEADERS
     vstringhandler.h
     ${CMAKE_CURRENT_BINARY_DIR}/vglobal.h
 
-    settings/settingsschema.h
-    settings/settingsschemaloader.h
     settings/vsettings.h
 )
 
