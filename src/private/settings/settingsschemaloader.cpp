@@ -23,6 +23,8 @@
 #include <QDebug>
 #include <QFile>
 #include <QFileInfo>
+#include <QStringList>
+#include <QSize>
 #include <QXmlStreamReader>
 
 #include <VibeCore/VGlobal>
@@ -101,6 +103,8 @@ bool SettingsSchemaLoader::parseSchemaSource(const QString &fileName)
                     variantType = QVariant::Char;
                 else if (type == "string")
                     variantType = QVariant::String;
+                else if (type == "bytearray")
+                    variantType = QVariant::ByteArray;
                 else if (type == "int32")
                     variantType = QVariant::Int;
                 else if (type == "uint32")
@@ -136,8 +140,39 @@ bool SettingsSchemaLoader::parseSchemaSource(const QString &fileName)
                 currentPath->appendKey(currentKey);
         } else if (xml.isCharacters() && !xml.isWhitespace() && currentKey) {
             if (currentTag == "default") {
-                QVariant defaultValue = QVariant::fromValue(xml.text().toString());
-                currentKey->setDefaultValue(defaultValue);
+                QVariant value;
+
+                switch (currentKey->variantType()) {
+                    case QVariant::Char:
+                    case QVariant::String:
+                    case QVariant::ByteArray:
+                    case QVariant::Int:
+                    case QVariant::UInt:
+                    case QVariant::LongLong:
+                    case QVariant::ULongLong:
+                        value = QVariant::fromValue(xml.text().toString());
+                        break;
+                    case QVariant::Size: {
+                        QStringList sizeValues = xml.text().toString().split("x");
+                        Q_ASSERT(sizeValues.size() == 2);
+                        int w = sizeValues[0].toInt();
+                        int h = sizeValues[1].toInt();
+                        value = QVariant(QSize(w, h));
+                    }
+                    break;
+                    case QVariant::Url:
+                        value = QVariant(QUrl(xml.text().toString()));
+                        break;
+                    default: {
+                        QByteArray a(xml.text().toString().toLatin1());
+                        QDataStream stream(&a, QIODevice::ReadOnly);
+                        stream.setVersion(QDataStream::Qt_4_0);
+                        stream >> value;
+                    }
+                    break;
+                }
+
+                currentKey->setDefaultValue(value);
             } else if (currentTag == "summary")
                 currentKey->setSummary(xml.text().toString());
             else if (currentTag == "description")
