@@ -40,9 +40,20 @@
 
 class QMimeData;
 
+/** \addtogroup storage Storage Kit
+ *  @{
+ */
+
 class VBookmarkManager;
 class VBookmarkGroup;
 
+/**
+ * \class VBookmark vbookmark.h <VBookmark>
+ *
+ * \brief Bookmark item.
+ *
+ * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ */
 class VIBE_EXPORT VBookmark
 {
     friend class VBookmarkGroup;
@@ -55,49 +66,10 @@ public:
     };
 
     /**
-     * VBookmark::List is a QList that contains bookmarks with a few
-     * convenience methods.
-     * @see VBookmark
-     * @see QList
-     */
-    class List : public QList<VBookmark>
-    {
-    public:
-        List();
-
-        /**
-         * Adds this list of bookmark into the given QMimeData.
-         *
-         * @param mimeData the QMimeData instance used to drag or copy this bookmark
-         */
-        void populateMimeData(QMimeData *mimeData) const;
-
-        /**
-         * Return true if @p mimeData contains bookmarks
-         */
-        static bool canDecode(const QMimeData *mimeData);
-
-        /**
-         * Return the list of mimeTypes that can be decoded by fromMimeData
-         */
-        static QStringList mimeDataTypes();
-
-        /**
-         * Extract a list of bookmarks from the contents of @p mimeData.
-         * Decoding will fail if @p mimeData does not contain any bookmarks.
-         * @param mimeData the mime data to extract from; cannot be 0
-         * @param parentDocument pass an empty QDomDocument here, it will be used as
-         * container for the bookmarks. You just need to make sure it stays alive longer
-         * (or just as long) as the returned bookmarks.
-         * @return the list of bookmarks
-         */
-        static VBookmark::List fromMimeData(const QMimeData *mimeData, QDomDocument &parentDocument);
-    };
-
-    /**
      * Constructs a null bookmark, i.e. a bookmark for which isNull() returns true
-     * If you want to create a new bookmark use eitehr VBookmarkGroup.addVBookmark
-     * or if you want an interactive dialog use VBookmarkDialog.
+     * If you want to create a new bookmark use VBookmarkGroup::addBookmark().
+     *
+     * \see VBookmarkGroup::addBookmark
      */
     VBookmark();
 
@@ -142,21 +114,25 @@ public:
      * replacing middle characters with "..." (see KStringHandler::csqueeze)
      */
     QString text() const;
+
     /**
      * Text shown for the bookmark, not truncated.
      * You should not use this - this is mainly for keditbookmarks.
      */
     QString fullText() const;
+
     /**
      * Set the text shown for the bookmark.
      *
      * @param fullText the new bookmark title
      */
     void setFullText(const QString &fullText);
+
     /**
      * URL contained by the bookmark
      */
     QUrl url() const;
+
     /**
      * Set the URL of the bookmark
      *
@@ -179,7 +155,6 @@ public:
 
     /**
      * @return Description of the bookmark
-     * @since 4.4
      */
     QString description() const;
 
@@ -187,13 +162,11 @@ public:
      * Set the description of the bookmark
      *
      * @param description
-     * @since 4.4
      */
     void setDescription(const QString &description);
 
     /**
      * @return Mime-Type of this item
-     * @since 4.1
      */
     QString mimeType() const;
 
@@ -201,13 +174,12 @@ public:
      * Set the Mime-Type of this item
      *
      * @param Mime-Type
-     * @since 4.1
      */
     void setMimeType(const QString &mimeType);
 
     /**
      * @return if the bookmark should be shown in the toolbar
-     * (used by the filtered toolbar)
+     * (used by the filtered toolbar).
      *
      */
     bool showInToolbar() const;
@@ -250,7 +222,7 @@ public:
     //VBookmarkManager * manager() const { return m_manager; }
 
     /**
-     * @internal for KEditVBookmarks
+     * @internal
      */
     QDomElement internalElement() const;
 
@@ -263,36 +235,41 @@ public:
     // Utility functions (internal)
 
     /**
+     * @internal
      * @return address of parent
      */
     static QString parentAddress(const QString &address);
 
     /**
+     * @internal
      * @return position in parent (e.g. /4/5/2 -> 2)
      */
     static uint positionInParent(const QString &address);
 
     /**
+     * @internal
      * @return address of previous sibling (e.g. /4/5/2 -> /4/5/1)
      * Returns QString() for a first child
      */
     static QString previousAddress(const QString &address);
 
     /**
+     * @internal
      * @return address of next sibling (e.g. /4/5/2 -> /4/5/3)
      * This doesn't check whether it actually exists
      */
     static QString nextAddress(const QString &address);
 
     /**
+     * @internal
      * @return the common parent of both addresses which
      * has the greatest depth
      */
     static QString commonParent(const QString &A, const QString &B);
 
     /**
+     * @internal
      * @return the metadata container node for a certain matadata owner
-     * @since 4.1
      */
     QDomNode metaData(const QString &owner, bool create) const;
 
@@ -329,15 +306,65 @@ public:
 
 protected:
     QDomElement element;
-    // Note: you can't add new member variables here.
-    // The VBookmarks are created on the fly, as wrappers
+
+    // NOTE: you can't add new member variables here.
+    // The VBookmark objecs are created on the fly, as wrappers
     // around internal QDomElements. Any additional information
     // has to be implemented as an attribute of the QDomElement.
-
 };
 
 /**
- * A group of bookmarks
+ * \class VBookmarkList vbookmark.h <VBookmark>
+ *
+ * \brief A list of bookmarks.
+ *
+ * A QList that contains bookmarks with a few convenience methods.
+ *
+ * \see VBookmark
+ * \see QList
+ *
+ * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ */
+class VBookmarkList : public QList<VBookmark>
+{
+public:
+    VBookmarkList();
+
+    /**
+     * Adds this list of bookmark into the given QMimeData.
+     *
+     * @param mimeData the QMimeData instance used to drag or copy this bookmark
+     */
+    void populateMimeData(QMimeData *mimeData) const;
+
+    /**
+     * Return true if @p mimeData contains bookmarks
+     */
+    static bool canDecode(const QMimeData *mimeData);
+
+    /**
+     * Return the list of mimeTypes that can be decoded by fromMimeData
+     */
+    static QStringList mimeDataTypes();
+
+    /**
+     * Extract a list of bookmarks from the contents of @p mimeData.
+     * Decoding will fail if @p mimeData does not contain any bookmarks.
+     * @param mimeData the mime data to extract from; cannot be 0
+     * @param parentDocument pass an empty QDomDocument here, it will be used as
+     * container for the bookmarks. You just need to make sure it stays alive longer
+     * (or just as long) as the returned bookmarks.
+     * @return the list of bookmarks
+     */
+    static VBookmarkList fromMimeData(const QMimeData *mimeData, QDomDocument &parentDocument);
+};
+
+/**
+ * \class VBookmarkGroup vbookmark.h <VBookmark>
+ *
+ * \brief A group of bookmarks
+ *
+ * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  */
 class VIBE_EXPORT VBookmarkGroup : public VBookmark
 {
@@ -383,9 +410,9 @@ public:
     /**
      * Create a new bookmark folder, as the last child of this group
      * @param text for the folder.
-     * If you want an dialog use VBookmarkDialog
      */
     VBookmarkGroup createNewFolder(const QString &text);
+
     /**
      * Create a new bookmark separator
      * Don't forget to use VBookmarkManager::self()->emitChanged(parentVBookmark);
@@ -426,6 +453,7 @@ public:
      * @return true if this is the toolbar group
      */
     bool isToolbarGroup() const;
+
     /**
      * @internal
      */
@@ -441,23 +469,30 @@ protected:
 
 private:
 
-    // Note: you can't add other member variables here, except for caching info.
-    // The VBookmarks are created on the fly, as wrappers
+    // NOTE: you can't add other member variables here, except for caching info.
+    // The VBookmark objects are created on the fly, as wrappers
     // around internal QDomElements. Any additional information
     // has to be implemented as an attribute of the QDomElement.
 };
 
+/**
+ * \class VBookmarkGroupTraverser vbookmark.h <VBookmark>
+ *
+ * \brief Bookmark group traverser.
+ *
+ * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ */
 class VIBE_EXPORT VBookmarkGroupTraverser
 {
 protected:
     virtual ~VBookmarkGroupTraverser();
+
     void traverse(const VBookmarkGroup &);
     virtual void visit(const VBookmark &);
     virtual void visitEnter(const VBookmarkGroup &);
     virtual void visitLeave(const VBookmarkGroup &);
 };
 
-#define KIO_KBOOKMARK_METATYPE_DEFINED 1
 Q_DECLARE_METATYPE(VBookmark)
 
 #endif // VBOOKMARK_H

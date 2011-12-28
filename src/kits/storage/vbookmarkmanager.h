@@ -45,6 +45,10 @@ class QDBusMessage;
 class VBookmarkGroup;
 
 /**
+ * \class VBookmarkManager vbookmarkmanager.h <VBookmarkManager>
+ *
+ * \brief Bookmarks manager.
+ *
  * This class implements the reading/writing of bookmarks in XML.
  * The bookmarks file is read and written using the XBEL standard
  * (http://pyxml.sourceforge.net/topics/xbel/)
@@ -55,9 +59,9 @@ class VBookmarkGroup;
  *   <bookmark href="http://www.google.com"><title>Google</title></bookmark>
  *   <folder folded="no">
  *     <title>Title of this folder</title>
- *     <bookmark icon="vision" href="http://www.vision-project.org"><title>Vision Project</title></bookmark>
+ *     <bookmark icon="vision" href="http://www.vision-os.org"><title>Vision</title></bookmark>
  *     <folder toolbar="yes">
- *       <title>My own bookmarks</title>
+ *       <title>Personal Bookmarks</title>
  *       <bookmark href="http://qt.nokia.com"><title>Qt</title></bookmark>
  *       <separator/>
  *       <bookmark href="http://doc.qt.nokia.com"><title>Qt Documentation</title></bookmark>
@@ -65,6 +69,8 @@ class VBookmarkGroup;
  *   </folder>
  * </xbel>
  * \endcode
+ *
+ * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  */
 class VIBE_EXPORT VBookmarkManager : public QObject
 {
@@ -77,17 +83,17 @@ public:
 
     /**
      * Set the update flag. Defaults to true.
-     * @param update if true then VBookmarkManager will listen to DBUS update requests.
+     * @param update if true then VBookmarkManager will listen to DBus update requests.
      */
     void setUpdate(bool update);
 
     /**
      * Save the bookmarks to the given XML file on disk.
      * @param filename full path to the desired bookmarks file location
-     * @param toolbarCache iff true save a cache of the toolbar folder, too
+     * @param toolbarCache if true save a cache of the toolbar folder, too
      * @return true if saving was successful
      */
-    // KDE5 TODO: Use an enum and not a bool
+    // TODO: Use an enum and not a bool
     bool saveAs(const QString &filename, bool toolbarCache = true) const;
 
     /**
@@ -115,7 +121,7 @@ public:
     QString path() const;
 
     /**
-     * This will return the root bookmark.  It is used to iterate
+     * Returns the root bookmark.  It is used to iterate
      * through the bookmarks manually.  It is mostly used internally.
      *
      * @return the root (top-level) bookmark
@@ -123,7 +129,7 @@ public:
     VBookmarkGroup root() const;
 
     /**
-     * This returns the root of the toolbar menu.
+     * Returns the root of the toolbar menu.
      * In the XML, this is the group with the attribute toolbar=yes
      *
      * @return the toolbar group
@@ -158,9 +164,8 @@ public:
      * @param toolbarCache iff true save a cache of the toolbar folder, too
      * @return true if saving was successful
      */
-    // KDE5 TODO: Use an enum and not a bool
+    // TODO: Use an enum and not a bool
     bool save(bool toolbarCache = true) const;
-
 
     void emitConfigChanged();
 
@@ -176,11 +181,10 @@ public:
      * @param bookmarksFile full path to the bookmarks file.
      *
      * @param dbusObjectName a unique name that represents this bookmark collection,
-     * usually your kinstance (e.g. kapplication) name. This is "konqueror" for the
-     * konqueror bookmarks, "kfile" for KFileDialog bookmarks, etc.
+     * usually your application's name. For example, Colombo uses "colombo", open and
+     * save dialogs and Tracker use "filemanager".
      * The final DBus object path is /VBookmarkManager/dbusObjectName
-     * An empty dbusObjectName disables the registration to dbus (used for temporary managers)
-     *
+     * An empty dbusObjectName disables the registration to DBus (used for temporary managers).
      */
     static VBookmarkManager *managerForFile(const QString &bookmarksFile,
                                             const QString &dbusObjectName);
@@ -198,19 +202,19 @@ public:
     static VBookmarkManager *createTempManager();
 
     /**
-     * Returns a pointer to the user's main (konqueror) bookmark collection.
+     * Returns a pointer to the user's main bookmark collection.
      */
-    static VBookmarkManager *userVBookmarksManager();
+    static VBookmarkManager *userBookmarksManager();
 
     /**
      * @internal
      */
     QDomDocument internalDocument() const;
 
-public Q_SLOTS:
+public slots:
     /**
      * Reparse the whole bookmarks file and notify about the change
-     * Doesn't send signal over DBUS to the other VBookmark Managers
+     * Doesn't send signal over DBus to the other VBookmark managers
      * You probably want to use emitChanged()
      *
      */
@@ -285,13 +289,11 @@ private:
 
     /**
      * Creates a bookmark manager for an external file
-     * (Using KDirWatch for change monitoring)
-     * @since 4.1
      */
     VBookmarkManager(const QString &bookmarksFile);
 
     /**
-     * Creates a temp bookmark manager
+     * Creates a temporary bookmark manager.
      */
     VBookmarkManager();
 

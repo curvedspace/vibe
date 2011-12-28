@@ -37,11 +37,12 @@
 #include <QtGui/QApplication>
 
 #include <VibeCore/VSaveFile>
+#include <VibeCore/VStandardDirectories>
 
 #include "vbookmarkmanager.h"
+#include "vbookmarkmanageradaptor.h"
 
-// FIXME: What's this?
-#define BOOKMARK_CHANGE_NOTIFY_INTERFACE "org.kde.KIO.VBookmarkManager"
+const QString kToolBarCacheExtension = QLatin1String(".toolbarcache");
 
 /*
  * VBookmarkManagerList
@@ -244,7 +245,6 @@ VBookmarkManager::VBookmarkManager(const QString &bookmarksFile, const QString &
 VBookmarkManager::VBookmarkManager(const QString &bookmarksFile)
     : d(new Private(false))
 {
-    // use KDirWatch to monitor this bookmarks file
     d->m_typeExternal = true;
     d->m_update = true;
 
@@ -277,19 +277,17 @@ VBookmarkManager::VBookmarkManager()
 
 void VBookmarkManager::init(const QString &dbusPath)
 {
-#ifdef GIGI
-    // A VBookmarkManager without a dbus name is a temporary one, like those used by importers;
-    // no need to register them to dbus
+    // A VBookmarkManager without a DBus name is a temporary one, like those used by importers;
+    // no need to register them to DBus
     if (dbusPath != "/VBookmarkManager/" && dbusPath != "/VBookmarkManager/generated") {
         new VBookmarkManagerAdaptor(this);
         QDBusConnection::sessionBus().registerObject(dbusPath, this);
 
-        QDBusConnection::sessionBus().connect(QString(), dbusPath, BOOKMARK_CHANGE_NOTIFY_INTERFACE,
+        QDBusConnection::sessionBus().connect(QString(), dbusPath, VIBE_BOOKMARKMANAGER_DBUS_INTERFACE,
                                               "bookmarksChanged", this, SLOT(notifyChanged(QString, QDBusMessage)));
-        QDBusConnection::sessionBus().connect(QString(), dbusPath, BOOKMARK_CHANGE_NOTIFY_INTERFACE,
+        QDBusConnection::sessionBus().connect(QString(), dbusPath, VIBE_BOOKMARKMANAGER_DBUS_INTERFACE,
                                               "bookmarkConfigChanged", this, SLOT(notifyConfigChanged()));
     }
-#endif
 }
 
 void VBookmarkManager::slotFileChanged(const QString &path)
@@ -387,7 +385,7 @@ bool VBookmarkManager::saveAs(const QString &filename, bool toolbarCache) const
 
     // Save the bookmark toolbar folder for quick loading
     // but only when it will actually make things quicker
-    const QString cacheFilename = filename + QLatin1String(".tbcache");
+    const QString cacheFilename = filename + kToolBarCacheExtension;
     if (toolbarCache && !root().isToolbarGroup()) {
         VSaveFile cacheFile(cacheFilename);
         if (cacheFile.open()) {
@@ -398,7 +396,8 @@ bool VBookmarkManager::saveAs(const QString &filename, bool toolbarCache) const
             cacheFile.write(cstr.data(), cstr.length());
             cacheFile.finalize();
         }
-    } else { // remove any (now) stale cache
+    } else {
+        // Remove any (now) stale cache
         QFile::remove(cacheFilename);
     }
 
@@ -446,7 +445,7 @@ VBookmarkGroup VBookmarkManager::toolbar()
     // Only try to read from a toolbar cache if the full document isn't loaded
     if (!d->m_docIsLoaded) {
         qDebug() << "VBookmarkManager::toolbar trying cache";
-        const QString cacheFilename = d->m_bookmarksFile + QLatin1String(".tbcache");
+        const QString cacheFilename = d->m_bookmarksFile + kToolBarCacheExtension;
         QFileInfo bmInfo(d->m_bookmarksFile);
         QFileInfo cacheInfo(cacheFilename);
         if (d->m_toolbarDoc.isNull() &&
@@ -597,13 +596,10 @@ void VBookmarkManager::updateFavicon(const QString &url, const QString &/*favico
     }
 }
 
-VBookmarkManager *VBookmarkManager::userVBookmarksManager()
+VBookmarkManager *VBookmarkManager::userBookmarksManager()
 {
-#ifdef GIGI
-    const QString bookmarksFile = KStandardDirs::locateLocal("data", QString::fromLatin1("konqueror/bookmarks.xml"));
-#else
-    const QString bookmarksFile("~/.local/share/colombo/bookmarks.xml");
-#endif
+    QString bookmarksFile = QString("%1/colombo/bookmarks.xbel")
+            .arg(VStandardDirectories::findDirectory(VStandardDirectories::UserDataDirectory));
     VBookmarkManager *bookmarkManager = VBookmarkManager::managerForFile(bookmarksFile, "colombo");
     return bookmarkManager;
 }
