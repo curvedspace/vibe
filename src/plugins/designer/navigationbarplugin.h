@@ -20,23 +20,35 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QtCore/QtPlugin>
+#ifndef NAVIGATIONBARPLUGIN_H
+#define NAVIGATIONBARPLUGIN_H
 
-#include "vibewidgets.h"
-#include "navigationbarplugin.h"
+#include <QtDesigner/QDesignerCustomWidgetInterface>
 
-VibeWidgets::VibeWidgets(QObject *parent)
-    : QObject(parent)
+class NavigationBarPlugin : public QObject, public QDesignerCustomWidgetInterface
 {
-    const QIcon icon(":/qt.png");
-    m_plugins.append(new NavigationBarPlugin(icon, this));
-}
+    Q_OBJECT
+    Q_INTERFACES(QDesignerCustomWidgetInterface)
+public:
+    explicit NavigationBarPlugin(const QIcon &icon, QObject *parent = 0);
 
-QList<QDesignerCustomWidgetInterface *> VibeWidgets::customWidgets() const
-{
-    return m_plugins;
-}
+    void initialize(QDesignerFormEditorInterface *formEditor);
+    bool isInitialized() const;
+    bool isContainer() const;
 
-Q_EXPORT_PLUGIN2(VibeWidgetsPlugin, VibeWidgets)
+    QWidget *createWidget(QWidget *parent);
 
-#include "vibewidgets.moc"
+    QIcon icon() const;
+    QString domXml() const;
+    QString group() const;
+    QString includeFile() const;
+    QString name() const;
+    QString toolTip() const;
+    QString whatsThis() const;
+
+private:
+    bool m_initialized;
+    QIcon m_icon;
+};
+
+#endif // NAVIGATIONBARPLUGIN_H

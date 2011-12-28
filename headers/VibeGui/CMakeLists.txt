@@ -2,20 +2,16 @@ set(HEADERS
     VAboutDialog
     VBreadCrumbBar
     VBreadCrumbDirModel
-    VClickableLabel
     VColorScheme
     VCommonStyle
     VInterfaceMacros
-    VNavBar
-    VNavBarGroup
-    VNavBarItem
+    VNavigationBar
     VPageModel
     VPageView
     VPageWidget
     VPageWidgetModel
     VPreferencesModule
     VPreferencesModulePlugin
-    VSelectableWidget
     VStyle
     VStyleOptionBreadCrumbBar
     VTitleWidget

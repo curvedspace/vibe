@@ -19,15 +19,12 @@ set(SOURCES
     vbreadcrumbbar.cpp
     vbreadcrumbdirmodel.cpp
     vcolorscheme.cpp
-    vclickablelabel.cpp
     dir_helper.cpp
-    vnavbar.cpp
-    vnavbargroup.cpp
-    vnavbaritem.cpp
-    vselectablewidget.cpp
     vstyleoptionbreadcrumbbar.cpp
     vtheme.cpp
 
+    widgets/navigationitemdelegate.cpp
+    widgets/vnavigationbar.cpp
     widgets/vtitlewidget.cpp
 
     paged/vpagemodel.cpp
@@ -45,16 +42,13 @@ set(HEADERS
     vbreadcrumbbar.h
     vbreadcrumbdirmodel.h
     vcolorscheme.h
-    vclickablelabel.h
     vinterfacemacros.h
-    vnavbar.h
-    vnavbargroup.h
-    vnavbaritem.h
-    vselectablewidget.h
     vstyle.h
     vstyleoptionbreadcrumbbar.h
     vtheme.h
 
+    widgets/navigationitemdelegate.h
+    widgets/vnavigationbar.h
     widgets/vtitlewidget.h
 
     paged/vpagemodel.h

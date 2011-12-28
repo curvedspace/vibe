@@ -8,16 +8,13 @@ add_definitions(-DQT_PLUGIN -DQT_NO_DEBUG -DQT_SHARED)
 
 set(SOURCES
     vibewidgets.cpp
-    navbarplugin/navbarplugin.cpp
-    #navbarplugin/navbarplugintaskmenu.cpp
-    #navbarplugin/navbarplugintaskmenufactory.cpp
-    #navbarplugin/navbarplugindialog.cpp
+    navigationbarplugin.cpp
 )
 
-qt4_add_resources(QubeWidgetsResourceFiles icons.qrc)
+qt4_add_resources(RESOURCES_RCC icons.qrc)
 
 automoc4(VibeWidgetsPlugin SOURCES)
-add_library(VibeWidgetsPlugin SHARED ${SOURCES} ${QubeWidgetsResourceFiles})
+add_library(VibeWidgetsPlugin SHARED ${SOURCES} ${RESOURCES_RCC})
 
 target_link_libraries(VibeWidgetsPlugin ${QT_QTDESIGNER_LIBRARY} VibeGui)
 

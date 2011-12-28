@@ -20,55 +20,34 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#ifndef VSETTINGS_H
-#define VSETTINGS_H
+#ifndef VNAVIGATIONBAR_H
+#define VNAVIGATIONBAR_H
 
-#include <QObject>
+#include <QTreeView>
 
 #include <VibeCore/VGlobal>
 
-class VSettingsPrivate;
-
-/** \addtogroup core Core Kit
+/** \addtogroup gui Gui Kit
  *  @{
  */
 
 /**
- * \class VSettings vsetting.h <VSettings>
+ * \class VNavigationBar vnavigationbar.h <VNavigationBar>
  *
- * \brief Settings management.
+ * \brief Navigation bar.
+ *
+ * This class provides a nice navigation bar.
  */
-class VIBE_EXPORT VSettings : public QObject
+class VIBE_EXPORT VNavigationBar : public QTreeView
 {
     Q_OBJECT
-    Q_DECLARE_PRIVATE(VSettings)
 public:
-    explicit VSettings(const QString &schema, const QString &path = QString());
-    ~VSettings();
+    explicit VNavigationBar(QWidget *parent = 0);
 
-    QString schema() const;
-    void setSchema(const QString &schema);
-
-    QString path() const;
-    void setPath(const QString &path);
-
-    /**
-     * Returns the value of a key.
-     * @param key the key, with the complete path.
-     */
-    QVariant value(const QString &key) const;
-
-    /**
-     * Sets the value for the specified key.
-     * @param key full path of the key.
-     * @param value the value to set the key to.
-     */
-    void setValue(const QString &key, const QVariant &value);
-
-private:
-    VSettingsPrivate *const d_ptr;
+protected:
+    virtual void drawBranches(QPainter *painter, const QRect &rect, const QModelIndex &index) const;
 };
 
 /** @}*/
 
-#endif // VSETTINGS_H
+#endif // VNAVIGATIONBAR_H
