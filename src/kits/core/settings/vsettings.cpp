@@ -53,7 +53,7 @@ void VSettingsPrivate::setSchema(const QString &schemaId)
 
     // Find the schema whose identifier is the value passed as argument
     VPrivate::SettingsSchemaList list = loader->readCompiledSchemas();
-    foreach (VPrivate::SettingsSchema *curSchema, list) {
+    foreach(VPrivate::SettingsSchema * curSchema, list) {
         if (curSchema->id() == schemaId) {
             schema = curSchema;
             break;
@@ -63,8 +63,8 @@ void VSettingsPrivate::setSchema(const QString &schemaId)
 
     // Determine user's settings file by schema identifier
     fileName = QString("%1/vsettings/%2.conf")
-            .arg(VStandardDirectories::findDirectory(VStandardDirectories::UserSettingsDirectory))
-            .arg(schemaId);
+               .arg(VStandardDirectories::findDirectory(VStandardDirectories::UserSettingsDirectory))
+               .arg(schemaId);
 
     // Create a new settings object
     delete file;
@@ -85,7 +85,7 @@ void VSettingsPrivate::setPath(const QString &pathName)
     }
 
     // Find the path whose name is the value passed as argument
-    foreach (VPrivate::SettingsPath *curPath, schema->paths()) {
+    foreach(VPrivate::SettingsPath * curPath, schema->paths()) {
         if (curPath->name() == pathName) {
             path = curPath;
             break;
@@ -151,9 +151,9 @@ QVariant VSettings::value(const QString &key) const
 
     // Find the key from the schema
     VPrivate::SettingsKey *actualKey = 0;
-    foreach (VPrivate::SettingsPath *curPath, d->schema->paths()) {
+    foreach(VPrivate::SettingsPath * curPath, d->schema->paths()) {
         if (curPath->name() == pathName) {
-            foreach (VPrivate::SettingsKey *curKey, curPath->keys()) {
+            foreach(VPrivate::SettingsKey * curKey, curPath->keys()) {
                 if (curKey->name() == keyName) {
                     actualKey = curKey;
                     break;
