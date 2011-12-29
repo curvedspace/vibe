@@ -31,11 +31,15 @@
 #include <VibeHardware/VBlock>
 #include <VibeHardware/VOpticalDisc>
 
-#include "filemanagernavigationitem.h"
+#include <VibeStorage/VFilePlacesModel>
 
-FileManagerNavigationItem::FileManagerNavigationItem(const QIcon &icon,
+#include "fileplacesitem.h"
+
+namespace VPrivate
+{
+FilePlacesItem::FilePlacesItem(const QIcon &icon,
                                                      const QString &text,
-                                                     FileManagerNavigationItem *parent) :
+                                                     FilePlacesItem *parent) :
     QObject(parent),
     m_manager(0),
     m_icon(icon),
@@ -50,9 +54,9 @@ FileManagerNavigationItem::FileManagerNavigationItem(const QIcon &icon,
         m_parentItem->appendChild(this);
 }
 
-FileManagerNavigationItem::FileManagerNavigationItem(VBookmarkManager *manager,
+FilePlacesItem::FilePlacesItem(VBookmarkManager *manager,
                                                      const QString &address,
-                                                     FileManagerNavigationItem *parent) :
+                                                     FilePlacesItem *parent) :
     QObject(parent),
     m_manager(manager),
     m_address(address),
@@ -71,10 +75,10 @@ FileManagerNavigationItem::FileManagerNavigationItem(VBookmarkManager *manager,
         m_parentItem->appendChild(this);
 }
 
-FileManagerNavigationItem::FileManagerNavigationItem(VBookmarkManager *manager,
+FilePlacesItem::FilePlacesItem(VBookmarkManager *manager,
                                                      const QString &address,
                                                      const QString &udi,
-                                                     FileManagerNavigationItem *parent) :
+                                                     FilePlacesItem *parent) :
     QObject(parent),
     m_manager(manager),
     m_address(address),
@@ -105,17 +109,17 @@ FileManagerNavigationItem::FileManagerNavigationItem(VBookmarkManager *manager,
         m_parentItem->appendChild(this);
 }
 
-FileManagerNavigationItem::~FileManagerNavigationItem()
+FilePlacesItem::~FilePlacesItem()
 {
     qDeleteAll(m_childItems);
 }
 
-VBookmark FileManagerNavigationItem::bookmark() const
+VBookmark FilePlacesItem::bookmark() const
 {
     return m_bookmark;
 }
 
-void FileManagerNavigationItem::setBookmark(const VBookmark &bookmark)
+void FilePlacesItem::setBookmark(const VBookmark &bookmark)
 {
     m_bookmark = bookmark;
 
@@ -128,17 +132,17 @@ void FileManagerNavigationItem::setBookmark(const VBookmark &bookmark)
     }
 }
 
-bool FileManagerNavigationItem::isTopLevel() const
+bool FilePlacesItem::isTopLevel() const
 {
     return m_isTopLevel;
 }
 
-bool FileManagerNavigationItem::isDevice() const
+bool FilePlacesItem::isDevice() const
 {
     return m_isDevice;
 }
 
-VDevice FileManagerNavigationItem::device() const
+VDevice FilePlacesItem::device() const
 {
     if (m_device.udi().isEmpty()) {
         m_device = VDevice(bookmark().metaDataItem("UDI"));
@@ -156,29 +160,29 @@ VDevice FileManagerNavigationItem::device() const
     return m_device;
 }
 
-QString FileManagerNavigationItem::id() const
+QString FilePlacesItem::id() const
 {
     if (isDevice())
         return m_bookmark.metaDataItem("UDI");
     return m_bookmark.metaDataItem("ID");
 }
 
-void FileManagerNavigationItem::appendChild(FileManagerNavigationItem *item)
+void FilePlacesItem::appendChild(FilePlacesItem *item)
 {
     m_childItems.append(item);
 }
 
-FileManagerNavigationItem *FileManagerNavigationItem::child(int row)
+FilePlacesItem *FilePlacesItem::child(int row)
 {
     return m_childItems.value(row);
 }
 
-int FileManagerNavigationItem::childCount() const
+int FilePlacesItem::childCount() const
 {
     return m_childItems.size();
 }
 
-QVariant FileManagerNavigationItem::data(int role) const
+QVariant FilePlacesItem::data(int role) const
 {
     if (isTopLevel()) {
         switch (role) {
@@ -197,23 +201,23 @@ QVariant FileManagerNavigationItem::data(int role) const
     return bookmarkData(role);
 }
 
-int FileManagerNavigationItem::row() const
+int FilePlacesItem::row() const
 {
     if (m_parentItem)
-        return m_parentItem->m_childItems.indexOf(const_cast<FileManagerNavigationItem *>(this));
+        return m_parentItem->m_childItems.indexOf(const_cast<FilePlacesItem *>(this));
     return 0;
 }
 
-FileManagerNavigationItem *FileManagerNavigationItem::parent()
+FilePlacesItem *FilePlacesItem::parent()
 {
     return m_parentItem;
 }
 
-VBookmark FileManagerNavigationItem::createBookmark(VBookmarkManager *manager,
+VBookmark FilePlacesItem::createBookmark(VBookmarkManager *manager,
                                                     const QString &label,
                                                     const QUrl &url,
                                                     const QString &iconName,
-                                                    FileManagerNavigationItem *after)
+                                                    FilePlacesItem *after)
 {
     Q_ASSERT(manager);
 
@@ -239,7 +243,7 @@ VBookmark FileManagerNavigationItem::createBookmark(VBookmarkManager *manager,
     return bookmark;
 }
 
-VBookmark FileManagerNavigationItem::createSystemBookmark(VBookmarkManager *manager,
+VBookmark FilePlacesItem::createSystemBookmark(VBookmarkManager *manager,
                                                           const QString &untranslatedLabel,
                                                           const QString &translatedLabel,
                                                           const QUrl &url,
@@ -259,7 +263,7 @@ VBookmark FileManagerNavigationItem::createSystemBookmark(VBookmarkManager *mana
     return bookmark;
 }
 
-VBookmark FileManagerNavigationItem::createDeviceBookmark(VBookmarkManager *manager,
+VBookmark FilePlacesItem::createDeviceBookmark(VBookmarkManager *manager,
                                                           const QString &udi)
 {
     Q_ASSERT(manager);
@@ -274,7 +278,7 @@ VBookmark FileManagerNavigationItem::createDeviceBookmark(VBookmarkManager *mana
     return bookmark;
 }
 
-QString FileManagerNavigationItem::generateNewId()
+QString FilePlacesItem::generateNewId()
 {
     static int count = 0;
 
@@ -282,7 +286,7 @@ QString FileManagerNavigationItem::generateNewId()
            + '/' + QString::number(count++);
 }
 
-QVariant FileManagerNavigationItem::deviceData(int role) const
+QVariant FilePlacesItem::deviceData(int role) const
 {
     VDevice d = device();
 
@@ -294,14 +298,14 @@ QVariant FileManagerNavigationItem::deviceData(int role) const
             return QIcon::fromTheme(d.icon());
         case Qt::DisplayRole:
             return d.description();
-        case UrlRole:
+        case VFilePlacesModel::UrlRole:
             if (m_access)
                 return QUrl::fromLocalFile(m_access->filePath());
             else if (m_disc && (m_disc->availableContent() && VOpticalDisc::Audio) != 0) {
                 QString device = d.as<VBlock>()->device();
                 return QUrl(QString("audiocd:///?device=%1").arg(device));
             }
-        case FixedDeviceRole: {
+        case VFilePlacesModel::FixedDeviceRole: {
             VStorageDrive *drive = 0;
             VDevice parentDevice = d;
 
@@ -322,7 +326,7 @@ QVariant FileManagerNavigationItem::deviceData(int role) const
     return QVariant();
 }
 
-QVariant FileManagerNavigationItem::bookmarkData(int role) const
+QVariant FilePlacesItem::bookmarkData(int role) const
 {
     if (m_bookmark.isNull())
         return QVariant();
@@ -335,11 +339,11 @@ QVariant FileManagerNavigationItem::bookmarkData(int role) const
         case Qt::BackgroundRole:
             if (m_bookmark.metaDataItem("IsHidden") == "true")
                 return Qt::lightGray;
-        case UrlRole:
+        case VFilePlacesModel::UrlRole:
             return m_bookmark.url();
-        case HiddenRole:
+        case VFilePlacesModel::HiddenRole:
             return m_bookmark.metaDataItem("IsHidden") == "true";
-        case SetupNeededRole:
+        case VFilePlacesModel::SetupNeededRole:
             return false;
         default:
             break;
@@ -348,21 +352,22 @@ QVariant FileManagerNavigationItem::bookmarkData(int role) const
     return QVariant();
 }
 
-bool FileManagerNavigationItem::hasFullIcon(const VBookmark &bookmark) const
+bool FilePlacesItem::hasFullIcon(const VBookmark &bookmark) const
 {
     return bookmark.url() == QUrl("trash:///");
 }
 
-QString FileManagerNavigationItem::iconNameForBookmark(const VBookmark &bookmark) const
+QString FilePlacesItem::iconNameForBookmark(const VBookmark &bookmark) const
 {
     if (!m_folderIsEmpty && hasFullIcon(bookmark))
         return bookmark.icon() + "-full";
     return bookmark.icon();
 }
 
-void FileManagerNavigationItem::slotAccessibilityChanged()
+void FilePlacesItem::slotAccessibilityChanged()
 {
     emit itemChanged(id());
 }
+}
 
-#include "filemanagernavigationitem.moc"
+#include "fileplacesitem.moc"

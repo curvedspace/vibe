@@ -14,18 +14,14 @@ set(SOURCES
     vbookmark.cpp
     vbookmarkmanager.cpp
     vbookmarkmanageradaptor.cpp
-    vfilemanagernavigationmodel.cpp
-    filemanagernavigationitem.cpp
     vfileplacesmodel.cpp
-    vfileplacesitem.cpp
-    vfileplacessharedbookmarks.cpp
+    private/fileplacesitem.cpp
     vfilesystemmodel.cpp
 )
 
 set(HEADERS
     vbookmark.h
     vbookmarkmanager.h
-    vfilemanagernavigationmodel.h
     vfileplacesmodel.h
     vfilesystemmodel.h
 )

@@ -1,7 +1,6 @@
 set(HEADERS
     VBookmark
     VBookmarkManager
-    VFileManagerNavigationModel
     VFilePlacesModel
     VFileSystemModel
 )
