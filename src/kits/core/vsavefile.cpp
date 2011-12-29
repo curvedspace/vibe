@@ -28,7 +28,6 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QtCore/QDebug>
 #include <QtCore/QDir>
 #include <QtCore/QTemporaryFile>
 #include <QtCore/QSettings>
