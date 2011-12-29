@@ -32,6 +32,8 @@
  */
 
 class VBookmark;
+class VDevice;
+
 class VFilePlacesModelPrivate;
 
 /**
