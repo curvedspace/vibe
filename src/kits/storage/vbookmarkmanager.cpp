@@ -26,7 +26,6 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 #include <QtCore/QProcess>
@@ -398,7 +397,8 @@ bool VBookmarkManager::saveAs(const QString &filename, bool toolbarCache) const
         }
     } else {
         // Remove any (now) stale cache
-        QFile::remove(cacheFilename);
+        if (QFile::exists(cacheFilename))
+            QFile::remove(cacheFilename);
     }
 
     VSaveFile file(filename);
@@ -408,9 +408,8 @@ bool VBookmarkManager::saveAs(const QString &filename, bool toolbarCache) const
         stream.setCodec(QTextCodec::codecForName("UTF-8"));
         stream << internalDocument().toString();
         stream.flush();
-        if (file.finalize()) {
+        if (file.finalize())
             return true;
-        }
     }
 
     static int hadSaveError = false;
@@ -422,7 +421,8 @@ bool VBookmarkManager::saveAs(const QString &filename, bool toolbarCache) const
                          "which is most likely a full hard drive.")
                       .arg(filename).arg(file.errorString());
 
-        qCritical() << QString("Unable to save bookmarks in %1. File reported the following error-code: %2.").arg(filename).arg(file.error());
+        qCritical() << QString("Unable to save bookmarks in %1 for the following reason (error code %2): %3")
+                    .arg(filename).arg(file.error()).arg(file.errorString());
         emit const_cast<VBookmarkManager *>(this)->error(err);
     }
     hadSaveError = true;
@@ -442,6 +442,7 @@ VBookmarkGroup VBookmarkManager::root() const
 VBookmarkGroup VBookmarkManager::toolbar()
 {
     qDebug() << "VBookmarkManager::toolbar begin";
+
     // Only try to read from a toolbar cache if the full document isn't loaded
     if (!d->m_docIsLoaded) {
         qDebug() << "VBookmarkManager::toolbar trying cache";
@@ -599,7 +600,7 @@ void VBookmarkManager::updateFavicon(const QString &url, const QString &/*favico
 VBookmarkManager *VBookmarkManager::userBookmarksManager()
 {
     QString bookmarksFile = QString("%1/colombo/bookmarks.xbel")
-            .arg(VStandardDirectories::findDirectory(VStandardDirectories::UserDataDirectory));
+                            .arg(VStandardDirectories::findDirectory(VStandardDirectories::UserDataDirectory));
     VBookmarkManager *bookmarkManager = VBookmarkManager::managerForFile(bookmarksFile, "colombo");
     return bookmarkManager;
 }
