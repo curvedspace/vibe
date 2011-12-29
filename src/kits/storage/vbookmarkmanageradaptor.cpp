@@ -31,7 +31,7 @@ VBookmarkManagerAdaptor::VBookmarkManagerAdaptor(VBookmarkManager *parent) :
 
 void VBookmarkManagerAdaptor::notifyCompleteChange()
 {
-    static_cast<VBookmarkManager*>(parent())->notifyCompleteChange(QString());
+    static_cast<VBookmarkManager *>(parent())->notifyCompleteChange(QString());
 }
 
 #include "vbookmarkmanageradaptor.moc"
