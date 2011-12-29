@@ -28,6 +28,7 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
+#include <QtCore/QDebug>
 #include <QtCore/QDir>
 #include <QtCore/QTemporaryFile>
 #include <QtCore/QSettings>
@@ -93,11 +94,12 @@ bool VSaveFile::open(OpenMode flags)
         return false;
     }
 
-    // we only check here if the directory can be written to
-    // the actual filename isn't written to, but replaced later
-    // with the contents of our tempfile
+    // We only check here if the directory can be written to the actual
+    // filename isn't written to, but replaced later with the contents
+    // of our tempfile
     QFileInfo realFileInfo(d->realFileName);
-    if (!realFileInfo.permission(QFile::WriteUser)) {
+    QFileInfo realFilePathInfo(realFileInfo.absolutePath());
+    if (!realFilePathInfo.permission(QFile::WriteUser)) {
         d->error = QFile::PermissionsError;
         d->errorString = tr("Insufficient permissions in target directory.");
         return false;
@@ -148,7 +150,7 @@ void VSaveFile::setFileName(const QString &filename)
 {
     d->realFileName = filename;
 
-    // make absolute if needed
+    // Make absolute if needed
     if (QDir::isRelativePath(filename))
         d->realFileName = QDir::current().absoluteFilePath(filename);
 
@@ -156,8 +158,6 @@ void VSaveFile::setFileName(const QString &filename)
     QFileInfo realFileInfo(d->realFileName);
     if (realFileInfo.isSymLink())
         d->realFileName = realFileInfo.symLinkTarget();
-
-    return;
 }
 
 QFile::FileError VSaveFile::error() const
@@ -222,12 +222,12 @@ bool VSaveFile::finalize()
         if (error() != NoError)
             QFile::remove(d->tempFileName);
 
-        //Qt does not allow us to atomically overwrite an existing file,
-        //so if the target file already exists, there is no way to change it
-        //to the temp file without creating a small race condition. So we use
-        //the standard rename call instead, which will do the copy without the
-        //race condition.
-        else if (rename(d->tempFileName, d->realFileName) == 0) {
+        // Qt does not allow us to atomically overwrite an existing file,
+        // so if the target file already exists, there is no way to change it
+        // to the temp file without creating a small race condition. So we use
+        // the standard rename call instead, which will do the copy without the
+        // race condition.
+        else if (::rename(QFile::encodeName(d->tempFileName).constData(), QFile::encodeName(d->realFileName).constData()) == 0) {
             d->error = QFile::NoError;
             d->errorString.clear();
             success = true;
