@@ -49,15 +49,6 @@ class FileManagerNavigationItem : public QObject
 {
     Q_OBJECT
 public:
-    enum FileManagerNavigationItemRole {
-        ActionRole = Qt::UserRole + 1,
-        UrlRole = Qt::UserRole + 2,
-        HiddenRole = Qt::UserRole + 3,
-        SetupNeededRole = Qt::UserRole + 4,
-        FixedDeviceRole = Qt::UserRole + 5,
-        CapacityBarReccomendedRole = Qt::UserRole + 6
-    };
-
     // Constructor for top-level items
     explicit FileManagerNavigationItem(const QIcon &icon, const QString &text,
                                        FileManagerNavigationItem *parent = 0);

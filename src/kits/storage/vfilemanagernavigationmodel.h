@@ -42,13 +42,25 @@ class VFileManagerNavigationModelPrivate;
  * navigation bars, such as the one found in Tracker or open/save common
  * dialogs.
  *
+ * It shows bookmark items under the Favorites top-level item and devices,
+ * such as optical discs and volumes, under the Devices top-level item.
+ *
  * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  */
 class VIBE_EXPORT VFileManagerNavigationModel : public QAbstractItemModel
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(VFileManagerNavigationModel)
+    Q_ENUMS(AdditionalRoles)
 public:
+    enum AdditionalRoles {
+        UrlRole = Qt::UserRole + 1,
+        HiddenRole = Qt::UserRole + 2,
+        SetupNeededRole = Qt::UserRole + 3,
+        FixedDeviceRole = Qt::UserRole + 4,
+        CapacityBarReccomendedRole = Qt::UserRole + 5
+    };
+
     explicit VFileManagerNavigationModel(QObject *parent = 0);
     ~VFileManagerNavigationModel();
 
@@ -60,6 +72,61 @@ public:
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
+
+    /**
+     * @param index the index which contains the row to fetch the icon.
+     * @returns the icon for the given index.
+     */
+    QIcon icon(const QModelIndex &index) const;
+
+    /**
+     * @param index the index which contains the row to fetch the text.
+     * @returns the text for the given index.
+     */
+    QString text(const QModelIndex &index) const;
+
+    /**
+     * @param index the index which contains the row to fetch the URL.
+     * @returns the URL for the given index.
+     */
+    QUrl url(const QModelIndex &index) const;
+
+    /**
+     * @param index the index which contains the row to fetch the information.
+     * @returns if the given index is hidden.
+     */
+    bool isHidden(const QModelIndex &index) const;
+
+    /**
+     * @param index the index which contains the row to fetch the information.
+     * @returns if the given index needs to be set up.
+     */
+    bool isSetupNeeded(const QModelIndex &index) const;
+
+    /**
+     * @param index the index which contains the row to fetch the information.
+     * @returns if the given index is a device item.
+     */
+    bool isDevice(const QModelIndex &index) const;
+
+    /**
+     * @param index the index which contains the row to fetch the information.
+     * @returns if the given index reccomends to be drawn with a capacity bar
+     * because it's a volume device item.
+     */
+    bool isCapacityBarReccomended(const QModelIndex &index) const;
+
+    /**
+     * @param index the index which contains the row to look at.
+     * @returns the corresponding bookmark for the given index.
+     */
+    VBookmark bookmarkForIndex(const QModelIndex &index) const;
+
+    /**
+     * @param index the index which contains the row to look at.
+     * @returns the corresponding device for the given index.
+     */
+    VDevice deviceForIndex(const QModelIndex &index) const;
 
 private:
     Q_PRIVATE_SLOT(d_ptr, void _q_initDeviceList())

@@ -316,4 +316,68 @@ int VFileManagerNavigationModel::columnCount(const QModelIndex &parent) const
     return 1;
 }
 
+QIcon VFileManagerNavigationModel::icon(const QModelIndex &index) const
+{
+    return QIcon(data(index, Qt::DecorationRole).value<QIcon>());
+}
+
+QString VFileManagerNavigationModel::text(const QModelIndex &index) const
+{
+    return data(index, Qt::DisplayRole).toString();
+}
+
+QUrl VFileManagerNavigationModel::url(const QModelIndex &index) const
+{
+    return QUrl(data(index, UrlRole).toUrl());
+}
+
+bool VFileManagerNavigationModel::isHidden(const QModelIndex &index) const
+{
+    return data(index, HiddenRole).toBool();
+}
+
+bool VFileManagerNavigationModel::isSetupNeeded(const QModelIndex &index) const
+{
+    return data(index, SetupNeededRole).toBool();
+}
+
+bool VFileManagerNavigationModel::isDevice(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return false;
+
+    FileManagerNavigationItem *item
+    = static_cast<FileManagerNavigationItem *>(index.internalPointer());
+    return item->isDevice();
+}
+
+bool VFileManagerNavigationModel::isCapacityBarReccomended(const QModelIndex &index) const
+{
+    return data(index, CapacityBarReccomendedRole).toBool();
+}
+
+VBookmark VFileManagerNavigationModel::bookmarkForIndex(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return VBookmark();
+
+    FileManagerNavigationItem *item =
+        static_cast<FileManagerNavigationItem *>(index.internalPointer());
+    if (!item->isDevice() && !item->isTopLevel())
+        return item->bookmark();
+    return VBookmark();
+}
+
+VDevice VFileManagerNavigationModel::deviceForIndex(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return VDevice();
+
+    FileManagerNavigationItem *item =
+        static_cast<FileManagerNavigationItem *>(index.internalPointer());
+    if (item->isDevice())
+        return item->device();
+    return VDevice();
+}
+
 #include "vfilemanagernavigationmodel.moc"
