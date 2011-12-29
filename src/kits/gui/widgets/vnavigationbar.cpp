@@ -20,7 +20,6 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QHeaderView>
 #include <QScrollBar>
 #include <QStandardItemModel>
 #include <QItemSelectionModel>
@@ -34,19 +33,19 @@ VNavigationBar::VNavigationBar(QWidget *parent) :
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
     setMinimumWidth(145);
     setMaximumWidth(245);
-    setAutoFillBackground(true);
     setFrameShape(QFrame::StyledPanel);
     setFrameShadow(QFrame::Plain);
     setContentsMargins(0, 0, 0, 0);
-    header()->hide();
+    setHeaderHidden(true);
     setWordWrap(true);
+    setAnimated(true);
+    setItemsExpandable(true);
     setSelectionMode(QAbstractItemView::SingleSelection);
     setRootIsDecorated(false);
     setUniformRowHeights(false);
     setAlternatingRowColors(false);
     verticalScrollBar()->setContextMenuPolicy(Qt::NoContextMenu);
     setItemDelegate(new VPrivate::NavigationItemDelegate(this));
-    //setSelectionModel(new QItemSelectionModel(model))
 }
 
 void VNavigationBar::drawBranches(QPainter *painter, const QRect &rect, const QModelIndex &index) const
