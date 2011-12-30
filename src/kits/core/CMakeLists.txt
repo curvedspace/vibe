@@ -4,6 +4,10 @@ include_directories(
     ${QT_QTCORE_INCLUDE_DIR}
     ${QT_QTXML_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}/headers
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/standards
+    ${CMAKE_CURRENT_SOURCE_DIR}/io
+    ${CMAKE_CURRENT_SOURCE_DIR}/settings
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
