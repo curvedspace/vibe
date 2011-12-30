@@ -15,12 +15,14 @@ configure_file(
 set(SOURCES
     vapplicationinfo.cpp
     vcommandoptions.cpp
-    vdesktopfile.cpp
     vglobals.cpp
-    vmimetype.cpp
-    vsavefile.cpp
-    vstandarddirectories.cpp
     vstringhandler.cpp
+
+    standards/vdesktopfile.cpp
+    standards/vmimetype.cpp
+    standards/vstandarddirectories.cpp
+
+    io/vsavefile.cpp
 
     settings/settingsschema.cpp
     settings/settingsschemaloader.cpp
@@ -30,12 +32,14 @@ set(SOURCES
 set(HEADERS
     vapplicationinfo.h
     vcommandoptions.h
-    vdesktopfile.h
-    vmimetype.h
-    vsavefile.h
-    vstandarddirectories.h
     vstringhandler.h
     ${CMAKE_CURRENT_BINARY_DIR}/vglobal.h
+
+    standards/vdesktopfile.h
+    standards/vmimetype.h
+    standards/vstandarddirectories.h
+
+    io/vsavefile.h
 
     settings/vsettings.h
 )
