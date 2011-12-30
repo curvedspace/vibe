@@ -44,6 +44,7 @@ VNavigationBar::VNavigationBar(QWidget *parent) :
     setRootIsDecorated(false);
     setUniformRowHeights(false);
     setAlternatingRowColors(false);
+    setAutoFillBackground(false);
     verticalScrollBar()->setContextMenuPolicy(Qt::NoContextMenu);
     setItemDelegate(new VPrivate::NavigationItemDelegate(this));
 }

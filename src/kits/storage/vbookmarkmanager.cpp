@@ -258,7 +258,7 @@ VBookmarkManager::VBookmarkManager(const QString &bookmarksFile)
     d->m_docIsLoaded = true;
 
     // Start watching
-    d->m_watcher = new QFileSystemWatcher();
+    d->m_watcher = new QFileSystemWatcher(this);
     d->m_watcher->addPath(d->m_bookmarksFile);
     QObject::connect(d->m_watcher, SIGNAL(fileChanged(const QString &)),
                      this, SLOT(slotFileChanged(const QString &)));

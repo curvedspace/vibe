@@ -20,8 +20,8 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#ifndef VFILEPLACES_P_H
-#define VFILEPLACES_P_H
+#ifndef VFILEPLACESMODEL_P_H
+#define VFILEPLACESMODEL_P_H
 
 //
 //  W A R N I N G
@@ -54,22 +54,32 @@ public:
     VPrivate::FilePlacesItem *favoritesRootItem;
     VPrivate::FilePlacesItem *devicesRootItem;
 
+    QList<VPrivate::FilePlacesItem *> favoriteItems;
+    QList<VPrivate::FilePlacesItem *> deviceItems;
+
     QSet<QString> availableDevices;
     VPredicate predicate;
+
+    QMap<QObject *, QPersistentModelIndex> setupInProgress;
 
     VBookmarkManager *bookmarkManager;
 
     VFilePlacesModel *const q_ptr;
 
+    QList<VPrivate::FilePlacesItem *> loadFavoritesList();
+    QList<VPrivate::FilePlacesItem *> loadDevicesList();
+    void reloadList(const QModelIndex &parent,
+                    QList<VPrivate::FilePlacesItem *> currentItems,
+                    QList<VPrivate::FilePlacesItem *> &items);
+
     void _q_initDeviceList();
     void _q_deviceAdded(const QString &udi);
     void _q_deviceRemoved(const QString &udi);
     void _q_itemChanged(const QString &udi);
-    void _q_reloadBookmarks();
-#if 0
-    void _q_storageSetupDone(VHardware::ErrorType error, QVariant errorData);
+    void _q_reloadFavorites();
+    void _q_reloadDevices();
     void _q_storageTeardownDone(VHardware::ErrorType error, QVariant errorData);
-#endif
+    void _q_storageSetupDone(VHardware::ErrorType error, QVariant errorData);
 };
 
-#endif // VFILEPLACES_P_H
+#endif // VFILEPLACESMODEL_P_H

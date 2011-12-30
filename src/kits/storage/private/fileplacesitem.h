@@ -37,6 +37,7 @@
 #include <QPointer>
 
 #include <VibeStorage/VBookmarkManager>
+#include <VibeHardware/VDevice>
 
 class QUrl;
 class QIcon;
@@ -47,95 +48,94 @@ class VOpticalDisc;
 
 namespace VPrivate
 {
-class FilePlacesItem : public QObject
-{
-    Q_OBJECT
-public:
-    // Constructor for top-level items
-    explicit FilePlacesItem(const QIcon &icon, const QString &text,
-                                       FilePlacesItem *parent = 0);
+    class FilePlacesItem : public QObject
+    {
+        Q_OBJECT
+    public:
+        // Constructor for top-level items
+        explicit FilePlacesItem(const QIcon &icon, const QString &text,
+                                FilePlacesItem *parent = 0);
 
-    // Constructor for items
-    explicit FilePlacesItem(VBookmarkManager *manager,
-                                       const QString &address,
-                                       FilePlacesItem *parent = 0);
+        // Constructor for items
+        explicit FilePlacesItem(VBookmarkManager *manager,
+                                const QString &address,
+                                FilePlacesItem *parent = 0);
 
-    // Constructor for devices items
-    explicit FilePlacesItem(VBookmarkManager *manager,
-                                       const QString &address,
-                                       const QString &udi = QString(),
-                                       FilePlacesItem *parent = 0);
+        // Constructor for devices items
+        explicit FilePlacesItem(VBookmarkManager *manager,
+                                const QString &address,
+                                const QString &udi = QString(),
+                                FilePlacesItem *parent = 0);
 
-    ~FilePlacesItem();
+        ~FilePlacesItem();
 
-    VBookmark bookmark() const;
-    void setBookmark(const VBookmark &bookmark);
+        VBookmark bookmark() const;
+        void setBookmark(const VBookmark &bookmark);
 
-    bool isTopLevel() const;
+        bool isTopLevel() const;
 
-    bool isDevice() const;
-    VDevice device() const;
+        bool isDevice() const;
+        VDevice device() const;
 
-    QString id() const;
+        QString id() const;
 
-    void appendChild(FilePlacesItem *item);
+        void appendChild(FilePlacesItem *item);
 
-    FilePlacesItem *child(int row);
+        FilePlacesItem *childAt(int row);
+        int childCount() const;
 
-    int childCount() const;
+        QVariant data(int role) const;
 
-    QVariant data(int role) const;
+        int row() const;
 
-    int row() const;
+        FilePlacesItem *parent();
 
-    FilePlacesItem *parent();
+        static VBookmark createBookmark(VBookmarkManager *manager,
+                                        const QString &label,
+                                        const QUrl &url,
+                                        const QString &iconName,
+                                        FilePlacesItem *after = 0);
+        static VBookmark createSystemBookmark(VBookmarkManager *manager,
+                                              const QString &untranslatedLabel,
+                                              const QString &translatedLabel,
+                                              const QUrl &url,
+                                              const QString &iconName);
+        static VBookmark createDeviceBookmark(VBookmarkManager *manager,
+                                              const QString &udi);
 
-    static VBookmark createBookmark(VBookmarkManager *manager,
-                                    const QString &label,
-                                    const QUrl &url,
-                                    const QString &iconName,
-                                    FilePlacesItem *after = 0);
-    static VBookmark createSystemBookmark(VBookmarkManager *manager,
-                                          const QString &untranslatedLabel,
-                                          const QString &translatedLabel,
-                                          const QUrl &url,
-                                          const QString &iconName);
-    static VBookmark createDeviceBookmark(VBookmarkManager *manager,
-                                          const QString &udi);
+    signals:
+        void itemChanged(const QString &id);
 
-signals:
-    void itemChanged(const QString &id);
+    private:
+        VBookmarkManager *m_manager;
+        VBookmark m_bookmark;
 
-private:
-    VBookmarkManager *m_manager;
-    VBookmark m_bookmark;
+        QIcon m_icon;
+        QString m_text;
+        QString m_address;
+        bool m_isTopLevel;
+        bool m_folderIsEmpty;
 
-    QIcon m_icon;
-    QString m_text;
-    QString m_address;
-    bool m_isTopLevel;
-    bool m_folderIsEmpty;
+        bool m_isDevice;
+        mutable VDevice m_device;
+        mutable QPointer<VStorageAccess> m_access;
+        mutable QPointer<VStorageVolume> m_volume;
+        mutable QPointer<VOpticalDisc> m_disc;
 
-    bool m_isDevice;
-    mutable VDevice m_device;
-    mutable QPointer<VStorageAccess> m_access;
-    mutable QPointer<VStorageVolume> m_volume;
-    mutable QPointer<VOpticalDisc> m_disc;
+        QList<FilePlacesItem *> m_childItems;
+        FilePlacesItem *m_parentItem;
 
-    QList<FilePlacesItem *> m_childItems;
-    FilePlacesItem *m_parentItem;
+        static QString generateNewId();
 
-    static QString generateNewId();
+        QVariant deviceData(int role) const;
+        QVariant bookmarkData(int role) const;
 
-    QVariant deviceData(int role) const;
-    QVariant bookmarkData(int role) const;
+        bool hasFullIcon(const VBookmark &bookmark) const;
+        QString iconNameForBookmark(const VBookmark &bookmark) const;
 
-    bool hasFullIcon(const VBookmark &bookmark) const;
-    QString iconNameForBookmark(const VBookmark &bookmark) const;
-
-private slots:
-    void slotAccessibilityChanged();
-};
+    private slots:
+        void slotAccessibilityChanged();
+    };
 }
 
 #endif // PRIVATE_FILEPLACESITEM_H

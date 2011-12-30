@@ -2,6 +2,7 @@ set(HEADERS
     VBookmark
     VBookmarkManager
     VFilePlacesModel
+    VFilePlacesView
     VFileSystemModel
 )
 
