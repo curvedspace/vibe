@@ -55,12 +55,12 @@
         <description>Determines the background type. Possible values are "color", "wallpaper".</description>
       </key>
       <key type="color" name="primary-color">
-        <default>#023c88</default>
+        <default>#336699</default>
         <summary>Primary Color</summary>
         <description>Left or Top color when draring gradients, or the solid color.</description>
       </key>
       <key type="color" name="secondary-color">
-        <default>#5789ca</default>
+        <default>#2e5d8c</default>
         <summary>Secondary Color</summary>
         <description>Right or Bottom color when draring gradients, not used for solid color.</description>
       </key>
@@ -70,7 +70,7 @@
         <description>How to shade the background color. Possible values are "solid", "horizontal" or "vertical".</description>
       </key>
       <key type="url" name="wallpaper-uri">
-        <default>file:///usr/share/themes/Adwaita/backgrounds/stripes.jpg</default>
+        <default>file:///system/data/themes/wallpapers/Evening/contents/images/1920x1200.jpg</default>
         <summary>Picture URI</summary>
         <description>URI to use for the background wallpaper.</description>
       </key>
