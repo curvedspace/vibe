@@ -244,13 +244,13 @@ SettingsSchemaList SettingsSchemaLoader::readCompiledSchemas()
     qint32 schemasSize;
     in >> schemasSize;
 
-    for (int i = 0; i < schemasSize; i++) {
+    for (qint32 i = 0; i < schemasSize; i++) {
         QString id;
         qint32 pathsSize;
         SettingsPathList paths;
 
         in >> id >> pathsSize;
-        for (int j = 0; j < pathsSize; j++) {
+        for (qint32 j = 0; j < pathsSize; j++) {
             QString name;
             qint32 keysSize;
             SettingsKeyList keys;
@@ -258,7 +258,7 @@ SettingsSchemaList SettingsSchemaLoader::readCompiledSchemas()
             in >> name >> keysSize;
 
             SettingsPath *path = new SettingsPath(name);
-            for (int k = 0; k < keysSize; k++) {
+            for (qint32 k = 0; k < keysSize; k++) {
                 QString name;
                 QString type;
                 QVariant::Type variantType;
@@ -278,7 +278,7 @@ SettingsSchemaList SettingsSchemaLoader::readCompiledSchemas()
             paths.append(path);
         }
 
-        SettingsSchema *schema = new SettingsSchema();
+        SettingsSchema *schema = new SettingsSchema(id);
         schema->setPaths(paths);
         list.append(schema);
     }

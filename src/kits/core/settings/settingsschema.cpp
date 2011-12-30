@@ -88,7 +88,7 @@ namespace VPrivate
         qint32 size;
 
         in >> size;
-        for (int i = 0; i < size; i++) {
+        for (qint32 i = 0; i < size; i++) {
             SettingsKey key;
             in >> key;
             keyList.append(&key);
@@ -151,7 +151,7 @@ namespace VPrivate
         qint32 size;
 
         in >> size;
-        for (int i = 0; i < size; i++) {
+        for (qint32 i = 0; i < size; i++) {
             SettingsPath path;
             in >> path;
             pathList.append(&path);
@@ -244,7 +244,7 @@ namespace VPrivate
 
         in >> size;
         schemaList.clear();
-        for (int i = 0; i < size; i++) {
+        for (qint32 i = 0; i < size; i++) {
             SettingsSchema schema;
             in >> schema;
             schemaList.append(new SettingsSchema(schema));
