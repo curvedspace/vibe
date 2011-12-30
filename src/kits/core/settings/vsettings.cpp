@@ -20,12 +20,15 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
+#include <QDebug>
 #include <QStringList>
 
 #include <VibeCore/VStandardDirectories>
 
 #include "vsettings.h"
 #include "vsettings_p.h"
+
+#define VSETTINGS_DEBUG 0
 
 /*
  * VSettingsPrivate
@@ -54,6 +57,9 @@ void VSettingsPrivate::setSchema(const QString &schemaId)
     // Find the schema whose identifier is the value passed as argument
     VPrivate::SettingsSchemaList list = loader->readCompiledSchemas();
     foreach(VPrivate::SettingsSchema * curSchema, list) {
+#if VSETTINGS_DEBUG
+        qDebug() << "Settings schema" << curSchema->id() << "vs" << schemaId;
+#endif
         if (curSchema->id() == schemaId) {
             schema = curSchema;
             break;
@@ -105,6 +111,7 @@ VSettings::VSettings(const QString &schema, const QString &path) :
     d_ptr(new VSettingsPrivate(this))
 {
     d_ptr->setSchema(schema);
+    d_ptr->setPath(path);
 }
 
 VSettings::~VSettings()
@@ -145,15 +152,21 @@ QVariant VSettings::value(const QString &key) const
     Q_ASSERT(!parts.isEmpty());
     QString keyName = parts.takeLast();
     QString pathName = path();
-    if (parts.size() > 0)
+    if (parts.size() > 1)
         pathName = QString("/") + parts.join("/");
     Q_ASSERT(!pathName.isEmpty());
 
     // Find the key from the schema
     VPrivate::SettingsKey *actualKey = 0;
     foreach(VPrivate::SettingsPath * curPath, d->schema->paths()) {
+#if VSETTINGS_DEBUG
+        qDebug() << "Settings path" << curPath->name() << "vs" << pathName;
+#endif
         if (curPath->name() == pathName) {
             foreach(VPrivate::SettingsKey * curKey, curPath->keys()) {
+#if VSETTINGS_DEBUG
+                qDebug() << "Settings key" << curKey->name() << "vs" << keyName;
+#endif
                 if (curKey->name() == keyName) {
                     actualKey = curKey;
                     break;
