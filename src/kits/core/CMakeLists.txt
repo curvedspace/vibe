@@ -26,6 +26,7 @@ set(SOURCES
     standards/vmimetype.cpp
     standards/vstandarddirectories.cpp
 
+    io/vfilesystemwatcher.cpp
     io/vsavefile.cpp
 
     settings/settingsschema.cpp
@@ -43,6 +44,7 @@ set(HEADERS
     standards/vmimetype.h
     standards/vstandarddirectories.h
 
+    io/vfilesystemwatcher.h
     io/vsavefile.h
 
     settings/vsettings.h
