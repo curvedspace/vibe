@@ -3,6 +3,7 @@ set(HEADERS
     VCommandOptions
     VDesktopFile
     VFileSupport
+    VFileSystemWatcher
     VGlobal
     VMimeType
     VSaveFile
