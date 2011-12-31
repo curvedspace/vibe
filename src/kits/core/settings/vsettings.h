@@ -65,7 +65,13 @@ public:
      */
     void setValue(const QString &key, const QVariant &value);
 
+signals:
+    void changed();
+
 private:
+    Q_PRIVATE_SLOT(d_ptr, void _q_dirty(const QString &))
+    Q_PRIVATE_SLOT(d_ptr, void _q_deleted(const QString &))
+
     VSettingsPrivate *const d_ptr;
 };
 

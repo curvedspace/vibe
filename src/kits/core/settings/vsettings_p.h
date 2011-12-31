@@ -38,6 +38,8 @@
 // We mean it.
 //
 
+class VFileSystemWatcher;
+
 class VSettingsPrivate
 {
     Q_DECLARE_PUBLIC(VSettings)
@@ -54,6 +56,10 @@ public:
     bool dynamic;
     QSettings *file;
     QString fileName;
+    VFileSystemWatcher *watcher;
+
+    void _q_dirty(const QString &fileName);
+    void _q_deleted(const QString &fileName);
 
 protected:
     VSettings *const q_ptr;

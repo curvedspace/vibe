@@ -22,8 +22,10 @@
 
 #include <QDebug>
 #include <QStringList>
+#include <QFileInfo>
 
 #include <VibeCore/VStandardDirectories>
+#include <VibeCore/VFileSystemWatcher>
 
 #include "vsettings.h"
 #include "vsettings_p.h"
@@ -41,13 +43,23 @@ VSettingsPrivate::VSettingsPrivate(VSettings *parent) :
     dynamic(false),
     file(0)
 {
+    // Compiled schemas list loader
     loader = new VPrivate::SettingsSchemaLoader();
+
+    watcher = new VFileSystemWatcher(q_ptr);
+    // Watch for events happening to this file
+    watcher->
+    QObject::connect(watcher, SIGNAL(dirty(QString)),
+                     q_ptr, SLOT(_q_dirty(QString)));
+    QObject::connect(watcher, SIGNAL(deleted(QString)),
+                     q_ptr, SLOT(_q_deleted(QString)));
 }
 
 VSettingsPrivate::~VSettingsPrivate()
 {
     delete loader;
     delete file;
+    delete watcher;
 }
 
 void VSettingsPrivate::setSchema(const QString &schemaId)
@@ -75,6 +87,10 @@ void VSettingsPrivate::setSchema(const QString &schemaId)
     // Create a new settings object
     delete file;
     file = new QSettings(fileName, QSettings::IniFormat);
+
+    // Watch for this file
+    QFileInfo fileInfo(fileName);
+    watcher->addDir(fileInfo.absolutePath(), VFileSystemWatcher::WatchFiles);
 }
 
 void VSettingsPrivate::setPath(const QString &pathName)
@@ -100,6 +116,36 @@ void VSettingsPrivate::setPath(const QString &pathName)
     Q_ASSERT(path);
 
     file->beginGroup(pathName);
+}
+
+void VSettingsPrivate::_q_dirty(const QString &changedFileName)
+{
+    Q_Q(VSettings);
+
+    if (changedFileName == fileName) {
+        // Settings file has changed, it could have been modified by the user
+        // with a text editor, or by another instance of VSettings in any case
+        // it must be reloaded
+        delete file;
+        file = new QSettings(fileName, QSettings::IniFormat);
+        if (path && !path->name().isEmpty())
+            file->beginGroup(path->name());
+        emit q->changed();
+    }
+}
+
+void VSettingsPrivate::_q_deleted(const QString &deletedFileName)
+{
+    Q_Q(VSettings);
+
+    if (deletedFileName == fileName) {
+        // Settings file has been delete, inform that settings changed because
+        // without the settings file they are reset to default values from the
+        // schema or the ones assumed by the caller
+        delete file;
+        file = 0;
+        emit q->changed();
+    }
 }
 
 /*
@@ -176,7 +222,9 @@ QVariant VSettings::value(const QString &key) const
     }
     Q_ASSERT(actualKey);
 
-    return d->file->value(keyName, actualKey->defaultValue());
+    if (d->file)
+        return d->file->value(keyName, actualKey->defaultValue());
+    return actualKey->defaultValue();
 }
 
 void VSettings::setValue(const QString &key, const QVariant &value)
