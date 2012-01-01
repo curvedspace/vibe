@@ -58,6 +58,10 @@ public:
     QString fileName;
     VFileSystemWatcher *watcher;
 
+    void extractPathAndKey(const QString &setting,
+                           QString &pathName,
+                           QString &keyName) const;
+
     void _q_dirty(const QString &fileName);
     void _q_deleted(const QString &fileName);
 

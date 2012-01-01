@@ -48,7 +48,6 @@ VSettingsPrivate::VSettingsPrivate(VSettings *parent) :
 
     watcher = new VFileSystemWatcher(q_ptr);
     // Watch for events happening to this file
-    watcher->
     QObject::connect(watcher, SIGNAL(dirty(QString)),
                      q_ptr, SLOT(_q_dirty(QString)));
     QObject::connect(watcher, SIGNAL(deleted(QString)),
@@ -114,8 +113,19 @@ void VSettingsPrivate::setPath(const QString &pathName)
         }
     }
     Q_ASSERT(path);
+}
 
-    file->beginGroup(pathName);
+void VSettingsPrivate::extractPathAndKey(const QString &setting,
+                                         QString &pathName,
+                                         QString &keyName) const
+{
+    QStringList parts = setting.split('/', QString::SkipEmptyParts);
+    Q_ASSERT(!parts.isEmpty());
+    keyName = parts.takeLast();
+    pathName = path ? path->name() : QString();
+    if (parts.size() >= 1)
+        pathName = QString("/") + parts.join("/");
+    Q_ASSERT(!pathName.isEmpty());
 }
 
 void VSettingsPrivate::_q_dirty(const QString &changedFileName)
@@ -128,8 +138,6 @@ void VSettingsPrivate::_q_dirty(const QString &changedFileName)
         // it must be reloaded
         delete file;
         file = new QSettings(fileName, QSettings::IniFormat);
-        if (path && !path->name().isEmpty())
-            file->beginGroup(path->name());
         emit q->changed();
     }
 }
@@ -194,13 +202,8 @@ QVariant VSettings::value(const QString &key) const
     Q_D(const VSettings);
 
     // Determine actual key name and path
-    QStringList parts = key.split('/', QString::SkipEmptyParts);
-    Q_ASSERT(!parts.isEmpty());
-    QString keyName = parts.takeLast();
-    QString pathName = path();
-    if (parts.size() > 1)
-        pathName = QString("/") + parts.join("/");
-    Q_ASSERT(!pathName.isEmpty());
+    QString keyName, pathName;
+    d->extractPathAndKey(key, pathName, keyName);
 
     // Find the key from the schema
     VPrivate::SettingsKey *actualKey = 0;
@@ -222,8 +225,13 @@ QVariant VSettings::value(const QString &key) const
     }
     Q_ASSERT(actualKey);
 
+    // Take value from settings file
     if (d->file)
-        return d->file->value(keyName, actualKey->defaultValue());
+        return d->file->value(QString("%1/%2")
+                              .arg(pathName).arg(keyName),
+                              actualKey->defaultValue());
+
+    // Take default value from schema
     return actualKey->defaultValue();
 }
 
@@ -231,7 +239,12 @@ void VSettings::setValue(const QString &key, const QVariant &value)
 {
     Q_D(VSettings);
 
-    d->file->setValue(key, value);
+    // Determine actual key name and path
+    QString keyName, pathName;
+    d->extractPathAndKey(key, pathName, keyName);
+
+    // Set the value
+    d->file->setValue(QString("%1/%2").arg(pathName).arg(keyName), value);
 }
 
 #include "vsettings.moc"
