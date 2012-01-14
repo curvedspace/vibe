@@ -14,6 +14,7 @@ add_definitions(-DQT_PLUGIN -DQT_NO_DEBUG -DQT_SHARED)
 set(SOURCES
     vibewidgets.cpp
     fileplacesviewplugin.cpp
+    lineeditplugin.cpp
     navigationbarplugin.cpp
     titlewidgetplugin.cpp
 )

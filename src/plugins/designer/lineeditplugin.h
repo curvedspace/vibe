@@ -1,7 +1,7 @@
 /****************************************************************************
  * This file is part of Vibe.
  *
- * Copyright (c) 2010-2011 Pier Luigi Fiorini
+ * Copyright (c) 2012 Pier Luigi Fiorini
  *
  * Author(s):
  *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
@@ -20,29 +20,35 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QtCore/QtPlugin>
+#ifndef LINEEDITPLUGIN_H
+#define LINEEDITPLUGIN_H
 
-#include "vibewidgets.h"
-#include "fileplacesviewplugin.h"
-#include "lineeditplugin.h"
-#include "navigationbarplugin.h"
-#include "titlewidgetplugin.h"
+#include <QtDesigner/QDesignerCustomWidgetInterface>
 
-VibeWidgets::VibeWidgets(QObject *parent)
-    : QObject(parent)
+class LineEditPlugin : public QObject, public QDesignerCustomWidgetInterface
 {
-    const QIcon icon(":/qt.png");
-    //m_plugins.append(new FilePlacesViewPlugin(icon, this));
-    m_plugins.append(new LineEditPlugin(icon, this));
-    m_plugins.append(new NavigationBarPlugin(icon, this));
-    m_plugins.append(new TitleWidgetPlugin(icon, this));
-}
+    Q_OBJECT
+    Q_INTERFACES(QDesignerCustomWidgetInterface)
+public:
+    explicit LineEditPlugin(const QIcon &icon, QObject *parent = 0);
 
-QList<QDesignerCustomWidgetInterface *> VibeWidgets::customWidgets() const
-{
-    return m_plugins;
-}
+    void initialize(QDesignerFormEditorInterface *formEditor);
+    bool isInitialized() const;
+    bool isContainer() const;
 
-Q_EXPORT_PLUGIN2(VibeWidgetsPlugin, VibeWidgets)
+    QWidget *createWidget(QWidget *parent);
 
-#include "vibewidgets.moc"
+    QIcon icon() const;
+    QString domXml() const;
+    QString group() const;
+    QString includeFile() const;
+    QString name() const;
+    QString toolTip() const;
+    QString whatsThis() const;
+
+private:
+    bool m_initialized;
+    QIcon m_icon;
+};
+
+#endif // LINEEDITPLUGIN_H

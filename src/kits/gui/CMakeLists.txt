@@ -8,6 +8,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_BINARY_DIR}/src/kits/core
     ${CMAKE_CURRENT_SOURCE_DIR}/widgets
+    ${CMAKE_CURRENT_SOURCE_DIR}/widgets/private
     ${CMAKE_CURRENT_SOURCE_DIR}/paged
     ${CMAKE_CURRENT_SOURCE_DIR}/preferences
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -23,9 +24,11 @@ set(SOURCES
     vstyleoptionbreadcrumbbar.cpp
     vtheme.cpp
 
-    widgets/navigationitemdelegate.cpp
+    widgets/vlineedit.cpp
     widgets/vnavigationbar.cpp
     widgets/vtitlewidget.cpp
+    widgets/private/iconbutton.cpp
+    widgets/private/navigationitemdelegate.cpp
 
     paged/vpagemodel.cpp
     paged/vpageview.cpp
@@ -34,29 +37,6 @@ set(SOURCES
     paged/vpagewidgetmodel.cpp
 
     preferences/vpreferencesmodule.cpp
-)
-
-set(HEADERS
-    vaboutdialog.h
-    vabstractbreadcrumbmodel.h
-    vbreadcrumbbar.h
-    vbreadcrumbdirmodel.h
-    vcolorscheme.h
-    vinterfacemacros.h
-    vstyle.h
-    vstyleoptionbreadcrumbbar.h
-    vtheme.h
-
-    widgets/vnavigationbar.h
-    widgets/vtitlewidget.h
-
-    paged/vpagemodel.h
-    paged/vpageview.h
-    paged/vpagewidget.h
-    paged/vpagewidgetmodel.h
-
-    preferences/vpreferencesmodule.h
-    preferences/vpreferencesmoduleplugin.h
 )
 
 automoc4(VibeGui SOURCES)
