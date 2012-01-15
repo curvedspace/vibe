@@ -32,8 +32,7 @@ using namespace VPrivate;
  */
 
 VLineEditPrivate::VLineEditPrivate(VLineEdit *parent) :
-    q_ptr(parent),
-    drawingHintText(false)
+    q_ptr(parent)
 {
     for (int i = 0; i < 2; i++) {
         menu[i] = 0;
