@@ -1,6 +1,8 @@
 set(HEADERS
+    VAbstractCompressionFilter
     VApplicationInfo
     VCommandOptions
+    VCompressionFilter
     VDesktopFile
     VFileSupport
     VFileSystemWatcher

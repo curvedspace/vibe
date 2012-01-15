@@ -27,6 +27,7 @@ include(ConfigureChecks.cmake)
 # Include important macros
 include(MacroOptionalFindPackage)
 include(MacroLogFeature)
+include(MacroBoolTo01)
 
 # Generate header files
 configure_file(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)

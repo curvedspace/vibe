@@ -6,6 +6,7 @@ set(cmakeFiles
     CheckStructMember.cmake
     FindFlex.cmake
     FindHUpnp.cmake
+    FindLibLZMA.cmake
     FindQt4.cmake
     FindSharedMimeInfo.cmake
     FindUDev.cmake
