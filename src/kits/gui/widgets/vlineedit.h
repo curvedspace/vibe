@@ -45,8 +45,6 @@ class VIBE_EXPORT VLineEdit : public QLineEdit
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(VLineEdit)
-    Q_PROPERTY(QString hintText READ hintText WRITE setHintText)
-    Q_PROPERTY(bool showingHintText READ isShowingHintText)
     Q_ENUMS(Side)
 public:
     enum Side {
