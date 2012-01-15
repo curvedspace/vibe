@@ -21,9 +21,9 @@ set(SOURCES
 
 qt4_add_resources(RESOURCES_RCC icons.qrc)
 
-automoc4(VibeWidgetsPlugin SOURCES)
-add_library(VibeWidgetsPlugin SHARED ${SOURCES} ${RESOURCES_RCC})
-target_link_libraries(VibeWidgetsPlugin ${QT_QTDESIGNER_LIBRARIES} VibeGui VibeStorage)
+automoc4(VibeDesignerPlugin SOURCES)
+add_library(VibeDesignerPlugin SHARED ${SOURCES} ${RESOURCES_RCC})
+target_link_libraries(VibeDesignerPlugin ${QT_QTDESIGNER_LIBRARIES} VibeGui VibeStorage)
 
-install(TARGETS VibeWidgetsPlugin LIBRARY
+install(TARGETS VibeDesignerPlugin LIBRARY
     DESTINATION ${QT_PLUGINS_DIR}/designer COMPONENT Devel)
