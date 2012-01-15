@@ -238,3 +238,5 @@ void VLineEdit::slotIconClicked()
             emit rightButtonClicked();
     }
 }
+
+#include "vlineedit.moc"
