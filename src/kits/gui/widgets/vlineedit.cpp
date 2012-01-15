@@ -195,29 +195,6 @@ void VLineEdit::setAutoHideButton(Side side, bool value)
         d->iconButton[side]->setIconOpacity(1.0);
 }
 
-QString VLineEdit::hintText() const
-{
-    Q_D(VLineEdit);
-
-    return d->hintText;
-}
-
-void VLineEdit::setHintText(const QString &hint)
-{
-    Q_D(VLineEdit);
-
-    d->hintText = hint;
-    d->drawingHintText = !text().isEmpty();
-    update();
-}
-
-bool VLineEdit::isShowingHintText() const
-{
-    Q_D(VLineEdit);
-
-    return !d->hintText.isEmpty();
-}
-
 void VLineEdit::slotCheckButtons(const QString &text)
 {
     Q_D(VLineEdit);

@@ -53,8 +53,6 @@ public:
     VPrivate::IconButton *iconButton[2];
     bool iconEnabled[2];
     QString oldText;
-    bool drawingHintText;
-    QString hintText;
 
     void updateMargins();
     void updateButtonPositions();
