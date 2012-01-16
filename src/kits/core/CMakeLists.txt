@@ -5,6 +5,7 @@ include_directories(
     ${QT_QTXML_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/archive
     ${CMAKE_CURRENT_SOURCE_DIR}/compression
     ${CMAKE_CURRENT_SOURCE_DIR}/io
     ${CMAKE_CURRENT_SOURCE_DIR}/settings
@@ -45,6 +46,9 @@ set(SOURCES
     vglobals.cpp
     vstringhandler.cpp
 
+    archive/varchive.cpp
+    archive/vlimitediodevice.cpp
+
     compression/vabstractcompressionfilter.cpp
     compression/vcompressionfilter.cpp
     compression/vgzipcompressionfilter.cpp
@@ -68,6 +72,8 @@ set(HEADERS
     vcommandoptions.h
     vstringhandler.h
     ${CMAKE_CURRENT_BINARY_DIR}/vglobal.h
+
+    archive/varchive.h
 
     compression/vabstractcompressionfilter.h
     compression/vcompressionfilter.h
