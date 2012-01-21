@@ -39,6 +39,27 @@ set(SOURCES
     preferences/vpreferencesmodule.cpp
 )
 
+set(HEADERS
+    vaboutdialog.h
+    vabstractbreadcrumbmodel.h
+    vbreadcrumbbar.h
+    vbreadcrumbdirmodel.h
+    vcolorscheme.h
+    vstyleoptionbreadcrumbbar.h
+    vtheme.h
+
+    widgets/vlineedit.h
+    widgets/vnavigationbar.h
+    widgets/vtitlewidget.h
+
+    paged/vpagemodel.h
+    paged/vpageview.h
+    paged/vpagewidget.h
+    paged/vpagewidgetmodel.h
+
+    preferences/vpreferencesmodule.h
+)
+
 automoc4(VibeGui SOURCES)
 
 add_library(VibeGui SHARED ${SOURCES})
