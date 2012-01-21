@@ -50,10 +50,6 @@ if (_failed)
 endif (_failed)
 string(REGEX REPLACE "[ \t\n]+" \; DBUS_SESSION_BUS_SERVICES_DIR "${DBUS_SESSION_BUS_SERVICES_DIR}")
 
-# Find QConf
-# FIXME: Replace dconf and GSettings with our configuration system
-pkg_check_modules(QCONF REQUIRED dconf-qt)
-
 # Installation directories.
 set(CMAKE_INSTALL_SYSTEMDIR "/system")
 set(CMAKE_INSTALL_DEVELOPDIR "${CMAKE_INSTALL_SYSTEMDIR}/develop")
