@@ -47,6 +47,7 @@ set(HEADERS
     vcolorscheme.h
     vstyleoptionbreadcrumbbar.h
     vtheme.h
+    vstyle.h
 
     widgets/vlineedit.h
     widgets/vnavigationbar.h
