@@ -42,6 +42,7 @@ public:
         verticalLayout = new QVBoxLayout(q);
         logoLabel = new QLabel(q);
         logoLabel->setAlignment(Qt::AlignCenter);
+        logoLabel->setPixmap(qApp->windowIcon().pixmap(128));
         verticalLayout->addWidget(logoLabel);
 
         appVerLabel = new QLabel(q);
@@ -153,7 +154,7 @@ void VAboutDialog::Private::setLink(const QUrl &url)
 
 void VAboutDialog::Private::_q_moreInformation()
 {
-    QDialog *dialog = new QDialog();
+    QDialog *dialog = new QDialog(q);
     dialog->setWindowTitle(tr("More Information"));
 
     QTabWidget *tab = new QTabWidget();
@@ -174,7 +175,7 @@ void VAboutDialog::Private::_q_moreInformation()
     QVBoxLayout *vbox = new QVBoxLayout(dialog);
     vbox->addWidget(tab);
 
-    dialog->show();
+    dialog->exec();
 }
 
 void VAboutDialog::Private::_q_close()

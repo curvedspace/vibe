@@ -42,7 +42,7 @@
 #ifndef PREVIEWWIDGET_H
 #define PREVIEWWIDGET_H
 
-#include <QtGui/QWidget>
+#include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
 
@@ -52,7 +52,7 @@ namespace Ui
 }
 
 
-class PreviewWidget : public QWidget
+class PreviewWidget : public QMainWindow
 {
     Q_OBJECT
 

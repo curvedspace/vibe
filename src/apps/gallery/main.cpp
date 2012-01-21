@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
 
     PreviewWidget *preview = new PreviewWidget();
     preview->show();
+    //app.setStyleSheet("QToolBar { background-color: red; }");
 
     app.exec();
     return 0;

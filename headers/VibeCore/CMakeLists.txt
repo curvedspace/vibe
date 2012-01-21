@@ -2,9 +2,12 @@ set(HEADERS
     VAbstractCompressionFilter
     VApplicationInfo
     VArchive
+    VArchiveHandler
+    VArchiveHandlerPlugin
     VCommandOptions
     VCompressionFilter
     VDesktopFile
+    VFileString
     VFileSupport
     VFileSystemWatcher
     VGlobal

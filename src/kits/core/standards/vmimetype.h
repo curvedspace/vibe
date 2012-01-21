@@ -25,8 +25,8 @@
 #ifndef VMIMETYPE_H
 #define VMIMETYPE_H
 
-#include <QtCore/QObject>
-#include <QtCore/QFile>
+#include <QObject>
+#include <QIODevice>
 
 #include <VibeCore/VGlobal>
 
@@ -49,7 +49,7 @@ public:
     explicit VMimeType(const QString &mimeType = QString::null, QObject *parent = 0);
 
     bool fromFileName(const QString &fileName);
-    bool fromFile(QFile *file);
+    bool fromDevice(QIODevice *dev);
 
     QString iconName() const;
     static QString iconNameForUrl(const QUrl &url);
@@ -69,16 +69,16 @@ public:
 
 protected:
     bool getMimeNode();
-    bool checkMagic(const QDomElement &magicNode, QFile *file);
-    bool checkMagic(const QDomNodeList &matchList, QFile *file);
-    bool checkSubMagic(const QDomNodeList &matchList, QFile *file);
-    bool checkMatch(const QDomElement &matchNode, QFile *file);
+    bool checkMagic(const QDomElement &magicNode, QIODevice *dev);
+    bool checkMagic(const QDomNodeList &matchList, QIODevice *dev);
+    bool checkSubMagic(const QDomNodeList &matchList, QIODevice *dev);
+    bool checkMatch(const QDomElement &matchNode, QIODevice *dev);
 
 private:
     VMimeTypePrivate *d_ptr;
 
     bool checkMagicString(const QString &offset, const QByteArray &value,
-                          const QByteArray &mask, QFile *file);
+                          const QByteArray &mask, QIODevice *dev);
 };
 
 /** @}*/

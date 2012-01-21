@@ -47,12 +47,14 @@ set(SOURCES
     vstringhandler.cpp
 
     archive/varchive.cpp
+    archive/varchivehandler.cpp
     archive/vlimitediodevice.cpp
 
     compression/vabstractcompressionfilter.cpp
     compression/vcompressionfilter.cpp
     compression/vgzipcompressionfilter.cpp
 
+    io/vfilestring.cpp
     io/vfilesystemwatcher.cpp
     io/vsavefile.cpp
 
@@ -74,10 +76,13 @@ set(HEADERS
     ${CMAKE_CURRENT_BINARY_DIR}/vglobal.h
 
     archive/varchive.h
+    archive/varchivehandler.h
+    archive/varchivehandlerplugin.h
 
     compression/vabstractcompressionfilter.h
     compression/vcompressionfilter.h
 
+    io/vfilestring.h
     io/vfilesystemwatcher.h
     io/vsavefile.h
 

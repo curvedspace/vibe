@@ -287,7 +287,7 @@ bool VMimeType::fromFileName(const QString &fileName)
     return false;
 }
 
-bool VMimeType::fromFile(QFile *file)
+bool VMimeType::fromDevice(QIODevice *dev)
 {
     Q_D(VMimeType);
 
@@ -298,7 +298,7 @@ bool VMimeType::fromFile(QFile *file)
 
     for (uint i = 0; i < magicList.length(); ++i) {
         QDomElement magicNode = magicList.item(i).toElement();
-        if (checkMagic(magicNode, file))
+        if (checkMagic(magicNode, dev))
             matchMagicList.append(magicNode);
     }
 
@@ -316,8 +316,7 @@ bool VMimeType::fromFile(QFile *file)
         }
     }
 
-    // Search by glob
-    return fromFileName(file->fileName());
+    return false;
 }
 
 QString VMimeType::iconName() const
@@ -404,41 +403,41 @@ bool VMimeType::getMimeNode()
     return false;
 }
 
-bool VMimeType::checkMagic(const QDomElement &magicNode, QFile *file)
+bool VMimeType::checkMagic(const QDomElement &magicNode, QIODevice *dev)
 {
     QDomNodeList matchList = magicNode.elementsByTagName("match");
-    return checkMagic(matchList, file);
+    return checkMagic(matchList, dev);
 }
 
-bool VMimeType::checkMagic(const QDomNodeList &matchList, QFile *file)
+bool VMimeType::checkMagic(const QDomNodeList &matchList, QIODevice *dev)
 {
     for (uint i = 0; i < matchList.length(); ++i) {
         QDomElement matchNode = matchList.item(i).toElement();
         if (matchNode.parentNode().nodeName() != "magic")
             continue;
-        if (checkMatch(matchNode, file)) {
+        if (checkMatch(matchNode, dev)) {
             QDomNodeList subMatchList = matchNode.elementsByTagName("match");
-            return (subMatchList.length() > 0) ? checkSubMagic(subMatchList, file) : true;
+            return (subMatchList.length() > 0) ? checkSubMagic(subMatchList, dev) : true;
         }
     }
     return false;
 }
 
-bool VMimeType::checkSubMagic(const QDomNodeList &matchList, QFile *file)
+bool VMimeType::checkSubMagic(const QDomNodeList &matchList, QIODevice *dev)
 {
     for (uint i = 0; i < matchList.length(); ++i) {
         QDomElement matchNode = matchList.item(i).toElement();
         if (matchNode.parentNode().nodeName() != "match")
             continue;
-        if (checkMatch(matchNode, file)) {
+        if (checkMatch(matchNode, dev)) {
             QDomNodeList subMatchList = matchNode.elementsByTagName("match");
-            return (subMatchList.length() > 0) ? checkSubMagic(subMatchList, file) : true;
+            return (subMatchList.length() > 0) ? checkSubMagic(subMatchList, dev) : true;
         }
     }
     return false;
 }
 
-bool VMimeType::checkMatch(const QDomElement &matchNode, QFile *file)
+bool VMimeType::checkMatch(const QDomElement &matchNode, QIODevice *dev)
 {
     QString value = matchNode.attribute("value");
     QString mask = matchNode.attribute("mask");
@@ -458,20 +457,20 @@ bool VMimeType::checkMatch(const QDomElement &matchNode, QFile *file)
         qWarning("Vibe::VMimeType::checkMagic(): type not found!");
         return false;
     }
-    return checkMagicString(matchNode.attribute("offset"), parsedValue, parsedMask, file);
+    return checkMagicString(matchNode.attribute("offset"), parsedValue, parsedMask, dev);
 }
 
 bool VMimeType::checkMagicString(const QString &offset, const QByteArray &value,
-                                 const QByteArray &mask, QFile *file)
+                                 const QByteArray &mask, QIODevice *dev)
 {
     int startOffset, endOffset;
     extract_offset(offset, &startOffset, &endOffset);
     int valueLength = value.length();
     if (valueLength < 1)
         return false;
-    if (!file->seek(startOffset))
+    if (!dev->seek(startOffset))
         return false;
-    QByteArray fullData = file->read(endOffset + valueLength + 1);
+    QByteArray fullData = dev->read(endOffset + valueLength + 1);
     if (fullData.length() < valueLength)
         return false;
     for (int i = 0; (startOffset + i) <= endOffset; ++i) {

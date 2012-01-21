@@ -39,16 +39,29 @@
 **
 ****************************************************************************/
 
+#include <QtEvents>
+#include <QAction>
+
 #include "previewwidget.h"
 #include "ui_previewwidget.h"
-#include <QtEvents>
 
 QT_BEGIN_NAMESPACE
 
 PreviewWidget::PreviewWidget(QWidget *parent)
-    : QWidget(parent), ui(new Ui::PreviewWidget)
+    : QMainWindow(parent), ui(new Ui::PreviewWidget)
 {
     ui->setupUi(this);
+
+    ui->actionItem1->setIcon(QIcon::fromTheme("document-new"));
+    ui->actionItem2->setIcon(QIcon::fromTheme("document-open"));
+    ui->ToolBar1->addAction(ui->actionItem1);
+    ui->ToolBar1->addSeparator();
+    ui->ToolBar1->addAction(ui->actionItem2);
+    ui->actionItem5->setIcon(QIcon::fromTheme("folder-open"));
+    ui->ToolBar2->addAction(ui->actionItem4);
+    ui->ToolBar2->addAction(ui->actionItem5);
+    ui->ToolBar3->addAction(ui->actionItem2);
+    ui->ToolBar3->addAction(ui->actionItem3);
 
 #if 0
     // install event filter on child widgets
