@@ -30,56 +30,56 @@
 //#include "klimitediodevice_p.h"
 
 ////////////////////////////////////////////////////////////////////////
-/////////////////////////// KAr ///////////////////////////////////////
+/////////////////////////// VAr ///////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-class KAr::KArPrivate
+class VAr::VArPrivate
 {
 public:
-    KArPrivate() {}
+    VArPrivate() {}
 };
 
-KAr::KAr(const QString &filename)
-    : KArchive(filename), d(new KArPrivate)
+VAr::VAr(const QString &filename)
+    : VArchive(filename), d(new VArPrivate)
 {
 }
 
-KAr::KAr(QIODevice *dev)
-    : KArchive(dev), d(new KArPrivate)
+VAr::VAr(QIODevice *dev)
+    : VArchive(dev), d(new VArPrivate)
 {
 }
 
-KAr::~KAr()
+VAr::~VAr()
 {
     if (isOpen())
         close();
     delete d;
 }
 
-bool KAr::doPrepareWriting(const QString &, const QString &, const QString &,
+bool VAr::doPrepareWriting(const QString &, const QString &, const QString &,
                            qint64, mode_t, time_t, time_t, time_t)
 {
     return false;
 }
 
-bool KAr::doFinishWriting(qint64)
+bool VAr::doFinishWriting(qint64)
 {
     return false;
 }
 
-bool KAr::doWriteDir(const QString &, const QString &, const QString &,
+bool VAr::doWriteDir(const QString &, const QString &, const QString &,
                      mode_t, time_t, time_t, time_t)
 {
     return false;
 }
 
-bool KAr::doWriteSymLink(const QString &, const QString &, const QString &,
+bool VAr::doWriteSymLink(const QString &, const QString &, const QString &,
                          const QString &, mode_t, time_t, time_t, time_t)
 {
     return false;
 }
 
-bool KAr::openArchive(QIODevice::OpenMode mode)
+bool VAr::openArchive(QIODevice::OpenMode mode)
 {
     // Open archive
 
@@ -160,7 +160,7 @@ bool KAr::openArchive(QIODevice::OpenMode mode)
         name.replace('/', QByteArray());
         kDebug(7042) << "Filename: " << name << " Size: " << size;
 
-        KArchiveEntry *entry = new KArchiveFile(this, QString::fromLocal8Bit(name), mode, date,
+        VArchiveEntry *entry = new VArchiveFile(this, QString::fromLocal8Bit(name), mode, date,
                                                 /*uid*/ QString(), /*gid*/ QString(), /*symlink*/ QString(),
                                                 dev->pos(), size);
         rootDir()->addEntry(entry); // Ar files don't support directories, so everything in root
@@ -172,13 +172,8 @@ bool KAr::openArchive(QIODevice::OpenMode mode)
     return true;
 }
 
-bool KAr::closeArchive()
+bool VAr::closeArchive()
 {
     // Close the archive
     return true;
-}
-
-void KAr::virtual_hook(int id, void *data)
-{
-    KArchive::virtual_hook(id, data);
 }

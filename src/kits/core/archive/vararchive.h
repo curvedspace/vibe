@@ -21,12 +21,12 @@
 #include <karchive.h>
 
 /**
- * KAr is a class for reading archives in ar format. Writing
+ * VAr is a class for reading archives in ar format. Writing
  * is not supported.
  * @short A class for reading ar archives.
  * @author Laurence Anderson <l.d.anderson@warwick.ac.uk>
  */
-class KDECORE_EXPORT KAr : public KArchive
+class KDECORE_EXPORT VAr : public VArchive
 {
 public:
     /**
@@ -34,20 +34,20 @@ public:
      *
      * @param filename is a local path (e.g. "/home/holger/myfile.ar")
      */
-    KAr(const QString &filename);
+    VAr(const QString &filename);
 
     /**
      * Creates an instance that operates on the given device.
      * The device can be compressed (KFilterDev) or not (QFile, etc.).
      * @param dev the device to read from
      */
-    KAr(QIODevice *dev);
+    VAr(QIODevice *dev);
 
     /**
      * If the ar file is still opened, then it will be
      * closed automatically by the destructor.
      */
-    virtual ~KAr();
+    virtual ~VAr();
 
 protected:
 
@@ -77,17 +77,15 @@ protected:
     /**
      * Opens the archive for reading.
      * Parses the directory listing of the archive
-     * and creates the KArchiveDirectory/KArchiveFile entries.
+     * and creates the VArchiveDirectory/VArchiveFile entries.
      *
      */
     virtual bool openArchive(QIODevice::OpenMode mode);
     virtual bool closeArchive();
 
-protected:
-    virtual void virtual_hook(int id, void *data);
 private:
-    class KArPrivate;
-    KArPrivate *const d;
+    class VArPrivate;
+    VArPrivate *const d;
 };
 
 #endif

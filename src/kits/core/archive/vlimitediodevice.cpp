@@ -47,7 +47,8 @@ bool VLimitedIODevice::open(QIODevice::OpenMode m)
             ok = m_dev->open(m);
         if (ok)
 #endif
-            m_dev->seek(m_start);   // No concurrent access !
+            // No concurrent access!
+            m_dev->seek(m_start);
     } else
         qWarning() << "VLimitedIODevice::open only supports QIODevice::ReadOnly!";
     setOpenMode(QIODevice::ReadOnly);
@@ -65,18 +66,20 @@ qint64 VLimitedIODevice::size() const
 
 qint64 VLimitedIODevice::readData(char *data, qint64 maxlen)
 {
-    maxlen = qMin(maxlen, m_length - pos());   // Apply upper limit
+    // Apply upper limit
+    maxlen = qMin(maxlen, m_length - pos());
     return m_dev->read(data, maxlen);
 }
 
 bool VLimitedIODevice::seek(qint64 pos)
 {
     Q_ASSERT(pos <= m_length);
-    pos = qMin(pos, m_length);   // Apply upper limit
+
+    // Apply upper limit
+    pos = qMin(pos, m_length);
     bool ret = m_dev->seek(m_start + pos);
-    if (ret) {
+    if (ret)
         QIODevice::seek(pos);
-    }
     return ret;
 }
 

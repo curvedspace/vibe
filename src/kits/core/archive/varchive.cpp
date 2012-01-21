@@ -24,63 +24,37 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-//#include <config.h>
-
 #include <QStack>
-#include <QMap>
 #include <QDir>
-#include <QFile>
 #include <QDebug>
+#include <QPluginLoader>
 
-#include <VibeCore/VSaveFile>
 #include <VibeCore/VFileSupport>
+#include <VibeCore/VMimeType>
+#include <VibeCore/VStandardDirectories>
 
 #include "varchive.h"
+#include "varchivehandler.h"
+#include "varchivehandlerplugin.h"
 #include "varchive_p.h"
 #include "vlimitediodevice_p.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <unistd.h>
 #include <errno.h>
-#include <grp.h>
-#include <pwd.h>
-#include <assert.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#ifdef Q_OS_UNIX
-#  include <limits.h>
-#endif
+
+using namespace VStandardDirectories;
 
 /*
  * VArchivePrivate
  */
 
 VArchivePrivate::VArchivePrivate() :
-    rootDir(0),
-    saveFile(0),
-    dev(0),
-    fileName(),
-    mode(QIODevice::NotOpen),
-    deviceOwned(false)
+    handler(0)
 {
 }
 
 VArchivePrivate::~VArchivePrivate()
 {
-    delete saveFile;
-    delete rootDir;
-}
-
-void VArchivePrivate::abortWriting()
-{
-    if (saveFile) {
-        saveFile->abort();
-        delete saveFile;
-        saveFile = 0;
-        dev = 0;
-    }
+    delete handler;
 }
 
 /*
@@ -93,22 +67,80 @@ VArchive::VArchive(const QString &fileName) :
     Q_D(VArchive);
 
     Q_ASSERT(!fileName.isEmpty());
-    d->fileName = fileName;
-    // This constructor leaves the device set to 0.
-    // This is for the use of VSaveFile, see open().
+
+    // Try to find the MIME Type for the specified file, otherwise give up
+    VMimeType mimeType;
+    if (!mimeType.fromFileName(fileName))
+        qFatal("Could not determine MIME Type for %s, cannot continue!",
+               qPrintable(fileName));
+
+    // Try to find the appropriate plugin, otherwise give up
+    VArchiveHandler *handler = 0;
+    QList<QDir> directories;
+    directories << QDir(QString("%1/archivehandlers")
+                        .arg(findDirectory(CommonPluginsDirectory)));
+    directories << QDir(QString("%1/archivehandlers")
+                        .arg(findDirectory(SystemPluginsDirectory)));
+    foreach(QDir pluginsDir, directories) {
+        foreach(QString fileName, pluginsDir.entryList(QDir::Files)) {
+            QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
+            VArchiveHandlerPlugin *plugin = qobject_cast<VArchiveHandlerPlugin *>(
+                                                loader.instance());
+            if (plugin) {
+                handler = plugin->create(mimeType.mimeType());
+                if (handler)
+                    break;
+            }
+        }
+    }
+    if (!handler)
+        qFatal("No archive handler for %s, cannot continue!",
+               qPrintable(mimeType.mimeType()));
+    d->handler = handler;
+    d->handler->setArchive(this);
+    d->handler->setFileName(fileName);
 }
 
 VArchive::VArchive(QIODevice *dev) :
     d_ptr(new VArchivePrivate)
 {
     Q_D(VArchive);
-    d->dev = dev;
+
+    // Try to find the MIME Type for the specified file, otherwise give up
+    VMimeType mimeType;
+    if (!mimeType.fromDevice(dev))
+        qFatal("Could not determine MIME Type for the device, cannot continue!");
+
+    // Try to find the appropriate plugin, otherwise give up
+    VArchiveHandler *handler = 0;
+    QList<QDir> directories;
+    directories << QDir(QString("%1/archivehandlers")
+                        .arg(findDirectory(CommonPluginsDirectory)));
+    directories << QDir(QString("%1/archivehandlers")
+                        .arg(findDirectory(SystemPluginsDirectory)));
+    foreach(QDir pluginsDir, directories) {
+        foreach(QString fileName, pluginsDir.entryList(QDir::Files)) {
+            QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
+            VArchiveHandlerPlugin *plugin = qobject_cast<VArchiveHandlerPlugin *>(
+                                                loader.instance());
+            if (plugin) {
+                handler = plugin->create(mimeType.mimeType());
+                if (handler)
+                    break;
+            }
+        }
+    }
+    if (!handler)
+        qFatal("No archive handler for %s, cannot continue!",
+               qPrintable(mimeType.mimeType()));
+    d->handler = handler;
+    d->handler->setArchive(this);
+    d->handler->setDevice(dev);
 }
 
 VArchive::~VArchive()
 {
     if (isOpen())
-        // WARNING: won't call the virtual method close in the derived class!!!
         close();
 
     delete d_ptr;
@@ -117,110 +149,49 @@ VArchive::~VArchive()
 bool VArchive::open(QIODevice::OpenMode mode)
 {
     Q_D(VArchive);
-
-    Q_ASSERT(mode != QIODevice::NotOpen);
-
-    if (isOpen())
-        close();
-
-    if (!d->fileName.isEmpty()) {
-        Q_ASSERT(!d->dev);
-        if (!createDevice(mode))
-            return false;
-    }
-
-    Q_ASSERT(d->dev);
-
-    if (!d->dev->isOpen() && !d->dev->open(mode))
-        return false;
-
-    d->mode = mode;
-
-    Q_ASSERT(!d->rootDir);
-    d->rootDir = 0;
-
-    return openArchive(mode);
-}
-
-bool VArchive::createDevice(QIODevice::OpenMode mode)
-{
-    Q_D(VArchive);
-
-    switch (mode) {
-        case QIODevice::WriteOnly:
-            if (!d->fileName.isEmpty()) {
-                // The use of VSaveFile can't be done in the ctor (no mode known yet)
-                //qDebug() << "Writing to a file using VSaveFile";
-                d->saveFile = new VSaveFile(d->fileName);
-                if (!d->saveFile->open()) {
-                    qWarning() << "VSaveFile creation for " << d->fileName << " failed, " << d->saveFile->errorString();
-                    delete d->saveFile;
-                    d->saveFile = 0;
-                    return false;
-                }
-                d->dev = d->saveFile;
-                Q_ASSERT(d->dev);
-            }
-            break;
-        case QIODevice::ReadOnly:
-        case QIODevice::ReadWrite:
-            // ReadWrite mode still uses QFile for now; we'd need to copy to the tempfile, in fact.
-            if (!d->fileName.isEmpty()) {
-                d->dev = new QFile(d->fileName);
-                d->deviceOwned = true;
-            }
-            break; // continued below
-        default:
-            qWarning() << "Unsupported mode " << d->mode;
-            return false;
-    }
-    return true;
+    return d->handler->open(mode);
 }
 
 bool VArchive::close()
 {
     Q_D(VArchive);
+    return d->handler->close();
+}
 
-    if (!isOpen())
-        return false; // already closed (return false or true? arguable...)
+bool VArchive::isOpen() const
+{
+    Q_D(const VArchive);
+    return d->handler->isOpen();
+}
 
-    // moved by holger to allow kzip to write the zip central dir
-    // to the file in closeArchive()
-    // DF: added d->dev so that we skip closeArchive if saving aborted.
-    bool closeSucceeded = true;
-    if (d->dev) {
-        closeSucceeded = closeArchive();
-        if (d->mode == QIODevice::WriteOnly && !closeSucceeded)
-            d->abortWriting();
-    }
+QIODevice::OpenMode VArchive::mode() const
+{
+    Q_D(const VArchive);
+    return d->handler->mode();
+}
 
-    if (d->dev)
-        d->dev->close();
+QIODevice *VArchive::device() const
+{
+    Q_D(const VArchive);
+    return d->handler->device();
+}
 
-    if (d->deviceOwned) {
-        delete d->dev; // we created it ourselves in open()
-    }
-    if (d->saveFile) {
-        closeSucceeded = d->saveFile->finalize();
-        delete d->saveFile;
-        d->saveFile = 0;
-    }
-
-    delete d->rootDir;
-    d->rootDir = 0;
-    d->mode = QIODevice::NotOpen;
-    d->dev = 0;
-    return closeSucceeded;
+QString VArchive::fileName() const
+{
+    Q_D(const VArchive);
+    return d->handler->fileName();
 }
 
 const VArchiveDirectory *VArchive::directory() const
 {
-    // rootDir isn't const so that parsing-on-demand is possible
-    return const_cast<VArchive *>(this)->rootDir();
+    Q_D(const VArchive);
+    return d->handler->rootDir();
 }
 
 bool VArchive::addLocalFile(const QString &fileName, const QString &destName)
 {
+    Q_D(VArchive);
+
     QFileInfo fileInfo(fileName);
     if (!fileInfo.isFile() && !fileInfo.isSymLink()) {
         qWarning() << fileName << "doesn't exist or is not a regular file.";
@@ -245,9 +216,8 @@ bool VArchive::addLocalFile(const QString &fileName, const QString &destName)
         s.resize(PATH_MAX + 1);
 #else
         int path_max = pathconf(encodedFileName.data(), _PC_PATH_MAX);
-        if (path_max <= 0) {
+        if (path_max <= 0)
             path_max = 4096;
-        }
         s.resize(path_max);
 #endif
         int len = readlink(encodedFileName.data(), s.data(), s.size() - 1);
@@ -265,18 +235,18 @@ bool VArchive::addLocalFile(const QString &fileName, const QString &destName)
 
     qint64 size = fileInfo.size();
 
-    // the file must be opened before prepareWriting is called, otherwise
+    // The file must be opened before prepareWriting is called, otherwise
     // if the opening fails, no content will follow the already written
     // header and the tar file is effectively f*cked up
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly)) {
-        qWarning() << "couldn't open file " << fileName;
+        qWarning() << "Couldn't open file " << fileName;
         return false;
     }
 
     if (!prepareWriting(destName, fileInfo.owner(), fileInfo.group(), size,
                         fi.st_mode, fi.st_atime, fi.st_mtime, fi.st_ctime)) {
-        qWarning() << " prepareWriting" << destName << "failed";
+        qWarning() << "Couldn't preparefì for writing for" << destName;
         return false;
     }
 
@@ -286,7 +256,7 @@ bool VArchive::addLocalFile(const QString &fileName, const QString &destName)
     qint64 n;
     qint64 total = 0;
     while ((n = file.read(array.data(), array.size())) > 0) {
-        if (!writeData(array.data(), n)) {
+        if (!d->handler->writeData(array.data(), n)) {
             qWarning() << "writeData failed";
             return false;
         }
@@ -311,7 +281,7 @@ bool VArchive::addLocalDirectory(const QString &path, const QString &destName)
     for (QStringList::ConstIterator it = files.begin(); it != files.end(); ++it) {
         if (*it != QLatin1String(".") && *it != QLatin1String("..")) {
             QString fileName = path + QLatin1Char('/') + *it;
-            //            qDebug() << "storing " << fileName;
+            //qDebug() << "storing " << fileName;
             QString dest = destName.isEmpty() ? *it : (destName + QLatin1Char('/') + *it);
             QFileInfo fileInfo(fileName);
 
@@ -325,10 +295,29 @@ bool VArchive::addLocalDirectory(const QString &path, const QString &destName)
     return true;
 }
 
+bool VArchive::writeDir(const QString &name, const QString &user, const QString &group,
+                        mode_t perm, time_t atime,
+                        time_t mtime, time_t ctime)
+{
+    Q_D(VArchive);
+    return d->handler->doWriteDir(name, user, group, perm | 040000, atime, mtime, ctime);
+}
+
+bool VArchive::writeSymLink(const QString &name, const QString &target,
+                            const QString &user, const QString &group,
+                            mode_t perm, time_t atime,
+                            time_t mtime, time_t ctime)
+{
+    Q_D(VArchive);
+    return d->handler->doWriteSymLink(name, target, user, group, perm, atime, mtime, ctime);
+}
+
 bool VArchive::writeFile(const QString &name, const QString &user,
                          const QString &group, const char *data, qint64 size,
                          mode_t perm, time_t atime, time_t mtime, time_t ctime)
 {
+    Q_D(VArchive);
+
     if (!prepareWriting(name, user, group, size, perm, atime, mtime, ctime)) {
         qWarning() << "prepareWriting failed";
         return false;
@@ -336,7 +325,7 @@ bool VArchive::writeFile(const QString &name, const QString &user,
 
     // Write data
     // Note: if data is 0L, don't call write, it would terminate the KFilterDev
-    if (data && size && !writeData(data, size)) {
+    if (data && size && !d->handler->writeData(data, size)) {
         qWarning() << "writeData failed";
         return false;
     }
@@ -348,38 +337,6 @@ bool VArchive::writeFile(const QString &name, const QString &user,
     return true;
 }
 
-bool VArchive::writeData(const char *data, qint64 size)
-{
-    Q_D(VArchive);
-
-    bool ok = device()->write(data, size) == size;
-    if (!ok)
-        d->abortWriting();
-    return ok;
-}
-
-// The writeDir -> doWriteDir pattern allows to avoid propagating the default
-// values into all virtual methods of subclasses, and it allows more extensibility:
-// if a new argument is needed, we can add a writeDir overload which stores the
-// additional argument in the d pointer, and doWriteDir reimplementations can fetch
-// it from there.
-
-bool VArchive::writeDir(const QString &name, const QString &user, const QString &group,
-                        mode_t perm, time_t atime,
-                        time_t mtime, time_t ctime)
-{
-    return doWriteDir(name, user, group, perm | 040000, atime, mtime, ctime);
-}
-
-bool VArchive::writeSymLink(const QString &name, const QString &target,
-                            const QString &user, const QString &group,
-                            mode_t perm, time_t atime,
-                            time_t mtime, time_t ctime)
-{
-    return doWriteSymLink(name, target, user, group, perm, atime, mtime, ctime);
-}
-
-
 bool VArchive::prepareWriting(const QString &name, const QString &user,
                               const QString &group, qint64 size,
                               mode_t perm, time_t atime,
@@ -387,121 +344,16 @@ bool VArchive::prepareWriting(const QString &name, const QString &user,
 {
     Q_D(VArchive);
 
-    bool ok = doPrepareWriting(name, user, group, size, perm, atime, mtime, ctime);
+    bool ok = d->handler->doPrepareWriting(name, user, group, size, perm, atime, mtime, ctime);
     if (!ok)
-        d->abortWriting();
+        d->handler->abortWriting();
     return ok;
 }
 
 bool VArchive::finishWriting(qint64 size)
 {
-    return doFinishWriting(size);
-}
-
-VArchiveDirectory *VArchive::rootDir()
-{
     Q_D(VArchive);
-
-    if (!d->rootDir) {
-        //qDebug() << "Making root dir ";
-        struct passwd *pw =  getpwuid(getuid());
-        struct group *grp = getgrgid(getgid());
-        QString username = pw ? QFile::decodeName(pw->pw_name) : QString::number(getuid());
-        QString groupname = grp ? QFile::decodeName(grp->gr_name) : QString::number(getgid());
-
-        d->rootDir = new VArchiveDirectory(this, QLatin1String("/"), (int)(0777 + S_IFDIR), 0, username, groupname, QString());
-    }
-    return d->rootDir;
-}
-
-VArchiveDirectory *VArchive::findOrCreate(const QString &path)
-{
-    Q_D(VArchive);
-
-    //qDebug() << path;
-    if (path.isEmpty() || path == QLatin1String("/") || path == QLatin1String(".")) { // root dir => found
-        //qDebug() << "returning rootdir";
-        return rootDir();
-    }
-    // Important note : for tar files containing absolute paths
-    // (i.e. beginning with "/"), this means the leading "/" will
-    // be removed (no KDirectory for it), which is exactly the way
-    // the "tar" program works (though it displays a warning about it)
-    // See also VArchiveDirectory::entry().
-
-    // Already created ? => found
-    const VArchiveEntry *ent = rootDir()->entry(path);
-    if (ent) {
-        if (ent->isDirectory())
-            //qDebug() << "found it";
-            return (VArchiveDirectory *) ent;
-        else
-            qWarning() << "Found" << path << "but it's not a directory";
-    }
-
-    // Otherwise go up and try again
-    int pos = path.lastIndexOf(QLatin1Char('/'));
-    VArchiveDirectory *parent;
-    QString dirname;
-    if (pos == -1) { // no more slash => create in root dir
-        parent =  rootDir();
-        dirname = path;
-    } else {
-        QString left = path.left(pos);
-        dirname = path.mid(pos + 1);
-        parent = findOrCreate(left);   // recursive call... until we find an existing dir.
-    }
-
-    //qDebug() << "found parent " << parent->name() << " adding " << dirname << " to ensure " << path;
-    // Found -> add the missing piece
-    VArchiveDirectory *e = new VArchiveDirectory(this, dirname, d->rootDir->permissions(),
-                                                 d->rootDir->date(), d->rootDir->user(),
-                                                 d->rootDir->group(), QString());
-    parent->addEntry(e);
-    return e; // now a directory to <path> exists
-}
-
-void VArchive::setDevice(QIODevice *dev)
-{
-    Q_D(VArchive);
-
-    if (d->deviceOwned)
-        delete d->dev;
-    d->dev = dev;
-    d->deviceOwned = false;
-}
-
-void VArchive::setRootDir(VArchiveDirectory *rootDir)
-{
-    Q_D(VArchive);
-
-    // Call setRootDir only once during parsing please ;)
-    Q_ASSERT(!d->rootDir);
-    d->rootDir = rootDir;
-}
-
-QIODevice::OpenMode VArchive::mode() const
-{
-    Q_D(const VArchive);
-    return d->mode;
-}
-
-QIODevice *VArchive::device() const
-{
-    Q_D(const VArchive);
-    return d->dev;
-}
-
-bool VArchive::isOpen() const
-{
-    Q_D(const VArchive);
-    return d->mode != QIODevice::NotOpen;
-}
-
-QString VArchive::fileName() const
-{
-    Q_D(const VArchive);
-    return d->fileName;
+    return d->handler->doFinishWriting(size);
 }
 
 /*
@@ -850,24 +702,4 @@ void VArchiveDirectory::copyTo(const QString &dest, bool recursiveCopy) const
         qint64 pos = f->position();
         f->copyTo(fileToDir[pos]);
     }
-}
-
-void VArchive::virtual_hook(int, void *)
-{
-    /*BASE::virtual_hook( id, data )*/;
-}
-
-void VArchiveEntry::virtual_hook(int, void *)
-{
-    /*BASE::virtual_hook( id, data );*/
-}
-
-void VArchiveFile::virtual_hook(int id, void *data)
-{
-    VArchiveEntry::virtual_hook(id, data);
-}
-
-void VArchiveDirectory::virtual_hook(int id, void *data)
-{
-    VArchiveEntry::virtual_hook(id, data);
 }

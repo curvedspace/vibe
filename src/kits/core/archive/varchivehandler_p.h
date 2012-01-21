@@ -24,8 +24,8 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#ifndef VARCHIVE_P_H
-#define VARCHIVE_P_H
+#ifndef VARCHIVEHANDLER_P_H
+#define VARCHIVEHANDLER_P_H
 
 //
 //  W A R N I N G
@@ -38,46 +38,21 @@
 // We mean it.
 //
 
-class VArchivePrivate
+class VArchiveHandlerPrivate
 {
 public:
-    VArchivePrivate();
-    ~VArchivePrivate();
+    VArchiveHandlerPrivate();
+    ~VArchiveHandlerPrivate();
 
-    VArchiveHandler *handler;
-};
+    void abortWriting();
 
-class VArchiveEntryPrivate
-{
-public:
-    VArchiveEntryPrivate(VArchive *_archive, const QString &_name, int _access,
-                         int _date, const QString &_user, const QString &_group,
-                         const QString &_symlink);
-
-    QString name;
-    int date;
-    mode_t access;
-    QString user;
-    QString group;
-    QString symlink;
     VArchive *archive;
+    VArchiveDirectory *rootDir;
+    VSaveFile *saveFile;
+    QIODevice *device;
+    QString fileName;
+    QIODevice::OpenMode mode;
+    bool deviceOwned;
 };
 
-class VArchiveFilePrivate
-{
-public:
-    VArchiveFilePrivate(qint64 _pos, qint64 _size);
-
-    qint64 pos;
-    qint64 size;
-};
-
-class VArchiveDirectoryPrivate
-{
-public:
-    ~VArchiveDirectoryPrivate();
-
-    QHash<QString, VArchiveEntry *> entries;
-};
-
-#endif // VARCHIVE_P_H
+#endif // VARCHIVEHANDLER_P_H

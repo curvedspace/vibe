@@ -60,24 +60,51 @@ class VIBE_EXPORT VArchive
 {
     Q_DECLARE_PRIVATE(VArchive)
 public:
+    /**
+     * Constructor.
+     * @param fileName is a local path (e.g. "/common/var/tmp/myfile.ext"),
+     * from which the archive will be read from, or into which the archive
+     * will be written, depending on the mode given to open().
+     * MIME type will be recognized and the appropriate plugin will
+     * automatically be loaded.
+     */
+    VArchive(const QString &fileName);
+
+    /**
+     * Constructor.
+     * @param dev the I/O device where the archive reads its data
+     * Note that this can be a file, but also a data buffer, a compression filter, etc.
+     * For a file in writing mode it is better to use the other constructor
+     * though, to benefit from the use of KSaveFile when saving.
+     * MIME type will be recognized and the appropriate plugin will
+     * automatically be loaded.
+     */
+    VArchive(QIODevice *dev);
+
+    /**
+     * Destructor.
+     */
     virtual ~VArchive();
 
     /**
      * Opens the archive for reading or writing.
-     * Inherited classes might want to reimplement openArchive instead.
      * @param mode may be QIODevice::ReadOnly or QIODevice::WriteOnly
      * @see close
      */
-    virtual bool open(QIODevice::OpenMode mode);
+    bool open(QIODevice::OpenMode mode);
 
     /**
      * Closes the archive.
-     * Inherited classes might want to reimplement closeArchive instead.
      *
      * @return true if close succeeded without problems
      * @see open
      */
-    virtual bool close();
+    bool close();
+
+    /**
+     * Returns true if
+     */
+    bool isValid() const;
 
     /**
      * Checks whether the archive is open.
@@ -86,7 +113,7 @@ public:
     bool isOpen() const;
 
     /**
-     * Returns the mode in which the archive was opened
+     * Returns the mode in which the archive was opened.
      * @return the mode in which the archive was opened (QIODevice::ReadOnly or QIODevice::WriteOnly)
      * @see open()
      */
@@ -154,9 +181,9 @@ public:
      * @param mtime modification time of the file
      * @param ctime time of last status change
      */
-    virtual bool writeDir(const QString &name, const QString &user, const QString &group,
-                          mode_t perm = 040755, time_t atime = UnknownTime,
-                          time_t mtime = UnknownTime, time_t ctime = UnknownTime);
+    bool writeDir(const QString &name, const QString &user, const QString &group,
+                  mode_t perm = 040755, time_t atime = UnknownTime,
+                  time_t mtime = UnknownTime, time_t ctime = UnknownTime);
 
     /**
      * Writes a symbolic link to the archive if supported.
@@ -171,10 +198,10 @@ public:
      * @param mtime modification time of the file
      * @param ctime time of last status change
      */
-    virtual bool writeSymLink(const QString &name, const QString &target,
-                              const QString &user, const QString &group,
-                              mode_t perm = 0120755, time_t atime = UnknownTime,
-                              time_t mtime = UnknownTime, time_t ctime = UnknownTime);
+    bool writeSymLink(const QString &name, const QString &target,
+                      const QString &user, const QString &group,
+                      mode_t perm = 0120755, time_t atime = UnknownTime,
+                      time_t mtime = UnknownTime, time_t ctime = UnknownTime);
 
     /**
      * If an archive is opened for writing then you can add a new file
@@ -195,10 +222,15 @@ public:
      * @param mtime modification time of the file
      * @param ctime time of last status change
      */
-    virtual bool writeFile(const QString &name, const QString &user, const QString &group,
-                           const char *data, qint64 size,
-                           mode_t perm = 0100644, time_t atime = UnknownTime,
-                           time_t mtime = UnknownTime, time_t ctime = UnknownTime);
+    bool writeFile(const QString &name, const QString &user, const QString &group,
+                   const char *data, qint64 size,
+                   mode_t perm = 0100644, time_t atime = UnknownTime,
+                   time_t mtime = UnknownTime, time_t ctime = UnknownTime);
+
+    /**
+     * Write data into the current file - to be called after calling prepareWriting
+     */
+    bool writeData(const char *data, qint64 size);
 
     /**
      * Here's another way of writing a file into an archive:
@@ -219,157 +251,17 @@ public:
      * @param mtime modification time of the file
      * @param ctime time of last status change
      */
-    virtual bool prepareWriting(const QString &name, const QString &user,
-                                const QString &group, qint64 size,
-                                mode_t perm = 0100644, time_t atime = UnknownTime,
-                                time_t mtime = UnknownTime, time_t ctime = UnknownTime);
-
-    /**
-     * Write data into the current file - to be called after calling prepareWriting
-     */
-    virtual bool writeData(const char *data, qint64 size);
+    bool prepareWriting(const QString &name, const QString &user,
+                        const QString &group, qint64 size,
+                        mode_t perm = 0100644, time_t atime = UnknownTime,
+                        time_t mtime = UnknownTime, time_t ctime = UnknownTime);
 
     /**
      * Call finishWriting after writing the data.
      * @param size the size of the file
      * @see prepareWriting()
      */
-    virtual bool finishWriting(qint64 size);
-
-protected:
-    /**
-     * Base constructor (protected since this is a pure virtual class).
-     * @param fileName is a local path (e.g. "/common/var/tmp/myfile.ext"),
-     * from which the archive will be read from, or into which the archive
-     * will be written, depending on the mode given to open().
-     */
-    VArchive(const QString &fileName);
-
-    /**
-     * Base constructor (protected since this is a pure virtual class).
-     * @param dev the I/O device where the archive reads its data
-     * Note that this can be a file, but also a data buffer, a compression filter, etc.
-     * For a file in writing mode it is better to use the other constructor
-     * though, to benefit from the use of KSaveFile when saving.
-     */
-    VArchive(QIODevice *dev);
-
-    /**
-     * Opens an archive for reading or writing.
-     * Called by open.
-     * @param mode may be QIODevice::ReadOnly or QIODevice::WriteOnly
-     */
-    virtual bool openArchive(QIODevice::OpenMode mode) = 0;
-
-    /**
-     * Closes the archive.
-     * Called by close.
-     */
-    virtual bool closeArchive() = 0;
-
-    /**
-     * Retrieves or create the root directory.
-     * The default implementation assumes that openArchive() did the parsing,
-     * so it creates a dummy rootdir if none was set (write mode, or no '/' in the archive).
-     * Reimplement this to provide parsing/listing on demand.
-     * @return the root directory
-     */
-    virtual VArchiveDirectory *rootDir();
-
-    /**
-     * Write a directory to the archive.
-     * This virtual method must be implemented by subclasses.
-     *
-     * Depending on the archive type not all metadata might be used.
-     *
-     * @param name the name of the directory
-     * @param user the user that owns the directory
-     * @param group the group that owns the directory
-     * @param perm permissions of the directory. Use 040755 if you don't have any other information.
-     * @param atime time the file was last accessed
-     * @param mtime modification time of the file
-     * @param ctime time of last status change
-     * @see writeDir
-     */
-    virtual bool doWriteDir(const QString &name, const QString &user, const QString &group,
-                            mode_t perm, time_t atime, time_t mtime, time_t ctime) = 0;
-
-    /**
-     * Writes a symbolic link to the archive.
-     * This virtual method must be implemented by subclasses.
-     *
-     * @param name name of symbolic link
-     * @param target target of symbolic link
-     * @param user the user that owns the directory
-     * @param group the group that owns the directory
-     * @param perm permissions of the directory
-     * @param atime time the file was last accessed
-     * @param mtime modification time of the file
-     * @param ctime time of last status change
-     * @see writeSymLink
-     */
-    virtual bool doWriteSymLink(const QString &name, const QString &target,
-                                const QString &user, const QString &group,
-                                mode_t perm, time_t atime, time_t mtime, time_t ctime) = 0;
-
-    /**
-     * This virtual method must be implemented by subclasses.
-     *
-     * Depending on the archive type not all metadata might be used.
-     *
-     * @param name the name of the file
-     * @param user the user that owns the file
-     * @param group the group that owns the file
-     * @param size the size of the file
-     * @param perm permissions of the file. Use 0100644 if you don't have any more specific permissions to set.
-     * @param atime time the file was last accessed
-     * @param mtime modification time of the file
-     * @param ctime time of last status change
-     * @see prepareWriting
-     */
-    virtual bool doPrepareWriting(const QString &name, const QString &user,
-                                  const QString &group, qint64 size, mode_t perm,
-                                  time_t atime, time_t mtime, time_t ctime) = 0;
-
-    /**
-     * Called after writing the data.
-     * This virtual method must be implemented by subclasses.
-     *
-     * @param size the size of the file
-     * @see finishWriting()
-     */
-    virtual bool doFinishWriting(qint64 size) = 0;
-
-    /**
-     * Ensures that @p path exists, create otherwise.
-     * This handles e.g. tar files missing directory entries, like mico-2.3.0.tar.gz :)
-     * @param path the path of the directory
-     * @return the directory with the given @p path
-     */
-    VArchiveDirectory *findOrCreate(const QString &path);
-
-    /**
-     * Can be reimplemented in order to change the creation of the device
-     * (when using the fileName constructor). By default this method uses
-     * KSaveFile when saving, and a simple QFile on reading.
-     * This method is called by open().
-     */
-    virtual bool createDevice(QIODevice::OpenMode mode);
-
-    /**
-     * Can be called by derived classes in order to set the underlying device.
-     * Note that VArchive will -not- own the device, it must be deleted by the derived class.
-     */
-    void setDevice(QIODevice *dev);
-
-    /**
-     * Derived classes call setRootDir from openArchive,
-     * to set the root directory after parsing an existing archive.
-     */
-    void setRootDir(VArchiveDirectory *rootDir);
-
-protected:
-    virtual void virtual_hook(int id, void *data);
+    bool finishWriting(qint64 size);
 
 private:
     VArchivePrivate *const d_ptr;
@@ -465,9 +357,6 @@ public:
 protected:
     VArchive *archive() const;
 
-protected:
-    virtual void virtual_hook(int id, void *data);
-
 private:
     VArchiveEntryPrivate *const d_ptr;
 };
@@ -536,7 +425,7 @@ public:
     virtual QByteArray data() const;
 
     /**
-     * This method returns QIODevice (internal class: KLimitedIODevice)
+     * This method returns QIODevice (internal class: VLimitedIODevice)
      * on top of the underlying QIODevice. This is obviously for reading only.
      *
      * WARNING: Note that the ownership of the device is being transferred to the caller,
@@ -558,9 +447,6 @@ public:
      * @param dest the directory to extract to
      */
     void copyTo(const QString &dest) const;
-
-protected:
-    virtual void virtual_hook(int id, void *data);
 
 private:
     VArchiveFilePrivate *const d_ptr;
@@ -635,9 +521,6 @@ public:
      * @param recursive if set to true, subdirectories are extracted as well
      */
     void copyTo(const QString &dest, bool recursive = true) const;
-
-protected:
-    virtual void virtual_hook(int id, void *data);
 
 private:
     VArchiveDirectoryPrivate *const d_ptr;
