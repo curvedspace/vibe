@@ -38,16 +38,16 @@
 
 #include <QIODevice>
 
-/**
- * A readonly device that reads from an underlying device
- * from a given point to another (e.g. to give access to a single
- * file inside an archive).
- *
- * \author David Faure <faure@kde.org>
- * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
- *
- * \internal - used by VArchive
- */
+/*!
+    A readonly device that reads from an underlying device
+    from a given point to another (e.g. to give access to a single
+    file inside an archive).
+
+   \author David Faure <faure@kde.org>
+   \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+
+   \internal - used by VArchive
+*/
 class VLimitedIODevice : public QIODevice
 {
 public:

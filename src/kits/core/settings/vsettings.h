@@ -8,7 +8,7 @@
  *
  * Vibe is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2.1 of the License, or
  * (at your option) any later version.
  *
  * Vibe is distributed in the hope that it will be useful,
@@ -29,15 +29,14 @@
 
 class VSettingsPrivate;
 
-/** \addtogroup core Core Kit
- *  @{
- */
+/*!
+    \addtogroup core Core Kit
+   @{
 
-/**
- * \class VSettings vsetting.h <VSettings>
- *
- * \brief Settings management.
- */
+    \class VSettings vsetting.h <VSettings>
+
+    \brief Settings management.
+*/
 class VIBE_EXPORT VSettings : public QObject
 {
     Q_OBJECT
@@ -52,17 +51,17 @@ public:
     QString path() const;
     void setPath(const QString &path);
 
-    /**
-     * Returns the value of a key.
-     * @param key the key, with the complete path.
-     */
+    /*!
+        Returns the value of a key.
+        @param key the key, with the complete path.
+    */
     QVariant value(const QString &key) const;
 
-    /**
-     * Sets the value for the specified key.
-     * @param key full path of the key.
-     * @param value the value to set the key to.
-     */
+    /*!
+        Sets the value for the specified key.
+        @param key full path of the key.
+        @param value the value to set the key to.
+    */
     void setValue(const QString &key, const QVariant &value);
 
 signals:
@@ -75,6 +74,8 @@ private:
     VSettingsPrivate *const d_ptr;
 };
 
-/** @}*/
+/*!
+    @}
+*/
 
 #endif // VSETTINGS_H
