@@ -116,9 +116,9 @@ bool SettingsSchemaLoader::parseSchemaSource(const QString &fileName)
                 else if (type == "uint64")
                     variantType =  QVariant::ULongLong;
                 else if (type == "color")
-                    variantType == QVariant::Color;
+                    variantType = QVariant::Color;
                 else if (type == "size")
-                    variantType == QVariant::Size;
+                    variantType = QVariant::Size;
                 else if (type == "url")
                     variantType = QVariant::Url;
                 else {

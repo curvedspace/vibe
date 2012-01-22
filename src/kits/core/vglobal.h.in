@@ -292,7 +292,7 @@ public:
  * @ingroup Macros
  */
 #define VIBE_GLOBAL_STATIC_WITH_ARGS(TYPE, NAME, ARGS)                                      \
-static QBasicAtomicPointer<TYPE > _q_static_##NAME = Q_BASIC_ATOMIC_INITIALIZER(0);         \
+static QBasicAtomicPointer<TYPE> _q_static_##NAME = Q_BASIC_ATOMIC_INITIALIZER(0);          \
 static bool _q_static_##NAME##_destroyed;                                                   \
 static struct VIBE_GLOBAL_STATIC_STRUCT_NAME(NAME)                                          \
 {                                                                                           \
