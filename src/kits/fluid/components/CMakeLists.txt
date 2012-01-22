@@ -3,4 +3,4 @@ set(QML_FILES
     qml/TextField.qml
 )
 
-install(FILES ${QML_FILES} DESTINATION ${QT_IMPORTS_DIR}/VibeFluid)
+install(FILES ${QML_FILES} DESTINATION ${CMAKE_INSTALL_IMPORTSDIR}/VibeFluid)
