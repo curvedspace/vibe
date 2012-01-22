@@ -23,6 +23,8 @@
 #ifndef SETTINGSSCHEMALOADER_H
 #define SETTINGSSCHEMALOADER_H
 
+#include <VibeCore/VGlobal>
+
 #include "settingsschema.h"
 
 //
@@ -38,7 +40,7 @@
 
 namespace VPrivate
 {
-    class SettingsSchemaLoader
+    class VIBE_EXPORT SettingsSchemaLoader
     {
     public:
         explicit SettingsSchemaLoader();
