@@ -5,8 +5,8 @@ libdir=@CMAKE_INSTALL_LIBDIR@
 includedir=@CMAKE_INSTALL_INCLUDEDIR@
 qtminver=@QT_MIN_VERSION@
 
-Name: VibeGui
-Description: VibeGui Library
+Name: VibeStorage
+Description: Storage utility library for Vision applications
 Version: @VIBE_VERSION_STR@
 Libs: -L${libdir} -lVibeStorage
 Requires: QtGui >= @QT_MIN_VERSION@, QtXml >= @QT_MIN_VERSION@, VibeCore = @VIBE_VERSION_STR@, VibeHardware = @VIBE_VERSION_STR@

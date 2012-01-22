@@ -6,7 +6,7 @@ includedir=@CMAKE_INSTALL_INCLUDEDIR@
 qtminver=@QT_MIN_VERSION@
 
 Name: VibeGui
-Description: VibeGui Library
+Description: Widgets library for Vision applications
 Version: @VIBE_VERSION_STR@
 Libs: -L${libdir} -lVibeGui
 Requires: QtGui >= @QT_MIN_VERSION@, VibeCore = @VIBE_VERSION_STR@

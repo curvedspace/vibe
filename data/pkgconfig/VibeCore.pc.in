@@ -6,7 +6,7 @@ includedir=@CMAKE_INSTALL_INCLUDEDIR@
 qtminver=@QT_MIN_VERSION@
 
 Name: VibeCore
-Description: VibeCore Library
+Description: Application, strings and I/O support classes for Vision applications
 Version: @VIBE_VERSION_STR@
 Libs: -L${libdir} -lVibeCore
 Requires: QtCore >= @QT_MIN_VERSION@, QtXml >= @QT_MIN_VERSION@
