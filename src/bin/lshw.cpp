@@ -343,4 +343,4 @@ void HardwareConsole::slotStorageResult(VHardware::ErrorType error, const QVaria
     m_loop.exit();
 }
 
-#include "lshw.moc"
+#include "moc_lshw.cpp"

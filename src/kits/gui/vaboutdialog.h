@@ -23,8 +23,8 @@
 #ifndef VABOUTDIALOG_H
 #define VABOUTDIALOG_H
 
-#include <QtCore/QUrl>
-#include <QtGui/QDialog>
+#include <QUrl>
+#include <QDialog>
 
 #include <VibeCore/VGlobal>
 

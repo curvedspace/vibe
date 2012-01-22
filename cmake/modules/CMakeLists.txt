@@ -7,7 +7,6 @@ set(cmakeFiles
     FindFlex.cmake
     FindHUpnp.cmake
     FindLibLZMA.cmake
-    FindQt4.cmake
     FindSharedMimeInfo.cmake
     FindUDev.cmake
     HandleImportedTargetsInCMakeRequiredLibraries.cmake
@@ -25,8 +24,6 @@ set(cmakeFiles
     MacroOptionalFindPackage.cmake
     MacroPushRequiredVars.cmake
     MacroWriteBasicCMakeVersionFile.cmake
-    Qt4ConfigDependentSettings.cmake
-    Qt4Macros.cmake
 )
 
 install(FILES ${cmakeFiles} DESTINATION ${CMAKE_ROOT}/Modules)

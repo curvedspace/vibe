@@ -46,12 +46,12 @@ namespace VPredicateParse
     };
 }
 
-VIBE_GLOBAL_STATIC(QThreadStorage<VPredicateParse::ParsingData *>, s_parsingData)
+Q_GLOBAL_STATIC(QThreadStorage<VPredicateParse::ParsingData *>, s_parsingData)
 
 VPredicate VPredicate::fromString(const QString &predicate)
 {
     VPredicateParse::ParsingData *data = new VPredicateParse::ParsingData();
-    s_parsingData->setLocalData(data);
+    s_parsingData()->setLocalData(data);
     data->buffer = predicate.toAscii();
     VPredicateParse_mainParse(data->buffer.constData());
     VPredicate result;
@@ -59,25 +59,25 @@ VPredicate VPredicate::fromString(const QString &predicate)
         result = VPredicate(*data->result);
         delete data->result;
     }
-    s_parsingData->setLocalData(0);
+    s_parsingData()->setLocalData(0);
     return result;
 }
 
 void VPredicateParse_setResult(void *result)
 {
-    VPredicateParse::ParsingData *data = s_parsingData->localData();
+    VPredicateParse::ParsingData *data = s_parsingData()->localData();
     data->result = (VPredicate *) result;
 }
 
 void VPredicateParse_errorDetected(const char *s)
 {
     qWarning("ERROR from VibeHardware predicate parser: %s", s);
-    s_parsingData->localData()->result = 0;
+    s_parsingData()->localData()->result = 0;
 }
 
 void VPredicateParse_destroy(void *pred)
 {
-    VPredicateParse::ParsingData *data = s_parsingData->localData();
+    VPredicateParse::ParsingData *data = s_parsingData()->localData();
     VPredicate *p = (VPredicate *) pred;
     if (p != data->result) {
         delete p;
@@ -129,7 +129,7 @@ void *VPredicateParse_newAnd(void *pred1, void *pred2)
 {
     VPredicate *result = new VPredicate();
 
-    VPredicateParse::ParsingData *data = s_parsingData->localData();
+    VPredicateParse::ParsingData *data = s_parsingData()->localData();
     VPredicate *p1 = (VPredicate *)pred1;
     VPredicate *p2 = (VPredicate *)pred2;
 
@@ -149,7 +149,7 @@ void *VPredicateParse_newOr(void *pred1, void *pred2)
 {
     VPredicate *result = new VPredicate();
 
-    VPredicateParse::ParsingData *data = s_parsingData->localData();
+    VPredicateParse::ParsingData *data = s_parsingData()->localData();
     VPredicate *p1 = (VPredicate *)pred1;
     VPredicate *p2 = (VPredicate *)pred2;
 
@@ -221,5 +221,5 @@ void *VPredicateParse_appendStringListValue(char *name, void *list)
 void VPredicateLexer_unknownToken(const char *text)
 {
     qWarning("ERROR from VibeHardware predicate parser: unrecognized token '%s' in predicate '%s'\n",
-             text, s_parsingData->localData()->buffer.constData());
+             text, s_parsingData()->localData()->buffer.constData());
 }

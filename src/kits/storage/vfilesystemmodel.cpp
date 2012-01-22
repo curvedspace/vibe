@@ -21,8 +21,8 @@
  ***************************************************************************/
 
 #include <QtCore/QTextStream>
-#include <QtGui/QApplication>
-#include <QtGui/QStyle>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QStyle>
 
 #include <VibeCore/VMimeType>
 
@@ -160,4 +160,4 @@ void VFileSystemModel::loadMimeTypes() const
     mimeInfo.close();
 }
 
-#include "vfilesystemmodel.moc"
+#include "moc_vfilesystemmodel.cpp"

@@ -51,4 +51,4 @@ QString VBlock::device() const
     return_VIBE_HARDWARE_CALL(VHardware::Ifaces::Block *, d->backendObject(), QString(), device());
 }
 
-#include "vblock.moc"
+#include "moc_vblock.cpp"

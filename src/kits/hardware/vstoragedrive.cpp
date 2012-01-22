@@ -90,4 +90,4 @@ bool VStorageDrive::isInUse() const
     return inUse;
 }
 
-#include "vstoragedrive.moc"
+#include "moc_vstoragedrive.cpp"

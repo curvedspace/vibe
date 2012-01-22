@@ -28,7 +28,7 @@
 
 #include "org_vision_vibe_hardware_networking_client.h"
 
-VIBE_GLOBAL_STATIC(VNetworkingPrivate, globalNetworkManager)
+Q_GLOBAL_STATIC(VNetworkingPrivate, globalNetworkManager)
 
 VNetworkingPrivate::VNetworkingPrivate()
     : netStatus(VHardware::Networking::Unknown),
@@ -39,7 +39,7 @@ VNetworkingPrivate::VNetworkingPrivate()
                                                                QDBusConnection::sessionBus(),
                                                                this))
 {
-    //connect( iface, SIGNAL( statusChanged( uint ) ), globalNetworkManager, SIGNAL( statusChanged( Networking::Status ) ) );
+    //connect( iface, SIGNAL( statusChanged( uint ) ), globalNetworkManager()->, SIGNAL( statusChanged( Networking::Status ) ) );
     connect(iface, SIGNAL(statusChanged(uint)), this, SLOT(serviceStatusChanged(uint)));
     QDBusServiceWatcher *watcher = new QDBusServiceWatcher("org.kde.kded", QDBusConnection::sessionBus(),
                                                            QDBusServiceWatcher::WatchForOwnerChange, this);
@@ -76,12 +76,12 @@ uint VNetworkingPrivate::status() const
 
 VHardware::Networking::Status VHardware::Networking::status()
 {
-    return static_cast<VHardware::Networking::Status>(globalNetworkManager->status());
+    return static_cast<VHardware::Networking::Status>(globalNetworkManager()->status());
 }
 
 VHardware::Networking::Notifier *VHardware::Networking::notifier()
 {
-    return globalNetworkManager;
+    return globalNetworkManager();
 }
 
 void VNetworkingPrivate::serviceStatusChanged(uint status)
@@ -95,24 +95,24 @@ void VNetworkingPrivate::serviceStatusChanged(uint status)
         case VHardware::Networking::Disconnecting:
         case VHardware::Networking::Connecting:
             if (disconnectPolicy == VHardware::Networking::Managed) {
-                emit globalNetworkManager->shouldDisconnect();
+                emit globalNetworkManager()->shouldDisconnect();
             } else if (disconnectPolicy == VHardware::Networking::OnNextStatusChange) {
                 setDisconnectPolicy(VHardware::Networking::Manual);
-                emit globalNetworkManager->shouldDisconnect();
+                emit globalNetworkManager()->shouldDisconnect();
             }
             break;
         case VHardware::Networking::Connected:
             if (disconnectPolicy == VHardware::Networking::Managed) {
-                emit globalNetworkManager->shouldConnect();
+                emit globalNetworkManager()->shouldConnect();
             } else if (disconnectPolicy == VHardware::Networking::OnNextStatusChange) {
                 setConnectPolicy(VHardware::Networking::Manual);
-                emit globalNetworkManager->shouldConnect();
+                emit globalNetworkManager()->shouldConnect();
             }
             break;
             //      default:
             //        kDebug( 921 ) <<  "Unrecognised status code!";
     }
-    emit globalNetworkManager->statusChanged(netStatus);
+    emit globalNetworkManager()->statusChanged(netStatus);
 }
 
 void VNetworkingPrivate::serviceOwnerChanged(const QString &name, const QString &oldOwner, const QString &newOwner)
@@ -122,35 +122,35 @@ void VNetworkingPrivate::serviceOwnerChanged(const QString &name, const QString 
     if (newOwner.isEmpty()) {
         // kded quit on us
         netStatus = VHardware::Networking::Unknown;
-        emit globalNetworkManager->statusChanged(netStatus);
+        emit globalNetworkManager()->statusChanged(netStatus);
 
     } else {
         // kded was replaced or started
         initialize();
-        emit globalNetworkManager->statusChanged(netStatus);
+        emit globalNetworkManager()->statusChanged(netStatus);
         serviceStatusChanged(netStatus);
     }
 }
 
 VHardware::Networking::ManagementPolicy VHardware::Networking::connectPolicy()
 {
-    return globalNetworkManager->connectPolicy;
+    return globalNetworkManager()->connectPolicy;
 }
 
 void VHardware::Networking::setConnectPolicy(VHardware::Networking::ManagementPolicy policy)
 {
-    globalNetworkManager->connectPolicy = policy;
+    globalNetworkManager()->connectPolicy = policy;
 }
 
 VHardware::Networking::ManagementPolicy VHardware::Networking::disconnectPolicy()
 {
-    return globalNetworkManager->disconnectPolicy;
+    return globalNetworkManager()->disconnectPolicy;
 }
 
 void VHardware::Networking::setDisconnectPolicy(VHardware::Networking::ManagementPolicy policy)
 {
-    globalNetworkManager->disconnectPolicy = policy;
+    globalNetworkManager()->disconnectPolicy = policy;
 }
 
-#include "vnetworking_p.moc"
-#include "vnetworking.moc"
+#include "moc_vnetworking_p.cpp"
+#include "moc_vnetworking.cpp"

@@ -53,4 +53,4 @@ int VSerialInterface::port() const
     return_VIBE_HARDWARE_CALL(VHardware::Ifaces::SerialInterface *, d->backendObject(), -1, port());
 }
 
-#include "vserialinterface.moc"
+#include "moc_vserialinterface.cpp"

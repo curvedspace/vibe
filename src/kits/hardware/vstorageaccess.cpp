@@ -89,4 +89,4 @@ bool VStorageAccess::isIgnored() const
     return_VIBE_HARDWARE_CALL(VHardware::Ifaces::StorageAccess *, d->backendObject(), true, isIgnored());
 }
 
-#include "vstorageaccess.moc"
+#include "moc_vstorageaccess.cpp"

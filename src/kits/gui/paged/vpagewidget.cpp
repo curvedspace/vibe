@@ -144,4 +144,4 @@ VPageWidgetItem *VPageWidget::currentPage() const
     return d_func()->model()->item(index);
 }
 
-#include "vpagewidget.moc"
+#include "moc_vpagewidget.cpp"

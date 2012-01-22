@@ -562,4 +562,4 @@ QModelIndex VPageWidgetModel::index(const VPageWidgetItem *item) const
     return createIndex(pageItem->row(), 0, (void *)pageItem);
 }
 
-#include "vpagewidgetmodel.moc"
+#include "moc_vpagewidgetmodel.cpp"

@@ -41,4 +41,4 @@ bool VAcAdapter::isPlugged() const
     return_VIBE_HARDWARE_CALL(VHardware::Ifaces::AcAdapter *, d->backendObject(), false, isPlugged());
 }
 
-#include "vacadapter.moc"
+#include "moc_vacadapter.cpp"

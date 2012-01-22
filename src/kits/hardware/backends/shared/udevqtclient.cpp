@@ -254,4 +254,4 @@ namespace UdevQt
 
 }
 
-#include "udevqt.moc"
+#include "moc_udevqt.cpp"

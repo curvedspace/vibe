@@ -39,4 +39,4 @@ VSmartCardReader::ReaderType VSmartCardReader::readerType() const
     return_VIBE_HARDWARE_CALL(VHardware::Ifaces::SmartCardReader *, d->backendObject(), CardReader, readerType());
 }
 
-#include "vsmartcardreader.moc"
+#include "moc_vsmartcardreader.cpp"

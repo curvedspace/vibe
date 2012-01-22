@@ -52,4 +52,4 @@ QVariant VVideo::driverHandle(const QString &driver) const
     return_VIBE_HARDWARE_CALL(VHardware::Ifaces::Video *, d->backendObject(), QVariant(), driverHandle(driver));
 }
 
-#include "vvideo.moc"
+#include "moc_vvideo.cpp"

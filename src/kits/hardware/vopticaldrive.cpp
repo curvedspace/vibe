@@ -69,4 +69,4 @@ bool VOpticalDrive::eject()
     return_VIBE_HARDWARE_CALL(VHardware::Ifaces::OpticalDrive *, d->backendObject(), false, eject());
 }
 
-#include "vopticaldrive.moc"
+#include "moc_vopticaldrive.cpp"

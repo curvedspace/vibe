@@ -254,4 +254,4 @@ namespace VPrivate
     }
 }
 
-#include "settingsschema.moc"
+#include "moc_settingsschema.cpp"

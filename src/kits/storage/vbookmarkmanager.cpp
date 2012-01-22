@@ -33,7 +33,7 @@
 #include <QtCore/QTextStream>
 #include <QtCore/QFileSystemWatcher>
 #include <QtDBus/QtDBus>
-#include <QtGui/QApplication>
+#include <QtWidgets/QApplication>
 
 #include <VibeCore/VSaveFile>
 #include <VibeCore/VStandardDirectories>
@@ -57,7 +57,7 @@ public:
     QReadWriteLock lock;
 };
 
-VIBE_GLOBAL_STATIC(VBookmarkManagerList, s_pSelf)
+Q_GLOBAL_STATIC(VBookmarkManagerList, s_pSelf)
 
 /*
  * VBookmarkMap
@@ -151,7 +151,7 @@ public:
 
 static VBookmarkManager *lookupExisting(const QString &bookmarksFile)
 {
-    for (VBookmarkManagerList::ConstIterator bmit = s_pSelf->constBegin(), bmend = s_pSelf->constEnd();
+    for (VBookmarkManagerList::ConstIterator bmit = s_pSelf()->constBegin(), bmend = s_pSelf()->constEnd();
             bmit != bmend; ++bmit) {
         if ((*bmit)->path() == bookmarksFile)
             return *bmit;
@@ -164,19 +164,19 @@ VBookmarkManager *VBookmarkManager::managerForFile(const QString &bookmarksFile,
 {
     VBookmarkManager *mgr(0);
     {
-        QReadLocker readLock(&s_pSelf->lock);
+        QReadLocker readLock(&s_pSelf()->lock);
         mgr = lookupExisting(bookmarksFile);
         if (mgr)
             return mgr;
     }
 
-    QWriteLocker writeLock(&s_pSelf->lock);
+    QWriteLocker writeLock(&s_pSelf()->lock);
     mgr = lookupExisting(bookmarksFile);
     if (mgr)
         return mgr;
 
     mgr = new VBookmarkManager(bookmarksFile, dbusObjectName);
-    s_pSelf->append(mgr);
+    s_pSelf()->append(mgr);
     return mgr;
 }
 
@@ -184,26 +184,26 @@ VBookmarkManager *VBookmarkManager::managerForExternalFile(const QString &bookma
 {
     VBookmarkManager *mgr(0);
     {
-        QReadLocker readLock(&s_pSelf->lock);
+        QReadLocker readLock(&s_pSelf()->lock);
         mgr = lookupExisting(bookmarksFile);
         if (mgr)
             return mgr;
     }
 
-    QWriteLocker writeLock(&s_pSelf->lock);
+    QWriteLocker writeLock(&s_pSelf()->lock);
     mgr = lookupExisting(bookmarksFile);
     if (mgr)
         return mgr;
 
     mgr = new VBookmarkManager(bookmarksFile);
-    s_pSelf->append(mgr);
+    s_pSelf()->append(mgr);
     return mgr;
 }
 
 VBookmarkManager *VBookmarkManager::createTempManager()
 {
     VBookmarkManager *mgr = new VBookmarkManager();
-    s_pSelf->append(mgr);
+    s_pSelf()->append(mgr);
     return mgr;
 }
 
@@ -305,9 +305,7 @@ void VBookmarkManager::slotFileChanged(const QString &path)
 
 VBookmarkManager::~VBookmarkManager()
 {
-    if (!s_pSelf.isDestroyed()) {
-        s_pSelf->removeAll(this);
-    }
+    s_pSelf()->removeAll(this);
 
     delete d;
 }
@@ -605,4 +603,4 @@ VBookmarkManager *VBookmarkManager::userBookmarksManager()
     return bookmarkManager;
 }
 
-#include "vbookmarkmanager.moc"
+#include "moc_vbookmarkmanager.cpp"

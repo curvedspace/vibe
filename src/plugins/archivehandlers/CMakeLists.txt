@@ -14,7 +14,6 @@ set(SOURCES
     archivesplugin.cpp
 )
 
-automoc4(VibeArchivePlugin SOURCES)
 add_library(VibeArchivePlugin SHARED ${SOURCES})
 target_link_libraries(VibeArchivePlugin VibeCore)
 

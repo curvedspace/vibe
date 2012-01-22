@@ -25,7 +25,7 @@
 #include "vpowermanagement.h"
 #include "vpowermanagement_p.h"
 
-VIBE_GLOBAL_STATIC(VPowerManagementPrivate, globalPowerManager)
+Q_GLOBAL_STATIC(VPowerManagementPrivate, globalPowerManager)
 
 VPowerManagementPrivate::VPowerManagementPrivate()
     : managerIface("org.freedesktop.PowerManagement",
@@ -73,12 +73,12 @@ VHardware::PowerManagement::Notifier::Notifier()
 
 bool VHardware::PowerManagement::appShouldConserveResources()
 {
-    return globalPowerManager->powerSaveStatus;
+    return globalPowerManager()->powerSaveStatus;
 }
 
 QSet<VHardware::PowerManagement::SleepState> VHardware::PowerManagement::supportedSleepStates()
 {
-    return globalPowerManager->supportedSleepStates;
+    return globalPowerManager()->supportedSleepStates;
 }
 
 void VHardware::PowerManagement::requestSleep(SleepState state, QObject *receiver, const char *member)
@@ -86,17 +86,17 @@ void VHardware::PowerManagement::requestSleep(SleepState state, QObject *receive
     Q_UNUSED(receiver)
     Q_UNUSED(member)
 
-    if (!globalPowerManager->supportedSleepStates.contains(state))
+    if (!globalPowerManager()->supportedSleepStates.contains(state))
         return;
 
     switch (state) {
         case StandbyState:
             break;
         case SuspendState:
-            globalPowerManager->managerIface.Suspend();
+            globalPowerManager()->managerIface.Suspend();
             break;
         case HibernateState:
-            globalPowerManager->managerIface.Hibernate();
+            globalPowerManager()->managerIface.Hibernate();
             break;
     }
 }
@@ -104,13 +104,13 @@ void VHardware::PowerManagement::requestSleep(SleepState state, QObject *receive
 int VHardware::PowerManagement::beginSuppressingSleep(const QString &reason)
 {
     QDBusReply<uint> reply;
-    if (globalPowerManager->policyAgentIface.isValid()) {
-        reply = globalPowerManager->policyAgentIface.AddInhibition(
+    if (globalPowerManager()->policyAgentIface.isValid()) {
+        reply = globalPowerManager()->policyAgentIface.AddInhibition(
                     (uint)VPowerManagementPrivate::InterruptSession,
                     QCoreApplication::applicationName(), reason);
     } else {
         // Fallback to the fd.o Inhibit interface
-        reply = globalPowerManager->inhibitIface.Inhibit(QCoreApplication::applicationName(), reason);
+        reply = globalPowerManager()->inhibitIface.Inhibit(QCoreApplication::applicationName(), reason);
     }
 
     if (reply.isValid())
@@ -121,18 +121,18 @@ int VHardware::PowerManagement::beginSuppressingSleep(const QString &reason)
 
 bool VHardware::PowerManagement::stopSuppressingSleep(int cookie)
 {
-    if (globalPowerManager->policyAgentIface.isValid()) {
-        return globalPowerManager->policyAgentIface.ReleaseInhibition(cookie).isValid();
+    if (globalPowerManager()->policyAgentIface.isValid()) {
+        return globalPowerManager()->policyAgentIface.ReleaseInhibition(cookie).isValid();
     } else {
         // Fallback to the fd.o Inhibit interface
-        return globalPowerManager->inhibitIface.UnInhibit(cookie).isValid();
+        return globalPowerManager()->inhibitIface.UnInhibit(cookie).isValid();
     }
 }
 
 int VHardware::PowerManagement::beginSuppressingScreenPowerManagement(const QString &reason)
 {
-    if (globalPowerManager->policyAgentIface.isValid()) {
-        QDBusReply<uint> reply = globalPowerManager->policyAgentIface.AddInhibition(
+    if (globalPowerManager()->policyAgentIface.isValid()) {
+        QDBusReply<uint> reply = globalPowerManager()->policyAgentIface.AddInhibition(
                                      (uint)VPowerManagementPrivate::ChangeScreenSettings,
                                      QCoreApplication::applicationName(), reason);
 
@@ -148,8 +148,8 @@ int VHardware::PowerManagement::beginSuppressingScreenPowerManagement(const QStr
 
 bool VHardware::PowerManagement::stopSuppressingScreenPowerManagement(int cookie)
 {
-    if (globalPowerManager->policyAgentIface.isValid()) {
-        return globalPowerManager->policyAgentIface.ReleaseInhibition(cookie).isValid();
+    if (globalPowerManager()->policyAgentIface.isValid()) {
+        return globalPowerManager()->policyAgentIface.ReleaseInhibition(cookie).isValid();
     } else {
         // No way to fallback on something, hence return failure
         return false;
@@ -158,7 +158,7 @@ bool VHardware::PowerManagement::stopSuppressingScreenPowerManagement(int cookie
 
 VHardware::PowerManagement::Notifier *VHardware::PowerManagement::notifier()
 {
-    return globalPowerManager;
+    return globalPowerManager();
 }
 
 void VPowerManagementPrivate::slotCanSuspendChanged(bool newState)
@@ -206,5 +206,5 @@ void VPowerManagementPrivate::slotServiceRegistered(const QString &serviceName)
     }
 }
 
-#include "vpowermanagement_p.moc"
-#include "vpowermanagement.moc"
+#include "moc_vpowermanagement_p.cpp"
+#include "moc_vpowermanagement.cpp"

@@ -57,4 +57,4 @@ qulonglong VNetworkInterface::macAddress() const
     return_VIBE_HARDWARE_CALL(VHardware::Ifaces::NetworkInterface *, d->backendObject(), 0, macAddress());
 }
 
-#include "vnetworkinterface.moc"
+#include "moc_vnetworkinterface.cpp"

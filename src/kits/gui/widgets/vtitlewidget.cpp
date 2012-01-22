@@ -303,4 +303,4 @@ void VTitleWidget::showEvent(QShowEvent *event)
         QTimer::singleShot(d->autoHideTimeout, this, SLOT(_q_timeoutFinished()));
 }
 
-#include "vtitlewidget.moc"
+#include "moc_vtitlewidget.cpp"

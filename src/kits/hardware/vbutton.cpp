@@ -54,4 +54,4 @@ bool VButton::stateValue() const
     return_VIBE_HARDWARE_CALL(VHardware::Ifaces::Button *, d->backendObject(), false, stateValue());
 }
 
-#include "vbutton.moc"
+#include "moc_vbutton.cpp"

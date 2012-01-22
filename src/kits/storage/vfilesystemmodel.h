@@ -25,7 +25,9 @@
 
 #include <QFileSystemModel>
 
-class VFileSystemModel : public QFileSystemModel
+#include <VibeCore/VGlobal>
+
+class VIBE_EXPORT VFileSystemModel : public QFileSystemModel
 {
     Q_OBJECT
 public:

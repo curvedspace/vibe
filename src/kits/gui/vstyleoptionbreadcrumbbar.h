@@ -25,8 +25,8 @@
 #ifndef VSTYLEOPTIONBREADCRUMBBAR_H
 #define VSTYLEOPTIONBREADCRUMBBAR_H
 
-#include <QtGui/qstyleoption.h>
-#include <QtGui/qstyle.h>
+#include <QStyle>
+#include <QStyleOption>
 
 #include <VibeCore/VGlobal>
 

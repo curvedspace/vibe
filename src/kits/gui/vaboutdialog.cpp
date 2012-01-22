@@ -20,13 +20,13 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QtGui/QApplication>
-#include <QtGui/QTableWidget>
-#include <QtGui/QTextBrowser>
-#include <QtGui/QLabel>
-#include <QtGui/QPushButton>
-#include <QtGui/QSpacerItem>
-#include <QtGui/QVBoxLayout>
+#include <QApplication>
+#include <QTableWidget>
+#include <QTextBrowser>
+#include <QLabel>
+#include <QPushButton>
+#include <QSpacerItem>
+#include <QVBoxLayout>
 
 #include "vaboutdialog.h"
 
@@ -265,4 +265,4 @@ void VAboutDialog::setLink(const QUrl &url)
     d->setLink(url);
 }
 
-#include "vaboutdialog.moc"
+#include "moc_vaboutdialog.cpp"

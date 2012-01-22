@@ -45,4 +45,4 @@ QUrl VNetworkShare::url() const
     return_VIBE_HARDWARE_CALL(VHardware::Ifaces::NetworkShare *, d->backendObject(), QUrl(), url());
 }
 
-#include "vnetworkshare.moc"
+#include "moc_vnetworkshare.cpp"

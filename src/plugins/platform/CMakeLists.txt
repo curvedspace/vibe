@@ -14,7 +14,6 @@ set(SOURCES
     vibeplatform.cpp
 )
 
-automoc4(vibe SOURCES)
 add_library(vibe SHARED ${SOURCES})
 target_link_libraries(vibe ${QT_QTGUI_LIBRARIES} ${QCONF_LIBRARIES})
 

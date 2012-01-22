@@ -25,7 +25,7 @@
 #ifndef VPAGEVIEW_H
 #define VPAGEVIEW_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 #include <VibeCore/VGlobal>
 

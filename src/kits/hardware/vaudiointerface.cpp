@@ -66,4 +66,4 @@ VAudioInterface::SoundcardType VAudioInterface::soundcardType() const
     return_VIBE_HARDWARE_CALL(VHardware::Ifaces::AudioInterface *, d->backendObject(), InternalSoundcard, soundcardType());
 }
 
-#include "vaudiointerface.moc"
+#include "moc_vaudiointerface.cpp"

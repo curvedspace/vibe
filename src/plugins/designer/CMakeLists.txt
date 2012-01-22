@@ -19,9 +19,8 @@ set(SOURCES
     titlewidgetplugin.cpp
 )
 
-qt4_add_resources(RESOURCES_RCC icons.qrc)
+qt5_add_resources(RESOURCES_RCC icons.qrc)
 
-automoc4(VibeDesignerPlugin SOURCES)
 add_library(VibeDesignerPlugin SHARED ${SOURCES} ${RESOURCES_RCC})
 target_link_libraries(VibeDesignerPlugin ${QT_QTDESIGNER_LIBRARIES} VibeGui VibeStorage)
 

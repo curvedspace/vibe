@@ -225,4 +225,4 @@ namespace VPrivate
     }
 }
 
-#include "fileplacesviewdelegate.moc"
+#include "moc_fileplacesviewdelegate.cpp"

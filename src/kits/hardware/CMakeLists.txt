@@ -1,11 +1,10 @@
 add_definitions(-DVIBE_BUILDING)
-add_definitions(${QT_DEFINITIONS})
 
 include_directories(
-    ${QT_INCLUDE_DIR}
-    ${QT_QTCORE_INCLUDE_DIR}
-    ${QT_QTDBUS_INCLUDE_DIR}
-    ${QT_QTXML_INCLUDE_DIR}
+    ${Qt5Core_INCLUDE_DIRS}
+    ${Qt5DBus_INCLUDE_DIRS}
+    ${Qt5Xml_INCLUDE_DIRS}
+    ${Qt5Widgets_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}/src/kits/core
@@ -235,14 +234,12 @@ set_source_files_properties(
 )
 
 # DBus interfaces
-qt4_add_dbus_interfaces(SOURCES org.freedesktop.PowerManagement.xml
+qt5_add_dbus_interfaces(SOURCES org.freedesktop.PowerManagement.xml
                         org.freedesktop.PowerManagement.Inhibit.xml
                         org.vision.Vibe.Hardware.PowerManagement.PolicyAgent.xml)
 
-qt4_add_dbus_interface(SOURCES org.vision.Vibe.Hardware.Networking.Client.xml
+qt5_add_dbus_interface(SOURCES org.vision.Vibe.Hardware.Networking.Client.xml
                        org_vision_vibe_hardware_networking_client)
-
-automoc4(VibeHardare SOURCES)
 
 # Prepare for optional libraries dependencies
 set(OPTIONAL_LIBS)
@@ -258,8 +255,9 @@ if(UDEV_FOUND)
 endif(UDEV_FOUND)
 
 add_library(VibeHardware SHARED ${SOURCES})
-target_link_libraries(VibeHardware ${QT_QTCORE_LIBRARY} ${QT_QTDBUS_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTGUI_LIBRARY} ${OPTIONAL_LIBS})
-target_link_libraries(VibeHardware LINK_INTERFACE_LIBRARIES ${QT_CORE_LIBRARY})
+target_link_libraries(VibeHardware ${Qt5Core_LIBRARIES} ${Qt5DBus_LIBRARIES}
+    ${Qt5Xml_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${OPTIONAL_LIBS})
+target_link_libraries(VibeHardware LINK_INTERFACE_LIBRARIES ${Qt5Core_LIBRARIES})
 set_target_properties(VibeHardware PROPERTIES
     VERSION ${VIBE_VERSION_STR}
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_RELEASE})

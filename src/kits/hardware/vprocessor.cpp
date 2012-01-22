@@ -57,4 +57,4 @@ VProcessor::InstructionSets VProcessor::instructionSets() const
     return_VIBE_HARDWARE_CALL(VHardware::Ifaces::Processor *, d->backendObject(), InstructionSets(), instructionSets());
 }
 
-#include "vprocessor.moc"
+#include "moc_vprocessor.cpp"

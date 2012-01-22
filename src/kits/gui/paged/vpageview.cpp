@@ -483,4 +483,4 @@ Qt::Alignment VPageView::viewPosition() const
         return Qt::AlignLeft;
 }
 
-#include "vpageview.moc"
+#include "moc_vpageview.cpp"

@@ -74,4 +74,4 @@ QString VHardware::Ifaces::Device::deviceDBusPath() const
     return QString("/org/vision/Vibe/Hardware/Device_") + QString::fromLatin1(encodedUdi);
 }
 
-#include "ifaces/device.moc"
+#include "ifaces/moc_device.cpp"

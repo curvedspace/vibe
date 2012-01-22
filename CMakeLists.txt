@@ -1,6 +1,9 @@
 project(Vibe)
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.7)
+
+# Enable automoc
+set(CMAKE_AUTOMOC ON)
 
 # Our CMake modules
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
@@ -32,16 +35,41 @@ include(MacroBoolTo01)
 # Generate header files
 configure_file(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
-# Find Qt
-set(QT_MIN_VERSION "4.7.0")
-find_package(Qt4 ${QT_MIN_VERSION} REQUIRED)
-include(${QT_USE_FILE})
+# Find pkg-config
+find_package(PkgConfig "0.22" REQUIRED)
 
-# Find Automoc
-find_package(Automoc4 REQUIRED)
+# Find Qt
+set(QT_MIN_VERSION "5.0.0")
+find_package(Qt5Core REQUIRED)
+if(NOT Qt5Core_FOUND)
+    message(FATAL_ERROR "Qt5Core module is required!")
+endif()
+find_package(Qt5Gui REQUIRED)
+if(NOT Qt5Gui_FOUND)
+    message(FATAL_ERROR "Qt5Gui module is required!")
+endif()
+find_package(Qt5Widgets REQUIRED)
+if(NOT Qt5Widgets_FOUND)
+    message(FATAL_ERROR "Qt5Widgets module is required!")
+endif()
+find_package(Qt5Quick REQUIRED)
+if(NOT Qt5Quick_FOUND)
+    message(FATAL_ERROR "Qt5Quick module is required!")
+endif()
+find_package(Qt5OpenGL REQUIRED)
+if(NOT Qt5OpenGL_FOUND)
+    message(FATAL_ERROR "Qt5OpenGL module is required!")
+endif()
+find_package(Qt5DBus REQUIRED)
+if(NOT Qt5DBus_FOUND)
+    message(FATAL_ERROR "Qt5DBus module is required!")
+endif()
+find_package(Qt5DBusTools REQUIRED)
+if(NOT Qt5DBusTools_FOUND)
+    message(FATAL_ERROR "Qt5DBusTools module is required!")
+endif()
 
 # Find DBus session bus services directory
-find_package(PkgConfig "0.22" REQUIRED)
 execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=session_bus_services_dir dbus-1
     OUTPUT_VARIABLE DBUS_SESSION_BUS_SERVICES_DIR
     RESULT_VARIABLE _failed)

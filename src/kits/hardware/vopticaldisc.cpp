@@ -70,4 +70,4 @@ qulonglong VOpticalDisc::capacity() const
     return_VIBE_HARDWARE_CALL(VHardware::Ifaces::OpticalDisc *, d->backendObject(), 0, capacity());
 }
 
-#include "vopticaldisc.moc"
+#include "moc_vopticaldisc.cpp"

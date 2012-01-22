@@ -69,4 +69,4 @@ void VNavigationBar::drawBranches(QPainter *painter, const QRect &rect, const QM
     }
 }
 
-#include "vnavigationbar.moc"
+#include "moc_vnavigationbar.cpp"

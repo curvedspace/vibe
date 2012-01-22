@@ -683,4 +683,4 @@ void VFilePlacesModel::requestSetup(const QModelIndex &index)
     }
 }
 
-#include "vfileplacesmodel.moc"
+#include "moc_vfileplacesmodel.cpp"

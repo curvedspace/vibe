@@ -81,4 +81,4 @@ VAudioInterface::SoundcardType AudioInterface::soundcardType() const
     return d->soundcardType();
 }
 
-#include "backends/udev/udevaudiointerface.moc"
+#include "backends/udev/moc_udevaudiointerface.cpp"

@@ -71,4 +71,4 @@ VBattery::ChargeState VBattery::chargeState() const
     return_VIBE_HARDWARE_CALL(VHardware::Ifaces::Battery *, d->backendObject(), NoCharge, chargeState());
 }
 
-#include "vbattery.moc"
+#include "moc_vbattery.cpp"

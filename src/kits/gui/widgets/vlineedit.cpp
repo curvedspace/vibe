@@ -238,4 +238,4 @@ void VLineEdit::slotIconClicked()
     }
 }
 
-#include "vlineedit.moc"
+#include "moc_vlineedit.cpp"

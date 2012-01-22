@@ -57,4 +57,4 @@ int VDvbInterface::deviceIndex() const
     return_VIBE_HARDWARE_CALL(VHardware::Ifaces::DvbInterface *, d->backendObject(), -1, deviceIndex());
 }
 
-#include "vdvbinterface.moc"
+#include "moc_vdvbinterface.cpp"

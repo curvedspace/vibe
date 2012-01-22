@@ -624,4 +624,4 @@ void SelectionModel::select(const QItemSelection &selection, QItemSelectionModel
     QItemSelectionModel::select(selection, command);
 }
 
-#include "vpageview_p.moc"
+#include "moc_vpageview_p.cpp"

@@ -34,4 +34,4 @@ void VBookmarkManagerAdaptor::notifyCompleteChange()
     static_cast<VBookmarkManager *>(parent())->notifyCompleteChange(QString());
 }
 
-#include "vbookmarkmanageradaptor.moc"
+#include "moc_vbookmarkmanageradaptor.cpp"

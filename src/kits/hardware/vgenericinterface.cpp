@@ -57,4 +57,4 @@ bool VGenericInterface::propertyExists(const QString &key) const
     return_VIBE_HARDWARE_CALL(VHardware::Ifaces::GenericInterface *, d->backendObject(), false, propertyExists(key));
 }
 
-#include "vgenericinterface.moc"
+#include "moc_vgenericinterface.cpp"

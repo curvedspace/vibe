@@ -1,5 +1,7 @@
-add_definitions(${QT_DEFINITIONS})
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(
+    ${Qt5Widgets_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 set(SOURCES
     main.cpp
@@ -14,8 +16,7 @@ set(FORMS
     previewwidget.ui
 )
 
-qt4_wrap_ui(FORMS_HEADERS ${FORMS})
+qt5_wrap_ui(FORMS_HEADERS ${FORMS})
 
-automoc4(galley SOURCES)
 add_executable(gallery ${SOURCES} ${FORMS_HEADERS})
-target_link_libraries(gallery ${QT_LIBRARIES})
+target_link_libraries(gallery ${Qt5Widgets_LIBRARIES})

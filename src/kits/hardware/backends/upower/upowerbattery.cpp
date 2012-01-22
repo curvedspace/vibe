@@ -138,4 +138,4 @@ void Battery::updateCache()
     m_chargeState = chargeState();
 }
 
-#include "backends/upower/upowerbattery.moc"
+#include "backends/upower/moc_upowerbattery.cpp"

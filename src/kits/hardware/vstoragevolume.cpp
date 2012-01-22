@@ -88,4 +88,4 @@ VDevice VStorageVolume::encryptedContainer() const
         return VDevice();
 }
 
-#include "vstoragevolume.moc"
+#include "moc_vstoragevolume.cpp"

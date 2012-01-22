@@ -247,4 +247,4 @@ void VSettings::setValue(const QString &key, const QVariant &value)
     d->file->setValue(QString("%1/%2").arg(pathName).arg(keyName), value);
 }
 
-#include "vsettings.moc"
+#include "moc_vsettings.cpp"

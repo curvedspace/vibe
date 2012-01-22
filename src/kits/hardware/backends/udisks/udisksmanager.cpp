@@ -248,4 +248,4 @@ const QStringList &UDisksManager::deviceCache()
     return m_deviceCache;
 }
 
-#include "backends/udisks/udisksmanager.moc"
+#include "backends/udisks/moc_udisksmanager.cpp"

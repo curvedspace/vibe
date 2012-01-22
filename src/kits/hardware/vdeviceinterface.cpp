@@ -141,4 +141,4 @@ void VDeviceInterfacePrivate::setDevicePrivate(VDevicePrivate *devicePrivate)
     m_devicePrivate = devicePrivate;
 }
 
-#include "vdeviceinterface.moc"
+#include "moc_vdeviceinterface.cpp"

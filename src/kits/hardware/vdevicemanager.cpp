@@ -21,7 +21,7 @@
 #include <VibeCore/VGlobal>
 
 #include "vdevicenotifier.h"
-#include "vdevicemanager_p.h" //krazy:exclude=includes (vdevicenotifier.h is the header file for this class)
+#include "vdevicemanager_p.h"
 
 #include "vdevice.h"
 #include "vdevice_p.h"
@@ -30,7 +30,7 @@
 #include "ifaces/devicemanager.h"
 #include "ifaces/device.h"
 
-VIBE_GLOBAL_STATIC(VDeviceManagerStorage, globalDeviceStorage)
+Q_GLOBAL_STATIC(VDeviceManagerStorage, globalDeviceStorage)
 
 VDeviceManagerPrivate::VDeviceManagerPrivate()
     : m_nullDevice(new VDevicePrivate(QString()))
@@ -64,7 +64,7 @@ VDeviceManagerPrivate::~VDeviceManagerPrivate()
 QList<VDevice> VDevice::allDevices()
 {
     QList<VDevice> list;
-    QList<QObject *> backends = globalDeviceStorage->managerBackends();
+    QList<QObject *> backends = globalDeviceStorage()->managerBackends();
 
     foreach(QObject * backendObj, backends) {
         VHardware::Ifaces::DeviceManager *backend = qobject_cast<VHardware::Ifaces::DeviceManager *>(backendObj);
@@ -96,7 +96,7 @@ QList<VDevice> VDevice::listFromType(const VDeviceInterface::Type &type,
                                      const QString &parentUdi)
 {
     QList<VDevice> list;
-    QList<QObject *> backends = globalDeviceStorage->managerBackends();
+    QList<QObject *> backends = globalDeviceStorage()->managerBackends();
 
     foreach(QObject * backendObj, backends) {
         VHardware::Ifaces::DeviceManager *backend = qobject_cast<VHardware::Ifaces::DeviceManager *>(backendObj);
@@ -118,7 +118,7 @@ QList<VDevice> VDevice::listFromQuery(const VPredicate &predicate,
                                       const QString &parentUdi)
 {
     QList<VDevice> list;
-    QList<QObject *> backends = globalDeviceStorage->managerBackends();
+    QList<QObject *> backends = globalDeviceStorage()->managerBackends();
     QSet<VDeviceInterface::Type> usedTypes = predicate.usedTypes();
 
     foreach(QObject * backendObj, backends) {
@@ -162,7 +162,7 @@ QList<VDevice> VDevice::listFromQuery(const VPredicate &predicate,
 
 VDeviceNotifier *VDeviceNotifier::instance()
 {
-    return globalDeviceStorage->notifier();
+    return globalDeviceStorage()->notifier();
 }
 
 void VDeviceManagerPrivate::_q_deviceAdded(const QString &udi)
@@ -234,7 +234,7 @@ VDevicePrivate *VDeviceManagerPrivate::findRegisteredDevice(const QString &udi)
 
 VHardware::Ifaces::Device *VDeviceManagerPrivate::createBackendObject(const QString &udi)
 {
-    QList<QObject *> backends = globalDeviceStorage->managerBackends();
+    QList<QObject *> backends = globalDeviceStorage()->managerBackends();
 
     foreach(QObject * backendObj, backends) {
         VHardware::Ifaces::DeviceManager *backend = qobject_cast<VHardware::Ifaces::DeviceManager *>(backendObj);
@@ -280,5 +280,5 @@ void VDeviceManagerStorage::ensureManagerCreated()
         m_storage.setLocalData(new VDeviceManagerPrivate());
 }
 
-#include "vdevicenotifier.moc"
-#include "vdevicemanager_p.moc"
+#include "moc_vdevicenotifier.cpp"
+#include "moc_vdevicemanager_p.cpp"

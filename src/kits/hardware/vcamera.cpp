@@ -51,4 +51,4 @@ QVariant VCamera::driverHandle(const QString &driver) const
     return_VIBE_HARDWARE_CALL(VHardware::Ifaces::Camera *, d->backendObject(), QVariant(), driverHandle(driver));
 }
 
-#include "vcamera.moc"
+#include "moc_vcamera.cpp"

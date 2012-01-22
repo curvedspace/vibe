@@ -1,10 +1,9 @@
 add_definitions(-DVIBE_BUILDING)
-add_definitions(${QT_DEFINITIONS})
 
 include_directories(
-    ${QT_INCLUDE_DIR}
-    ${QT_QTCORE_INCLUDE_DIR}
-    ${QT_QTGUI_INCLUDE_DIR}
+    ${Qt5Core_INCLUDE_DIRS}
+    ${Qt5Gui_INCLUDE_DIRS}
+    ${Qt5Widgets_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_BINARY_DIR}/src/kits/core
     ${CMAKE_CURRENT_SOURCE_DIR}/widgets
@@ -62,10 +61,8 @@ set(HEADERS
     preferences/vpreferencesmoduleplugin.h
 )
 
-automoc4(VibeGui SOURCES)
-
 add_library(VibeGui SHARED ${SOURCES})
-target_link_libraries(VibeGui ${QT_QTGUI_LIBRARIES} VibeCore)
+target_link_libraries(VibeGui ${Qt5Gui_LIBRARIES} ${Qt5Widgets_LIBRARIES} VibeCore)
 set_target_properties(VibeGui PROPERTIES
     VERSION ${VIBE_VERSION_STR}
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_RELEASE})

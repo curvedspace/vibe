@@ -310,4 +310,4 @@ void VDevicePrivate::setInterface(const VDeviceInterface::Type &type, VDeviceInt
     m_ifaces[type] = interface;
 }
 
-#include "vdevice_p.moc"
+#include "moc_vdevice_p.cpp"

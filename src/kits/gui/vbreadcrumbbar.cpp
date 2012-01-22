@@ -818,5 +818,5 @@ void VBreadCrumbBar::paintEvent(QPaintEvent *)
     }
 }
 
-#include "vbreadcrumbbar.moc"
-#include "vbreadcrumbbar_ui.moc"
+#include "moc_vbreadcrumbbar.cpp"
+#include "moc_vbreadcrumbbar_ui.cpp"

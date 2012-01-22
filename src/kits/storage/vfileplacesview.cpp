@@ -420,4 +420,4 @@ void VFilePlacesView::keyPressEvent(QKeyEvent *event)
         d->_q_placeClicked(currentIndex());
 }
 
-#include "vfileplacesview.moc"
+#include "moc_vfileplacesview.cpp"

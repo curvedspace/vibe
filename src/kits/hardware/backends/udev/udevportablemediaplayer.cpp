@@ -57,4 +57,4 @@ QVariant PortableMediaPlayer::driverHandle(const QString &driver) const
     return QVariant();
 }
 
-#include "backends/udev/udevportablemediaplayer.moc"
+#include "backends/udev/moc_udevportablemediaplayer.cpp"

@@ -494,4 +494,4 @@ bool VMimeType::checkMagicString(const QString &offset, const QByteArray &value,
     return false;
 }
 
-#include "vmimetype.moc"
+#include "moc_vmimetype.cpp"

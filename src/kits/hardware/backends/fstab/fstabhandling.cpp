@@ -105,7 +105,7 @@
 #endif
 
 typedef QMultiHash<QString, QString> QStringMultiHash;
-VIBE_GLOBAL_STATIC(QStringMultiHash, globalMountPointsCache)
+Q_GLOBAL_STATIC(QStringMultiHash, globalMountPointsCache)
 
 bool _q_isFstabNetworkFileSystem(const QString &fstype, const QString &devName)
 {
@@ -134,7 +134,7 @@ void _q_updateFstabMountPointsCache()
         return;
     }
 
-    globalMountPointsCache->clear();
+    globalMountPointsCache()->clear();
 
 #ifdef HAVE_SETMNTENT
 
@@ -149,7 +149,7 @@ void _q_updateFstabMountPointsCache()
             const QString device = QFile::decodeName(fe->mnt_fsname);
             const QString mountpoint = QFile::decodeName(fe->mnt_dir);
 
-            globalMountPointsCache->insert(device, mountpoint);
+            globalMountPointsCache()->insert(device, mountpoint);
         }
     }
 
@@ -188,7 +188,7 @@ void _q_updateFstabMountPointsCache()
             const QString device = items.at(0);
             const QString mountpoint = items.at(1);
 
-            globalMountPointsCache->insert(device, mountpoint);
+            globalMountPointsCache()->insert(device, mountpoint);
         }
     }
 
@@ -199,7 +199,7 @@ void _q_updateFstabMountPointsCache()
 QStringList VHardware::Backends::Fstab::FstabHandling::deviceList()
 {
     _q_updateFstabMountPointsCache();
-    return globalMountPointsCache->keys();
+    return globalMountPointsCache()->keys();
 }
 
 QStringList VHardware::Backends::Fstab::FstabHandling::mountPoints(const QString &device)
@@ -207,7 +207,7 @@ QStringList VHardware::Backends::Fstab::FstabHandling::mountPoints(const QString
     _q_updateFstabMountPointsCache();
     const QString deviceToFind = device;
 
-    return globalMountPointsCache->values(deviceToFind);
+    return globalMountPointsCache()->values(deviceToFind);
 }
 
 QProcess *VHardware::Backends::Fstab::FstabHandling::callSystemCommand(const QString &commandName,

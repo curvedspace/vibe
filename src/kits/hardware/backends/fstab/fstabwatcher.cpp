@@ -28,7 +28,7 @@
 
 using namespace VHardware::Backends::Fstab;
 
-VIBE_GLOBAL_STATIC(FstabWatcher, globalFstabWatcher)
+Q_GLOBAL_STATIC(FstabWatcher, globalFstabWatcher)
 
 #define MTAB "/etc/mtab"
 #ifdef Q_OS_SOLARIS
@@ -79,7 +79,7 @@ FstabWatcher *FstabWatcher::instance()
     }
     return fstabWatcher;
 #else
-    return globalFstabWatcher;
+    return globalFstabWatcher();
 #endif
 }
 

@@ -95,4 +95,4 @@ namespace VPrivate
     }
 }
 
-#include "iconbutton.moc"
+#include "moc_iconbutton.cpp"

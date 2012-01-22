@@ -97,7 +97,7 @@ VFileSystemWatcherPrivate::VFileSystemWatcherPrivate() :
             this, SLOT(inotifyEventReceived()));
 }
 
-// This is called on app exit (when VIBE_GLOBAL_STATIC deletes VFileSystemWatcher::self)
+// This is called on app exit (when Q_GLOBAL_STATIC deletes VFileSystemWatcher::self)
 VFileSystemWatcherPrivate::~VFileSystemWatcherPrivate()
 {
     // Stop the timer
@@ -1114,16 +1114,16 @@ void VFileSystemWatcherPrivate::statistics()
  * VFileSystemWatcher
  */
 
-VIBE_GLOBAL_STATIC(VFileSystemWatcher, s_pVFileSystemWatcherSelf)
+Q_GLOBAL_STATIC(VFileSystemWatcher, s_pVFileSystemWatcherSelf)
 VFileSystemWatcher *VFileSystemWatcher::self()
 {
-    return s_pVFileSystemWatcherSelf;
+    return s_pVFileSystemWatcherSelf();
 }
 
 // TODO KDE5: is this used anywhere?
 bool VFileSystemWatcher::exists()
 {
-    return s_pVFileSystemWatcherSelf.exists();
+    return s_pVFileSystemWatcherSelf()->exists();
 }
 
 VFileSystemWatcher::VFileSystemWatcher(QObject *parent) :
@@ -1269,5 +1269,5 @@ void VFileSystemWatcher::setDeleted(const QString &_file)
     emit deleted(_file);
 }
 
-#include "vfilesystemwatcher.moc"
-#include "vfilesystemwatcher_p.moc"
+#include "moc_vfilesystemwatcher.cpp"
+#include "moc_vfilesystemwatcher_p.cpp"

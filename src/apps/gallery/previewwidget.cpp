@@ -91,4 +91,4 @@ void PreviewWidget::closeEvent(QCloseEvent *e)
 #endif
 }
 
-#include "previewwidget.moc"
+#include "moc_previewwidget.cpp"

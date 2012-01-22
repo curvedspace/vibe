@@ -349,4 +349,4 @@ void VBreadCrumbDirModel::makeCurrent() const
     m_dirModel->setFilter(filter);
 }
 
-#include "vbreadcrumbdirmodel.moc"
+#include "moc_vbreadcrumbdirmodel.cpp"

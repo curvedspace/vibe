@@ -96,4 +96,4 @@ VProcessor::InstructionSets Processor::instructionSets() const
     return cpuextensions;
 }
 
-#include "backends/udev/udevprocessor.moc"
+#include "backends/udev/moc_udevprocessor.cpp"

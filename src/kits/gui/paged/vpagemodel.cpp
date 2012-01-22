@@ -55,4 +55,4 @@ VPageModel::~VPageModel()
     delete d_ptr;
 }
 
-#include "vpagemodel.moc"
+#include "moc_vpagemodel.cpp"

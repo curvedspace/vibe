@@ -24,8 +24,8 @@
 
 #include <QtCore/QProcess>
 #include <QtDBus/QtDBus>
-#include <QtGui/QApplication>
-#include <QtGui/QWidget>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QWidget>
 
 using namespace VHardware::Backends::UDisks;
 
@@ -356,4 +356,4 @@ bool UDisksStorageAccess::callCryptoTeardown()
                               SLOT(slotDBusError(const QDBusError &)));
 }
 
-#include "backends/udisks/udisksstorageaccess.moc"
+#include "backends/udisks/moc_udisksstorageaccess.cpp"

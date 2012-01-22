@@ -369,4 +369,4 @@ namespace VPrivate
     }
 }
 
-#include "fileplacesitem.moc"
+#include "moc_fileplacesitem.cpp"

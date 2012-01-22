@@ -1,8 +1,8 @@
-add_definitions(-DVIBE_BUILDING ${QT_DEFINITIONS} -Wno-multichar)
+add_definitions(-DVIBE_BUILDING -Wno-multichar)
 
 include_directories(
-    ${QT_QTCORE_INCLUDE_DIR}
-    ${QT_QTXML_INCLUDE_DIR}
+    ${Qt5Core_INCLUDE_DIRS}
+    ${Qt5Xml_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/archive
@@ -96,11 +96,10 @@ set(RESOURCES
     core.qrc
 )
 
-automoc4(VibeCore SOURCES)
-qt4_add_resources(RESOURCES_RCC ${RESOURCES})
+qt5_add_resources(RESOURCES_RCC ${RESOURCES})
 
 add_library(VibeCore SHARED ${SOURCES} ${RESOURCES_RCC})
-target_link_libraries(VibeCore ${QT_QTCORE_LIBRARIES} ${QT_QTXML_LIBRARIES} ${VibeCore_OPTIONAL_LIBS})
+target_link_libraries(VibeCore ${Qt5Core_LIBRARIES} ${Qt5Xml_LIBRARIES} ${VibeCore_OPTIONAL_LIBS})
 set_target_properties(VibeCore PROPERTIES
     VERSION ${VIBE_VERSION_STR}
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_RELEASE})

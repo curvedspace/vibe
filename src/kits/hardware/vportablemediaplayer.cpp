@@ -53,4 +53,4 @@ QVariant VPortableMediaPlayer::driverHandle(const QString &driver) const
     return_VIBE_HARDWARE_CALL(VHardware::Ifaces::PortableMediaPlayer *, d->backendObject(), QVariant(), driverHandle(driver));
 }
 
-#include "vportablemediaplayer.moc"
+#include "moc_vportablemediaplayer.cpp"

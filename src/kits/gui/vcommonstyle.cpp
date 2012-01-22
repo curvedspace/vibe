@@ -296,4 +296,4 @@ QRect VCommonStyle::lineEditRect(const VBreadCrumbBar *bar) const
     return editRect;
 }
 
-#include "vcommonstyle.moc"
+#include "moc_vcommonstyle.cpp"

@@ -31,4 +31,4 @@ VHardware::Ifaces::DeviceManager::~DeviceManager()
 
 }
 
-#include "ifaces/devicemanager.moc"
+#include "ifaces/moc_devicemanager.cpp"
