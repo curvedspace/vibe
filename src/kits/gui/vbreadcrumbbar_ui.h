@@ -8,11 +8,11 @@
 **
 ** on is a free toolkit developed in Qt by Dzimi Mve A.; you can redistribute
 ** sources and libraries of this library and/or modify them under the terms of
-** the GNU Library General Public License version 3.0 as published by the
+** the GNU Library General Public License version 2.1.0 as published by the
 ** Free Software Foundation and appearing in the file LICENSE.txt included in
 ** the packaging of this file.
 ** Please review the following information to ensure the GNU General
-** Public License version 3.0 requirements will be met:
+** Public License version 2.1.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
 ** This SDK is distributed in the hope that it will be useful,
