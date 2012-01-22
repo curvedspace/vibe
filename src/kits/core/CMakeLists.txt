@@ -43,7 +43,6 @@ endif(LIBLZMA_FOUND)
 set(SOURCES
     vapplicationinfo.cpp
     vcommandoptions.cpp
-    vglobals.cpp
     vstringhandler.cpp
 
     archive/varchive.cpp
