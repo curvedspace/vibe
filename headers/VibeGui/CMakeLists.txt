@@ -4,7 +4,6 @@ set(HEADERS
     VBreadCrumbDirModel
     VColorScheme
     VCommonStyle
-    VInterfaceMacros
     VLineEdit
     VNavigationBar
     VPageModel

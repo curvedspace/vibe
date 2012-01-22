@@ -5,8 +5,8 @@
  * Copyright (C) 2007 Matthias Kretz
  *
  * Author(s):
- *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
- *	Matthias Kretz <kretz@kde.org>
+ *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *    Matthias Kretz <kretz@kde.org>
  *
  * Vibe is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by

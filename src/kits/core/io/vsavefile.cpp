@@ -8,11 +8,11 @@
  * Copyright (c) 2010-2011 Pier Luigi Fiorini
  *
  * Author(s):
- *	Waldo Bastian <bastian@kde.org>
- *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
- *	Gregory S. Hayes <syncomm@kde.org>
- *	Jaison Lee <lee.jaison@gmail.com>
- *	Allen Winter <winter@kde.org>
+ *    Waldo Bastian <bastian@kde.org>
+ *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *    Gregory S. Hayes <syncomm@kde.org>
+ *    Jaison Lee <lee.jaison@gmail.com>
+ *    Allen Winter <winter@kde.org>
  *
  * Vibe is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by

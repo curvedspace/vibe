@@ -1,26 +1,26 @@
-/**********************************************************************
-**
-** This file is part of on Toolkit.
-**
-** Copyright (C) 2009-2020 Dzimi Mve Alexandre <dzimiwine@gmail.com>
-**
-** Contact: dzimiwine@gmail.com
-**
-** on is a free toolkit developed in Qt by Dzimi Mve A.; you can redistribute
-** sources and libraries of this library and/or modify them under the terms of
-** the GNU Library General Public License version 2.1.0 as published by the
-** Free Software Foundation and appearing in the file LICENSE.txt included in
-** the packaging of this file.
-** Please review the following information to ensure the GNU General
-** Public License version 2.1.0 requirements will be met:
-** http://www.gnu.org/copyleft/gpl.html.
-**
-** This SDK is distributed in the hope that it will be useful,
-** but WITHOUT ANY WARRANTY; without even the implied warranty of
-** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-** Library General Public License for more details.
-**
-**********************************************************************/
+/****************************************************************************
+ * This file is part of Vibe.
+ *
+ * Copyright (C) 2009 Dzimi Mve Alexandre
+ * Copyright (c) 2011 Pier Luigi Fiorini
+ *
+ * Author(s):
+ *	Dzimi Mve Alexandre <dzimiwine@gmail.com>
+ *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *
+ * Vibe is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 2.1 of the License, or
+ * (at your option) any later version.
+ *
+ * Vibe is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
+ ***************************************************************************/
 
 #ifndef VBREADCRUMBBAR_UI_H
 #define VBREADCRUMBBAR_UI_H

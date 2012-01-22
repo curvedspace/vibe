@@ -6,9 +6,9 @@
  * Copyright (C) 2007 Michaël Larouche
  *
  * Author(s):
- *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
- *	Michaël Larouche <larouche@kde.org>
- *	Urs Wolfer <uwolfer@kde.org>
+ *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *    Michaël Larouche <larouche@kde.org>
+ *    Urs Wolfer <uwolfer@kde.org>
  *
  * Vibe is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by

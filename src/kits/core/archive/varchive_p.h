@@ -6,9 +6,9 @@
  * Copyright (c) 2012 Pier Luigi Fiorini
  *
  * Author(s):
- *	David Faure <faure@kde.org>
- *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
- *	Leo Savernik <l.savernik@aon.at>
+ *    David Faure <faure@kde.org>
+ *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *    Leo Savernik <l.savernik@aon.at>
  *
  * Vibe is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by

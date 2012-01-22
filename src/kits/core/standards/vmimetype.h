@@ -5,8 +5,8 @@
  * Copyright (c) 2010-2011 Pier Luigi Fiorini
  *
  * Author(s):
- *	Matteo Bertozzi <theo.bertozzi@gmail.com>
- *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *    Matteo Bertozzi <theo.bertozzi@gmail.com>
+ *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
  * Vibe is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by

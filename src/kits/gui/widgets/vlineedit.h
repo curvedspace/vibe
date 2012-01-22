@@ -5,7 +5,7 @@
  * Copyright (c) 2011 Nokia Corporation and/or its subsidiary(-ies).
  *
  * Author(s):
- *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
  * Vibe is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License version 2.1

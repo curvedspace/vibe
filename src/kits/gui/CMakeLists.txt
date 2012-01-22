@@ -59,6 +59,7 @@ set(HEADERS
     paged/vpagewidgetmodel.h
 
     preferences/vpreferencesmodule.h
+    preferences/vpreferencesmoduleplugin.h
 )
 
 automoc4(VibeGui SOURCES)

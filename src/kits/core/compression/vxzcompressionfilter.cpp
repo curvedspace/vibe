@@ -5,8 +5,8 @@
  * Copyright (c) 2012 Pier Luigi Fiorini
  *
  * Author(s):
- *	Per Øyvind Karlsen <peroyvind@mandriva.org
- *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *    Per Øyvind Karlsen <peroyvind@mandriva.org
+ *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
  * Vibe is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
