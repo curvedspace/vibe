@@ -1,52 +1,45 @@
 /****************************************************************************
  * This file is part of Vibe.
  *
- * Copyright (c) 2010-2011 Pier Luigi Fiorini
+ * Copyright (c) 2010-2012 Pier Luigi Fiorini
  *
  * Author(s):
- *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
  * Vibe is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 2.1 of the License, or
  * (at your option) any later version.
  *
  * Vibe is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QtCore/QDebug>
-#include <QtCore/QEvent>
-#include <QtCore/QFileInfo>
-#include <QtDBus/QDBusConnection>
-#include <QtGui/QApplication>
-#include <QtGui/QDesktopServices>
-#include <QtGui/QFont>
-#include <QtGui/QIcon>
-#include <QtGui/QToolBar>
-#include <QtGui/QToolButton>
+#include <QDebug>
+#include <QEvent>
+#include <QFileInfo>
+#include <QApplication>
+#include <QDesktopServices>
+#include <QFont>
+#include <QIcon>
+#include <QToolBar>
+#include <QToolButton>
 
 #include <VibeCore/VMimeType>
+#include <VibeCore/VStandardDirectories>
 #include <VibeGui/VColorScheme>
-
-#include <dconf-qt/qconf.h>
 
 #include "vibeplatform.h"
 
-#ifdef Q_WS_X11
-extern void qt_x11_apply_settings_in_all_apps();
-#endif
+using namespace VStandardDirectories;
 
 VibePlatform::VibePlatform()
 {
-    qDebug() << "constructor";
-    m_conf = new QConf("org.vision.desktop.interface");
-
 #if 0
     connect(m_settings, SIGNAL(plainFontChanged(QString)),
             this, SLOT(updateFonts()));
@@ -62,58 +55,62 @@ VibePlatform::VibePlatform()
             this, SLOT(updateToolBarIconSize()));
     connect(m_settings, SIGNAL(toolButtonStyleChanged(int)),
             this, SLOT(updateToolButtonStyle()));
-#endif
 
+    //else
     updateFonts();
     updateWidgetStyle();
     updateIconTheme();
     updateColorScheme();
     updateToolBarIconSize();
     updateToolButtonStyle();
+#endif
 }
 
 VibePlatform::~VibePlatform()
 {
-    delete m_conf;
 }
 
 QStringList VibePlatform::keys() const
 {
-    return QStringList() << "default";
+    return QStringList(QStringLiteral("vibe"));
 }
 
 QString VibePlatform::styleName()
 {
-    qDebug() << "style:" << m_conf->property("style").toString();
-    return m_conf->property("style").toString();
+    return QString::fromLatin1("Vanish");
 }
 
 QPalette VibePlatform::palette()
 {
+    /*
     QString fileName(m_conf->property("color-scheme").toString());
     VColorScheme colorScheme("/usr/local/share/color-schemes/" + fileName);
     return colorScheme.palette();
+    */
+    return QGuiPlatformPlugin::palette();
 }
 
 QString VibePlatform::systemIconThemeName()
 {
-    return m_conf->property("icon-theme").toString();
+    //return m_conf->property("icon-theme").toString();
+    return QString::fromLatin1("KFaenza");
 }
 
 QStringList VibePlatform::iconThemeSearchPaths()
 {
-    return QStringList()
-           << "/usr/share/icons"
-           << "/data/themes/icons"
-           << QDesktopServices::storageLocation(QDesktopServices::HomeLocation) +
-           "/.data/themes/icons";
+    return QStringList() << findDirectory(UserThemesDirectory) + "/icons"
+        << findDirectory(CommonThemesDirectory) + "/icons"
+        << findDirectory(SystemThemesDirectory) + "/icons";
 }
 
 QIcon VibePlatform::fileSystemIcon(const QFileInfo &info)
 {
+#if 0
     VMimeType mime;
     mime.fromFileName(info.filePath());
     return QIcon::fromTheme(mime.iconName());
+#endif
+    return QIcon::fromTheme("dialog-error");
 }
 
 int VibePlatform::platformHint(PlatformHint hint)
@@ -122,9 +119,11 @@ int VibePlatform::platformHint(PlatformHint hint)
         case PH_ItemView_ActivateItemOnSingleClick:
             return 0;
         case PH_ToolBarIconSize:
-            return m_conf->property("toolbar-icon-size").toInt();
+            //return m_conf->property("toolbar-icon-size").toInt();
+            return 16;
         case PH_ToolButtonStyle:
-            return m_conf->property("toolbar-style").toInt();
+            //return m_conf->property("toolbar-style").toInt();
+            return 1;
     }
 
     return QGuiPlatformPlugin::platformHint(hint);
@@ -132,23 +131,16 @@ int VibePlatform::platformHint(PlatformHint hint)
 
 void VibePlatform::updateFonts()
 {
+#if 0
     QFont font;
-    if (font.fromString(m_conf->property("font-name").toString())) {
+    if (font.fromString(m_conf->property("font-name").toString()))
         QApplication::setFont(font);
-
-#ifdef Q_WS_X11
-        qt_x11_apply_settings_in_all_apps();
 #endif
-    }
 }
 
 void VibePlatform::updateWidgetStyle()
 {
     QApplication::setStyle(styleName());
-
-#ifdef Q_WS_X11
-    qt_x11_apply_settings_in_all_apps();
-#endif
 }
 
 void VibePlatform::updateIconTheme()
@@ -159,12 +151,8 @@ void VibePlatform::updateIconTheme()
         QEvent event(QEvent::StyleChange);
         QApplication::sendEvent(widget, &event);
     }
-#else
+    //else
     QIcon::setThemeName(systemIconThemeName());
-#endif
-
-#ifdef Q_WS_X11
-    qt_x11_apply_settings_in_all_apps();
 #endif
 }
 
@@ -175,10 +163,6 @@ void VibePlatform::updateColorScheme()
         QEvent event(QEvent::PaletteChange);
         QApplication::sendEvent(widget, &event);
     }
-
-#ifdef Q_WS_X11
-    qt_x11_apply_settings_in_all_apps();
-#endif
 }
 
 void VibePlatform::updateToolBarIconSize()
@@ -190,10 +174,6 @@ void VibePlatform::updateToolBarIconSize()
             QApplication::sendEvent(widget, &event);
         }
     }
-
-#ifdef Q_WS_X11
-    qt_x11_apply_settings_in_all_apps();
-#endif
 }
 
 void VibePlatform::updateToolButtonStyle()
@@ -205,12 +185,8 @@ void VibePlatform::updateToolButtonStyle()
             QApplication::sendEvent(widget, &event);
         }
     }
-
-#ifdef Q_WS_X11
-    qt_x11_apply_settings_in_all_apps();
-#endif
 }
 
-Q_EXPORT_PLUGIN2(VibePlatform, VibePlatform)
+Q_EXPORT_PLUGIN2(vibe, VibePlatform)
 
-#include "vibeplatform.moc"
+#include "moc_vibeplatform.cpp"
