@@ -458,8 +458,6 @@ QString StyleItem::style() const
 {
     QString style = qApp->style()->metaObject()->className();
     style = style.toLower();
-    if (style.contains(QLatin1String("oxygen")))
-        return QLatin1String("oxygen");
     if (style.startsWith(QLatin1Char('q')))
         style = style.right(style.length() - 1);
     if (style.endsWith("style"))
