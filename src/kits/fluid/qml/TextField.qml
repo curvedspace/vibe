@@ -1,6 +1,7 @@
 import QtQuick 2.0
-import "custom" as Components
 import VibeFluid 0.1
+
+import "custom" as Components
 
 Components.TextField {
     id: textfield

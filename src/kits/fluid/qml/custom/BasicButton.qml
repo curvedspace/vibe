@@ -1,5 +1,4 @@
 import QtQuick 2.0
-import "custom" as Behaviors
 
 Item {
     id: button
@@ -45,7 +44,7 @@ Item {
         property alias position: button.__position
     }
 
-    Behaviors.ButtonBehavior {
+    ButtonBehavior {
         id: behavior
         anchors.fill: parent
         onClicked: button.clicked()

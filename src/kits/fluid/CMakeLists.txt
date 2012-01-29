@@ -46,6 +46,9 @@ set(QML_CUSTOM_FILES
     qml/custom/SpinBox.qml
     qml/custom/Splitter.qml
     qml/custom/TextField.qml
+
+    qml/custom/ButtonBehavior.qml
+    qml/custom/ModalPopupBehavior.qml
 )
 
 set(QML_PRIVATE_FILES
