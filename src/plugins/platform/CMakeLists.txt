@@ -13,7 +13,7 @@ set(SOURCES
 
 add_library(vibe SHARED ${SOURCES})
 set_target_properties(vibe PROPERTIES PREFIX "")
-target_link_libraries(vibe ${Qt5Widgets_LIBRARIES})
+target_link_libraries(vibe ${Qt5Widgets_LIBRARIES} VibeCore)
 
 install(TARGETS vibe LIBRARY
     DESTINATION ${CMAKE_INSTALL_PLUGINSDIR}/gui_platform COMPONENT Framework)
