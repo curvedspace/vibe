@@ -4,7 +4,7 @@
  * Copyright (c) 2011-2012 Pier Luigi Fiorini
  *
  * Author(s):
- *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
  * Vibe is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,19 +20,17 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#ifndef VDECLARATIVEICONIMAGEPROVIDER_H
-#define VDECLARATIVEICONIMAGEPROVIDER_H
+#ifndef ICONIMAGEPROVIDER_H
+#define ICONIMAGEPROVIDER_H
 
 #include <QDeclarativeImageProvider>
 
-#include <VibeCore/VGlobal>
-
-class VIBE_EXPORT VDeclarativeIconImageProvider : public QDeclarativeImageProvider
+class IconImageProvider : public QDeclarativeImageProvider
 {
 public:
-    explicit VDeclarativeIconImageProvider();
+    IconImageProvider();
 
     virtual QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize);
 };
 
-#endif // VDECLARATIVEICONIMAGEPROVIDER_H
+#endif // ICONIMAGEPROVIDER_H

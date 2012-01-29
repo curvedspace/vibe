@@ -4,7 +4,7 @@
  * Copyright (c) 2011-2012 Pier Luigi Fiorini
  *
  * Author(s):
- *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
  * Vibe is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -23,14 +23,14 @@
 #include <QIcon>
 #include <QDebug>
 
-#include "vdeclarativeiconimageprovider.h"
+#include "iconimageprovider.h"
 
-VDeclarativeIconImageProvider::VDeclarativeIconImageProvider() :
+IconImageProvider::IconImageProvider() :
     QDeclarativeImageProvider(QDeclarativeImageProvider::Image)
 {
 }
 
-QImage VDeclarativeIconImageProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
+QImage IconImageProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
     // Special case for images whose full path was specified,
     // we just need to resize to the requested size
