@@ -10,4 +10,4 @@ Description: Widgets library for Vision applications
 Version: @VIBE_VERSION_STR@
 Libs: -L${libdir} -lVibeGui
 Requires: QtWidgets >= @QT_MIN_VERSION@, VibeCore = @VIBE_VERSION_STR@
-Cflags: -I${includedir}
+Cflags: -I${includedir} -I${includedir}/VibeGui

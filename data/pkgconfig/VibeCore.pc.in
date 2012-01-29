@@ -10,4 +10,4 @@ Description: Application, strings and I/O support classes for Vision application
 Version: @VIBE_VERSION_STR@
 Libs: -L${libdir} -lVibeCore
 Requires: QtCore >= @QT_MIN_VERSION@, QtXml >= @QT_MIN_VERSION@
-Cflags: -I${includedir}
+Cflags: -I${includedir} -I${includedir}/VibeCore

@@ -10,4 +10,4 @@ Description: Hardware abstraction library for Vision applications
 Version: @VIBE_VERSION_STR@
 Libs: -L${libdir} -lVibeHardware
 Requires: QtCore >= @QT_MIN_VERSION@, QtDBus >= @QT_MIN_VERSION@, QtXml >= @QT_MIN_VERSION@, QtGui >= @QT_MIN_VERSION@
-Cflags: -I${includedir}
+Cflags: -I${includedir} -I${includedir}/VibeHardware
