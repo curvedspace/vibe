@@ -3,6 +3,7 @@
  *
  * Copyright (c) 2011 Daker Fernandes Pinheiro
  * Copyright (c) 2012 Pier Luigi Fiorini
+ * Copyright (c) 2012 Nokia Corporation and/or its subsidiary(-ies)
  *
  * Author(s):
  *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
@@ -22,12 +23,14 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-/**Documented API
+/*!
+Documented API
+
 Inherits:
         Item
 
 Imports:
-        QtQuick 1.1
+        QtQuick 2.0
 
 Description:
         Creates a simple plasma theme based text field widget.
@@ -95,7 +98,7 @@ Properties:
     An example of using validators is shown below, which allows input of integers
     between 11 and 31 into the text input:
     <code>
-    import QtQuick 1.0
+    import QtQuick 2.0
     TextInput {
         validator: IntValidator{bottom: 11; top: 31;}
         focus: true
@@ -154,122 +157,39 @@ Methods:
        * rectangle positionToRectangle(position):
          Returns the rectangle at the given position in the text.
      The x, y, and height properties correspond to the cursor that would describe that position.
-**/
+*/
 
-import QtQuick 1.1
+import QtQuick 2.0
 
-Item {
-    id: textField
+FocusScope {
+    id: focusScope
+    width: 250; height: 28
 
     // Common API
-    property bool errorHighlight: false // TODO
     property string placeholderText
-    property alias inputMethodHints: textInput.inputMethodHints
-    property alias font: textInput.font
-
-    property alias cursorPosition: textInput.cursorPosition
-    property alias readOnly: textInput.readOnly
-    property alias echoMode: textInput.echoMode // Supports TextInput.Normal,TextInput.Password, TextInput.NoEcho, TextInput.PasswordEchoOnEdit
-    property alias acceptableInput: textInput.acceptableInput // read-only
-    property alias inputMask: textInput.inputMask
-    property alias validator: textInput.validator
-    property alias selectedText: textInput.selectedText // read-only
-    property alias selectionEnd: textInput.selectionEnd // read-only
-    property alias selectionStart: textInput.selectionStart // read-only
-    property alias text: textInput.text
-    property alias maximumLength: textInput.maximumLength
-
-    //Plasma api
-    property bool clearButtonShown: false
-
-    function copy() {
-        textInput.copy();
-    }
-
-    function paste() {
-        textInput.paste();
-    }
-
-    function cut() {
-        textInput.cut();
-    }
-
-    function select(start, end) {
-        textInput.select(start, end);
-    }
-
-    function selectAll() {
-        textInput.selectAll();
-    }
-
-    function selectWord() {
-        textInput.selectWord();
-    }
-
-    function positionAt(pos) {
-        return textInput.positionAt(pos);
-    }
-
-    function positionToRectangle(pos) {
-        return textInput.positionToRectangle(pos);
-    }
-
-
-    // Set active focus to it's internal textInput.
-    // Overriding QtQuick.Item forceActiveFocus function.
-    function forceActiveFocus() {
-        textInput.forceActiveFocus();
-    }
-
-    // Overriding QtQuick.Item activeFocus property.
-    property alias activeFocus: textInput.activeFocus
-
-    // TODO: fix default size
-/* gigi
-    implicitWidth: theme.defaultFont.mSize.width*12
-    implicitHeight: theme.defaultFont.mSize.height*1.6
-*/
-    implicitWidth: 10 * 12
-    implicitHeight: 10 * 1.6
-    // TODO: needs to define if there will be specific graphics for
-    //     disabled text fields
-    opacity: enabled ? 1.0 : 0.5
 
     SystemPalette {
         id: palette
     }
 
-    Private.TextFieldFocus {
-        id: hover
-        state: textInput.activeFocus ? "focus" : (mouseWatcher.containsMouse ? "hover" : "hidden")
-        anchors.fill: base
+    BorderImage {
+        source: "image://theme/lineedit-bg"
+        width: parent.width; height: parent.height
+        border { left: 4; top: 4; right: 4; bottom: 4 }
     }
 
     BorderImage {
-        id: base
-
-        // TODO: see what is the correct policy for margins
-        anchors.fill: parent
-        source: "widgets/lineedit"
-    }
-
-    MouseArea {
-        id: mouseWatcher
-        anchors.fill: hover
-        hoverEnabled: true
+        source: "image://theme/lineedit-bg-focus"
+        width: parent.width; height: parent.height
+        border { left: 4; top: 4; right: 4; bottom: 4 }
+        visible: parent.activeFocus ? true : false
     }
 
     Text {
-        anchors {
-            left: parent.left
-            right: parent.right
-            verticalCenter: parent.verticalCenter
-            leftMargin: 2 * base.margins.left
-            rightMargin: 2 * base.margins.right
-        }
+        id: typeSomething
+        anchors.fill: parent; anchors.leftMargin: 8
+        verticalAlignment: Text.AlignVCenter
         text: placeholderText
-        visible: textInput.text == "" && !textField.activeFocus
-        // XXX: using textColor and low opacity for theming placeholderText
         color: palette.windowText
         opacity: 0.5
         elide: Text.ElideRight
@@ -277,7 +197,7 @@ Item {
 /*
         font.capitalization: theme.defaultFont.capitalization
         font.family: theme.defaultFont.family
-        font.italic: theme.defaultFont.italic
+        font.italic: true
         font.letterSpacing: theme.defaultFont.letterSpacing
         font.pointSize: theme.defaultFont.pointSize
         font.strikeout: theme.defaultFont.strikeout
@@ -285,56 +205,47 @@ Item {
         font.weight: theme.defaultFont.weight
         font.wordSpacing: theme.defaultFont.wordSpacing
 */
+        font.italic: true
+    }
+
+    MouseArea { 
+        anchors.fill: parent
+        onClicked: { focusScope.focus = true; textInput.openSoftwareInputPanel(); } 
     }
 
     TextInput {
         id: textInput
-
-        anchors {
-            left: parent.left
-            right: parent.right
-            verticalCenter: parent.verticalCenter
-            // TODO: see what is the correct policy for margins
-            leftMargin: 2 * base.margins.left
-            rightMargin: 2 * base.margins.right + (clearButton.opacity > 0 ? clearButton.width : 0)
-        }
+        anchors { left: parent.left; leftMargin: 8; right: clear.left; rightMargin: 8; verticalCenter: parent.verticalCenter }
+        focus: true
         selectByMouse: true
-        color: palette.windowText
-        enabled: textField.enabled
-        clip: true
-        onActiveFocusChanged: {
-            if (!textField.activeFocus) {
-                textInput.closeSoftwareInputPanel()
-            }
-        }
     }
 
     Image {
-        id: clearButton
-        source: "image://icon/edit-clear-locationbar-rtl"
-/*gigi
-        height: Math.max(textInput.height, theme.smallIconSize)
-*/
-        height = textInput.height
-        width: height
-        opacity: (textInput.text != "" && clearButtonShown) ? 1 : 0
-        Behavior on opacity {
-            NumberAnimation {
-                duration: 250
-                easing.type: Easing.InOutQuad
-            }
-        }
-        anchors {
-            right: parent.right
-            rightMargin: y
-            verticalCenter: textInput.verticalCenter
-        }
-        MouseArea {
+        id: clear
+        anchors { right: parent.right; rightMargin: 8; verticalCenter: parent.verticalCenter }
+        source: "image://icon/edit-clear-locationbar-" + (Qt.application.layoutDirection == Qt.LeftToRight ? "ltr" : "rtl")
+        opacity: 0
+
+        MouseArea { 
             anchors.fill: parent
-            onClicked: {
-                textInput.text = ""
-                textInput.forceActiveFocus()
-            }
+            onClicked: { textInput.text = ''; focusScope.focus = true; textInput.openSoftwareInputPanel(); }
         }
     }
+
+    states: State {
+        name: "hasText"; when: textInput.text != ''
+        PropertyChanges { target: typeSomething; opacity: 0 }
+        PropertyChanges { target: clear; opacity: 1 }
+    }
+
+    transitions: [
+        Transition {
+            from: ""; to: "hasText"
+            NumberAnimation { exclude: typeSomething; properties: "opacity" }
+        },
+        Transition {
+            from: "hasText"; to: ""
+            NumberAnimation { properties: "opacity" }
+        }
+    ]
 }

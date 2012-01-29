@@ -21,8 +21,7 @@
 #ifndef VDEVICEINTERFACE_H
 #define VDEVICEINTERFACE_H
 
-#include <QtCore/QObject>
-#include <QtCore/QBool>
+#include <QObject>
 
 #include <VibeCore/VGlobal>
 

@@ -21,8 +21,7 @@
 #ifndef VHARDWARE_IFACES_DEVICEINTERFACE_H
 #define VHARDWARE_IFACES_DEVICEINTERFACE_H
 
-#include <QtCore/QObject>
-#include <QtCore/QBool>
+#include <QObject>
 
 #include <VibeCore/VGlobal>
 
