@@ -28,7 +28,7 @@
 class IconImageProvider : public QDeclarativeImageProvider
 {
 public:
-    IconImageProvider();
+    explicit IconImageProvider();
 
     virtual QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize);
 };
