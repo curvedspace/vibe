@@ -24,6 +24,11 @@ set(VIBE_VERSION_MINOR 0)
 set(VIBE_VERSION_RELEASE 0)
 set(VIBE_VERSION_STR "${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_RELEASE}")
 
+# Assume release build by default
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
+endif()
+
 # Configure checks
 include(ConfigureChecks.cmake)
 
@@ -71,6 +76,11 @@ endif()
 find_package(Qt5DBusTools REQUIRED)
 if(NOT Qt5DBusTools_FOUND)
     message(FATAL_ERROR "Qt5DBusTools module is required!")
+endif()
+
+# Disable debug output for release builds
+if(CMAKE_BUILD_TYPE MATCHES "^[Rr]elease$")
+    add_definitions(-DQT_NO_DEBUG_OUTPUT)
 endif()
 
 # Qt packages don't add GLESv2 include directories, we have to do it ourselves.
