@@ -63,6 +63,9 @@ namespace VStandardDirectories
         /*! System plugins directory (/system/plugins) */
         SystemPluginsDirectory,
 
+        /*! System QML imports directory (/system/imports) */
+        SystemImportsDirectory,
+
         /*! System binaries directory (/system/bin) */
         SystemBinariesDirectory,
 
@@ -114,6 +117,9 @@ namespace VStandardDirectories
 
         /*! Common plugins directory (/common/plugins) */
         CommonPluginsDirectory,
+
+        /*! Common QML imports directory (/common/imports) */
+        CommonImportsDirectory,
 
         /*! Common binaries directory (/common/bin) */
         CommonBinariesDirectory,

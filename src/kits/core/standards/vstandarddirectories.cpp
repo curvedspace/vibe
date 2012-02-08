@@ -48,6 +48,8 @@ namespace VStandardDirectories
                 return "/system/lib";
             case SystemPluginsDirectory:
                 return "/system/plugins";
+            case SystemImportsDirectory:
+                return "/system/imports";
             case SystemBinariesDirectory:
                 return "/system/bin";
             case SystemBundlesDirectory:
@@ -81,6 +83,8 @@ namespace VStandardDirectories
                 return "/common/lib";
             case CommonPluginsDirectory:
                 return "/common/plugins";
+            case CommonImportsDirectory:
+                return "/common/imports";
             case CommonBinariesDirectory:
                 return "/common/bin";
             case CommonBundlesDirectory:
