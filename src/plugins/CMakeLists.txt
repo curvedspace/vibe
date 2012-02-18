@@ -1,3 +1,3 @@
 #add_subdirectory(designer)
-add_subdirectory(platform)
+add_subdirectory(platformtheme)
 add_subdirectory(archivehandlers)

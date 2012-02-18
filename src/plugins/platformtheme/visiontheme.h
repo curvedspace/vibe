@@ -20,33 +20,28 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#ifndef VIBEPLATFORM_H
-#define VIBEPLATFORM_H
+#ifndef VISIONTHEME_H
+#define VISIONTHEME_H
 
-#include "qguiplatformplugin_p.h"
+#include <QtGui/qplatformtheme_qpa.h>
 
-class VibePlatform : public QGuiPlatformPlugin
+class VSettings;
+
+class Q_GUI_EXPORT VisionTheme : public QPlatformTheme
 {
-    Q_OBJECT
 public:
-    VibePlatform();
-    ~VibePlatform();
+    VisionTheme();
+    ~VisionTheme();
 
-    virtual QStringList keys() const;
-    virtual QString styleName();
-    virtual QPalette palette();
-    virtual QString systemIconThemeName();
-    virtual QStringList iconThemeSearchPaths();
-    virtual QIcon fileSystemIcon(const QFileInfo &info);
-    virtual int platformHint(PlatformHint hint);
+    bool usePlatformNativeDialog(DialogType type) const;
+    QPlatformDialogHelper *createPlatformDialogHelper(DialogType type) const;
 
-private slots:
-    void updateFonts();
-    void updateWidgetStyle();
-    void updateIconTheme();
-    void updateColorScheme();
-    void updateToolBarIconSize();
-    void updateToolButtonStyle();
+    const QPalette *palette(Palette type = SystemPalette) const;
+
+    QVariant themeHint(ThemeHint hint) const;
+
+private:
+    VSettings *m_settings;
 };
 
-#endif // VIBEPLATFORM_H
+#endif // VISIONTHEME_H
