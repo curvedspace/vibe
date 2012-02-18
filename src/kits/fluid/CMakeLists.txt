@@ -19,7 +19,13 @@ set(SOURCES
     tooltiparea.cpp
 )
 
-add_library(VibeFluidPlugin SHARED ${SOURCES})
+set(RESOURCES
+    fluid.qrc
+)
+
+qt5_add_resources(RESOURCES_RCC ${RESOURCES})
+
+add_library(VibeFluidPlugin SHARED ${SOURCES} ${RESOURCES_RCC})
 target_link_libraries(VibeFluidPlugin ${Qt5Quick_LIBRARIES} ${Qt5Widgets_LIBRARIES})
 
 install(TARGETS VibeFluidPlugin

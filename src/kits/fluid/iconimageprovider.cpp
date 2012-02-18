@@ -50,7 +50,7 @@ QImage IconImageProvider::requestImage(const QString &id, QSize *size, const QSi
     }
 
     // Perform icon lookup in the default theme
-    QIcon icon(QIcon::fromTheme(id, QIcon::fromTheme("unknown")));
+    QIcon icon(QIcon::fromTheme(id, QIcon::fromTheme("unknown", QIcon(":/images/unknown.svg"))));
     if (size)
         *size = icon.actualSize(requestedSize);
     return QImage(icon.pixmap(requestedSize).toImage());
