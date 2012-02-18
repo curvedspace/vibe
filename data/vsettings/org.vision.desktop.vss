@@ -26,9 +26,9 @@
         <description>Style used to draw all user interface elements.</description>
       </key>
       <key type="string" name="color-scheme">
-        <default>Vanish</default>
+        <default></default>
         <summary>User Interface Color Scheme</summary>
-        <description>Color scheme to be applied to the user interface style.</description>
+        <description>Color scheme to be applied to the user interface style. If empty, the default style's palette is used.</description>
       </key>
       <key type="string" name="icon-theme">
         <default>Vanish</default>
@@ -36,15 +36,15 @@
         <description>Theme used for all the icons.</description>
       </key>
 <!--
-      <key name="toolbar-icon-size" enum="org.vision.desktop.ToolbarIconSize">
-        <default>small</default>
-        <summary>Toolbar Icon Size</summary>
-        <description>Size of icons in toolbars, either "small" or "large".</description>
-      </key>
-      <key name="toolbar-style" enum="org.vision.desktop.ToolbarStyle">
+      <key name="toolbutton-style" enum="org.vision.desktop.ToolButtonStyle">
         <default>icon-only</default>
         <summary>Toolbar Buttons Style</summary>
         <description>Style of toolbar buttons. Valid values are "icon-only", "text-only", "text-beside-icon" or "text-under-icon".</description>
+      </key>
+      <key name="toolbar-icon-size" enum="org.vision.desktop.ToolBarIconSize">
+        <default>small</default>
+        <summary>Toolbar Icon Size</summary>
+        <description>Size of icons in toolbars, either "small" or "large".</description>
       </key>
 -->
     </path>
