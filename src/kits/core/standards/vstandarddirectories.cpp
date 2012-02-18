@@ -41,6 +41,8 @@ namespace VStandardDirectories
                 return "/system/kernel/objects";
             case KernelModulesDirectory:
                 return "/system/kernel/modules";
+            case KernelFirmwareDirectory:
+                return "/system/kernel/firmware";
 
             case SystemDirectory:
                 return "/system";

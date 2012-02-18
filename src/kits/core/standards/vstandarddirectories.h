@@ -50,6 +50,9 @@ namespace VStandardDirectories
         /*! Kernel modules directory (/system/kernel/modules) */
         KernelModulesDirectory,
 
+        /*! Kernel firmware directory (/system/kernel/firmware) */
+        KernelFirmwareDirectory,
+
         /*
          * System reserved directories.
          */
