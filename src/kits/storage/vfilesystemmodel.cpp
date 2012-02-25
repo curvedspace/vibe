@@ -34,6 +34,7 @@ VFileSystemModel::VFileSystemModel(QObject *parent) :
     m_mimeIcons = new QHash<QString, QIcon>;
     m_mimeGlob = new QHash<QString, QString>;
     m_mimeGeneric = new QHash<QString, QString>;
+    m_mimeDescr = new QHash<QString, QString>;
 }
 
 VFileSystemModel::~VFileSystemModel()
@@ -41,6 +42,7 @@ VFileSystemModel::~VFileSystemModel()
     delete m_mimeIcons;
     delete m_mimeGlob;
     delete m_mimeGeneric;
+    delete m_mimeDescr;
 }
 
 QIcon VFileSystemModel::fileIcon(const QModelIndex &index) const
