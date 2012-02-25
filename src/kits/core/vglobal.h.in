@@ -28,7 +28,7 @@
 /**
  * Vibe libraries version string.
  */
-#define VIBE_VERSION_STR "@VIBE_VERSION_STR@"
+#define VIBE_VERSION_STRING "@VIBE_VERSION_STRING@"
 
 /**
  * Vibe libraries version number.

@@ -34,7 +34,7 @@ add_library(VibeStorage SHARED ${SOURCES})
 target_link_libraries(VibeStorage
     ${Qt5Gui_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5DBus_LIBRARIES} VibeCore VibeHardware)
 set_target_properties(VibeStorage PROPERTIES
-    VERSION ${VIBE_VERSION_STR}
+    VERSION ${VIBE_VERSION_STRING}
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_RELEASE})
 
 install(FILES ${HEADERS}
