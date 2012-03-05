@@ -32,7 +32,7 @@
     @{
 
     \brief This namespace contains utility functions for handling strings.
-  
+
     The functions here are intended to provide an easy way to
     cut/slice/splice words inside sentences in whatever order desired.
     While the main focus of StringHandler is words (ie characters
