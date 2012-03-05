@@ -20,27 +20,28 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QDebug>
-#include <QEvent>
-#include <QFileInfo>
-#include <QApplication>
-#include <QDesktopServices>
-#include <QFont>
-#include <QIcon>
-#include <QToolBar>
-#include <QToolButton>
+#include <QtCore/QDebug>
+#include <QtCore/QFileInfo>
+#include <QtCore/QEvent>
+#include <QtGui/QDesktopServices>
+#include <QtGui/QFont>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QIcon>
+#include <QtWidgets/QToolBar>
+#include <QtWidgets/QToolButton>
 
 #include <VibeCore/VSettings>
 #include <VibeCore/VMimeType>
 #include <VibeCore/VStandardDirectories>
 #include <VibeGui/VColorScheme>
 
-#include "vibeplatform.h"
+#include "visiontheme.h"
 
 using namespace VStandardDirectories;
 
 VisionTheme::VisionTheme()
 {
+    qDebug() << "ciao";
     m_settings = new VSettings("org.vision.desktop", "/interface");
 }
 
@@ -51,7 +52,7 @@ VisionTheme::~VisionTheme()
 
 bool VisionTheme::usePlatformNativeDialog(DialogType type) const
 {
-    return true;
+    return false;
 }
 
 QPlatformDialogHelper *VisionTheme::createPlatformDialogHelper(DialogType type) const
@@ -73,7 +74,7 @@ const QPalette *VisionTheme::palette(Palette type) const
                   << findDirectory(SystemThemesDirectory) + "/color-schemes";
 
             foreach(QString path, paths) {
-                VColorScheme colorScheme(QString("%1/%2\.colors").arg(path).arg(colorSchemeName));
+                VColorScheme colorScheme(QString("%1/%2.colors").arg(path).arg(colorSchemeName));
                 return colorScheme.palette();
             }
         }
@@ -81,7 +82,7 @@ const QPalette *VisionTheme::palette(Palette type) const
             break;
     }
 
-    return QPalette();
+    return new QPalette();
 }
 
 QVariant VisionTheme::themeHint(ThemeHint hint) const
@@ -105,19 +106,17 @@ QVariant VisionTheme::themeHint(ThemeHint hint) const
         case SystemIconFallbackThemeName:
             return QVariant("hicolor");
         case IconThemeSearchPaths: {
-            QStringList path;
+            QStringList paths;
             paths << findDirectory(UserThemesDirectory) + "/icons"
                   << findDirectory(CommonThemesDirectory) + "/icons"
                   << findDirectory(SystemThemesDirectory) + "/icons";
             return QVariant(paths);
         }
         case StyleNames:
-            break;
+            return QVariant("Vibe");
     }
 
     return QVariant();
 }
-
-Q_EXPORT_PLUGIN2(vision, VisionTheme)
 
 #include "moc_visiontheme.cpp"
