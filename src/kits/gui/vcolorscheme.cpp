@@ -33,6 +33,9 @@
 VColorSchemePrivate::VColorSchemePrivate(VColorScheme *q, const QString &name) :
     q_ptr(q)
 {
+    // Create a new palette object
+    palette = new QPalette();
+
     // TODO: Look from user's directory then system-wide
     QString fileName = name;
 
@@ -105,7 +108,7 @@ VColorSchemePrivate::VColorSchemePrivate(VColorScheme *q, const QString &name) :
                 role = QPalette::Link;
             else if (key == "LinkVisited")
                 role = QPalette::LinkVisited;
-            palette.setColor(entry.first, role, color.second);
+            palette->setColor(entry.first, role, color.second);
         }
     }
 }
@@ -146,10 +149,10 @@ QString VColorScheme::comment() const
                                  d->colorScheme->value("Comment")).toString();
 }
 
-QPalette VColorScheme::palette() const
+const QPalette *VColorScheme::palette() const
 {
     Q_D(const VColorScheme);
-    return d->palette;
+    return (const QPalette *)d->palette;
 }
 
 QColor VColorScheme::window(QPalette::ColorGroup group) const

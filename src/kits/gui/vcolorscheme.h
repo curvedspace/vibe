@@ -38,7 +38,7 @@ public:
     QString name() const;
     QString comment() const;
 
-    QPalette palette() const;
+    const QPalette *palette() const;
 
     QColor window(QPalette::ColorGroup group) const;
     QColor windowText(QPalette::ColorGroup group) const;

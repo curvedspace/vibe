@@ -34,7 +34,7 @@
 // We mean it.
 //
 
-class VIBE_EXPORT VColorSchemePrivate
+class VColorSchemePrivate
 {
     Q_DECLARE_PUBLIC(VColorScheme)
 public:
@@ -43,12 +43,14 @@ public:
 
     QSettings *colorScheme;
     QList<Color> colors;
-    QPalette palette;
-    VColorScheme *const q_ptr;
+    QPalette *palette;
 
     VColorSchemePrivate(VColorScheme *q, const QString &name);
 
     QColor value(QPalette::ColorGroup group, const QString &name) const;
+
+protected:
+    VColorScheme *const q_ptr;
 };
 
 #endif // VCOLORSCHEME_P_H
