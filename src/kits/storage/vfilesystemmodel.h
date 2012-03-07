@@ -23,7 +23,8 @@
 #ifndef VFILESYSTEMMODEL_H
 #define VFILESYSTEMMODEL_H
 
-#include <QFileSystemModel>
+#include <QtCore/QMimeDatabase>
+#include <QtWidgets/QFileSystemModel>
 
 #include <VibeCore/VGlobal>
 
@@ -32,18 +33,11 @@ class VIBE_EXPORT VFileSystemModel : public QFileSystemModel
     Q_OBJECT
 public:
     explicit VFileSystemModel(QObject *parent = 0);
-    ~VFileSystemModel();
 
-    QIcon fileIcon(const QModelIndex &index) const;
     QVariant data(const QModelIndex &index, int role) const;
 
 private:
-    QHash<QString, QIcon> *m_mimeIcons;
-    QHash<QString, QString> *m_mimeGlob;
-    QHash<QString, QString> *m_mimeGeneric;
-    QHash<QString, QString> *m_mimeDescr;
-
-    void loadMimeTypes() const;
+    QMimeDatabase m_mimeDatabase;
 };
 
 #endif // VFILESYSTEMMODEL_H

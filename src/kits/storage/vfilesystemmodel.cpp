@@ -20,146 +20,58 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QtCore/QTextStream>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QStyle>
-
-#include <VibeCore/VMimeType>
 
 #include "vfilesystemmodel.h"
 
 VFileSystemModel::VFileSystemModel(QObject *parent) :
     QFileSystemModel(parent)
 {
-    m_mimeIcons = new QHash<QString, QIcon>;
-    m_mimeGlob = new QHash<QString, QString>;
-    m_mimeGeneric = new QHash<QString, QString>;
-    m_mimeDescr = new QHash<QString, QString>;
-}
-
-VFileSystemModel::~VFileSystemModel()
-{
-    delete m_mimeIcons;
-    delete m_mimeGlob;
-    delete m_mimeGeneric;
-    delete m_mimeDescr;
-}
-
-QIcon VFileSystemModel::fileIcon(const QModelIndex &index) const
-{
-    return QFileSystemModel::fileIcon(index);
 }
 
 QVariant VFileSystemModel::data(const QModelIndex &index, int role) const
 {
-    QFileInfo type(filePath(index));
+    QFileInfo fileInfo(filePath(index));
 
     if (role == Qt::DisplayRole) {
-        if (index.column() == 2 && !type.isDir()) {
-            QString suffix = type.suffix();
-
-            if (m_mimeDescr->contains(suffix))
-                return m_mimeDescr->value(suffix);
-
-            VMimeType mimeType;
-            mimeType.fromFileName(filePath(index));
-            m_mimeDescr->insert(suffix, mimeType.mimeType());
-            return mimeType.mimeType();
+        if (index.column() == 2 && !fileInfo.isDir()) {
+            QMimeType type = m_mimeDatabase.mimeTypeForFile(fileInfo);
+            return type.comment();
         } else
             return QFileSystemModel::data(index, role);
     } else if (role == Qt::DecorationRole) {
         if (index.column() != 0)
             return QVariant();
 
-        if (type.isDir()) {
+        if (fileInfo.isDir()) {
             return QFileSystemModel::data(index, role);
         } else {
-            QString suffix = type.suffix();
-            if (m_mimeIcons->contains(suffix))
-                return m_mimeIcons->value(suffix);
-
-            QIcon icon;
-
-            if (suffix.isEmpty()) {
-                // If suffix is empty, just use either exec for executable files or none
-                if (type.isExecutable())
-                    suffix = "exec";
-                else
-                    suffix = "none";
-
-                // Return the icon if already cached
-                if (m_mimeIcons->contains(suffix))
-                    return m_mimeIcons->value(suffix);
-
-                // Otherwise take it from theme
-                if (suffix == "exec")
-                    icon = QIcon::fromTheme("application-x-executable");
-                else
-                    icon = QIcon(qApp->style()->standardIcon(QStyle::SP_FileIcon));
-            } else {
-                // Load mime types if needed
-                if (m_mimeGlob->count() == 0)
-                    loadMimeTypes();
-
-                QString mimeTypeStr = m_mimeGlob->value(type.suffix().toLower());
-                if (QIcon::hasThemeIcon(mimeTypeStr))
-                    icon = QIcon::fromTheme(mimeTypeStr);
+            // Load an icon by looking at the MIME database, if the icon is not available
+            // try with a generic name
+            QMimeType type = m_mimeDatabase.mimeTypeForFile(fileInfo);
+            QString iconName = type.iconName();
+            if (!QIcon::hasThemeIcon(iconName)) {
+                if (fileInfo.isExecutable())
+                    iconName = QStringLiteral("application-x-executable");
                 else {
-                    // Try matching the generic icon
-                    if (QIcon::hasThemeIcon(m_mimeGeneric->value(mimeTypeStr)))
-                        icon = QIcon::fromTheme(m_mimeGeneric->value(mimeTypeStr));
-                    else {
-                        // Last chance, try adding "-x-generic" to the base type
-                        if (QIcon::hasThemeIcon(mimeTypeStr.split("-").at(0) + "-x-generic"))
-                            icon = QIcon::fromTheme(mimeTypeStr.split("-").at(0) + "-x-generic");
-                        else
-                            icon = QIcon(qApp->style()->standardIcon(QStyle::SP_FileIcon));
-                    }
+                    QString mimeType = type.name();
+                    if (QIcon::hasThemeIcon(mimeType.split("-").at(0) + "-x-generic"))
+                        iconName = mimeType.split("-").at(0) + "-x-generic";
+                    else
+                        iconName = QString();
                 }
             }
 
-            m_mimeIcons->insert(suffix, icon);
-            return icon;
+            // Return the icon we found above, if nothing was found return
+            // the standard icon
+            if (iconName.isEmpty())
+                return QIcon(qApp->style()->standardIcon(QStyle::SP_FileIcon));
+            return QIcon::fromTheme(type.iconName());
         }
     }
 
     return QFileSystemModel::data(index, role);
-}
-
-void VFileSystemModel::loadMimeTypes() const
-{
-    QFile mimeInfo("/usr/share/mime/globs");
-    mimeInfo.open(QIODevice::ReadOnly);
-    QTextStream out(&mimeInfo);
-
-    do {
-        QStringList line = out.readLine().split(":");
-        if (line.count() == 2) {
-            QString suffix = line.at(1);
-            suffix.remove("*.");
-            QString mimeName = line.at(0);
-            mimeName.replace("/", "-");
-            m_mimeGlob->insert(suffix, mimeName);
-        }
-    } while (!out.atEnd());
-
-    mimeInfo.close();
-
-    mimeInfo.setFileName("/usr/share/mime/generic-icons");
-    mimeInfo.open(QIODevice::ReadOnly);
-    out.setDevice(&mimeInfo);
-
-    do {
-        QStringList line = out.readLine().split(":");
-        if (line.count() == 2) {
-            QString mimeName = line.at(0);
-            mimeName.replace("/", "-");
-            QString icon = line.at(1);
-            m_mimeGeneric->insert(mimeName, icon);
-        }
-    } while (!out.atEnd());
-
-    mimeInfo.close();
 }
 
 #include "moc_vfilesystemmodel.cpp"
