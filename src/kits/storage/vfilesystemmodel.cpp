@@ -56,8 +56,8 @@ QVariant VFileSystemModel::data(const QModelIndex &index, int role) const
                     iconName = QStringLiteral("application-x-executable");
                 else {
                     QString mimeType = type.name();
-                    if (QIcon::hasThemeIcon(mimeType.split("-").at(0) + "-x-generic"))
-                        iconName = mimeType.split("-").at(0) + "-x-generic";
+                    if (QIcon::hasThemeIcon(type.genericIconName()))
+                        iconName = type.genericIconName();
                     else
                         iconName = QString();
                 }
