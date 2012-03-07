@@ -1,5 +1,6 @@
 set(HEADERS
     VAbstractCompressionFilter
+    VAccountsManager
     VApplicationInfo
     VArchive
     VArchiveHandler
@@ -11,11 +12,12 @@ set(HEADERS
     VFileSupport
     VFileSystemWatcher
     VGlobal
-    VMimeType
     VSaveFile
     VSettings
     VStandardDirectories
     VStringHandler
+    VUserAccount
+    VUserAccountList
 )
 
 install(FILES ${HEADERS}

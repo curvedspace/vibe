@@ -27,8 +27,6 @@
 #include <QDebug>
 #include <QIODevice>
 
-#include <VibeCore/VMimeType>
-
 #include "vgzipcompressionfilter.h"
 #if HAVE_BZIP2_SUPPORT
 #  include "vbzip2compressionfilter.h"

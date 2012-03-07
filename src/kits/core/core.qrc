@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>etc/freedesktop.org.xml</file>
-    </qresource>
-</RCC>

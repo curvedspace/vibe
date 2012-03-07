@@ -5,6 +5,7 @@ include_directories(
     ${Qt5Xml_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/accounts
     ${CMAKE_CURRENT_SOURCE_DIR}/archive
     ${CMAKE_CURRENT_SOURCE_DIR}/compression
     ${CMAKE_CURRENT_SOURCE_DIR}/io
@@ -45,6 +46,9 @@ set(SOURCES
     vcommandoptions.cpp
     vstringhandler.cpp
 
+    accounts/vaccountsmanager.cpp
+    accounts/vuseraccount.cpp
+
     archive/varchive.cpp
     archive/varchivehandler.cpp
     archive/vlimitediodevice.cpp
@@ -62,7 +66,6 @@ set(SOURCES
     settings/vsettings.cpp
 
     standards/vdesktopfile.cpp
-    standards/vmimetype.cpp
     standards/vstandarddirectories.cpp
 
     ${VibeCore_OPTIONAL_SRCS}
@@ -73,6 +76,9 @@ set(HEADERS
     vcommandoptions.h
     vstringhandler.h
     ${CMAKE_CURRENT_BINARY_DIR}/vglobal.h
+
+    accounts/vaccountsmanager.h
+    accounts/vuseraccount.h
 
     archive/varchive.h
     archive/varchivehandler.h
@@ -88,17 +94,10 @@ set(HEADERS
     settings/vsettings.h
 
     standards/vdesktopfile.h
-    standards/vmimetype.h
     standards/vstandarddirectories.h
 )
 
-set(RESOURCES
-    core.qrc
-)
-
-qt5_add_resources(RESOURCES_RCC ${RESOURCES})
-
-add_library(VibeCore SHARED ${SOURCES} ${RESOURCES_RCC})
+add_library(VibeCore SHARED ${SOURCES})
 target_link_libraries(VibeCore ${Qt5Core_LIBRARIES} ${Qt5Xml_LIBRARIES} ${VibeCore_OPTIONAL_LIBS})
 set_target_properties(VibeCore PROPERTIES
     VERSION ${VIBE_VERSION_STRING}

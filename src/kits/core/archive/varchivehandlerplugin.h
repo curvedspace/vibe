@@ -49,7 +49,7 @@ class VArchiveHandler;
    the class using the Q_EXPORT_PLUGIN2() macro.
 
    \sa VArchiveHandler
- 
+
    \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
 */
 class VIBE_EXPORT VArchiveHandlerPlugin

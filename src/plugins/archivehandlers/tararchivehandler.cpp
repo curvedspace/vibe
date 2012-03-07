@@ -22,7 +22,6 @@
 #include <QTemporaryFile>
 #include <QDebug>
 
-#include <VibeCore/VMimeType>
 #include <VibeCore/VAbstractCompressionFilter>
 #include <VibeCore/VCompressionFilter>
 #include <VibeCore/VArchive>

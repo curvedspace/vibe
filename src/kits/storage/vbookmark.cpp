@@ -29,10 +29,12 @@
 #include <QtCore/QStack>
 #include <QtCore/QDateTime>
 #include <QtCore/QMimeData>
+#include <QtCore/QMimeDatabase>
+#include <QtCore/QMimeType>
+#include <QtCore/QMetaType>
 #include <QtCore/QStringList>
 #include <QtCore/QDebug>
 
-#include <VibeCore/VMimeType>
 #include <VibeCore/VStringHandler>
 
 #include "vbookmark.h"
@@ -187,22 +189,20 @@ QString VBookmark::icon() const
 
     if (icon.isEmpty()) {
         // Default icon depends on URL for bookmarks, and is default directory
-        // icon for groups.
+        // icon for groups
         if (isGroup()) {
             icon = "folder-bookmarks";
         } else {
             if (isSeparator()) {
-                icon = "edit-clear"; // whatever
+                icon = "edit-clear";
             } else {
-                // Get icon from mimeType
-                QString _mimeType = mimeType();
-                if (!_mimeType.isEmpty()) {
-                    VMimeType mime(_mimeType);
-                    return mime.iconName();
+                // Get icon from either MIME type or URL
+                QMimeType type = mimeType();
+                if (!type.isValid()) {
+                    QMimeDatabase mimeDatabase;
+                    type = mimeDatabase.mimeTypeForUrl(url());
                 }
-
-                // Get icon from URL
-                icon = VMimeType::iconNameForUrl(url());
+                icon = type.iconName();
             }
         }
     }
@@ -244,18 +244,20 @@ void VBookmark::setDescription(const QString &description)
     domtext.setData(description);
 }
 
-QString VBookmark::mimeType() const
+QMimeType VBookmark::mimeType() const
 {
     QDomNode metaDataNode = metaData(METADATA_MIME_OWNER, false);
     QDomElement mimeTypeElement = cd(metaDataNode, "mime:mime-type", false).toElement();
-    return mimeTypeElement.attribute("type");
+
+    QMimeDatabase mimeDatabase;
+    return mimeDatabase.mimeTypeForName(mimeTypeElement.attribute("type"));
 }
 
-void VBookmark::setMimeType(const QString &mimeType)
+void VBookmark::setMimeType(const QMimeType &mimeType)
 {
     QDomNode metaDataNode = metaData(METADATA_MIME_OWNER, true);
     QDomElement iconElement = cd_or_create(metaDataNode, "mime:mime-type").toElement();
-    iconElement.setAttribute("type", mimeType);
+    iconElement.setAttribute("type", mimeType.name());
 }
 
 bool VBookmark::showInToolbar() const
@@ -636,7 +638,8 @@ VBookmark VBookmarkGroup::addBookmark(const QString &text, const QUrl &url, cons
     VBookmark newBookmark = addBookmark(VBookmark(elem));
 
     // As icons are moved to metadata, we have to use the VBookmark API for this
-    newBookmark.setIcon(icon.isEmpty() ? VMimeType::iconNameForUrl(url) : icon);
+    QMimeDatabase mimeDatabase;
+    newBookmark.setIcon(icon.isEmpty() ? mimeDatabase.mimeTypeForUrl(url).iconName() : icon);
     return newBookmark;
 }
 

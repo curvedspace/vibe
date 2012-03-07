@@ -33,12 +33,13 @@
 #include <QtCore/QString>
 #include <QtCore/QList>
 #include <QtCore/QUrl>
-#include <QtCore/QMetaType>
+#include <QtCore/QMimeType>
 #include <QtXml/QDomElement>
 
 #include <VibeCore/VGlobal>
 
 class QMimeData;
+class QMimeType;
 
 /** \addtogroup storage Storage Kit
  *  @{
@@ -166,16 +167,16 @@ public:
     void setDescription(const QString &description);
 
     /**
-     * @return Mime-Type of this item
+     * @return MIME type of this item
      */
-    QString mimeType() const;
+    QMimeType mimeType() const;
 
     /**
-     * Set the Mime-Type of this item
+     * Set the MIME type of this item
      *
-     * @param Mime-Type
+     * @param MIME type
      */
-    void setMimeType(const QString &mimeType);
+    void setMimeType(const QMimeType &mimeType);
 
     /**
      * @return if the bookmark should be shown in the toolbar

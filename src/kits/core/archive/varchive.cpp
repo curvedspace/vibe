@@ -27,10 +27,10 @@
 #include <QStack>
 #include <QDir>
 #include <QDebug>
+#include <QMimeType>
 #include <QPluginLoader>
 
 #include <VibeCore/VFileSupport>
-#include <VibeCore/VMimeType>
 #include <VibeCore/VStandardDirectories>
 
 #include "varchive.h"
@@ -69,8 +69,8 @@ VArchive::VArchive(const QString &fileName) :
     Q_ASSERT(!fileName.isEmpty());
 
     // Try to find the MIME Type for the specified file, otherwise give up
-    VMimeType mimeType;
-    if (!mimeType.fromFileName(fileName))
+    QMimeType mimeType = d->mimeDatabase.mimeTypeForFile(fileName);
+    if (!mimeType.isValid())
         qFatal("Could not determine MIME Type for %s, cannot continue!",
                qPrintable(fileName));
 
@@ -87,7 +87,7 @@ VArchive::VArchive(const QString &fileName) :
             VArchiveHandlerPlugin *plugin = qobject_cast<VArchiveHandlerPlugin *>(
                                                 loader.instance());
             if (plugin) {
-                handler = plugin->create(mimeType.mimeType());
+                handler = plugin->create(mimeType.name());
                 if (handler)
                     break;
             }
@@ -95,7 +95,7 @@ VArchive::VArchive(const QString &fileName) :
     }
     if (!handler)
         qFatal("No archive handler for %s, cannot continue!",
-               qPrintable(mimeType.mimeType()));
+               qPrintable(mimeType.name()));
     d->handler = handler;
     d->handler->setArchive(this);
     d->handler->setFileName(fileName);
@@ -107,8 +107,8 @@ VArchive::VArchive(QIODevice *dev) :
     Q_D(VArchive);
 
     // Try to find the MIME Type for the specified file, otherwise give up
-    VMimeType mimeType;
-    if (!mimeType.fromDevice(dev))
+    QMimeType mimeType = d->mimeDatabase.mimeTypeForData(dev);
+    if (!mimeType.isValid())
         qFatal("Could not determine MIME Type for the device, cannot continue!");
 
     // Try to find the appropriate plugin, otherwise give up
@@ -124,7 +124,7 @@ VArchive::VArchive(QIODevice *dev) :
             VArchiveHandlerPlugin *plugin = qobject_cast<VArchiveHandlerPlugin *>(
                                                 loader.instance());
             if (plugin) {
-                handler = plugin->create(mimeType.mimeType());
+                handler = plugin->create(mimeType.name());
                 if (handler)
                     break;
             }
@@ -132,7 +132,7 @@ VArchive::VArchive(QIODevice *dev) :
     }
     if (!handler)
         qFatal("No archive handler for %s, cannot continue!",
-               qPrintable(mimeType.mimeType()));
+               qPrintable(mimeType.name()));
     d->handler = handler;
     d->handler->setArchive(this);
     d->handler->setDevice(dev);

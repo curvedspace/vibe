@@ -38,6 +38,8 @@
 // We mean it.
 //
 
+#include <QtCore/QMimeDatabase>
+
 class VArchivePrivate
 {
 public:
@@ -45,6 +47,7 @@ public:
     ~VArchivePrivate();
 
     VArchiveHandler *handler;
+    QMimeDatabase mimeDatabase;
 };
 
 class VArchiveEntryPrivate
