@@ -31,7 +31,6 @@
 #include <QtWidgets/QToolButton>
 
 #include <VibeCore/VSettings>
-#include <VibeCore/VMimeType>
 #include <VibeCore/VStandardDirectories>
 #include <VibeGui/VColorScheme>
 
@@ -41,7 +40,6 @@ using namespace VStandardDirectories;
 
 VisionTheme::VisionTheme()
 {
-    qDebug() << "ciao";
     m_settings = new VSettings("org.vision.desktop", "/interface");
 }
 
@@ -88,20 +86,20 @@ const QPalette *VisionTheme::palette(Palette type) const
 QVariant VisionTheme::themeHint(ThemeHint hint) const
 {
     switch (hint) {
-        case QPlatformTheme::TextCursorWidth:
+        case TextCursorWidth:
             return QVariant(1);
-        case QPlatformTheme::DropShadow:
+        case DropShadow:
             return QVariant(true);
-        case QPlatformTheme::MaximumScrollBarDragDistance:
+        case MaximumScrollBarDragDistance:
             return QVariant(-1);
+#if 0
         case ToolButtonStyle:
             return m_settings->value("toolbutton-style");
         case ToolBarIconSize:
             return m_settings->value("toolbar-icon-size");
-        case ItemViewActivateItemOnSingleClick:
-            return QVariant(false);
+#endif
         case SystemIconThemeName:
-            return QVariant("KFaenza");
+            return QStringLiteral("KFaenza");
             return m_settings->value("icon-theme");
         case SystemIconFallbackThemeName:
             return QVariant("hicolor");
@@ -112,11 +110,27 @@ QVariant VisionTheme::themeHint(ThemeHint hint) const
                   << findDirectory(SystemThemesDirectory) + "/icons";
             return QVariant(paths);
         }
-        case StyleNames:
-            return QVariant("Vibe");
+        case ItemViewActivateItemOnSingleClick:
+            return QVariant(false);
+        case StyleNames: {
+            QStringList styles;
+            styles << m_settings->value("style").toString()
+                   << QStringLiteral("plastique");
+            return QVariant(styles);
+        }
+        case WindowAutoPlacement:
+            return QVariant(true);
+        case DialogButtonBoxLayout:
+            return QVariant(1); // QDialogButtonBox::MacLayout
+        case DialogButtonBoxButtonsHaveIcons:
+            return QVariant(true);
+        case UseFullScreenForPopupMenu:
+            return QVariant(true);
+        case KeyboardScheme:
+            return QVariant(int(MacKeyboardScheme));
     }
 
-    return QVariant();
+    return QPlatformTheme::themeHint(hint);
 }
 
 #include "moc_visiontheme.cpp"
