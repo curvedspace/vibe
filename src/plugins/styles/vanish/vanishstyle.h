@@ -56,7 +56,6 @@ public:
     QPixmap standardPixmap(StandardPixmap standardPixmap, const QStyleOption *opt,
                            const QWidget *widget = 0) const;
 
-    void polish(QApplication *app);
     void polish(QWidget *w);
 
     QPalette standardPalette() const;

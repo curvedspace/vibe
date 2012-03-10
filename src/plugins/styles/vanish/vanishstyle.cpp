@@ -5023,20 +5023,6 @@ QPalette VanishStyle::standardPalette() const
 /*!
   \reimp
 */
-void VanishStyle::polish(QApplication *app)
-{
-    QPlastiqueStyle::polish(app);
-
-    QFile file(":/stylesheet.qss");
-    if (!file.open(QIODevice::ReadOnly))
-        qFatal("Couldn't load stylesheet!");
-    app->setStyleSheet(file.readAll());
-    file.close();
-}
-
-/*!
-  \reimp
-*/
 void VanishStyle::polish(QWidget *w)
 {
     QPlastiqueStyle::polish(w);
