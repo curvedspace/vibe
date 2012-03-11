@@ -172,8 +172,3 @@ VAbstractCompressionFilter::FilterFlags VAbstractCompressionFilter::filterFlags(
 {
     return d->m_flags;
 }
-
-void VAbstractCompressionFilter::virtual_hook(int, void *)
-{
-    /*BASE::virtual_hook( id, data );*/
-}
