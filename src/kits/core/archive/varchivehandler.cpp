@@ -66,27 +66,51 @@ void VArchiveHandlerPrivate::abortWriting()
     }
 }
 
-/*
- * VArchiveHandler
- */
+/*!
+    \class VArchiveHandler varchivehandler.h <VArchiveHandler>
+    \ingroup core Core Kit
 
+    \brief Base class for archive handlers.
+
+    \author David Faure <faure@kde.org>
+    \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+*/
+
+/*!
+   Base constructor.
+*/
 VArchiveHandler::VArchiveHandler(const QString &mimeType) :
     d_ptr(new VArchiveHandlerPrivate)
 {
 }
 
+/*!
+    Returns the pointer to the VArchive object that loaded this plugin.
+*/
 VArchive *VArchiveHandler::archive() const
 {
     Q_D(const VArchiveHandler);
     return d->archive;
 }
 
+/*!
+    Saves a pointer to the VArchive object that loaded this plugin.
+    The pointer will later be used to create the root directory.
+
+    \sa rootDir()
+*/
 void VArchiveHandler::setArchive(VArchive *archive)
 {
     Q_D(VArchiveHandler);
     d->archive = archive;
 }
 
+/*!
+    Opens the archive for reading or writing.
+    \param mode may be QIODevice::ReadOnly or QIODevice::WriteOnly
+
+    \sa close
+*/
 bool VArchiveHandler::open(QIODevice::OpenMode mode)
 {
     Q_D(VArchiveHandler);
@@ -115,6 +139,15 @@ bool VArchiveHandler::open(QIODevice::OpenMode mode)
     return openArchive(mode);
 }
 
+/*!
+    Closes the archive.
+    Inherited classes might want to reimplement closeArchive instead,
+   because this method is only called by VArchive.
+
+   \return true if close succeeded without problems
+
+   \sa open
+*/
 bool VArchiveHandler::close()
 {
     Q_D(VArchiveHandler);
@@ -153,34 +186,45 @@ bool VArchiveHandler::close()
     return closeSucceeded;
 }
 
-bool VArchiveHandler::writeData(const char *data, qint64 size)
-{
-    Q_D(VArchiveHandler);
-
-    bool ok = d->device->write(data, size) == size;
-    if (!ok)
-        d->abortWriting();
-    return ok;
-}
-
+/*!
+    Checks whether the archive is open.
+    \return true if the archive is opened
+*/
 bool VArchiveHandler::isOpen() const
 {
     Q_D(const VArchiveHandler);
     return d->mode != QIODevice::NotOpen;
 }
 
+/*!
+    Returns the mode in which the archive was opened.
+    \return the mode in which the archive was opened (QIODevice::ReadOnly or QIODevice::WriteOnly)
+
+    \see open()
+*/
 QIODevice::OpenMode VArchiveHandler::mode() const
 {
     Q_D(const VArchiveHandler);
     return d->mode;
 }
 
+/*!
+    The underlying device.
+    \return the underlying device.
+*/
 QIODevice *VArchiveHandler::device() const
 {
     Q_D(const VArchiveHandler);
     return d->device;
 }
 
+/*!
+    Sets the underlying device.
+    Note that this can be a file, but also a data buffer, a compression filter, etc.
+    For a file in writing mode it is better to use the other constructor
+    though, to benefit from the use of VSaveFile when saving.
+    \param dev the I/O device where the archive reads its data
+*/
 void VArchiveHandler::setDevice(QIODevice *dev)
 {
     Q_D(VArchiveHandler);
@@ -191,6 +235,13 @@ void VArchiveHandler::setDevice(QIODevice *dev)
     d->deviceOwned = false;
 }
 
+/*!
+    Retrieves or create the root directory.
+    The default implementation assumes that openArchive() did the parsing,
+    so it creates a dummy rootdir if none was set (write mode, or no '/' in the archive).
+    Reimplement this to provide parsing/listing on demand.
+    \return the root directory
+*/
 VArchiveDirectory *VArchiveHandler::rootDir()
 {
     Q_D(VArchiveHandler);
@@ -209,6 +260,10 @@ VArchiveDirectory *VArchiveHandler::rootDir()
     return d->rootDir;
 }
 
+/*!
+    Derived classes call setRootDir from openArchive,
+    to set the root directory after parsing an existing archive.
+*/
 void VArchiveHandler::setRootDir(VArchiveDirectory *rootDir)
 {
     Q_D(VArchiveHandler);
@@ -218,12 +273,22 @@ void VArchiveHandler::setRootDir(VArchiveDirectory *rootDir)
     d->rootDir = rootDir;
 }
 
+/*!
+    Returns the name of the archive file or an empty string if not set.
+    \return the name of the file, or QString() if unknown
+*/
 QString VArchiveHandler::fileName() const
 {
     Q_D(const VArchiveHandler);
     return d->fileName;
 }
 
+/*!
+    Sets the name of the archive file.
+    \param fileName is a local path (e.g. "/common/var/tmp/myfile.ext"),
+    from which the archive will be read from, or into which the archive
+    will be written, depending on the mode given to open().
+*/
 void VArchiveHandler::setFileName(const QString &fileName)
 {
     Q_D(VArchiveHandler);
@@ -234,53 +299,34 @@ void VArchiveHandler::setFileName(const QString &fileName)
     d->fileName = fileName;
 }
 
+/*!
+    Returns whether the device is owned.
+*/
 bool VArchiveHandler::isDeviceOwned() const
 {
     Q_D(const VArchiveHandler);
     return d->deviceOwned;
 }
 
-void VArchiveHandler::abortWriting()
-{
-    Q_D(VArchiveHandler);
-    d->abortWriting();
-}
-
-bool VArchiveHandler::createDevice(QIODevice::OpenMode mode)
+/*!
+    VArchive calls this to write data into the current file, after calling prepareWriting.
+*/
+bool VArchiveHandler::writeData(const char *data, qint64 size)
 {
     Q_D(VArchiveHandler);
 
-    switch (mode) {
-        case QIODevice::WriteOnly:
-            if (!d->fileName.isEmpty()) {
-                // The use of VSaveFile can't be done in the ctor (no mode known yet)
-                //qDebug() << "Writing to a file using VSaveFile";
-                d->saveFile = new VSaveFile(d->fileName);
-                if (!d->saveFile->open()) {
-                    qWarning() << "VSaveFile creation for " << d->fileName << " failed, " << d->saveFile->errorString();
-                    delete d->saveFile;
-                    d->saveFile = 0;
-                    return false;
-                }
-                d->device = d->saveFile;
-                Q_ASSERT(d->device);
-            }
-            break;
-        case QIODevice::ReadOnly:
-        case QIODevice::ReadWrite:
-            // ReadWrite mode still uses QFile for now; we'd need to copy to the tempfile, in fact.
-            if (!d->fileName.isEmpty()) {
-                d->device = new QFile(d->fileName);
-                d->deviceOwned = true;
-            }
-            break; // continued below
-        default:
-            qWarning() << "Unsupported mode " << d->mode;
-            return false;
-    }
-    return true;
+    bool ok = d->device->write(data, size) == size;
+    if (!ok)
+        d->abortWriting();
+    return ok;
 }
 
+/*!
+    Ensures that @p path exists, create otherwise.
+    This handles e.g. tar files missing directory entries, like mico-2.3.0.tar.gz :)
+    \param path the path of the directory
+    \return the directory with the given @p path
+*/
 VArchiveDirectory *VArchiveHandler::findOrCreate(const QString &path)
 {
     Q_D(VArchiveHandler);
@@ -328,4 +374,54 @@ VArchiveDirectory *VArchiveHandler::findOrCreate(const QString &path)
                                                  d->rootDir->group(), QString());
     parent->addEntry(e);
     return e;
+}
+
+/*!
+    Aborts writing to the open device.
+*/
+void VArchiveHandler::abortWriting()
+{
+    Q_D(VArchiveHandler);
+    d->abortWriting();
+}
+
+/*!
+    Can be reimplemented in order to change the creation of the device
+    (when using the fileName constructor). By default this method uses
+    VSaveFile when saving, and a simple QFile on reading.
+    This method is called by open().
+*/
+bool VArchiveHandler::createDevice(QIODevice::OpenMode mode)
+{
+    Q_D(VArchiveHandler);
+
+    switch (mode) {
+        case QIODevice::WriteOnly:
+            if (!d->fileName.isEmpty()) {
+                // The use of VSaveFile can't be done in the ctor (no mode known yet)
+                //qDebug() << "Writing to a file using VSaveFile";
+                d->saveFile = new VSaveFile(d->fileName);
+                if (!d->saveFile->open()) {
+                    qWarning() << "VSaveFile creation for " << d->fileName << " failed, " << d->saveFile->errorString();
+                    delete d->saveFile;
+                    d->saveFile = 0;
+                    return false;
+                }
+                d->device = d->saveFile;
+                Q_ASSERT(d->device);
+            }
+            break;
+        case QIODevice::ReadOnly:
+        case QIODevice::ReadWrite:
+            // ReadWrite mode still uses QFile for now; we'd need to copy to the tempfile, in fact.
+            if (!d->fileName.isEmpty()) {
+                d->device = new QFile(d->fileName);
+                d->deviceOwned = true;
+            }
+            break; // continued below
+        default:
+            qWarning() << "Unsupported mode " << d->mode;
+            return false;
+    }
+    return true;
 }

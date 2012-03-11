@@ -32,14 +32,14 @@ public:
     /**
      * Creates an instance that operates on the given filename.
      *
-     * @param filename is a local path (e.g. "/home/holger/myfile.ar")
+     * \param filename is a local path (e.g. "/home/holger/myfile.ar")
      */
     VAr(const QString &filename);
 
     /**
      * Creates an instance that operates on the given device.
      * The device can be compressed (KFilterDev) or not (QFile, etc.).
-     * @param dev the device to read from
+     * \param dev the device to read from
      */
     VAr(QIODevice *dev);
 
@@ -53,20 +53,20 @@ protected:
 
     /*
      * Writing not supported by this class, will always fail.
-     * @return always false
+     * \return always false
      */
     virtual bool doPrepareWriting(const QString &name, const QString &user, const QString &group, qint64 size,
                                   mode_t perm, time_t atime, time_t mtime, time_t ctime);
 
     /*
      * Writing not supported by this class, will always fail.
-     * @return always false
+     * \return always false
      */
     virtual bool doFinishWriting(qint64 size);
 
     /*
      * Writing not supported by this class, will always fail.
-     * @return always false
+     * \return always false
      */
     virtual bool doWriteDir(const QString &name, const QString &user, const QString &group,
                             mode_t perm, time_t atime, time_t mtime, time_t ctime);

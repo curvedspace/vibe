@@ -32,7 +32,7 @@ VLimitedIODevice::VLimitedIODevice(QIODevice *dev, qint64 start, qint64 length) 
     m_length(length)
 {
     //qDebug() << "start=" << start << "length=" << length;
-    open(QIODevice::ReadOnly);   //krazy:exclude=syscalls
+    open(QIODevice::ReadOnly);
 }
 
 bool VLimitedIODevice::open(QIODevice::OpenMode m)

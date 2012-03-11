@@ -57,10 +57,24 @@ VArchivePrivate::~VArchivePrivate()
     delete handler;
 }
 
-/*
- * VArchive
- */
+/*!
+   \class VArchive varchive.h <VArchive>
+   \ingroup core
 
+   \brief Class for reading and writing archives.
+
+   \author David Faure <faure@kde.org>
+   \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+*/
+
+/*!
+    Constructor.
+    \param fileName is a local path (e.g. "/common/var/tmp/myfile.ext"),
+    from which the archive will be read from, or into which the archive
+    will be written, depending on the mode given to open().
+    MIME type will be recognized and the appropriate plugin will
+    automatically be loaded.
+*/
 VArchive::VArchive(const QString &fileName) :
     d_ptr(new VArchivePrivate)
 {
@@ -101,6 +115,15 @@ VArchive::VArchive(const QString &fileName) :
     d->handler->setFileName(fileName);
 }
 
+/*!
+    Constructor.
+    \param dev the I/O device where the archive reads its data
+    Note that this can be a file, but also a data buffer, a compression filter, etc.
+    For a file in writing mode it is better to use the other constructor
+    though, to benefit from the use of KSaveFile when saving.
+    MIME type will be recognized and the appropriate plugin will
+    automatically be loaded.
+*/
 VArchive::VArchive(QIODevice *dev) :
     d_ptr(new VArchivePrivate)
 {
@@ -138,6 +161,9 @@ VArchive::VArchive(QIODevice *dev) :
     d->handler->setDevice(dev);
 }
 
+/*!
+    Destructor.
+*/
 VArchive::~VArchive()
 {
     if (isOpen())
@@ -146,48 +172,95 @@ VArchive::~VArchive()
     delete d_ptr;
 }
 
+/*!
+    Opens the archive for reading or writing.
+    \param mode may be QIODevice::ReadOnly or QIODevice::WriteOnly
+
+    \see close
+*/
 bool VArchive::open(QIODevice::OpenMode mode)
 {
     Q_D(VArchive);
     return d->handler->open(mode);
 }
 
+/*!
+    Closes the archive.
+
+    \return true if close succeeded without problems
+
+    \see open
+*/
 bool VArchive::close()
 {
     Q_D(VArchive);
     return d->handler->close();
 }
 
+/*!
+    Checks whether the archive is open.
+    \return true if the archive is opened
+*/
 bool VArchive::isOpen() const
 {
     Q_D(const VArchive);
     return d->handler->isOpen();
 }
 
+/*!
+    Returns the mode in which the archive was opened.
+    \return the mode in which the archive was opened (QIODevice::ReadOnly or QIODevice::WriteOnly)
+
+    \see open()
+*/
 QIODevice::OpenMode VArchive::mode() const
 {
     Q_D(const VArchive);
     return d->handler->mode();
 }
 
+/*!
+    The underlying device.
+    \return the underlying device.
+*/
 QIODevice *VArchive::device() const
 {
     Q_D(const VArchive);
     return d->handler->device();
 }
 
+/*!
+    The name of the archive file, as passed to the constructor that takes a
+    fileName, or an empty string if you used the QIODevice constructor.
+    \return the name of the file, or QString() if unknown
+*/
 QString VArchive::fileName() const
 {
     Q_D(const VArchive);
     return d->handler->fileName();
 }
 
+/*!
+    If an archive is opened for reading, then the contents
+    of the archive can be accessed via this function.
+    \return the directory of the archive
+*/
 const VArchiveDirectory *VArchive::directory() const
 {
     Q_D(const VArchive);
     return d->handler->rootDir();
 }
 
+/*!
+    Writes a local file into the archive. The main difference with writeFile,
+    is that this method minimizes memory usage, by not loading the whole file
+    into memory in one go.
+
+   If @p fileName is a symbolic link, it will be written as is, i. e.
+   it will not be resolved before.
+   \param fileName full path to an existing local file, to be added to the archive.
+   \param destName the resulting name (or relative path) of the file in the archive.
+*/
 bool VArchive::addLocalFile(const QString &fileName, const QString &destName)
 {
     Q_D(VArchive);
@@ -271,6 +344,17 @@ bool VArchive::addLocalFile(const QString &fileName, const QString &destName)
     return true;
 }
 
+/*!
+   Writes a local directory into the archive, including all its contents, recursively.
+   Calls addLocalFile for each file to be added.
+
+   Iit will also add a @p path that is a symbolic link to a
+   directory. The symbolic link will be dereferenced and the content of the
+   directory it is pointing to added recursively. However, symbolic links
+   *under* @p path will be stored as is.
+   \param path full path to an existing local directory, to be added to the archive.
+   \param destName the resulting name (or relative path) of the file in the archive.
+*/
 bool VArchive::addLocalDirectory(const QString &path, const QString &destName)
 {
     QDir dir(path);
@@ -289,12 +373,27 @@ bool VArchive::addLocalDirectory(const QString &path, const QString &destName)
                 addLocalFile(fileName, dest);
             else if (fileInfo.isDir())
                 addLocalDirectory(fileName, dest);
-            // We omit sockets
+            // XXX: We omit sockets
         }
     }
     return true;
 }
 
+/*!
+    If an archive is opened for writing then you can add new directories
+    using this function. VArchive won't write one directory twice.
+
+    This method also allows some file metadata to be set.
+    However, depending on the archive type not all metadata might be regarded.
+
+    \param name the name of the directory
+    \param user the user that owns the directory
+    \param group the group that owns the directory
+    \param perm permissions of the directory
+    \param atime time the file was last accessed
+    \param mtime modification time of the file
+    \param ctime time of last status change
+*/
 bool VArchive::writeDir(const QString &name, const QString &user, const QString &group,
                         mode_t perm, time_t atime,
                         time_t mtime, time_t ctime)
@@ -303,6 +402,19 @@ bool VArchive::writeDir(const QString &name, const QString &user, const QString 
     return d->handler->doWriteDir(name, user, group, perm | 040000, atime, mtime, ctime);
 }
 
+/*!
+    Writes a symbolic link to the archive if supported.
+    The archive must be opened for writing.
+
+    \param name name of symbolic link
+    \param target target of symbolic link
+    \param user the user that owns the directory
+    \param group the group that owns the directory
+    \param perm permissions of the directory
+    \param atime time the file was last accessed
+    \param mtime modification time of the file
+    \param ctime time of last status change
+*/
 bool VArchive::writeSymLink(const QString &name, const QString &target,
                             const QString &user, const QString &group,
                             mode_t perm, time_t atime,
@@ -312,6 +424,25 @@ bool VArchive::writeSymLink(const QString &name, const QString &target,
     return d->handler->doWriteSymLink(name, target, user, group, perm, atime, mtime, ctime);
 }
 
+/*!
+    If an archive is opened for writing then you can add a new file
+    using this function. If the file name is for example "mydir/test1" then
+    the directory "mydir" is automatically appended first if that did not
+    happen yet.
+
+    This method also allows some file metadata to be
+    set. However, depending on the archive type not all metadata might be
+    regarded.
+    \param name the name of the file
+    \param user the user that owns the file
+    \param group the group that owns the file
+    \param data the data to write (\p size bytes)
+    \param size the size of the file
+    \param perm permissions of the file
+    \param atime time the file was last accessed
+    \param mtime modification time of the file
+    \param ctime time of last status change
+*/
 bool VArchive::writeFile(const QString &name, const QString &user,
                          const QString &group, const char *data, qint64 size,
                          mode_t perm, time_t atime, time_t mtime, time_t ctime)
@@ -337,6 +468,25 @@ bool VArchive::writeFile(const QString &name, const QString &user,
     return true;
 }
 
+/*!
+    Here's another way of writing a file into an archive:
+    Call prepareWriting(), then call writeData()
+    as many times as wanted then call finishWriting( totalSize ).
+    For tar.gz files, you need to know the size before hand, it is needed in the header!
+    For zip files, size isn't used.
+
+    This method also allows some file metadata to be
+    set. However, depending on the archive type not all metadata might be
+    regarded.
+    \param name the name of the file
+    \param user the user that owns the file
+    \param group the group that owns the file
+    \param size the size of the file
+    \param perm permissions of the file
+    \param atime time the file was last accessed
+    \param mtime modification time of the file
+    \param ctime time of last status change
+*/
 bool VArchive::prepareWriting(const QString &name, const QString &user,
                               const QString &group, qint64 size,
                               mode_t perm, time_t atime,
@@ -350,6 +500,12 @@ bool VArchive::prepareWriting(const QString &name, const QString &user,
     return ok;
 }
 
+/*!
+    Call finishWriting after writing the data.
+    \param size the size of the file
+
+    \see prepareWriting()
+*/
 bool VArchive::finishWriting(qint64 size)
 {
     Q_D(VArchive);
@@ -360,8 +516,10 @@ bool VArchive::finishWriting(qint64 size)
  * VArchiveEntryPrivate
  */
 
-VArchiveEntryPrivate::VArchiveEntryPrivate(VArchive *_archive, const QString &_name, int _access,
-                                           int _date, const QString &_user, const QString &_group,
+VArchiveEntryPrivate::VArchiveEntryPrivate(VArchive *_archive,
+                                           const QString &_name, int _access,
+                                           int _date, const QString &_user,
+                                           const QString &_group,
                                            const QString &_symlink) :
     name(_name),
     date(_date),
@@ -373,10 +531,29 @@ VArchiveEntryPrivate::VArchiveEntryPrivate(VArchive *_archive, const QString &_n
 {
 }
 
-/*
- * VArchiveEntry
- */
+/*!
+    \class VArchiveEntry <varchive.h> <VArchive>
+    \ingroup core Core Kit
 
+    \brief A base class for entries in a VArchive.
+
+    \see VArchiveFile
+    \see VArchiveDirectory
+
+    \author David Faure <faure@kde.org>
+    \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+*/
+
+/*!
+    Creates a new entry.
+    \param archive the entries archive
+    \param name the name of the entry
+    \param access the permissions in unix format
+    \param date the date (in seconds since 1970)
+    \param user the user that owns the entry
+    \param group the group that owns the entry
+    \param symlink the symlink, or QString()
+*/
 VArchiveEntry::VArchiveEntry(VArchive *t, const QString &name, int access, int date,
                              const QString &user, const QString &group, const
                              QString &symlink) :
@@ -384,12 +561,19 @@ VArchiveEntry::VArchiveEntry(VArchive *t, const QString &name, int access, int d
 {
 }
 
+/*!
+    Destructor.
+*/
 VArchiveEntry::~VArchiveEntry()
 {
     Q_D(VArchiveEntry);
     delete d;
 }
 
+/*!
+    Creation date of the file.
+    \return the creation date
+*/
 QDateTime VArchiveEntry::datetime() const
 {
     Q_D(const VArchiveEntry);
@@ -399,48 +583,81 @@ QDateTime VArchiveEntry::datetime() const
     return datetimeobj;
 }
 
+/*!
+    Creation date of the file.
+    \return the creation date in seconds since 1970.
+*/
 int VArchiveEntry::date() const
 {
     Q_D(const VArchiveEntry);
     return d->date;
 }
 
+/*!
+    Name of the file without path.
+    \return the file name without path
+*/
 QString VArchiveEntry::name() const
 {
     Q_D(const VArchiveEntry);
     return d->name;
 }
 
+/*!
+    The permissions and mode flags as returned by the stat() function
+    in st_mode.
+    \return the permissions
+*/
 mode_t VArchiveEntry::permissions() const
 {
     Q_D(const VArchiveEntry);
     return d->access;
 }
 
+/*!
+    User who created the file.
+    \return the owner of the file
+*/
 QString VArchiveEntry::user() const
 {
     Q_D(const VArchiveEntry);
     return d->user;
 }
 
+/*!
+    Group of the user who created the file.
+    \return the group of the file
+*/
 QString VArchiveEntry::group() const
 {
     Q_D(const VArchiveEntry);
     return d->group;
 }
 
+/*!
+   Symlink if there is one.
+   \return the symlink, or QString()
+*/
 QString VArchiveEntry::symLinkTarget() const
 {
     Q_D(const VArchiveEntry);
     return d->symlink;
 }
 
+/*!
+    Checks whether the entry is a file.
+    \return true if this entry is a file
+*/
 bool VArchiveEntry::isFile() const
 {
     Q_D(const VArchiveEntry);
     return false;
 }
 
+/*!
+    Checks whether the entry is a directory.
+    \return true if this entry is a directory
+*/
 bool VArchiveEntry::isDirectory() const
 {
     Q_D(const VArchiveEntry);
@@ -463,10 +680,31 @@ VArchiveFilePrivate::VArchiveFilePrivate(qint64 _pos, qint64 _size) :
 {
 }
 
-/*
- * VArchiveFile
- */
+/*!
+    \class VArchiveFile <varchive.h> <VArchive>
+    \ingroup core Core Kit
 
+    \brief Represents a file entry in a VArchive.
+
+    \see VArchive
+    \see VArchiveDirectory
+
+    \author David Faure <faure@kde.org>
+    \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+*/
+
+/*!
+    Creates a new file entry. Do not call this, VArchive takes care of it.
+    \param archive the entries archive
+    \param name the name of the entry
+    \param access the permissions in unix format
+    \param date the date (in seconds since 1970)
+    \param user the user that owns the entry
+    \param group the group that owns the entry
+    \param symlink the symlink, or QString()
+    \param pos the position of the file in the directory
+    \param size the size of the file
+*/
 VArchiveFile::VArchiveFile(VArchive *t, const QString &name, int access, int date,
                            const QString &user, const QString &group,
                            const QString &symlink,
@@ -476,30 +714,50 @@ VArchiveFile::VArchiveFile(VArchive *t, const QString &name, int access, int dat
 {
 }
 
+/*!
+    Destructor. Do not call this, VArchive takes care of it.
+*/
 VArchiveFile::~VArchiveFile()
 {
     Q_D(VArchiveFile);
     delete d;
 }
 
+/*!
+    Position of the data in the [uncompressed] archive.
+    \return the position of the file
+*/
 qint64 VArchiveFile::position() const
 {
     Q_D(const VArchiveFile);
     return d->pos;
 }
 
+/*!
+    Size of the data.
+    \return the size of the file
+*/
 qint64 VArchiveFile::size() const
 {
     Q_D(const VArchiveFile);
     return d->size;
 }
 
+/*!
+    Set size of data, usually after writing the file.
+    \param s the new size of the file
+*/
 void VArchiveFile::setSize(qint64 s)
 {
     Q_D(VArchiveFile);
     d->size = s;
 }
 
+/*!
+    Returns the data of the file.
+    Call data() with care (only once per file), this data isn't cached.
+    \return the content of this file.
+*/
 QByteArray VArchiveFile::data() const
 {
     Q_D(const VArchiveFile);
@@ -516,17 +774,35 @@ QByteArray VArchiveFile::data() const
     return arr;
 }
 
+/*!
+    This method returns QIODevice (internal class: VLimitedIODevice)
+    on top of the underlying QIODevice. This is obviously for reading only.
+
+    WARNING: Note that the ownership of the device is being transferred to the caller,
+    who will have to delete it.
+
+    The returned device auto-opens (in readonly mode), no need to open it.
+    \return the QIODevice of the file
+*/
 QIODevice *VArchiveFile::createDevice() const
 {
     Q_D(const VArchiveFile);
     return new VLimitedIODevice(archive()->device(), d->pos, d->size);
 }
 
+/*!
+    Checks whether this entry is a file.
+    \return true, since this entry is a file
+*/
 bool VArchiveFile::isFile() const
 {
     return true;
 }
 
+/*!
+    Extracts the file to the directory @p dest
+    \param dest the directory to extract to
+*/
 void VArchiveFile::copyTo(const QString &dest) const
 {
     Q_D(const VArchiveFile);
@@ -563,10 +839,29 @@ VArchiveDirectoryPrivate::~VArchiveDirectoryPrivate()
     qDeleteAll(entries);
 }
 
-/*
- * VArchiveDirectory
- */
+/*!
+    \class VArchiveDirectory <varchive.h> <VArchive>
+    \ingroup core Core Kit
 
+    \brief Represents a directory entry in a VArchive.
+
+    \see VArchive
+    \see VArchiveFile
+
+    \author David Faure <faure@kde.org>
+    \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+*/
+
+/*!
+    Creates a new directory entry.
+    \param archive the entries archive
+    \param name the name of the entry
+    \param access the permissions in unix format
+    \param date the date (in seconds since 1970)
+    \param user the user that owns the entry
+    \param group the group that owns the entry
+    \param symlink the symlink, or QString()
+*/
 VArchiveDirectory::VArchiveDirectory(VArchive *t, const QString &name, int access,
                                      int date,
                                      const QString &user, const QString &group,
@@ -576,18 +871,33 @@ VArchiveDirectory::VArchiveDirectory(VArchive *t, const QString &name, int acces
 {
 }
 
+/*!
+    Destructor.
+*/
 VArchiveDirectory::~VArchiveDirectory()
 {
     Q_D(VArchiveDirectory);
     delete d;
 }
 
+/*!
+    Returns a list of sub-entries.
+    Note that the list is not sorted, it's even in random order (due to using a hashtable).
+   Use sort() on the result to sort the list by filename.
+
+    \return the names of all entries in this directory (filenames, no path).
+*/
 QStringList VArchiveDirectory::entries() const
 {
     Q_D(const VArchiveDirectory);
     return d->entries.keys();
 }
 
+/*!
+    Returns the entry with the given name.
+    \param name may be "test1", "mydir/test3", "mydir/mysubdir/test3", etc.
+   \return a pointer to the entry in the directory.
+*/
 const VArchiveEntry *VArchiveDirectory::entry(const QString &_name) const
 {
     Q_D(const VArchiveDirectory);
@@ -621,6 +931,10 @@ const VArchiveEntry *VArchiveDirectory::entry(const QString &_name) const
     return d->entries.value(name);
 }
 
+/*!
+    \internal
+    Adds a new entry to the directory.
+*/
 void VArchiveDirectory::addEntry(VArchiveEntry *entry)
 {
     Q_D(VArchiveDirectory);
@@ -635,16 +949,29 @@ void VArchiveDirectory::addEntry(VArchiveEntry *entry)
     d->entries.insert(entry->name(), entry);
 }
 
+/*!
+    Checks whether this entry is a directory.
+   \return true, since this entry is a directory
+*/
 bool VArchiveDirectory::isDirectory() const
 {
     return true;
 }
 
+/*!
+    \internal
+*/
 static bool sortByPosition(const VArchiveFile *file1, const VArchiveFile *file2)
 {
     return file1->position() < file2->position();
 }
 
+/*!
+    Extracts all entries in this archive directory to the directory
+    @p dest.
+    \param dest the directory to extract to
+    \param recursive if set to true, subdirectories are extracted as well
+*/
 void VArchiveDirectory::copyTo(const QString &dest, bool recursiveCopy) const
 {
     QDir root;
@@ -694,7 +1021,8 @@ void VArchiveDirectory::copyTo(const QString &dest, bool recursiveCopy) const
         }
     } while (!dirStack.isEmpty());
 
-    qSort(fileList.begin(), fileList.end(), sortByPosition);    // sort on d->pos, so we have a linear access
+    // Sort on d->pos, so we have a linear access
+    qSort(fileList.begin(), fileList.end(), sortByPosition);
 
     for (QList<const VArchiveFile *>::const_iterator it = fileList.constBegin(), end = fileList.constEnd() ;
             it != end ; ++it) {

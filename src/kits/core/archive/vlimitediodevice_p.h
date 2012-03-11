@@ -53,10 +53,10 @@ class VLimitedIODevice : public QIODevice
 public:
     /**
      * Creates a new VLimitedIODevice.
-     * @param dev the underlying device, opened or not
+     * \param dev the underlying device, opened or not
      * This device itself auto-opens (in readonly mode), no need to open it.
-     * @param start where to start reading (position in bytes)
-     * @param length the length of the data to read (in bytes)
+     * \param start where to start reading (position in bytes)
+     * \param length the length of the data to read (in bytes)
      */
     VLimitedIODevice(QIODevice *dev, qint64 start, qint64 length);
     virtual ~VLimitedIODevice() {}
