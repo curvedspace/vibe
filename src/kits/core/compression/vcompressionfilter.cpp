@@ -48,10 +48,26 @@ VCompressionFilterPrivate::VCompressionFilterPrivate() :
 {
 }
 
-/*
- * VCompressionFilter
- */
+/*!
+    \class VCompressionFilter
+    \brief A class for reading and writing compressed data.
+    \ingroup core Core Kit
 
+    A class for reading and writing compressed data onto a device
+    (e.g. file, but other usages are possible, like a buffer or a socket).
+
+    To simply read/write compressed files, see deviceForFile.
+
+    \author David Faure <faure@kde.org>
+    \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+*/
+
+/*!
+    Constructs a VCompressionFilter for a given filter (e.g. gzip, bzip2 etc.).
+    \param filter the VAbstractCompressionFilter to use
+    \param autoDeleteFilterBase when true this object will become the
+    owner of @p filter.
+*/
 VCompressionFilter::VCompressionFilter(VAbstractCompressionFilter *_filter, bool autoDeleteFilterBase)
     : d(new VCompressionFilterPrivate)
 {
@@ -60,6 +76,10 @@ VCompressionFilter::VCompressionFilter(VAbstractCompressionFilter *_filter, bool
     d->autoDeleteFilterBase = autoDeleteFilterBase;
 }
 
+/*!
+    Destructs the VCompressionFilter.
+    Calls close() if the filter device is still open.
+*/
 VCompressionFilter::~VCompressionFilter()
 {
     if (isOpen())
@@ -69,7 +89,32 @@ VCompressionFilter::~VCompressionFilter()
     delete d;
 }
 
-//static
+/*!
+    Creates an i/o device that is able to read from @p fileName,
+    whether it's compressed or not. Available compression filters
+    (gzip/bzip2 etc.) will automatically be used.
+
+    The compression filter to be used is determined from the @p fileName
+    if @p mimetype is empty. Pass "application/x-gzip" or "application/x-bzip"
+    to force the corresponding decompression filter, if available.
+
+    Warning: application/x-bzip may not be available.
+    In that case a QFile opened on the compressed data will be returned !
+    Use VAbstractCompressionFilter::findFilterByMimeType and code similar to what
+    deviceForFile is doing, to better control what's happening.
+
+    The returned QIODevice has to be deleted after using.
+
+    \param fileName the name of the file to filter
+    \param mimetype the mime type of the file to filter, or QString() if unknown
+    \param forceFilter if true, the function will either find a compression filter, or return 0.
+           If false, it will always return a QIODevice. If no
+           filter is available it will return a simple QFile.
+           This can be useful if the file is usable without a filter.
+    \return if a filter has been found, the QIODevice for the filter. If the
+            filter does not exist, the return value depends on @p forceFilter.
+            The returned QIODevice has to be deleted after using.
+*/
 QIODevice *VCompressionFilter::deviceForFile(const QString &fileName, const QString &mimetype,
                                              bool forceFilter)
 {
@@ -88,6 +133,24 @@ QIODevice *VCompressionFilter::deviceForFile(const QString &fileName, const QStr
     }
 }
 
+/*!
+    Creates an i/o device that is able to read from the QIODevice @p inDevice,
+    whether the data is compressed or not. Available compression filters
+    (gzip/bzip2 etc.) will automatically be used.
+
+    The compression filter to be used is determined @p mimetype .
+    Pass "application/x-gzip" or "application/x-bzip"
+    to use the corresponding decompression filter.
+
+    Warning: application/x-bzip may not be available.
+    In that case 0 will be returned !
+
+    The returned QIODevice has to be deleted after using.
+    \param inDevice input device. Won't be deleted if @p autoDeleteInDevice = false
+    \param mimetype the mime type for the filter
+    \param autoDeleteInDevice if true, @p inDevice will be deleted automatically
+    \return a VCompressionFilter that filters the original stream. Must be deleted after using
+*/
 QIODevice *VCompressionFilter::device(QIODevice *inDevice, const QString &mimetype, bool autoDeleteInDevice)
 {
     if (inDevice == 0)
@@ -100,13 +163,17 @@ QIODevice *VCompressionFilter::device(QIODevice *inDevice, const QString &mimety
     return 0;
 }
 
+/*!
+    Open for reading or writing.
+    If the VAbstractCompressionFilter's device is not opened, it will be opened.
+*/
 bool VCompressionFilter::open(QIODevice::OpenMode mode)
 {
     if (isOpen()) {
         qWarning() << "VCompressionFilter::open: device is already open";
         return true; // QFile returns false, but well, the device -is- open...
     }
-    //kDebug(7005) << mode;
+
     if (mode == QIODevice::ReadOnly) {
         d->buffer.resize(0);
     } else {
@@ -128,13 +195,16 @@ bool VCompressionFilter::open(QIODevice::OpenMode mode)
     return ret;
 }
 
+/*!
+    Close after reading or writing.
+    If the VAbstractCompressionFilter's device was opened by open(), it will be closed.
+*/
 void VCompressionFilter::close()
 {
     if (!isOpen())
         return;
     if (d->filter->mode() == QIODevice::WriteOnly)
-        write(0L, 0);   // finish writing
-    //kDebug(7005) << "Calling terminate().";
+        write(0L, 0);
 
     d->filter->terminate();
     if (d->bOpenedUnderlyingDevice)
@@ -142,6 +212,9 @@ void VCompressionFilter::close()
     setOpenMode(QIODevice::NotOpen);
 }
 
+/*!
+    That one can be quite slow, when going back. Use with care.
+*/
 bool VCompressionFilter::seek(qint64 pos)
 {
     qint64 ioIndex = this->pos(); // current position
@@ -337,11 +410,21 @@ qint64 VCompressionFilter::writeData(const char *data /*0 to finish*/, qint64 le
     return dataWritten;
 }
 
+/*!
+    For writing gzip compressed files only:
+    set the name of the original file, to be used in the gzip header.
+    \param fileName the name of the original file
+*/
 void VCompressionFilter::setOrigFileName(const QByteArray &fileName)
 {
     d->origFileName = fileName;
 }
 
+/*!
+    Call this let this device skip the gzip headers when reading/writing.
+    This way VCompressionFilter (with gzip filter) can be used as a direct wrapper
+    around zlib - this is used by KZip.
+*/
 void VCompressionFilter::setSkipHeaders()
 {
     d->bSkipHeaders = true;

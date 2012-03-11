@@ -33,7 +33,7 @@
  *
  * This header is not installed.
  *
- * @internal
+ * \internal
  */
 class VIBE_EXPORT VGzipCompressionFilter : public VAbstractCompressionFilter
 {
@@ -55,6 +55,7 @@ public:
         ZlibHeader = 1, // zlib headers (HTTP deflate)
         GZipHeader = 2
     };
+
     void init(int mode, Flag flag); // for direct users of VGzipCompressionFilter
     virtual int mode() const;
     virtual void terminate();
@@ -71,6 +72,7 @@ public:
 
 private:
     Result uncompress_noop();
+
     class Private;
     Private *const d;
 };

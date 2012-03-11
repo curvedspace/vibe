@@ -104,7 +104,7 @@ public:
      * Scanning begins immediately when a dir/file watch
      * is added.
      *
-     * @param parent the parent of the QObject (or 0 for parent-less KDataTools)
+     * \param parent the parent of the QObject (or 0 for parent-less KDataTools)
      */
     VFileSystemWatcher(QObject *parent = 0);
 
@@ -129,8 +129,8 @@ public:
      * If the @p path points to a symlink to a directory, the target directory
      * is watched instead. If you want to watch the link, use @p addFile().
      *
-     * @param path the path to watch
-     * @param watchModes watch modes
+     * \param path the path to watch
+     * \param watchModes watch modes
      *
      * \see VFileSystemWatcher::WatchMode
      */
@@ -139,14 +139,14 @@ public:
     /**
      * Adds a file to be watched.
      * If it's a symlink to a directory, it watches the symlink itself.
-     * @param file the file to watch
+     * \param file the file to watch
      */
     void addFile(const QString &file);
 
     /**
      * Returns the time the directory/file was last changed.
-     * @param path the file to check
-     * @return the date of the last modification
+     * \param path the file to check
+     * \return the date of the last modification
      */
     QDateTime ctime(const QString &path) const;
 
@@ -154,7 +154,7 @@ public:
      * Removes a directory from the list of scanned directories.
      *
      * If specified path is not in the list this does nothing.
-     * @param path the path of the dir to be removed from the list
+     * \param path the path of the dir to be removed from the list
      */
     void removeDir(const QString &path);
 
@@ -162,7 +162,7 @@ public:
      * Removes a file from the list of watched files.
      *
      * If specified path is not in the list this does nothing.
-     * @param file the file to be removed from the list
+     * \param file the file to be removed from the list
      */
     void removeFile(const QString &file);
 
@@ -174,8 +174,8 @@ public:
      * on this directory (copy/move big files or many files). When finished,
      * call restartDirScan(path).
      *
-     * @param path the path to skip
-     * @return true if the @p path is being watched, otherwise false
+     * \param path the path to skip
+     * \return true if the @p path is being watched, otherwise false
      * @see restartDirScanning()
      */
     bool stopDirScan(const QString &path);
@@ -189,8 +189,8 @@ public:
      * Call it when you are finished with big operations on that path,
      * @em and when @em you have refreshed that path.
      *
-     * @param path the path to restart scanning
-     * @return true if the @p path is being watched, otherwise false
+     * \param path the path to restart scanning
+     * \return true if the @p path is being watched, otherwise false
      * @see stopDirScanning()
      */
     bool restartDirScan(const QString &path);
@@ -198,7 +198,7 @@ public:
     /**
      * Starts scanning of all dirs in list.
      *
-     * @param notify If true, all changed directories (since
+     * \param notify If true, all changed directories (since
      * stopScan() call) will be notified for refresh. If notify is
      * false, all ctimes will be reset (except those who are stopped,
      * but only if @p skippedToo is false) and changed dirs won't be
@@ -206,7 +206,7 @@ public:
      * empty. First call should be called with @p false or else all
      * directories
      * in list will be notified.
-     * @param skippedToo if true, the skipped directoris (scanning of which was
+     * \param skippedToo if true, the skipped directoris (scanning of which was
      * stopped with stopDirScan() ) will be reset and notified
      * for change. Otherwise, stopped directories will continue to be
      * unnotified.
@@ -223,14 +223,14 @@ public:
     /**
      * Is scanning stopped?
      * After creation of a VFileSystemWatcher instance, this is false.
-     * @return true when scanning stopped
+     * \return true when scanning stopped
      */
     bool isStopped();
 
     /**
      * Check if a directory is being watched by this VFileSystemWatcher instance
-     * @param path the directory to check
-     * @return true if the directory is being watched
+     * \param path the directory to check
+     * \return true if the directory is being watched
      */
     bool contains(const QString &path) const;
 
@@ -252,13 +252,13 @@ public:
      * This function returns an instance of VFileSystemWatcher. If there is none, it
      * will be created.
      *
-     * @return a VFileSystemWatcher instance
+     * \return a VFileSystemWatcher instance
      */
     static VFileSystemWatcher *self();
 
     /**
      * Returns true if there is an instance of VFileSystemWatcher.
-     * @return true if there is an instance of VFileSystemWatcher.
+     * \return true if there is an instance of VFileSystemWatcher.
      * @see VFileSystemWatcher::self()
      */
     static bool exists();
@@ -275,13 +275,13 @@ signals:
      * depending on which backend is used by VFileSystemWatcher.
      *
      * The new ctime is set before the signal is emitted.
-     * @param path the path of the file or directory
+     * \param path the path of the file or directory
      */
     void dirty(const QString &path);
 
     /**
      * Emitted when a file or directory is created.
-     * @param path the path of the file or directory
+     * \param path the path of the file or directory
      */
     void created(const QString &path);
 
@@ -289,26 +289,26 @@ signals:
      * Emitted when a file or directory is deleted.
      *
      * The object is still watched for new creation.
-     * @param path the path of the file or directory
+     * \param path the path of the file or directory
      */
     void deleted(const QString &path);
 
 public slots:
     /**
      * Emits created().
-     * @param path the path of the file or directory
+     * \param path the path of the file or directory
      */
     void setCreated(const QString &path);
 
     /**
      * Emits dirty().
-     * @param path the path of the file or directory
+     * \param path the path of the file or directory
      */
     void setDirty(const QString &path);
 
     /**
      * Emits deleted().
-     * @param path the path of the file or directory
+     * \param path the path of the file or directory
      */
     void setDeleted(const QString &path);
 

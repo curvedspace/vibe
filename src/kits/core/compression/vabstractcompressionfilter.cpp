@@ -47,9 +47,16 @@ VAbstractCompressionFilterPrivate::VAbstractCompressionFilterPrivate() :
 {
 }
 
-/*
- * VAbstractCompressionFilter
- */
+/*!
+    This is the base class for compression filters
+    such as gzip and bzip2. It's pretty much internal.
+    Don't use directly, use VCompressionFilter instead.
+
+    \author David Faure <faure@kde.org>
+     \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+
+    \internal
+*/
 
 VAbstractCompressionFilter::VAbstractCompressionFilter() :
     m_dev(0L),
@@ -65,12 +72,21 @@ VAbstractCompressionFilter::~VAbstractCompressionFilter()
     delete d;
 }
 
+/**
+    Sets the device on which the filter will work
+    \param dev the device on which the filter will work
+    \param autodelete if true, @p dev is deleted when the filter is deleted
+*/
 void VAbstractCompressionFilter::setDevice(QIODevice *dev, bool autodelete)
 {
     m_dev = dev;
     m_bAutoDel = autodelete;
 }
 
+/**
+    Returns the device on which the filter will work.
+    \returns the device on which the filter will work
+*/
 QIODevice *VAbstractCompressionFilter::device()
 {
     return m_dev;
@@ -86,6 +102,12 @@ bool VAbstractCompressionFilter::outBufferFull() const
     return outBufferAvailable() == 0;
 }
 
+/*!
+    Call this to create the appropriate filter for the file
+    named @p fileName.
+    \param fileName the name of the file to filter
+    \return the filter for the @p fileName, or 0 if not found
+*/
 VAbstractCompressionFilter *VAbstractCompressionFilter::findFilterByFileName(const QString &fileName)
 {
     if (fileName.endsWith(QLatin1String(".gz"), Qt::CaseInsensitive))
@@ -107,6 +129,12 @@ VAbstractCompressionFilter *VAbstractCompressionFilter::findFilterByFileName(con
     return 0;
 }
 
+/*!
+    Call this to create the appropriate filter for the mimetype
+    @p mimeType. For instance application/x-gzip.
+    \param mimeType the mime type of the file to filter
+    \return the filter for the @p mimeType, or 0 if not found
+*/
 VAbstractCompressionFilter *VAbstractCompressionFilter::findFilterByMimeType(const QString &mimeType)
 {
     if (mimeType == QLatin1String("application/x-gzip"))

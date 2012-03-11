@@ -53,14 +53,14 @@ public:
 
     /*!
         Returns the value of a key.
-        @param key the key, with the complete path.
+        \param key the key, with the complete path.
     */
     QVariant value(const QString &key) const;
 
     /*!
         Sets the value for the specified key.
-        @param key full path of the key.
-        @param value the value to set the key to.
+        \param key full path of the key.
+        \param value the value to set the key to.
     */
     void setValue(const QString &key, const QVariant &value);
 

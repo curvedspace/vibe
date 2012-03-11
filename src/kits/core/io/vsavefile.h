@@ -115,8 +115,8 @@ public:
     /**
      * Creates a new VSaveFile and sets the target file to @p filename.
      *
-     * @param filename the path of the file
-     * @param componentData unused
+     * \param filename the path of the file
+     * \param componentData unused
      */
     explicit VSaveFile(const QString &filename);
 
@@ -132,7 +132,7 @@ public:
      * @brief Set the target filename for the save file.
      * You must use this to set the filename of the target file if you do
      * not use the contructor that does so.
-     * @param filename Name of the target file.
+     * \param filename Name of the target file.
      */
     void setFileName(const QString &filename);
 
@@ -140,14 +140,14 @@ public:
      * @brief Returns the name of the target file.
      * This function returns the name of the target file, or an empty
      * QString if it has not yet been set.
-     * @returns The name of the target file.
+     * \returns The name of the target file.
      */
     QString fileName() const;
 
     /**
      * @brief Returns the last error that occurred.
      * Use this function to check for errors.
-     * @returns The last error that occurred, or QFile::NoError.
+     * \returns The last error that occurred, or QFile::NoError.
      */
     QFile::FileError error() const;
 
@@ -155,7 +155,7 @@ public:
      * @brief Returns a human-readable description of the last error.
      * Use this function to get a human-readable description of the
      * last error that occurred.
-     * @return A string describing the last error that occurred.
+     * \return A string describing the last error that occurred.
      */
     QString errorString() const;
 
@@ -165,10 +165,10 @@ public:
      * to. It will also check to ensure that there are sufficient permissions to
      * write to the target file.
      *
-     * @param flags Sets the QIODevice::OpenMode. It should contain the write flag, otherwise you
+     * \param flags Sets the QIODevice::OpenMode. It should contain the write flag, otherwise you
      * have a save file you cannot save to.
      *
-     * @return true if successful, or false if an error has occurred.
+     * \return true if successful, or false if an error has occurred.
      */
     virtual bool open(OpenMode flags = QIODevice::ReadWrite);
 
@@ -182,7 +182,7 @@ public:
     /**
      * @brief Finalize changes to the file.
      * This will commit all the changes that have been made to the file.
-     * @return true if successful, or false if an error has occurred.
+     * \return true if successful, or false if an error has occurred.
      **/
     bool finalize();
 
@@ -195,9 +195,9 @@ public:
      * Use simpleBackupFile() or numberedBackupFile() to force one of these
      * specific backup styles.
      * You can use this method even if you don't use VSaveFile.
-     * @param filename the file to backup
-     * @param backupDir optional directory where to save the backup file in.
-     * @return true if successful, or false if an error has occurred.
+     * \param filename the file to backup
+     * \param backupDir optional directory where to save the backup file in.
+     * \return true if successful, or false if an error has occurred.
      */
     static bool backupFile(const QString &filename,
                            const QString &backupDir = QString());
@@ -207,11 +207,11 @@ public:
      *
      * This function creates a backup file from the given filename.
      * You can use this method even if you don't use VSaveFile.
-     * @param filename the file to backup
-     * @param backupDir optional directory where to save the backup file in.
+     * \param filename the file to backup
+     * \param backupDir optional directory where to save the backup file in.
      * If empty (the default), the backup will be in the same directory as @p filename.
-     * @param backupExtension the extension to append to @p filename, "~" by default.
-     * @return true if successful, or false if an error has occurred.
+     * \param backupExtension the extension to append to @p filename, "~" by default.
+     * \return true if successful, or false if an error has occurred.
      */
     static bool simpleBackupFile(const QString &filename,
                                  const QString &backupDir = QString(),
@@ -234,15 +234,15 @@ public:
      * permitted (@p maxBackups) will be removed.
      * You can use this method even if you don't use VSaveFile.
      *
-     * @param filename the file to backup
-     * @param backupDir optional directory where to save the backup file in.
+     * \param filename the file to backup
+     * \param backupDir optional directory where to save the backup file in.
      * If empty (the default), the backup will be in the same directory as
      * @p filename.
-     * @param backupExtension the extension to append to @p filename,
+     * \param backupExtension the extension to append to @p filename,
      * which is "~" by default.  Do not use an extension containing digits.
-     * @param maxBackups the maximum number of backup files permitted.
+     * \param maxBackups the maximum number of backup files permitted.
      * For best performance a small number (10) is recommended.
-     * @return true if successful, or false if an error has occurred.
+     * \return true if successful, or false if an error has occurred.
      */
     static bool numberedBackupFile(const QString &filename,
                                    const QString &backupDir = QString(),

@@ -23,9 +23,9 @@
 #include "vstringhandler.h"
 
 /*!
-    \brief This namespace contains utility functions for handling strings.
-
     \ingroup core
+
+    \brief Namespace for manipulating words and sentences in strings.
 
     The functions here are intended to provide an easy way to
     cut/slice/splice words inside sentences in whatever order desired.
@@ -46,22 +46,22 @@
     The methods here are completely stateless.  All strings are cut
     on the fly and returned as new qstrings/qstringlists.
 
-    \short Namespace for manipulating words and sentences in strings
     \author Ian Zepp <icszepp@islc.net>
     \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
 */
-
 namespace VStringHandler
 {
     /*!
         Substitute characters at the beginning, at the middle or at the end of
         a string by an ellipsis ("...").
-        @param str is the string to modify
-        @param mode is where the ellipsis appears
-        @param maxlen is the maximum length the modified string will have
-        If the original string is shorter than "maxlen", it is returned verbatim
-        @return the modified string or the same string if @mode is Qt::ElideNone or
-        the @str string length is more than @maxlen.
+
+        \param str is the string to modify
+        \param mode is where the ellipsis appears
+        \param maxlen is the maximum length the modified string will have
+        If the original string is shorter than \p maxlen, it is returned verbatim
+
+        \return the modified string or the same string if \p mode is Qt::ElideNone or
+        the \p str string length is more than \p maxlen.
     */
     QString elide(const QString &str, Qt::TextElideMode mode, int maxlen)
     {
