@@ -37,7 +37,7 @@ namespace VFileString
         qreal kib = size / 1024.0;
         if (kib < 1.0)
             return QCoreApplication::translate("VFileString",
-                                               "%1 bytes","Bytes format").arg(locale.toString(size));
+                                               "%1 bytes", "Bytes format").arg(locale.toString(size));
 
         qreal mib = kib / 1024.0;
         if (mib < 1.0)
