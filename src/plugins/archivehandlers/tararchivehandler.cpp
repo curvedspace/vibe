@@ -1,8 +1,8 @@
 /****************************************************************************
  * This file is part of Vibe.
  *
- * Copyright (c) 2000-2005 David Faure <faure@kde.org>
- * Copyright (c) 2003 Leo Savernik <l.savernik@aon.at>
+ * Copyright (c) 2000-2005 David Faure
+ * Copyright (c) 2003 Leo Savernik
  * Copyright (c) 2012 Pier Luigi Fiorini
  *
  * Author(s):
@@ -29,9 +29,9 @@
 #include <QTemporaryFile>
 #include <QDebug>
 
-#include <VibeCore/VAbstractCompressionFilter>
-#include <VibeCore/VCompressionFilter>
-#include <VibeCore/VArchive>
+#include <VAbstractCompressionFilter>
+#include <VCompressionFilter>
+#include <VArchive>
 
 #include "tararchivehandler.h"
 

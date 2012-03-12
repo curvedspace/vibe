@@ -37,6 +37,7 @@ public:
 
 private:
     QStringList tarMimeTypes() const;
+    QStringList arMimeTypes() const;
 };
 
 #endif // ARCHIVESPLUGIN_H

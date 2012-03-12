@@ -1,8 +1,8 @@
 /****************************************************************************
  * This file is part of Vibe.
  *
- * Copyright (c) 2000-2005 David Faure <faure@kde.org>
- * Copyright (c) 2003 Leo Savernik <l.savernik@aon.at>
+ * Copyright (c) 2000-2005 David Faure
+ * Copyright (c) 2003 Leo Savernik
  * Copyright (c) 2012 Pier Luigi Fiorini
  *
  * Author(s):
@@ -27,7 +27,7 @@
 #ifndef TARARCHIVE_H
 #define TARARCHIVE_H
 
-#include <VibeCore/VArchiveHandler>
+#include <VArchiveHandler>
 
 class TarArchiveHandlerPrivate;
 
@@ -47,7 +47,7 @@ public:
     /*!
         Creates an instance that operates on the given filename
         using the compression filter associated to given mimetype.
- 
+
         \param mimetype "application/x-gzip", "application/x-bzip" or
         "application/x-xz"
         Do not use application/x-compressed-tar or similar - you only need to

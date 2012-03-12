@@ -28,11 +28,13 @@
 
 #include "archivesplugin.h"
 #include "tararchivehandler.h"
+#include "ararchivehandler.h"
 
 QStringList ArchivesPlugin::mimeTypes() const
 {
     QStringList types;
     types << tarMimeTypes();
+    types << arMimeTypes();
 
     return types;
 }
@@ -41,6 +43,8 @@ VArchiveHandler *ArchivesPlugin::create(const QString &mimeType)
 {
     if (tarMimeTypes().contains(mimeType))
         return new TarArchiveHandler(mimeType);
+    if (arMimeTypes().contains(mimeType))
+        return new ArArchiveHandler(mimeType);
     return 0;
 }
 
@@ -52,6 +56,14 @@ QStringList ArchivesPlugin::tarMimeTypes() const
           << "application/x-bzip-compressed-tar"
           << "application/x-lzma-compressed-tar"
           << "application/x-xz-compressed-tar";
+
+    return types;
+}
+
+QStringList ArchivesPlugin::arMimeTypes() const
+{
+    QStringList types;
+    types << "application/x-archive";
 
     return types;
 }

@@ -1,6 +1,7 @@
 include_directories(
     ${Qt5Core_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/headers
+    ${CMAKE_SOURCE_DIR}/headers/VibeCore
     ${CMAKE_BINARY_DIR}/src/kits/core
     ${CMAKE_CURRENT_BINARY_DIR}
 )
