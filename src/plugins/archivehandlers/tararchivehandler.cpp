@@ -1,21 +1,28 @@
-/* This file is part of the KDE libraries
-   Copyright (C) 2000 David Faure <faure@kde.org>
-   Copyright (C) 2003 Leo Savernik <l.savernik@aon.at>
-
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Library General Public
-   License version 2 as published by the Free Software Foundation.
-
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Library General Public License for more details.
-
-   You should have received a copy of the GNU Library General Public License
-   along with this library; see the file COPYING.LIB.  If not, write to
-   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-   Boston, MA 02110-1301, USA.
-*/
+/****************************************************************************
+ * This file is part of Vibe.
+ *
+ * Copyright (c) 2000-2005 David Faure <faure@kde.org>
+ * Copyright (c) 2003 Leo Savernik <l.savernik@aon.at>
+ * Copyright (c) 2012 Pier Luigi Fiorini
+ *
+ * Author(s):
+ *    David Faure <faure@kde.org>
+ *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *    Leo Savernik <l.savernik@aon.at>
+ *
+ * Vibe is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 2.1 of the License, or
+ * (at your option) any later version.
+ *
+ * Vibe is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
+ ***************************************************************************/
 
 #include <QDir>
 #include <QFile>
