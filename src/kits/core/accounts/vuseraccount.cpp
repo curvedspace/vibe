@@ -71,7 +71,7 @@ VUserAccount::~VUserAccount()
 bool VUserAccount::isValid() const
 {
     Q_D(const VUserAccount);
-    return (d->uid >= 0 && d->gid >= 0 && !d.userName.isEmpty());
+    return (d->uid >= 0 && d->gid >= 0 && !d->userName.isEmpty());
 }
 
 /*!
