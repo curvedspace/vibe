@@ -20,9 +20,9 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QtCore/QDebug>
-#include <QtCore/QFile>
-#include <QtCore/QRegExp>
+#include <QDebug>
+#include <QFile>
+#include <QRegExp>
 
 #include <VibeCore/VStandardDirectories>
 

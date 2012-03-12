@@ -38,7 +38,7 @@
 // We mean it.
 //
 
-#include <QtCore/QMimeDatabase>
+#include <QMimeDatabase>
 
 class VArchivePrivate
 {

@@ -23,7 +23,7 @@
 #ifndef VSTANDARDDIRECTORIES_H
 #define VSTANDARDDIRECTORIES_H
 
-#include <QtCore/QString>
+#include <QString>
 
 namespace VStandardDirectories
 {

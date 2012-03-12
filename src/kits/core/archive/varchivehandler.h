@@ -27,7 +27,7 @@
 #ifndef VARCHIVEHANDLER_H
 #define VARCHIVEHANDLER_H
 
-#include <QtCore/QIODevice>
+#include <QIODevice>
 
 #include <VibeCore/VGlobal>
 

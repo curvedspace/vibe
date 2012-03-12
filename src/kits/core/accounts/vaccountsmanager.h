@@ -23,7 +23,7 @@
 #ifndef VACCOUNTSMANAGER_H
 #define VACCOUNTSMANAGER_H
 
-#include <QtCore/QList>
+#include <QList>
 
 #include <VibeCore/VGlobal>
 #include <VibeCore/VUserAccountList>

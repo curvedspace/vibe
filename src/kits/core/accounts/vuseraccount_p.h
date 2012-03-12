@@ -23,7 +23,7 @@
 #ifndef VUSERACCOUNT_P_H
 #define VUSERACCOUNT_P_H
 
-#include <QtCore/QString>
+#include <QString>
 
 //
 //  W A R N I N G

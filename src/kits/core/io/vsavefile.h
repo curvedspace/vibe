@@ -31,8 +31,8 @@
 #ifndef VSAVEFILE_H
 #define VSAVEFILE_H
 
-#include <QtCore/QFile>
-#include <QtCore/QString>
+#include <QFile>
+#include <QString>
 
 #include <VibeCore/VGlobal>
 

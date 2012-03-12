@@ -27,11 +27,11 @@
 #ifndef VCOMMANDOPTIONS_H
 #define VCOMMANDOPTIONS_H
 
-#include <QtCore/QStringList>
-#include <QtCore/QVariant>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QMultiHash>
-#include <QtCore/QFlags>
+#include <QStringList>
+#include <QVariant>
+#include <QCoreApplication>
+#include <QMultiHash>
+#include <QFlags>
 
 #include <VibeCore/VGlobal>
 

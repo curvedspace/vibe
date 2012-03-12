@@ -24,10 +24,10 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QtCore/QTextStream>
-#include <QtCore/QIODevice>
-#include <QtCore/QtDebug>
-#include <QtCore/QDir>
+#include <QTextStream>
+#include <QIODevice>
+#include <QtDebug>
+#include <QDir>
 
 #include "vcommandoptions.h"
 

@@ -19,12 +19,12 @@
 
 #include "kar.h"
 
-#include <QtCore/QFile>
-#include <QtCore/QDir>
+#include <QFile>
+#include <QDir>
 #include <time.h>
 #include <kdebug.h>
 #include <kmimetype.h>
-#include <QtCore/QRegExp>
+#include <QRegExp>
 
 #include "kfilterdev.h"
 //#include "klimitediodevice_p.h"

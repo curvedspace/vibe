@@ -28,10 +28,10 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QtCore/QDir>
-#include <QtCore/QTemporaryFile>
-#include <QtCore/QSettings>
-#include <QtCore/QFileInfo>
+#include <QDir>
+#include <QTemporaryFile>
+#include <QSettings>
+#include <QFileInfo>
 
 #include "vsavefile.h"
 

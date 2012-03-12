@@ -23,7 +23,7 @@
 #ifndef VSTRINGHANDLER_H
 #define VSTRINGHANDLER_H
 
-#include <QtCore/QString>
+#include <QString>
 
 #include <VibeCore/VGlobal>
 
