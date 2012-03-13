@@ -51,6 +51,7 @@ set(SOURCES
 
     archive/varchive.cpp
     archive/varchivehandler.cpp
+    archive/varchivehandlerplugin.cpp
     archive/vlimitediodevice.cpp
 
     compression/vabstractcompressionfilter.cpp

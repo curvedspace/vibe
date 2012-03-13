@@ -22,23 +22,43 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QFile>
-#include <QDir>
-#include <QRegExp>
+#include <QDebug>
 
-#include <VAbstractCompressionFilter>
 #include <VCompressionFilter>
 #include <VArchive>
+#include <VArchiveHandlerPlugin>
 
 #include "ararchivehandler.h"
 
+/*
+ * ArPlugin
+ */
+
+class ArPlugin : public VArchiveHandlerPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.vision-os.Vibe.VArchiveHandlerFactoryInterface" FILE "ar.json")
+public:
+    QStringList mimeTypes() const {
+        QStringList types;
+        types << "application/x-archive";
+
+        return types;
+    }
+
+    VArchiveHandler *create(const QString &mimeType) {
+        if (mimeTypes().contains(mimeType))
+            return new ArArchiveHandler(mimeType);
+        return 0;
+    }
+};
+
+/*
+ * ArArchiveHandler
+ */
+
 ArArchiveHandler::ArArchiveHandler(const QString &filename) :
     VArchiveHandler(filename)
-{
-}
-
-ArArchiveHandler::ArArchiveHandler(QIODevice *dev) :
-    VArchiveHandler(dev)
 {
 }
 
@@ -160,9 +180,9 @@ bool ArArchiveHandler::openArchive(QIODevice::OpenMode mode)
         name.replace('/', QByteArray());
         qDebug() << "Filename: " << name << " Size: " << size;
 
-        ArArchiveHandlerchiveEntry *entry = new ArArchiveHandlerchiveFile(this, QString::fromLocal8Bit(name), mode, date,
-                                                                          QString(), QString(), QString(),
-                                                                          dev->pos(), size);
+        VArchiveEntry *entry = new VArchiveFile(archive(), QString::fromLocal8Bit(name),
+                                                mode, date, QString(), QString(),
+                                                QString(), dev->pos(), size);
         // Ar files don't support directories, so everything in root
         rootDir()->addEntry(entry);
 
@@ -177,3 +197,5 @@ bool ArArchiveHandler::closeArchive()
 {
     return true;
 }
+
+#include "ararchivehandler.moc"

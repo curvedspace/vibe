@@ -32,6 +32,7 @@
 #include <VAbstractCompressionFilter>
 #include <VCompressionFilter>
 #include <VArchive>
+#include <VArchiveHandlerPlugin>
 
 #include "tararchivehandler.h"
 
@@ -41,6 +42,33 @@ static const char application_bzip[] = "application/x-bzip";
 static const char application_lzma[] = "application/x-lzma";
 static const char application_xz[] = "application/x-xz";
 static const char application_zip[] = "application/zip";
+
+/*
+ * TarPlugin
+ */
+
+class TarPlugin : public VArchiveHandlerPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.vision-os.Vibe.VArchiveHandlerFactoryInterface" FILE "tar.json")
+public:
+    QStringList mimeTypes() const {
+        QStringList types;
+        types << "application/x-tar"
+              << "application/x-compressed-tar"
+              << "application/x-bzip-compressed-tar"
+              << "application/x-lzma-compressed-tar"
+              << "application/x-xz-compressed-tar";
+
+        return types;
+    }
+
+    VArchiveHandler *create(const QString &mimeType) {
+        if (mimeTypes().contains(mimeType))
+            return new TarArchiveHandler(mimeType);
+        return 0;
+    }
+};
 
 /*
  * TarArchiveHandlerPrivate
@@ -815,3 +843,5 @@ bool TarArchiveHandler::doWriteSymLink(const QString &name, const QString &targe
         d->tarEnd = device()->pos();
     return retval;
 }
+
+#include "tararchivehandler.moc"

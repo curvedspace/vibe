@@ -8,13 +8,11 @@ include_directories(
 
 add_definitions(${Qt5Core_CFLAGS} -DQT_PLUGIN)
 
-set(SOURCES
-    tararchivehandler.cpp
-    archivesplugin.cpp
-)
+add_library(vtar SHARED tararchivehandler.cpp)
+target_link_libraries(vtar VibeCore)
 
-add_library(VibeArchivePlugin SHARED ${SOURCES})
-target_link_libraries(VibeArchivePlugin VibeCore)
+add_library(var SHARED ararchivehandler.cpp)
+target_link_libraries(var VibeCore)
 
-install(TARGETS VibeArchivePlugin LIBRARY
+install(TARGETS vtar var LIBRARY
     DESTINATION ${CMAKE_INSTALL_PLUGINSDIR}/archivehandlers COMPONENT ArchiveHandlers)

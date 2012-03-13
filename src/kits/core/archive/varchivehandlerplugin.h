@@ -23,45 +23,29 @@
 #ifndef VARCHIVEHANDLERPLUGIN_H
 #define VARCHIVEHANDLERPLUGIN_H
 
-#include <QObject>
+#include <QtCore/qplugin.h>
 
 #include <VibeCore/VGlobal>
 
-
 class VArchiveHandler;
 
-/*!
-   \addtogroup core Core Kit
-   @{
+struct VIBE_EXPORT VArchiveHandlerFactoryInterface {
+    virtual VArchiveHandler *create(const QString &mimeType) = 0;
+    virtual QStringList mimeTypes() const = 0;
+};
 
-   \class VArchiveHandlerPlugin <varchivehandlerplugin.h> <VArchiveHandlerPlugin>
+#define VArchiveHandlerFactoryInterface_iid "org.vision-os.Vibe.VArchiveHandlerFactoryInterface"
 
-   \brief The VArchiveHandlerPlugin class provides an abstract base for custom
-   VArchiveHandler plugins.
+Q_DECLARE_INTERFACE(VArchiveHandlerFactoryInterface, VArchiveHandlerFactoryInterface_iid)
 
-   VArchiveHandlerPlugin is a simple plugin interface that makes it easy to
-   create custom archive handlers that can be loaded dynamically into
-   applications in order to provide transparent support for archives of
-   all supported formats.
-
-   Writing an archive handler plugin is archieved by subclassing this base class,
-   reimplementing the pure virtual mimeTypes() and create() methods, and exporting
-   the class using the Q_EXPORT_PLUGIN2() macro.
-
-   \sa VArchiveHandler
-
-   \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
-*/
-class VIBE_EXPORT VArchiveHandlerPlugin
+class VIBE_EXPORT VArchiveHandlerPlugin : public QObject, public VArchiveHandlerFactoryInterface
 {
+    Q_OBJECT
+    Q_INTERFACES(VArchiveHandlerFactoryInterface)
 public:
-    /*!
-        Destroys the archive handler plugin.
+    explicit VArchiveHandlerPlugin(QObject *parent = 0);
 
-        Plugins are destroyed automatically when they are no longer used, so
-        there is no need for calling the destructor explicitly.
-    */
-    virtual ~VArchiveHandlerPlugin() {}
+    virtual ~VArchiveHandlerPlugin();
 
     /*!
         Returns the list of MIME Types this plugin supports.
@@ -80,12 +64,5 @@ public:
     */
     virtual VArchiveHandler *create(const QString &mimeType) = 0;
 };
-
-Q_DECLARE_INTERFACE(VArchiveHandlerPlugin,
-                    "org.vision.Vibe.VArchiveHandlerInterface/1.0")
-
-/*!
-    @}
-*/
 
 #endif // VARCHIVEHANDLERPLUGIN_H
