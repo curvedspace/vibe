@@ -28,6 +28,7 @@
 
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
+#include <QtCore/QDir>
 #include <QtCore/QProcess>
 #include <QtCore/QRegExp>
 #include <QtCore/QTextStream>
@@ -380,6 +381,12 @@ bool VBookmarkManager::saveAs(const QString &filename, bool toolbarCache) const
 {
     qDebug() << "VBookmarkManager::save " << filename;
 
+    // Create the directory if missing
+    QFileInfo fileInfo(filename);
+    QDir dir = fileInfo.absoluteDir();
+    if (!dir.exists())
+        dir.mkpath(dir.path());
+
     // Save the bookmark toolbar folder for quick loading
     // but only when it will actually make things quicker
     const QString cacheFilename = filename + kToolBarCacheExtension;
@@ -419,8 +426,8 @@ bool VBookmarkManager::saveAs(const QString &filename, bool toolbarCache) const
                          "which is most likely a full hard drive.")
                       .arg(filename).arg(file.errorString());
 
-        qCritical() << QString("Unable to save bookmarks in %1 for the following reason (error code %2): %3")
-                    .arg(filename).arg(file.error()).arg(file.errorString());
+        qCritical() << qPrintable(QString("Unable to save bookmarks in %1 for the following reason (error code %2): %3")
+                    .arg(filename).arg(file.error()).arg(file.errorString()));
         emit const_cast<VBookmarkManager *>(this)->error(err);
     }
     hadSaveError = true;
