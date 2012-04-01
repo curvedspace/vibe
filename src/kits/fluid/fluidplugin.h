@@ -23,14 +23,14 @@
 #ifndef STYLEPLUGIN_H
 #define STYLEPLUGIN_H
 
-#include <QDeclarativeExtensionPlugin>
+#include <QQmlExtensionPlugin>
 
-class FluidPlugin : public QDeclarativeExtensionPlugin
+class FluidPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
 public:
     void registerTypes(const char *uri);
-    void initializeEngine(QDeclarativeEngine *engine, const char *uri);
+    void initializeEngine(QQmlEngine *engine, const char *uri);
 };
 
 #endif // STYLEPLUGIN_H

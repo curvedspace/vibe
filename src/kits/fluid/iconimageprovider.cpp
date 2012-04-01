@@ -20,13 +20,13 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QIcon>
 #include <QDebug>
+#include <QIcon>
 
 #include "iconimageprovider.h"
 
 IconImageProvider::IconImageProvider() :
-    QDeclarativeImageProvider(QDeclarativeImageProvider::Image)
+    QQmlImageProvider(QQmlImageProvider::Image)
 {
 }
 

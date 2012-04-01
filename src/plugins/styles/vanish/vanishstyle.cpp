@@ -742,11 +742,11 @@ static void qt_plastique_draw_handle(QPainter *painter, const QStyleOption *opti
     if (orientation == Qt::Vertical) {
         int nchunks = rect.width() / (handle.width() + spacing);
         for (int i = 0; i < nchunks; ++i)
-            painter->drawImage(QPoint(rect.left() + i * (handle.width() + spacing), rect.top()), handle);
+            painter->drawImage(QPoint(rect.left() + i *(handle.width() + spacing), rect.top()), handle);
     } else {
         int nchunks = rect.height() / (handle.height() + spacing);
         for (int i = 0; i < nchunks; ++i)
-            painter->drawImage(QPoint(rect.left(), rect.top() + i * (handle.height() + spacing)), handle);
+            painter->drawImage(QPoint(rect.left(), rect.top() + i *(handle.height() + spacing)), handle);
     }
 }
 #endif
@@ -1114,16 +1114,8 @@ void VanishStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *op
         case PE_FrameStatusBarItem: {
             // Draws the frame around a popup menu.
             QPen oldPen = painter->pen();
-            painter->setPen(borderColor);
+            painter->setPen(QPen(option->palette.button().color().darker(105), 0));
             painter->drawRect(option->rect.adjusted(0, 0, -1, -1));
-            painter->setPen(alphaCornerColor);
-            const QPoint points[4] = {
-                QPoint(option->rect.topLeft()),
-                QPoint(option->rect.topRight()),
-                QPoint(option->rect.bottomLeft()),
-                QPoint(option->rect.bottomRight())
-            };
-            painter->drawPoints(points, 4);
             painter->setPen(oldPen);
             break;
         }
@@ -4729,9 +4721,9 @@ int VanishStyle::styleHint(StyleHint hint, const QStyleOption *option, const QWi
         case SH_ItemView_ArrowKeysNavigateIntoChildren:
             ret = true;
             break;
-		case SH_ItemView_ActivateItemOnSingleClick:
-			ret = false;
-			break;
+        case SH_ItemView_ActivateItemOnSingleClick:
+            ret = false;
+            break;
         case SH_Menu_SubMenuPopupDelay:
             ret = 96;
             break;

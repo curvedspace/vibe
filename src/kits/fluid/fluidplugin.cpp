@@ -20,6 +20,8 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
+#include <QQmlEngine>
+
 #include "fluidplugin.h"
 #include "desktopitem.h"
 #include "iconimageprovider.h"
@@ -35,7 +37,7 @@ void FluidPlugin::registerTypes(const char *uri)
                                             QLatin1String("Do not create objects of type Desktop"));
 }
 
-void FluidPlugin::initializeEngine(QDeclarativeEngine *engine, const char *uri)
+void FluidPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
 {
     Q_UNUSED(uri);
     engine->addImageProvider("icon", new IconImageProvider);
