@@ -1,4 +1,6 @@
 include_directories(
+    ${Qt5Core_INCLUDE_DIRS}
+    ${Qt5Gui_INCLUDE_DIRS}
     ${Qt5Widgets_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_BINARY_DIR}/src/kits/core

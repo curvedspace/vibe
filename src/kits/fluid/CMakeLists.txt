@@ -2,6 +2,7 @@ include_directories(
     ${Qt5Core_INCLUDE_DIRS}
     ${Qt5Gui_INCLUDE_DIRS}
     ${Qt5Widgets_INCLUDE_DIRS}
+    ${Qt5Qml_INCLUDE_DIRS}
     ${Qt5Quick_INCLUDE_DIRS}
     ${VIBE_CORE_INCLUDEDIR}
     ${GLESv2_INCLUDEDIR}
@@ -26,7 +27,7 @@ set(RESOURCES
 qt5_add_resources(RESOURCES_RCC ${RESOURCES})
 
 add_library(VibeFluidPlugin SHARED ${SOURCES} ${RESOURCES_RCC})
-target_link_libraries(VibeFluidPlugin ${Qt5Quick_LIBRARIES} ${Qt5Widgets_LIBRARIES})
+target_link_libraries(VibeFluidPlugin ${Qt5Qml_LIBRARIES} ${Qt5Quick_LIBRARIES} ${Qt5Widgets_LIBRARIES})
 
 install(TARGETS VibeFluidPlugin
     LIBRARY DESTINATION ${CMAKE_INSTALL_IMPORTSDIR}/VibeFluid)
