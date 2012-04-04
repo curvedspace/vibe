@@ -1,5 +1,6 @@
 include_directories(
     ${Qt5Core_INCLUDE_DIRS}
+    ${Qt5Gui_INCLUDE_DIRS}
     ${Qt5Widgets_INCLUDE_DIRS}
     ${VibeCore_INCLUDE_DIRS}
     ${VibeGui_INCLUDE_DIRS}
