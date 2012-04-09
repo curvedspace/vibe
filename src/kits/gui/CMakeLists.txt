@@ -2,10 +2,12 @@ add_definitions(-DVIBE_BUILDING)
 
 include_directories(
     ${Qt5Core_INCLUDE_DIRS}
+    ${Qt5DBus_INCLUDE_DIRS}
     ${Qt5Gui_INCLUDE_DIRS}
     ${Qt5Widgets_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_BINARY_DIR}/src/kits/core
+    ${CMAKE_CURRENT_SOURCE_DIR}/kernel
     ${CMAKE_CURRENT_SOURCE_DIR}/widgets
     ${CMAKE_CURRENT_SOURCE_DIR}/widgets/private
     ${CMAKE_CURRENT_SOURCE_DIR}/paged
@@ -22,6 +24,8 @@ set(SOURCES
     dir_helper.cpp
     vstyleoptionbreadcrumbbar.cpp
     vtheme.cpp
+
+    kernel/vmainapplicationadaptor.cpp
 
     widgets/vlineedit.cpp
     widgets/vnavigationbar.cpp
@@ -48,6 +52,8 @@ set(HEADERS
     vtheme.h
     vstyle.h
 
+    kernel/vmainapplicationadaptor.h
+
     widgets/vlineedit.h
     widgets/vnavigationbar.h
     widgets/vtitlewidget.h
@@ -62,7 +68,8 @@ set(HEADERS
 )
 
 add_library(VibeGui SHARED ${SOURCES})
-target_link_libraries(VibeGui ${Qt5Gui_LIBRARIES} ${Qt5Widgets_LIBRARIES} VibeCore)
+target_link_libraries(VibeGui ${Qt5DBus_LIBRARIES} ${Qt5Gui_LIBRARIES}
+    ${Qt5Widgets_LIBRARIES} VibeCore)
 set_target_properties(VibeGui PROPERTIES
     VERSION ${VIBE_VERSION_STRING}
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_RELEASE})

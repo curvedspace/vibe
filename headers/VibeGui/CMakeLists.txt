@@ -5,6 +5,7 @@ set(HEADERS
     VColorScheme
     VCommonStyle
     VLineEdit
+    VMainApplicationAdaptor
     VNavigationBar
     VPageModel
     VPageView
