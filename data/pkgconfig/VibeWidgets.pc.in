@@ -1,0 +1,13 @@
+prefix=@CMAKE_INSTALL_SYSTEMDIR@
+exec_prefix=${prefix}
+bindir=@CMAKE_INSTALL_BINDIR@
+libdir=@CMAKE_INSTALL_LIBDIR@
+includedir=@CMAKE_INSTALL_INCLUDEDIR@
+qtminver=@QT_MIN_VERSION@
+
+Name: VibeGui
+Description: Widgets library for Vision applications
+Version: @VIBE_VERSION_STRING@
+Libs: -L${libdir} -lVibeWidgets
+Requires: QtGui >= @QT_MIN_VERSION@, QtWidgets >= @QT_MIN_VERSION@, VibeCore = @VIBE_VERSION_STRING@
+Cflags: -I${includedir} -I${includedir}/VibeWidgets

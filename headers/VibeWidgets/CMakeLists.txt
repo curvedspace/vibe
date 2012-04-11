@@ -1,0 +1,6 @@
+set(HEADERS
+    VBreadcrumbView
+)
+
+install(FILES ${HEADERS}
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/VibeWidgets COMPONENT Devel)
