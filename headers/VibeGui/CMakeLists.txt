@@ -1,9 +1,6 @@
 set(HEADERS
     VAboutDialog
-    VBreadCrumbBar
-    VBreadCrumbDirModel
     VColorScheme
-    VCommonStyle
     VLineEdit
     VMainApplicationAdaptor
     VNavigationBar
@@ -13,8 +10,6 @@ set(HEADERS
     VPageWidgetModel
     VPreferencesModule
     VPreferencesModulePlugin
-    VStyle
-    VStyleOptionBreadCrumbBar
     VTitleWidget
 )
 

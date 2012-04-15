@@ -17,12 +17,8 @@ include_directories(
 
 set(SOURCES
     vaboutdialog.cpp
-    vabstractbreadcrumbmodel.cpp
-    vbreadcrumbbar.cpp
-    vbreadcrumbdirmodel.cpp
     vcolorscheme.cpp
     dir_helper.cpp
-    vstyleoptionbreadcrumbbar.cpp
     vtheme.cpp
 
     kernel/vmainapplicationadaptor.cpp
@@ -44,13 +40,8 @@ set(SOURCES
 
 set(HEADERS
     vaboutdialog.h
-    vabstractbreadcrumbmodel.h
-    vbreadcrumbbar.h
-    vbreadcrumbdirmodel.h
     vcolorscheme.h
-    vstyleoptionbreadcrumbbar.h
     vtheme.h
-    vstyle.h
 
     kernel/vmainapplicationadaptor.h
 
