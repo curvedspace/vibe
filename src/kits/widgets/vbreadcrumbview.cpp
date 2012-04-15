@@ -28,6 +28,7 @@
 
 #include <QApplication>
 #include <QBoxLayout>
+#include <QFontMetrics>
 #include <QListView>
 #include <QStylePainter>
 #include <QToolButton>
@@ -37,7 +38,7 @@
 #include "vbreadcrumbview_p.h"
 
 VBreadcrumbViewDelegate::VBreadcrumbViewDelegate(QObject *parent) :
-    QStyledItemDelegate(parent)
+    QAbstractItemDelegate(parent)
 {
 }
 
@@ -82,28 +83,38 @@ void VBreadcrumbViewDelegate::paint(QPainter *painter,
                           option.fontMetrics.elidedText(model->data(index).toString(), Qt::ElideRight, rectText.width()));
     }
 
-    // Increase margin
-    margin += kLateralMargin;
-
-    // Draw arrow
-    QStyleOption arrowOption;
-    arrowOption = option;
-    arrowOption.rect = QRect(isLTR
-                             ? option.rect.left() + iconSize + rectText.width() + margin
-                             : 0, option.rect.top(),
-                             option.rect.width() - iconSize - rectText.width() - margin,
-                             option.rect.height());
-    QApplication::style()->drawPrimitive(QStyle::PE_IndicatorArrowRight, &arrowOption, painter);
-
     painter->restore();
 }
 
-QSize VBreadcrumbViewDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+QSize VBreadcrumbViewDelegate::sizeHint(const QStyleOptionViewItem &option,
+                                        const QModelIndex &index) const
 {
-    int arrow = 8;
-    int iconSize = QApplication::style()->pixelMetric(QStyle::PM_ToolBarIconSize, &option);
+    QStyleOptionViewItemV4 opt = option;
+
+    QWidget *widget = 0;
+    if (const QStyleOptionViewItemV3 *v3 = qstyleoption_cast<const QStyleOptionViewItemV3 *>(&option))
+        widget = (QWidget *)v3->widget;
+
+    int w = 0, h = 0;
     int kLateralMargin = 4;
-    return QStyledItemDelegate::sizeHint(option, index) + QSize(iconSize + arrow + kLateralMargin * 4, 0);
+    int iconSize = QApplication::style()->pixelMetric(QStyle::PM_ToolBarIconSize, &option);
+    const QAbstractItemModel *model = index.model();
+
+    w = h = iconSize;
+
+    if (index.parent().isValid()) {
+        QFont font;
+        QFontMetrics fm(font);
+
+        QSize textSize = fm.size(Qt::TextShowMnemonic, model->data(index).toString());
+        textSize.setWidth(textSize.width() + fm.width(QLatin1Char(' ')) * 2);
+        w += 4 + textSize.width() + kLateralMargin;
+        if (textSize.height() > h)
+            h = textSize.height();
+    }
+
+    return QApplication::style()->sizeFromContents(QStyle::CT_ToolButton,
+                                                   &opt, QSize(w, h), widget);
 }
 
 class VBreadcrumbViewButton : public QAbstractButton
@@ -116,10 +127,7 @@ public:
     QModelIndex index;
 
     QSize sizeHint() const {
-        int arrow = 8;
         int border = style()->pixelMetric(QStyle::PM_DefaultFrameWidth) * 2;
-
-        QSize hint(border, border);
 
         if (index.isValid()) {
             VBreadcrumbView *view = qobject_cast<VBreadcrumbView *>(parent());
@@ -127,11 +135,11 @@ public:
                 QStyleOptionViewItemV4 option;
                 option.initFrom(this);
 
-                return view->itemDelegate()->sizeHint(option, index) + QSize(border + arrow, border);
+                return view->itemDelegate()->sizeHint(option, index) + QSize(border, border);
             }
         }
 
-        return QSize(border + arrow, border + arrow);
+        return QSize(border, border);
     }
 
 protected:
@@ -161,7 +169,7 @@ protected:
         if (index.isValid()) {
             VBreadcrumbView *view = qobject_cast<VBreadcrumbView *>(parent());
             if (view) {
-                QStyledItemDelegate *delegate = qobject_cast<QStyledItemDelegate *>(view->itemDelegate());
+                QAbstractItemDelegate *delegate = qobject_cast<QAbstractItemDelegate *>(view->itemDelegate());
                 QStyleOptionViewItem itemOption;
                 itemOption.initFrom(this);
                 itemOption.rect = option.rect;
@@ -182,7 +190,6 @@ protected:
 VBreadcrumbViewPrivate::VBreadcrumbViewPrivate(VBreadcrumbView *self) :
     q_ptr(self)
 {
-    // initializers only
 }
 
 void VBreadcrumbViewPrivate::addCrumb(const QModelIndex &index)
@@ -220,14 +227,22 @@ VBreadcrumbView::VBreadcrumbView(QWidget *parent) :
     d->buttonLayout->setSpacing(0);
     d->buttonLayout->addStretch(1);
     d->addCrumb(QModelIndex());
-
-    //QObject::connect(d->view, SIGNAL(activated(QModelIndex)), this, SLOT(enterTree(QModelIndex)));
 }
 
 QSize VBreadcrumbView::sizeHint() const
 {
     int border = style()->pixelMetric(QStyle::PM_DefaultFrameWidth) * 2;
     return QSize(border, border);
+}
+
+QSize VBreadcrumbView::minimumSizeHint() const
+{
+    return sizeHint();
+}
+
+QSize VBreadcrumbView::maximumSizeHint() const
+{
+    return minimumSizeHint();
 }
 
 void VBreadcrumbView::setModel(QAbstractItemModel *model)
@@ -263,70 +278,40 @@ int VBreadcrumbView::verticalOffset() const
 
 QModelIndex VBreadcrumbView::indexAt(const QPoint &point) const
 {
-#if 0
-    Q_D(const VBreadcrumbView);
-    return d->view->indexAt(d->view->mapFromParent(point));
-#endif
     return QModelIndex();
 }
 
 bool VBreadcrumbView::isIndexHidden(const QModelIndex &index) const
 {
     Q_D(const VBreadcrumbView);
-    //return d->view->isIndexHidden(index);
     return false;
 }
 
 QModelIndex VBreadcrumbView::moveCursor(CursorAction action, Qt::KeyboardModifiers mods)
 {
-#if 0
-    Q_D(VBreadcrumbView);
-    return d->view->moveCursor(action, mods);
-#endif
     return QModelIndex();
 }
 
 void VBreadcrumbView::scrollTo(const QModelIndex &index, ScrollHint hint)
 {
-#if 0
-    Q_D(VBreadcrumbView);
-
-    if (index.parent() != rootIndex()) {
-        // TODO: set the breadcrumbs and the view's root index correctly
-    }
-    d->view->scrollTo(index, hint);
-#endif
 }
 
 void VBreadcrumbView::setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags flags)
 {
-#if 0
-    Q_D(VBreadcrumbView);
-
-    QPoint tl = d->view->mapFromParent(rect.topLeft());
-    d->view->setSelection(QRect(tl, rect.size()), flags);
-#endif
 }
 
 QRect VBreadcrumbView::visualRect(const QModelIndex &index) const
 {
-#if 0
     Q_D(const VBreadcrumbView);
 
-    QRect rect = d->view->visualRect(index);
-    return QRect(d->view->mapToParent(rect.topLeft()), rect.size());
-#endif
-    return QRect(0, 0, 1, 1);
+    foreach(VBreadcrumbViewButton * b, d->buttons) {
+        if (b->index == index)
+            return b->geometry();
+    }
 }
 
 QRegion VBreadcrumbView::visualRegionForSelection(const QItemSelection &selection) const
 {
-#if 0
-    Q_D(const VBreadcrumbView);
-
-    QRegion region = d->view->visualRegionForSelection(selection);
-    return region.translated(d->view->pos());
-#endif
     return QRegion();
 }
 

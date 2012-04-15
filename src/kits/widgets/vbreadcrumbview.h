@@ -36,6 +36,8 @@ public:
     explicit VBreadcrumbView(QWidget *parent = 0);
 
     virtual QSize sizeHint() const;
+    virtual QSize minimumSizeHint() const;
+    virtual QSize maximumSizeHint() const;
 
     virtual void setModel(QAbstractItemModel *model);
 
