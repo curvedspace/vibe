@@ -1,4 +1,4 @@
-add_definitions(-DVIBE_BUILDING)
+add_definitions(-DVIBE_BUILDING ${Qt5DBus_DEFINITIONS} ${Qt5Gui_DEFINITIONS})
 
 include_directories(
     ${Qt5Core_INCLUDE_DIRS}
@@ -7,63 +7,25 @@ include_directories(
     ${Qt5Widgets_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_BINARY_DIR}/src/kits/core
-    ${CMAKE_CURRENT_SOURCE_DIR}/kernel
-    ${CMAKE_CURRENT_SOURCE_DIR}/widgets
-    ${CMAKE_CURRENT_SOURCE_DIR}/widgets/private
-    ${CMAKE_CURRENT_SOURCE_DIR}/paged
-    ${CMAKE_CURRENT_SOURCE_DIR}/preferences
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 set(SOURCES
-    vaboutdialog.cpp
     vcolorscheme.cpp
-    dir_helper.cpp
-    vtheme.cpp
+    vmainapplicationadaptor.cpp
 
-    kernel/vmainapplicationadaptor.cpp
-
-    widgets/vlineedit.cpp
-    widgets/vnavigationbar.cpp
-    widgets/vtitlewidget.cpp
-    widgets/private/iconbutton.cpp
-    widgets/private/navigationitemdelegate.cpp
-
-    paged/vpagemodel.cpp
-    paged/vpageview.cpp
-    paged/vpageview_p.cpp
-    paged/vpagewidget.cpp
-    paged/vpagewidgetmodel.cpp
-
-    preferences/vpreferencesmodule.cpp
 )
 
 set(HEADERS
-    vaboutdialog.h
     vcolorscheme.h
-    vtheme.h
-
-    kernel/vmainapplicationadaptor.h
-
-    widgets/vlineedit.h
-    widgets/vnavigationbar.h
-    widgets/vtitlewidget.h
-
-    paged/vpagemodel.h
-    paged/vpageview.h
-    paged/vpagewidget.h
-    paged/vpagewidgetmodel.h
-
-    preferences/vpreferencesmodule.h
-    preferences/vpreferencesmoduleplugin.h
+    vmainapplicationadaptor.h
 )
 
 add_library(VibeGui SHARED ${SOURCES})
-target_link_libraries(VibeGui ${Qt5DBus_LIBRARIES} ${Qt5Gui_LIBRARIES}
-    ${Qt5Widgets_LIBRARIES} VibeCore)
+target_link_libraries(VibeGui ${Qt5DBus_LIBRARIES} ${Qt5Gui_LIBRARIES} VibeCore)
 set_target_properties(VibeGui PROPERTIES
     VERSION ${VIBE_VERSION_STRING}
-    SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_RELEASE})
+    SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_PATCH})
 
 install(FILES ${HEADERS}
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/VibeGui COMPONENT Devel)

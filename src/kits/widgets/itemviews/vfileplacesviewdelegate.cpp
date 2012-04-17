@@ -34,7 +34,7 @@
 
 #include <VibeHardware/VDevice>
 
-#include "fileplacesviewdelegate.h"
+#include "vfileplacesviewdelegate.h"
 
 const quint32 kLateralMargin = 4;
 

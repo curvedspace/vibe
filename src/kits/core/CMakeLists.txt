@@ -1,4 +1,4 @@
-add_definitions(-DVIBE_BUILDING -Wno-multichar)
+add_definitions(-DVIBE_BUILDING -Wno-multichar ${Qt5Core_DEFINITIONS})
 
 include_directories(
     ${Qt5Core_INCLUDE_DIRS}
@@ -99,10 +99,10 @@ set(HEADERS
 )
 
 add_library(VibeCore SHARED ${SOURCES})
-target_link_libraries(VibeCore ${Qt5Core_LIBRARIES} ${Qt5Xml_LIBRARIES} ${VibeCore_OPTIONAL_LIBS})
+target_link_libraries(VibeCore ${Qt5Core_LIBRARIES} ${VibeCore_OPTIONAL_LIBS})
 set_target_properties(VibeCore PROPERTIES
     VERSION ${VIBE_VERSION_STRING}
-    SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_RELEASE})
+    SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_PATCH})
 
 install(FILES ${HEADERS}
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/VibeCore COMPONENT Devel)

@@ -5,6 +5,8 @@ set(HEADERS
     VArchive
     VArchiveHandler
     VArchiveHandlerPlugin
+    VBookmark
+    VBookmarkManager
     VCommandOptions
     VCompressionFilter
     VDesktopFile

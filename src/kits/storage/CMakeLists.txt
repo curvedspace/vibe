@@ -15,19 +15,11 @@ set(SOURCES
     vbookmark.cpp
     vbookmarkmanager.cpp
     vbookmarkmanageradaptor.cpp
-    vfileplacesmodel.cpp
-    private/fileplacesitem.cpp
-    private/fileplacesviewdelegate.cpp
-    vfileplacesview.cpp
-    vfilesystemmodel.cpp
 )
 
 set(HEADERS
     vbookmark.h
     vbookmarkmanager.h
-    vfileplacesmodel.h
-    vfileplacesview.h
-    vfilesystemmodel.h
 )
 
 add_library(VibeStorage SHARED ${SOURCES})

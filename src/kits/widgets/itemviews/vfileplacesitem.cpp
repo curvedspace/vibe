@@ -32,7 +32,7 @@
 
 #include <VibeStorage/VFilePlacesModel>
 
-#include "fileplacesitem.h"
+#include "vfileplacesitem.h"
 
 namespace VPrivate
 {
