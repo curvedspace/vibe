@@ -1,1 +1,1 @@
-#include "../../src/kits/gui/widgets/vlineedit.h"
+#include "../../src/kits/widgets/widgets/vlineedit.h"

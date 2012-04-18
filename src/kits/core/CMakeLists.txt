@@ -2,6 +2,7 @@ add_definitions(-DVIBE_BUILDING -Wno-multichar ${Qt5Core_DEFINITIONS})
 
 include_directories(
     ${Qt5Core_INCLUDE_DIRS}
+    ${Qt5DBus_INCLUDE_DIRS}
     ${Qt5Xml_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -54,6 +55,10 @@ set(SOURCES
     archive/varchivehandlerplugin.cpp
     archive/vlimitediodevice.cpp
 
+    bookmarks/vbookmark.cpp
+    bookmarks/vbookmarkmanager.cpp
+    bookmarks/vbookmarkmanageradaptor.cpp
+
     compression/vabstractcompressionfilter.cpp
     compression/vcompressionfilter.cpp
     compression/vgzipcompressionfilter.cpp
@@ -85,6 +90,9 @@ set(HEADERS
     archive/varchivehandler.h
     archive/varchivehandlerplugin.h
 
+    bookmarks/vbookmark.h
+    bookmarks/vbookmarkmanager.h
+
     compression/vabstractcompressionfilter.h
     compression/vcompressionfilter.h
 
@@ -99,7 +107,7 @@ set(HEADERS
 )
 
 add_library(VibeCore SHARED ${SOURCES})
-target_link_libraries(VibeCore ${Qt5Core_LIBRARIES} ${VibeCore_OPTIONAL_LIBS})
+target_link_libraries(VibeCore ${Qt5Core_LIBRARIES} ${Qt5DBus_LIBRARIES} ${Qt5Xml_LIBRARIES} ${VibeCore_OPTIONAL_LIBS})
 set_target_properties(VibeCore PROPERTIES
     VERSION ${VIBE_VERSION_STRING}
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_PATCH})

@@ -36,7 +36,7 @@
  */
 
 /**
- * \class VTitleWidget vtitlewidget.h <VibeGui/VTitleWidget>
+ * \class VTitleWidget vtitlewidget.h <VTitleWidget>
  *
  * @short Standard title widget with a white background and round border.
  *

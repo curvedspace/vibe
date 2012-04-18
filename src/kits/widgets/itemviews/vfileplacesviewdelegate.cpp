@@ -29,8 +29,8 @@
 #include <QStyle>
 #include <QTimeLine>
 
-#include <VibeStorage/VFilePlacesModel>
-#include <VibeStorage/VFilePlacesView>
+#include <VibeWidgets/VFilePlacesModel>
+#include <VibeWidgets/VFilePlacesView>
 
 #include <VibeHardware/VDevice>
 
@@ -225,4 +225,4 @@ namespace VPrivate
     }
 }
 
-#include "moc_fileplacesviewdelegate.cpp"
+#include "moc_vfileplacesviewdelegate.cpp"

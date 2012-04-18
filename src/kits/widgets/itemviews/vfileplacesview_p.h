@@ -34,7 +34,7 @@
 // We mean it.
 //
 
-#include "private/fileplacesviewdelegate.h"
+#include "vfileplacesviewdelegate.h"
 
 class QUrl;
 class QPersistentModelIndex;

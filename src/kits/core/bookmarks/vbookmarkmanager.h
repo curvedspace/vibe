@@ -38,7 +38,7 @@
 #include <QtXml/QDomElement>
 
 #include <VibeCore/VGlobal>
-#include <VibeStorage/VBookmark>
+#include <VibeCore/VBookmark>
 
 class QDBusMessage;
 

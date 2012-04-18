@@ -30,7 +30,7 @@
 #include <VibeHardware/VBlock>
 #include <VibeHardware/VOpticalDisc>
 
-#include <VibeStorage/VFilePlacesModel>
+#include <VibeWidgets/VFilePlacesModel>
 
 #include "vfileplacesitem.h"
 
@@ -369,4 +369,4 @@ namespace VPrivate
     }
 }
 
-#include "moc_fileplacesitem.cpp"
+#include "moc_vfileplacesitem.cpp"

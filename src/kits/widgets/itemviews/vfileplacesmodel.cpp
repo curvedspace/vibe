@@ -28,7 +28,7 @@
 #include <QAction>
 
 #include <VibeCore/VStandardDirectories>
-#include <VibeStorage/VBookmarkManager>
+#include <VibeCore/VBookmarkManager>
 #include <VibeHardware/VDeviceNotifier>
 #include <VibeHardware/VDevice>
 #include <VibeHardware/VStorageAccess>
@@ -38,7 +38,7 @@
 
 #include "vfileplacesmodel.h"
 #include "vfileplacesmodel_p.h"
-#include "private/fileplacesitem.h"
+#include "vfileplacesitem.h"
 
 using namespace VPrivate;
 

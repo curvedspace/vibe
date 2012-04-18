@@ -1,1 +1,1 @@
-#include "../../src/kits/storage/vbookmark.h"
+#include "../../src/kits/core/bookmarks/vbookmark.h"

@@ -1,1 +1,1 @@
-#include "../../src/kits/storage/vfileplacesview.h"
+#include "../../src/kits/widgets/itemviews/vfileplacesview.h"

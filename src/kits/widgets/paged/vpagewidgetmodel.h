@@ -25,7 +25,7 @@
 #ifndef VPAGEWIDGETMODEL_H
 #define VPAGEWIDGETMODEL_H
 
-#include <VibeGui/VPageModel>
+#include <VibeWidgets/VPageModel>
 
 class QWidget;
 class QIcon;

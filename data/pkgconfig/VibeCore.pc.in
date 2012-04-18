@@ -9,5 +9,5 @@ Name: VibeCore
 Description: Application, strings and I/O support classes for Vision applications
 Version: @VIBE_VERSION_STRING@
 Libs: -L${libdir} -lVibeCore
-Requires: QtCore >= @QT_MIN_VERSION@, QtXml >= @QT_MIN_VERSION@
+Requires: QtCore >= @QT_MIN_VERSION@, QtXml >= @QT_MIN_VERSION@, QtDBus >= @QT_MIN_VERSION@
 Cflags: -I${includedir} -I${includedir}/VibeCore

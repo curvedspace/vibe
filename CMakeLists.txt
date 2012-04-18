@@ -87,11 +87,6 @@ if(CMAKE_BUILD_TYPE MATCHES "^[Rr]elease$")
     add_definitions(-DQT_NO_DEBUG_OUTPUT)
 endif()
 
-# Qt packages don't add GLESv2 include directories, we have to do it ourselves.
-# Usually it's the same directory as other stuff installed on the system, but
-# for custom builds that's a totally different story.
-pkg_check_modules(GLESv2 REQUIRED glesv2)
-
 # Find DBus session bus services directory
 execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=session_bus_services_dir dbus-1
     OUTPUT_VARIABLE DBUS_SESSION_BUS_SERVICES_DIR

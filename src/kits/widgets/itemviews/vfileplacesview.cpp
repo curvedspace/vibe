@@ -37,7 +37,7 @@
 #include "vfileplacesview.h"
 #include "vfileplacesview_p.h"
 #include "vfileplacesmodel.h"
-#include "private/fileplacesitem.h"
+#include "vfileplacesitem.h"
 
 using namespace VPrivate;
 

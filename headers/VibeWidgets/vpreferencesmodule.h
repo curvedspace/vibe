@@ -1,1 +1,1 @@
-#include "../../src/kits/gui/preferences/vpreferencesmodule.h"
+#include "../../src/kits/widgets/preferences/vpreferencesmodule.h"

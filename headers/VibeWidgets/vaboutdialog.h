@@ -1,1 +1,1 @@
-#include "../../src/kits/gui/vaboutdialog.h"
+#include "../../src/kits/widgets/dialogs/vaboutdialog.h"

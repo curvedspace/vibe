@@ -23,7 +23,7 @@
 #ifndef VFILEPLACESVIEW_H
 #define VFILEPLACESVIEW_H
 
-#include <VibeGui/VNavigationBar>
+#include <VibeWidgets/VNavigationBar>
 
 class QUrl;
 

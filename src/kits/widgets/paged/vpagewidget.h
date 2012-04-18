@@ -25,8 +25,8 @@
 #ifndef VPAGEWIDGET_H
 #define VPAGEWIDGET_H
 
-#include <VibeGui/VPageWidgetModel>
-#include <VibeGui/VPageView>
+#include <VibeWidgets/VPageWidgetModel>
+#include <VibeWidgets/VPageView>
 
 class VPageWidgetPrivate;
 

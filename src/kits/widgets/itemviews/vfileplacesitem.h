@@ -20,8 +20,8 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#ifndef PRIVATE_FILEPLACESITEM_H
-#define PRIVATE_FILEPLACESITEM_H
+#ifndef VFILEPLACESITEM_P_H
+#define VFILEPLACESITEM_P_H
 
 //
 //  W A R N I N G
@@ -36,7 +36,7 @@
 
 #include <QPointer>
 
-#include <VibeStorage/VBookmarkManager>
+#include <VibeCore/VBookmarkManager>
 #include <VibeHardware/VDevice>
 
 class QUrl;
@@ -138,4 +138,4 @@ namespace VPrivate
     };
 }
 
-#endif // PRIVATE_FILEPLACESITEM_H
+#endif // VFILEPLACESITEM_P_H
