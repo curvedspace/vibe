@@ -37,6 +37,7 @@ public:
     QPlatformDialogHelper *createPlatformDialogHelper(DialogType type) const;
 
     const QPalette *palette(Palette type = SystemPalette) const;
+    const QFont *font(Font type = SystemFont) const;
 
     QVariant themeHint(ThemeHint hint) const;
 

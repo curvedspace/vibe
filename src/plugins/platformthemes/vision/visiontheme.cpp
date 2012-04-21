@@ -83,6 +83,28 @@ const QPalette *VisionTheme::palette(Palette type) const
     return new QPalette();
 }
 
+const QFont *VisionTheme::font(Font type) const
+{
+    QFont *font = new QFont(m_settings->value("font-name").toString());
+
+    switch (type) {
+        case TitleBarFont:
+        case DockWidgetTitleFont:
+            font->setBold(true);
+            break;
+        case SmallFont:
+            font->setPointSize(9);
+            break;
+        case MiniFont:
+            font->setPointSize(8);
+            break;
+        default:
+            break;
+    }
+
+    return font;
+}
+
 QVariant VisionTheme::themeHint(ThemeHint hint) const
 {
     switch (hint) {
@@ -98,6 +120,8 @@ QVariant VisionTheme::themeHint(ThemeHint hint) const
         case ToolBarIconSize:
             return m_settings->value("toolbar-icon-size");
 #endif
+        case ItemViewActivateItemOnSingleClick:
+            return QVariant(false);
         case SystemIconThemeName:
             return QStringLiteral("KFaenza");
             return m_settings->value("icon-theme");
@@ -110,8 +134,6 @@ QVariant VisionTheme::themeHint(ThemeHint hint) const
                   << findDirectory(SystemThemesDirectory) + "/icons";
             return QVariant(paths);
         }
-        case ItemViewActivateItemOnSingleClick:
-            return QVariant(false);
         case StyleNames: {
             QStringList styles;
             styles << m_settings->value("style").toString()
@@ -132,5 +154,3 @@ QVariant VisionTheme::themeHint(ThemeHint hint) const
 
     return QPlatformTheme::themeHint(hint);
 }
-
-#include "moc_visiontheme.cpp"
