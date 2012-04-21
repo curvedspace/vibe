@@ -75,7 +75,7 @@ if ("@CMAKE_BUILD_TYPE@" STREQUAL "Debug")
     endif()
 endif()
 
-if ("@CMAKE_BUILD_TYPE@" MATCHES "^[Rr]elease$" OR "@CMAKE_BUILD_TYPE" MATCHES "^[Rr]el[Ww]ith[Dd]eb[Ii]nfo$")
+if ("@CMAKE_BUILD_TYPE@" MATCHES "^[Rr]elease$" OR "@CMAKE_BUILD_TYPE@" MATCHES "^[Rr]el[Ww]ith[Dd]eb[Ii]nfo$")
     set_property(TARGET Vibe::@CMAKE_MODULE_NAME@ APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
     set_target_properties(Vibe::@CMAKE_MODULE_NAME@ PROPERTIES
         IMPORTED_LINK_INTERFACE_LIBRARIES_RELEASE "${_Vibe_MODULE_LIBRARIES}"
