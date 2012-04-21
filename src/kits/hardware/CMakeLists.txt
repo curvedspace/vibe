@@ -260,7 +260,7 @@ target_link_libraries(VibeHardware ${Qt5Core_LIBRARIES} ${Qt5DBus_LIBRARIES}
 target_link_libraries(VibeHardware LINK_INTERFACE_LIBRARIES ${Qt5Core_LIBRARIES})
 set_target_properties(VibeHardware PROPERTIES
     VERSION ${VIBE_VERSION_STRING}
-    SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_RELEASE})
+    SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_PATCH})
 
 #install(FILES org.kde.Solid.Networking.Client.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR})
 #install(FILES org.kde.Solid.PowerManagement.PolicyAgent.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR})
