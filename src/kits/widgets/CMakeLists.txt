@@ -55,7 +55,7 @@ set(HEADERS
 )
 
 add_library(VibeWidgets SHARED ${SOURCES})
-target_link_libraries(VibeWidgets ${Qt5Widgets_LIBRARIES} VibeCore)
+target_link_libraries(VibeWidgets ${Qt5Widgets_LIBRARIES} VibeCore VibeHardware)
 set_target_properties(VibeWidgets PROPERTIES
     VERSION ${VIBE_VERSION_STRING}
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_PATCH})
