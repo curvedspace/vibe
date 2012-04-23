@@ -58,6 +58,8 @@ namespace VStandardDirectories
                 return "/system/bundles";
             case SystemApplicationsDirectory:
                 return "/system/apps";
+            case SystemProgramsDirectory:
+                return "/system/progs";
             case SystemDevelopmentDirectory:
                 return "/system/develop";
             case SystemHeadersDirectory:
@@ -93,6 +95,8 @@ namespace VStandardDirectories
                 return "/common/bundles";
             case CommonApplicationsDirectory:
                 return "/common/apps";
+            case CommonProgramsDirectory:
+                return "/common/progs";
             case CommonDevelopmentDirectory:
                 return "/common/develop";
             case CommonHeadersDirectory:
