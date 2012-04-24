@@ -20,8 +20,19 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
+#include <QDebug>
+#include <QStringList>
+#include <QDirIterator>
+#include <QDBusConnection>
+#include <QDBusInterface>
+
+#include <VStandardDirectories>
+#include <VApplicationInfo>
+
 #include "vmainapplicationadaptor.h"
 #include "vmainapplicationadaptor_p.h"
+
+using namespace VStandardDirectories;
 
 /*
  * VMainApplicationAdaptorPrivate
@@ -44,6 +55,40 @@ VMainApplicationAdaptor::VMainApplicationAdaptor(const QString &identifier,
     d_ptr(new VMainApplicationAdaptorPrivate(identifier, application))
 {
     connect(application, SIGNAL(aboutToQuit()), SIGNAL(aboutToQuit()));
+
+    // Check if we're connected to the session bus
+    if (!QDBusConnection::sessionBus().isConnected()) {
+        qWarning() << "Cannot connect to the D-Bus session bus.";
+        qWarning() << "To start it, run:\n\teval `dbus-launch --auto-syntax`";
+        application->exit(127);
+    }
+
+    QStringList parts = organizationDomain().split(QLatin1Char('.'), QString::SkipEmptyParts);
+    QString reversedDomain;
+    if (parts.isEmpty())
+        reversedDomain = QStringLiteral("local.");
+    else
+        foreach(const QString & s, parts) {
+        reversedDomain.prepend(QLatin1Char('.'));
+        reversedDomain.prepend(s);
+    }
+    const QString pidSuffix = QString::number(applicationPid()).prepend(QLatin1String("-"));
+    const QString serviceName = reversedDomain + applicationName() + pidSuffix;
+    if (!QDBusConnection::sessionBus().registerService(serviceName)) {
+        qWarning() << "Couldn't register \"" << qPrintable(serviceName)
+                   << "\" with D-Bus, another process already owns it!";
+        application->exit(127);
+    }
+
+    // Register this object on the session bus
+    if (!QDBusConnection::sessionBus().registerObject(QStringLiteral("/MainApplication"), application)) {
+        qWarning() << "Couldn't register /MainApplication object with D-Bus!";
+        application->exit(127);
+    }
+
+    // Register this application
+    QDBusInterface registrar("org.maui-project.Mirage", "/Registrar");
+    qDebug() << registrar.call("Register", identifier, applicationVersion());
 }
 
 QString VMainApplicationAdaptor::identifier() const
@@ -74,6 +119,40 @@ QString VMainApplicationAdaptor::organizationDomain() const
 {
     Q_D(const VMainApplicationAdaptor);
     return d->app->organizationDomain();
+}
+
+qint64 VMainApplicationAdaptor::applicationPid() const
+{
+    Q_D(const VMainApplicationAdaptor);
+    return d->app->applicationPid();
+}
+
+QString VMainApplicationAdaptor::desktopFileName() const
+{
+    Q_D(const VMainApplicationAdaptor);
+
+    // Search for the desktop file
+    QStringList paths =
+        QStringList() << findDirectory(SystemApplicationsDirectory)
+        << findDirectory(CommonApplicationsDirectory)
+        << findDirectory(UserApplicationsDirectory);
+    foreach(QString path, paths) {
+        QDirIterator walker(path,
+                            QDir::Files | QDir::NoDotAndDotDot | QDir::Readable,
+                            QDirIterator::Subdirectories);
+        while (walker.hasNext()) {
+            walker.next();
+
+            if (walker.fileInfo().completeSuffix() == "desktop") {
+                // Return the desktop file if it matches
+                VApplicationInfo info(walker.fileInfo().absoluteFilePath());
+                if (info.isValid() && info.identifier() == d->id && info.version() == d->app->applicationVersion())
+                    return info.fileName();
+            }
+        }
+    }
+
+    return QString();
 }
 
 void VMainApplicationAdaptor::quit()

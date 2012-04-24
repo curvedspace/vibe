@@ -33,27 +33,31 @@ class VMainApplicationAdaptorPrivate;
 class VIBE_EXPORT VMainApplicationAdaptor : public QDBusAbstractAdaptor
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.maui-os.DBus.MainApplication")
+    Q_CLASSINFO("D-Bus Interface", "org.maui-project.DBus.MainApplication")
     Q_PROPERTY(QString identifier READ identifier)
     Q_PROPERTY(QString applicationName READ applicationName)
     Q_PROPERTY(QString applicationVersion READ applicationVersion)
     Q_PROPERTY(QString organizationName READ organizationName)
     Q_PROPERTY(QString organizationDomain READ organizationDomain)
-
+    Q_PROPERTY(qint64 applicationPid READ applicationPid)
 public:
     explicit VMainApplicationAdaptor(const QString &identifier,
                                      QGuiApplication *application);
 
     QString identifier() const;
+
     QString applicationName() const;
     QString applicationVersion() const;
     QString organizationName() const;
     QString organizationDomain() const;
 
+    qint64 applicationPid() const;
+
 signals:
     void aboutToQuit();
 
 public slots:
+    QString desktopFileName() const;
     Q_NOREPLY void quit();
 
     void reloadSettings();
