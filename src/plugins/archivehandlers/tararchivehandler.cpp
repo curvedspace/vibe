@@ -50,7 +50,7 @@ static const char application_zip[] = "application/zip";
 class TarPlugin : public VArchiveHandlerPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.vision-os.Vibe.VArchiveHandlerFactoryInterface" FILE "tar.json")
+    Q_PLUGIN_METADATA(IID "org.maui.Vibe.VArchiveHandlerFactoryInterface" FILE "tar.json")
 public:
     QStringList mimeTypes() const {
         QStringList types;

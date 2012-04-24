@@ -105,6 +105,6 @@ namespace VHardware
     }
 }
 
-Q_DECLARE_INTERFACE(VHardware::Ifaces::StorageVolume, "org.vision.Vibe.Hardware.Ifaces.StorageVolume/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::StorageVolume, "org.maui.Hardware.Ifaces.StorageVolume/0.1")
 
 #endif // VHARDWARE_IFACES_STORAGEVOLUME_H

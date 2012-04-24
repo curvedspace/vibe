@@ -68,6 +68,6 @@ namespace VHardware
     }
 }
 
-Q_DECLARE_INTERFACE(VHardware::Ifaces::SerialInterface, "org.vision.Vibe.Hardware.Ifaces.SerialInterface/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::SerialInterface, "org.maui.Hardware.Ifaces.SerialInterface/0.1")
 
 #endif // VHARDWARE_IFACES_SERIALINTERFACE_H

@@ -51,7 +51,7 @@ public Q_SLOTS:
 
 public:
     OrgFreedesktopPowerManagementInterface managerIface;
-    OrgVisionVibeHardwarePowerManagementPolicyAgentInterface policyAgentIface;
+    OrgMauiHardwarePowerManagementPolicyAgentInterface policyAgentIface;
     OrgFreedesktopPowerManagementInhibitInterface inhibitIface;
     QDBusServiceWatcher serviceWatcher;
 

@@ -22,6 +22,6 @@
 #define VHARDWARE_BACKENDS_FSTAB_SERVICE_H
 
 /* FStab */
-#define FSTAB_UDI_PREFIX             "/org/vision/fstab"
+#define FSTAB_UDI_PREFIX             "/org/maui/fstab"
 
 #endif // VHARDWARE_BACKENDS_FSTAB_H

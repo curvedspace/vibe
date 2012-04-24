@@ -60,6 +60,6 @@ namespace VHardware
     }
 }
 
-Q_DECLARE_INTERFACE(VHardware::Ifaces::NetworkShare, "org.vision.Vibe.Hardware.Ifaces.NetworkShare/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::NetworkShare, "org.maui.Hardware.Ifaces.NetworkShare/0.1")
 
 #endif // VHARDWARE_IFACES_NETWORKSHARE_H

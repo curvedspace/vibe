@@ -26,7 +26,7 @@
 #include "vnetworking.h"
 #include "vnetworking_p.h"
 
-#include "org_vision_vibe_hardware_networking_client.h"
+#include "org_maui_hardware_networking_client.h"
 
 Q_GLOBAL_STATIC(VNetworkingPrivate, globalNetworkManager)
 
@@ -34,10 +34,10 @@ VNetworkingPrivate::VNetworkingPrivate()
     : netStatus(VHardware::Networking::Unknown),
       connectPolicy(VHardware::Networking::Managed),
       disconnectPolicy(VHardware::Networking::Managed),
-      iface(new OrgVisionVibeHardwareNetworkingClientInterface("org.kde.kded",
-                                                               "/modules/networkstatus",
-                                                               QDBusConnection::sessionBus(),
-                                                               this))
+      iface(new OrgMauiHardwareNetworkingClientInterface("org.kde.kded",
+                                                         "/modules/networkstatus",
+                                                         QDBusConnection::sessionBus(),
+                                                         this))
 {
     //connect( iface, SIGNAL( statusChanged( uint ) ), globalNetworkManager()->, SIGNAL( statusChanged( Networking::Status ) ) );
     connect(iface, SIGNAL(statusChanged(uint)), this, SLOT(serviceStatusChanged(uint)));

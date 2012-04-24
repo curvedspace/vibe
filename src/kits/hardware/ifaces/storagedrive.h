@@ -87,6 +87,6 @@ namespace VHardware
     }
 }
 
-Q_DECLARE_INTERFACE(VHardware::Ifaces::StorageDrive, "org.vision.Vibe.Hardware.Ifaces.StorageDrive/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::StorageDrive, "org.maui.Hardware.Ifaces.StorageDrive/0.1")
 
 #endif // VHARDWARE_IFACES_STORAGEDRIVE_H

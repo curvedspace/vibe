@@ -23,6 +23,6 @@
 
 #include "../shared/udevqt.h"
 
-#define UDEV_UDI_PREFIX "/org/vision/Vibe/Hardware/udev"
+#define UDEV_UDI_PREFIX "/org/maui/Hardware/udev"
 
 #endif // VHARDWARE_BACKENDS_UDEV_H

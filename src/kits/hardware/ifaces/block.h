@@ -70,6 +70,6 @@ namespace VHardware
     }
 }
 
-Q_DECLARE_INTERFACE(VHardware::Ifaces::Block, "org.vision.Vibe.Hardware.Ifaces.Block/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::Block, "org.maui.Hardware.Ifaces.Block/0.1")
 
 #endif // VHARDWARE_IFACES_BLOCK_H

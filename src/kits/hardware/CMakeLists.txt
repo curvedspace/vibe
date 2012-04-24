@@ -229,17 +229,17 @@ set(SOURCES ${SOURCES}
 set_source_files_properties(
     org.freedesktop.PowerManagement.xml
     org.freedesktop.PowerManagement.Inhibit.xml
-    org.vision.Vibe.Hardware.PowerManagement.PolicyAgent.xml
+    org.maui.Hardware.PowerManagement.PolicyAgent.xml
     PROPERTIES NO_NAMESPACE TRUE
 )
 
 # DBus interfaces
 qt5_add_dbus_interfaces(SOURCES org.freedesktop.PowerManagement.xml
                         org.freedesktop.PowerManagement.Inhibit.xml
-                        org.vision.Vibe.Hardware.PowerManagement.PolicyAgent.xml)
+                        org.maui.Hardware.PowerManagement.PolicyAgent.xml)
 
-qt5_add_dbus_interface(SOURCES org.vision.Vibe.Hardware.Networking.Client.xml
-                       org_vision_vibe_hardware_networking_client)
+qt5_add_dbus_interface(SOURCES org.maui.Hardware.Networking.Client.xml
+                       org_maui_hardware_networking_client)
 
 # Prepare for optional libraries dependencies
 set(OPTIONAL_LIBS)

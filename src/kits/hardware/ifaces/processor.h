@@ -73,6 +73,6 @@ namespace VHardware
     }
 }
 
-Q_DECLARE_INTERFACE(VHardware::Ifaces::Processor, "org.vision.Vibe.Hardware.Ifaces.Processor/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::Processor, "org.maui.Hardware.Ifaces.Processor/0.1")
 
 #endif // VHARDWARE_IFACES_PROCESSOR_H

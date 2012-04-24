@@ -98,7 +98,7 @@ public:
     virtual VPreferencesModule *module() const = 0;
 };
 
-Q_DECLARE_INTERFACE(VPreferencesModulePlugin, "org.vision.Preferences.Module/1.0")
+Q_DECLARE_INTERFACE(VPreferencesModulePlugin, "org.maui.Preferences.Module/1.0")
 
 /** @}*/
 

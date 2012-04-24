@@ -95,6 +95,6 @@ namespace VHardware
     }
 }
 
-Q_DECLARE_INTERFACE(VHardware::Ifaces::GenericInterface, "org.vision.Vibe.Hardware.Ifaces.GenericInterface/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::GenericInterface, "org.maui.Hardware.Ifaces.GenericInterface/0.1")
 
 #endif // VHARDWARE_IFACES_GENERICINTERFACE_H

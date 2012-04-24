@@ -74,6 +74,6 @@ namespace VHardware
     }
 }
 
-Q_DECLARE_INTERFACE(VHardware::Ifaces::PortableMediaPlayer, "org.vision.Vibe.Hardware.Ifaces.PortableMediaPlayer/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::PortableMediaPlayer, "org.maui.Hardware.Ifaces.PortableMediaPlayer/0.1")
 
 #endif // VHARDWARE_IFACES_PORTABLEMEDIAPLAYER_H

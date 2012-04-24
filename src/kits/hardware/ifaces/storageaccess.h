@@ -132,6 +132,6 @@ namespace VHardware
     }
 }
 
-Q_DECLARE_INTERFACE(VHardware::Ifaces::StorageAccess, "org.vision.Vibe.Hardware.Ifaces.StorageAccess/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::StorageAccess, "org.maui.Hardware.Ifaces.StorageAccess/0.1")
 
 #endif // VHARDWARE_IFACES_STORAGEACCESS_H

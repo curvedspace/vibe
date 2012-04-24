@@ -87,7 +87,7 @@ VMainApplicationAdaptor::VMainApplicationAdaptor(const QString &identifier,
     }
 
     // Register this application
-    QDBusInterface registrar("org.maui-project.Mirage", "/Registrar");
+    QDBusInterface registrar("org.maui.Mirage", "/Registrar");
     qDebug() << registrar.call("Register", identifier, applicationVersion());
 }
 

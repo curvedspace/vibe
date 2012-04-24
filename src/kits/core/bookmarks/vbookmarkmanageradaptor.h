@@ -38,12 +38,12 @@
 
 class VBookmarkManager;
 
-#define VIBE_BOOKMARKMANAGER_DBUS_INTERFACE "org.maui-project.BookmarkManager"
+#define VIBE_BOOKMARKMANAGER_DBUS_INTERFACE "org.maui.BookmarkManager"
 
 class VBookmarkManagerAdaptor : public QDBusAbstractAdaptor
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.maui-project.BookmarkManager")
+    Q_CLASSINFO("D-Bus Interface", "org.maui.BookmarkManager")
 public:
     explicit VBookmarkManagerAdaptor(VBookmarkManager *parent);
 

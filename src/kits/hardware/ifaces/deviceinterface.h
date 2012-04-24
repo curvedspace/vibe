@@ -48,6 +48,6 @@ namespace VHardware
     }
 }
 
-Q_DECLARE_INTERFACE(VHardware::Ifaces::DeviceInterface, "org.vision.Vibe.Hardware.Ifaces.DeviceInterface/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::DeviceInterface, "org.maui.Hardware.Ifaces.DeviceInterface/0.1")
 
 #endif // VHARDWARE_IFACES_DEVICEINTERFACE_H

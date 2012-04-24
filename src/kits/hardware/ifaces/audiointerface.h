@@ -83,6 +83,6 @@ namespace VHardware
     }
 }
 
-Q_DECLARE_INTERFACE(VHardware::Ifaces::AudioInterface, "org.vision.Vibe.Hardware.Ifaces.AudioInterface/0.1.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::AudioInterface, "org.maui.Hardware.Ifaces.AudioInterface/0.1.1")
 
 #endif // VHARDWARE_IFACES_AUDIOINTERFACE_H

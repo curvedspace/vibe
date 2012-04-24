@@ -62,6 +62,6 @@ namespace VHardware
     }
 }
 
-Q_DECLARE_INTERFACE(VHardware::Ifaces::InternetGateway, "org.vision.Vibe.Hardware.Ifaces.InternetGateway/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::InternetGateway, "org.maui.Hardware.Ifaces.InternetGateway/0.1")
 
 #endif // VHARDWARE_IFACES_INTERNETGATEWAY_H

@@ -50,6 +50,6 @@ namespace VHardware
     }
 }
 
-Q_DECLARE_INTERFACE(VHardware::Ifaces::SmartCardReader, "org.vision.Vibe.Hardware.Ifaces.SmartCardReader/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::SmartCardReader, "org.maui.Hardware.Ifaces.SmartCardReader/0.1")
 
 #endif // VHARDWARE_IFACES_SMARTCARDREADER_H

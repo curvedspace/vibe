@@ -31,13 +31,13 @@ VPowerManagementPrivate::VPowerManagementPrivate()
     : managerIface("org.freedesktop.PowerManagement",
                    "/org/freedesktop/PowerManagement",
                    QDBusConnection::sessionBus()),
-    policyAgentIface("org.vision.Vibe.Hardware.PowerManagement.PolicyAgent",
-                     "/org/vision/Vibe/Hardware/PowerManagement/PolicyAgent",
+    policyAgentIface("org.maui.Hardware.PowerManagement.PolicyAgent",
+                     "/org/maui/Hardware/PowerManagement/PolicyAgent",
                      QDBusConnection::sessionBus()),
     inhibitIface("org.freedesktop.PowerManagement.Inhibit",
                  "/org/freedesktop/PowerManagement/Inhibit",
                  QDBusConnection::sessionBus()),
-    serviceWatcher("org.vision.Vibe.Hardware.PowerManagement",
+    serviceWatcher("org.maui.Hardware.PowerManagement",
                    QDBusConnection::sessionBus(),
                    QDBusServiceWatcher::WatchForRegistration)
 {
@@ -58,8 +58,8 @@ VPowerManagementPrivate::VPowerManagementPrivate()
             this, SLOT(slotServiceRegistered(QString)));
 
     // If the service is registered, trigger the connection immediately
-    if (QDBusConnection::sessionBus().interface()->isServiceRegistered("org.vision.Vibe.Hardware.PowerManagement")) {
-        slotServiceRegistered("org.vision.Vibe.Hardware.PowerManagement");
+    if (QDBusConnection::sessionBus().interface()->isServiceRegistered("org.maui.Hardware.PowerManagement")) {
+        slotServiceRegistered("org.maui.Hardware.PowerManagement");
     }
 }
 
@@ -188,18 +188,18 @@ void VPowerManagementPrivate::slotServiceRegistered(const QString &serviceName)
     Q_UNUSED(serviceName);
 
     // Is the resume signal available?
-    QDBusMessage call = QDBusMessage::createMethodCall("org.vision.Vibe.Hardware.PowerManagement",
-                                                       "/org/vision/Vibe/Hardware/PowerManagement",
-                                                       "org.vision.Vibe.Hardware.PowerManagement",
+    QDBusMessage call = QDBusMessage::createMethodCall("org.maui.Hardware.PowerManagement",
+                                                       "/org/maui/Hardware/PowerManagement",
+                                                       "org.maui.Hardware.PowerManagement",
                                                        "backendCapabilities");
     QDBusPendingReply< uint > reply = QDBusConnection::sessionBus().asyncCall(call);
     reply.waitForFinished();
 
     if (reply.isValid() && reply.value() > 0) {
         // Connect the signal
-        QDBusConnection::sessionBus().connect("org.vision.Vibe.Hardware.PowerManagement",
-                                              "/org/vision/Vibe/Hardware/PowerManagement",
-                                              "org.vision.Vibe.Hardware.PowerManagement",
+        QDBusConnection::sessionBus().connect("org.maui.Hardware.PowerManagement",
+                                              "/org/maui/Hardware/PowerManagement",
+                                              "org.maui.Hardware.PowerManagement",
                                               "resumingFromSuspend",
                                               this,
                                               SIGNAL(resumingFromSuspend()));

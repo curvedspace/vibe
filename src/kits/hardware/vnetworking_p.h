@@ -26,7 +26,7 @@
 
 #include "vnetworking.h"
 
-class OrgVisionVibeHardwareNetworkingClientInterface;
+class OrgMauiHardwareNetworkingClientInterface;
 class QAbstractSocket;
 class QTimer;
 
@@ -36,7 +36,7 @@ class VIBE_EXPORT VNetworkingPrivate : public VHardware::Networking::Notifier
 {
     Q_OBJECT
     Q_PROPERTY(uint Status  READ status)
-    Q_CLASSINFO("D-Bus Interface", "org.vision.Vibe.Hardware.Networking.Client")
+    Q_CLASSINFO("D-Bus Interface", "org.maui.Hardware.Networking.Client")
 public:
     VNetworkingPrivate();
     ~VNetworkingPrivate();
@@ -66,7 +66,7 @@ public Q_SLOTS:
 
 private:
     void initialize();
-    OrgVisionVibeHardwareNetworkingClientInterface *iface;
+    OrgMauiHardwareNetworkingClientInterface *iface;
 };
 
 #endif // VNETWORKING_P_H

@@ -77,6 +77,6 @@ namespace VHardware
     }
 }
 
-Q_DECLARE_INTERFACE(VHardware::Ifaces::Camera, "org.vision.Vibe.Hardware.Ifaces.Camera/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::Camera, "org.maui.Hardware.Ifaces.Camera/0.1")
 
 #endif // VHARDWARE_IFACES_CAMERA_H

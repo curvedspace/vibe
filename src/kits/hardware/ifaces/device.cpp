@@ -45,18 +45,18 @@ void VHardware::Ifaces::Device::registerAction(const QString &actionName,
                                                const char *doneSlot) const
 {
     QDBusConnection::sessionBus().connect(QString(), deviceDBusPath(),
-                                          "org.vision.Vibe.Hardware.Device", actionName + "Requested",
+                                          "org.maui.Hardware.Device", actionName + "Requested",
                                           dest, requestSlot);
 
     QDBusConnection::sessionBus().connect(QString(), deviceDBusPath(),
-                                          "org.vision.Vibe.Hardware.Device", actionName + "Done",
+                                          "org.maui.Hardware.Device", actionName + "Done",
                                           dest, doneSlot);
 }
 
 void VHardware::Ifaces::Device::broadcastActionDone(const QString &actionName,
                                                     int error, const QString &errorString) const
 {
-    QDBusMessage signal = QDBusMessage::createSignal(deviceDBusPath(), "org.vision.Vibe.Hardware.Device", actionName + "Done");
+    QDBusMessage signal = QDBusMessage::createSignal(deviceDBusPath(), "org.maui.Hardware.Device", actionName + "Done");
     signal << error << errorString;
 
     QDBusConnection::sessionBus().send(signal);
@@ -64,14 +64,14 @@ void VHardware::Ifaces::Device::broadcastActionDone(const QString &actionName,
 
 void VHardware::Ifaces::Device::broadcastActionRequested(const QString &actionName) const
 {
-    QDBusMessage signal = QDBusMessage::createSignal(deviceDBusPath(), "org.vision.Vibe.Hardware.Device", actionName + "Requested");
+    QDBusMessage signal = QDBusMessage::createSignal(deviceDBusPath(), "org.maui.Hardware.Device", actionName + "Requested");
     QDBusConnection::sessionBus().send(signal);
 }
 
 QString VHardware::Ifaces::Device::deviceDBusPath() const
 {
     const QByteArray encodedUdi = udi().toUtf8().toPercentEncoding(QByteArray(), ".~", '_');
-    return QString("/org/vision/Vibe/Hardware/Device_") + QString::fromLatin1(encodedUdi);
+    return QString("/org/maui/Hardware/Device_") + QString::fromLatin1(encodedUdi);
 }
 
 #include "ifaces/moc_device.cpp"

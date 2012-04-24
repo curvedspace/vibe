@@ -58,6 +58,6 @@ namespace VHardware
     }
 }
 
-Q_DECLARE_INTERFACE(VHardware::Ifaces::AcAdapter, "org.vision.Vibe.Hardware.Ifaces.AcAdapter/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::AcAdapter, "org.maui.Hardware.Ifaces.AcAdapter/0.1")
 
 #endif // VHARDWARE_IFACES_ACADAPTER_H

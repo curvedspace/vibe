@@ -290,7 +290,7 @@ QString UDisksStorageAccess::generateReturnObjectPath()
 {
     static int number = 1;
 
-    return "/org/vision/Vibe/Hardware/UDisksStorageAccess_" + QString::number(number++);
+    return "/org/maui/Hardware/UDisksStorageAccess_" + QString::number(number++);
 }
 
 bool UDisksStorageAccess::requestPassphrase()
@@ -308,12 +308,12 @@ bool UDisksStorageAccess::requestPassphrase()
 
     QString appId = QCoreApplication::applicationName();
 
-    QDBusInterface soliduiserver("org.kde.kded", "/modules/soliduiserver", "org.vision.Vibe.HardwareUiServer");
+    QDBusInterface soliduiserver("org.kde.kded", "/modules/soliduiserver", "org.maui.HardwareUiServer");
     QDBusReply<void> reply = soliduiserver.call("showPassphraseDialog", udi, returnService,
                                                 m_lastReturnObject, wId, appId);
     m_passphraseRequested = reply.isValid();
     if (!m_passphraseRequested)
-        qWarning() << "Failed to call the VibeHardwareUiServer, D-Bus said:" << reply.error();
+        qWarning() << "Failed to call the HardwareUiServer, D-Bus said:" << reply.error();
 
     return m_passphraseRequested;
 }

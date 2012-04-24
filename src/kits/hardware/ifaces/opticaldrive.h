@@ -96,6 +96,6 @@ namespace VHardware
     }
 }
 
-Q_DECLARE_INTERFACE(VHardware::Ifaces::OpticalDrive, "org.vision.Vibe.Hardware.Ifaces.OpticalDrive/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::OpticalDrive, "org.maui.Hardware.Ifaces.OpticalDrive/0.1")
 
 #endif // VHARDWARE_IFACE_OPTICALDRIVE_H

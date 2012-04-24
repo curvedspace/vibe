@@ -84,6 +84,6 @@ namespace VHardware
     }
 }
 
-Q_DECLARE_INTERFACE(VHardware::Ifaces::DvbInterface, "org.vision.Vibe.Hardware.Ifaces.DvbInterface/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::DvbInterface, "org.maui.Hardware.Ifaces.DvbInterface/0.1")
 
 #endif // VHARDWARE_IFACE_DVBINTERFACE_H

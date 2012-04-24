@@ -75,6 +75,6 @@ namespace VHardware
     }
 }
 
-Q_DECLARE_INTERFACE(VHardware::Ifaces::Video, "org.vision.Vibe.Hardware.Ifaces.Video/0.1")
+Q_DECLARE_INTERFACE(VHardware::Ifaces::Video, "org.maui.Hardware.Ifaces.Video/0.1")
 
 #endif // VHARDWARE_IFACES_VIDEO_H
