@@ -228,7 +228,7 @@ VBookmarkManager::VBookmarkManager(const QString &bookmarksFile, const QString &
         if (QFile::exists(d->m_bookmarksFile))
             parse(); //sets d->m_dbusObjectName
 
-    init("/VBookmarkManager/" + d->m_dbusObjectName);
+    init("/BookmarkManager/" + d->m_dbusObjectName);
 
     d->m_update = true;
 
@@ -269,7 +269,7 @@ VBookmarkManager::VBookmarkManager(const QString &bookmarksFile)
 VBookmarkManager::VBookmarkManager()
     : d(new Private(true))
 {
-    init("/VBookmarkManager/generated");
+    init("/BookmarkManager/generated");
     d->m_update = false; // TODO - make it read/write
 
     createXbelTopLevelElement(d->m_doc);
@@ -279,7 +279,7 @@ void VBookmarkManager::init(const QString &dbusPath)
 {
     // A VBookmarkManager without a DBus name is a temporary one, like those used by importers;
     // no need to register them to DBus
-    if (dbusPath != "/VBookmarkManager/" && dbusPath != "/VBookmarkManager/generated") {
+    if (dbusPath != "/BookmarkManager/" && dbusPath != "/BookmarkManager/generated") {
         new VBookmarkManagerAdaptor(this);
         QDBusConnection::sessionBus().registerObject(dbusPath, this);
 

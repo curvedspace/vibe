@@ -59,7 +59,7 @@ class VBookmarkGroup;
  *   <bookmark href="http://www.google.com"><title>Google</title></bookmark>
  *   <folder folded="no">
  *     <title>Title of this folder</title>
- *     <bookmark icon="vision" href="http://www.vision-os.org"><title>Vision</title></bookmark>
+ *     <bookmark icon="maui" href="http://www.maui-os.org"><title>Maui</title></bookmark>
  *     <folder toolbar="yes">
  *       <title>Personal Bookmarks</title>
  *       <bookmark href="http://qt.nokia.com"><title>Qt</title></bookmark>
@@ -183,7 +183,7 @@ public:
      * @param dbusObjectName a unique name that represents this bookmark collection,
      * usually your application's name. For example, Colombo uses "colombo", open and
      * save dialogs and Tracker use "filemanager".
-     * The final DBus object path is /VBookmarkManager/dbusObjectName
+     * The final D-Bus object path is /BookmarkManager/dbusObjectName
      * An empty dbusObjectName disables the registration to DBus (used for temporary managers).
      */
     static VBookmarkManager *managerForFile(const QString &bookmarksFile,
@@ -282,7 +282,7 @@ private:
      * @param dbusObjectName a unique name that represents this bookmark collection,
      * usually your kinstance (e.g. kapplication) name. This is "konqueror" for the
      * konqueror bookmarks, "kfile" for KFileDialog bookmarks, etc.
-     * The final DBus object path is /VBookmarkManager/dbusObjectName
+     * The final D-Bus object path is /BookmarkManager/dbusObjectName
      * An empty dbusObjectName disables the registration to dbus (used for temporary managers)
      */
     VBookmarkManager(const QString &bookmarksFile, const QString &dbusObjectName);

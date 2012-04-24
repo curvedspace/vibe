@@ -39,11 +39,11 @@
 
 #include "vbookmark.h"
 
-#define METADATA_VISION_OWNER "http://www.vision-os.org"
+#define METADATA_MAUI_OWNER "http://www.maui-os.org"
 #define METADATA_FREEDESKTOP_OWNER "http://freedesktop.org"
 #define METADATA_MIME_OWNER "http://www.freedesktop.org/standards/shared-mime-info"
 
-#define VISION_URI_LIST_MIMETYPE "application/x-vision-urilist"
+#define MAUI_URI_LIST_MIMETYPE "application/x-maui-urilist"
 
 /*
  * Utility functions.
@@ -76,7 +76,7 @@ static QDomText get_or_create_text(QDomNode node)
 
 static QDomNode findMetadata(const QString &forOwner, QDomNode &parent, bool create)
 {
-    bool forOwnerIsVision = forOwner == METADATA_VISION_OWNER;
+    bool forOwnerIsUs = forOwner == METADATA_MAUI_OWNER;
 
     QDomElement metadataElement;
     for (QDomNode _node = parent.firstChild(); !_node.isNull(); _node = _node.nextSibling()) {
@@ -85,7 +85,7 @@ static QDomNode findMetadata(const QString &forOwner, QDomNode &parent, bool cre
             const QString owner = elem.attribute("owner");
             if (owner == forOwner)
                 return elem;
-            if (owner.isEmpty() && forOwnerIsVision)
+            if (owner.isEmpty() && forOwnerIsUs)
                 metadataElement = elem;
         }
     }
@@ -94,9 +94,9 @@ static QDomNode findMetadata(const QString &forOwner, QDomNode &parent, bool cre
         parent.appendChild(metadataElement);
         metadataElement.setAttribute("owner", forOwner);
 
-    } else if (!metadataElement.isNull() && forOwnerIsVision) {
+    } else if (!metadataElement.isNull() && forOwnerIsUs) {
         // XXX: I'm not sure if this is good, we shouln't take over foreign metatdata
-        metadataElement.setAttribute("owner", METADATA_VISION_OWNER);
+        metadataElement.setAttribute("owner", METADATA_MAUI_OWNER);
     }
 
     return metadataElement;
@@ -399,7 +399,7 @@ QDomNode VBookmark::metaData(const QString &owner, bool create) const
 
 QString VBookmark::metaDataItem(const QString &key) const
 {
-    QDomNode metaDataNode = metaData(METADATA_VISION_OWNER, false);
+    QDomNode metaDataNode = metaData(METADATA_MAUI_OWNER, false);
     for (QDomElement e = metaDataNode.firstChildElement(); !e.isNull(); e = e.nextSiblingElement()) {
         if (e.tagName() == key) {
             return e.text();
@@ -410,7 +410,7 @@ QString VBookmark::metaDataItem(const QString &key) const
 
 void VBookmark::setMetaDataItem(const QString &key, const QString &value, MetaDataOverwriteMode mode)
 {
-    QDomNode metaDataNode = metaData(METADATA_VISION_OWNER, true);
+    QDomNode metaDataNode = metaData(METADATA_MAUI_OWNER, true);
     QDomNode item = cd_or_create(metaDataNode, key);
     QDomText text = get_or_create_text(item);
     if (mode == DontOverwriteMetaData && !text.data().isEmpty()) {
@@ -467,14 +467,14 @@ bool VBookmarkList::canDecode(const QMimeData *mimeData)
 {
     return mimeData->hasFormat(QString::fromLatin1("application/x-xbel")) ||
            mimeData->hasFormat(QString::fromLatin1("text/uri-list")) ||
-           mimeData->hasFormat(QString::fromLatin1(VISION_URI_LIST_MIMETYPE));
+           mimeData->hasFormat(QString::fromLatin1(MAUI_URI_LIST_MIMETYPE));
 }
 
 QStringList VBookmarkList::mimeDataTypes()
 {
     return QStringList() << QString::fromLatin1("application/x-xbel")
            << QString::fromLatin1("text/uri-list")
-           << QString::fromLatin1(VISION_URI_LIST_MIMETYPE);
+           << QString::fromLatin1(MAUI_URI_LIST_MIMETYPE);
 }
 
 VBookmarkList VBookmarkList::fromMimeData(const QMimeData *mimeData, QDomDocument &doc)
