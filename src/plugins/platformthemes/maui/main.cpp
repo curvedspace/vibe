@@ -4,7 +4,7 @@
  * Copyright (c) 2010-2012 Pier Luigi Fiorini
  *
  * Author(s):
- *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
  * Vibe is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,29 +20,36 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#ifndef VISIONTHEME_H
-#define VISIONTHEME_H
+#include <QPlatformThemePlugin>
 
-#include <QtGui/qplatformtheme_qpa.h>
+#include "mauitheme.h"
 
-class VSettings;
-
-class Q_GUI_EXPORT VisionTheme : public QPlatformTheme
+class VisionThemePlugin : public QPlatformThemePlugin
 {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QPlatformThemeFactoryInterface" FILE "mauitheme.json")
 public:
-    VisionTheme();
-    ~VisionTheme();
+    explicit VisionThemePlugin(QObject *parent = 0);
 
-    bool usePlatformNativeDialog(DialogType type) const;
-    QPlatformDialogHelper *createPlatformDialogHelper(DialogType type) const;
-
-    const QPalette *palette(Palette type = SystemPalette) const;
-    const QFont *font(Font type = SystemFont) const;
-
-    QVariant themeHint(ThemeHint hint) const;
-
-private:
-    VSettings *m_settings;
+    QStringList keys() const;
+    QPlatformTheme *create(const QString &key, const QStringList &paramList);
 };
 
-#endif // VISIONTHEME_H
+VisionThemePlugin::VisionThemePlugin(QObject *parent) :
+    QPlatformThemePlugin(parent)
+{
+}
+
+QStringList VisionThemePlugin::keys() const
+{
+    return QStringList() << "Maui";
+}
+
+QPlatformTheme *VisionThemePlugin::create(const QString &key, const QStringList &paramList)
+{
+    if (key.toLower() == "maui")
+        return new MauiTheme();
+    return 0;
+}
+
+#include "main.moc"

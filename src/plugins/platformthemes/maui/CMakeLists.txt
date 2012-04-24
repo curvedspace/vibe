@@ -11,11 +11,11 @@ add_definitions(${Qt5Widgets_CFLAGS})
 
 set(SOURCES
     main.cpp
-    visiontheme.cpp
+    mauitheme.cpp
 )
 
-add_library(vision SHARED ${SOURCES})
-target_link_libraries(vision ${Qt5Widgets_LIBRARIES} VibeCore)
+add_library(maui SHARED ${SOURCES})
+target_link_libraries(maui ${Qt5Widgets_LIBRARIES} VibeCore)
 
-install(TARGETS vision LIBRARY
+install(TARGETS maui LIBRARY
     DESTINATION ${CMAKE_INSTALL_PLUGINSDIR}/platformthemes COMPONENT Framework)

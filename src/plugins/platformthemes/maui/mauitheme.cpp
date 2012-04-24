@@ -20,45 +20,45 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QtCore/QDebug>
-#include <QtCore/QFileInfo>
-#include <QtCore/QEvent>
-#include <QtGui/QDesktopServices>
-#include <QtGui/QFont>
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QIcon>
-#include <QtWidgets/QToolBar>
-#include <QtWidgets/QToolButton>
+#include <QDebug>
+#include <QFileInfo>
+#include <QEvent>
+#include <QDesktopServices>
+#include <QFont>
+#include <QApplication>
+#include <QIcon>
+#include <QToolBar>
+#include <QToolButton>
 
 #include <VibeCore/VSettings>
 #include <VibeCore/VStandardDirectories>
 #include <VibeGui/VColorScheme>
 
-#include "visiontheme.h"
+#include "mauitheme.h"
 
 using namespace VStandardDirectories;
 
-VisionTheme::VisionTheme()
+MauiTheme::MauiTheme()
 {
     m_settings = new VSettings("org.vision.desktop", "/interface");
 }
 
-VisionTheme::~VisionTheme()
+MauiTheme::~MauiTheme()
 {
     delete m_settings;
 }
 
-bool VisionTheme::usePlatformNativeDialog(DialogType type) const
+bool MauiTheme::usePlatformNativeDialog(DialogType type) const
 {
     return false;
 }
 
-QPlatformDialogHelper *VisionTheme::createPlatformDialogHelper(DialogType type) const
+QPlatformDialogHelper *MauiTheme::createPlatformDialogHelper(DialogType type) const
 {
     return 0;
 }
 
-const QPalette *VisionTheme::palette(Palette type) const
+const QPalette *MauiTheme::palette(Palette type) const
 {
     switch (type) {
         case SystemPalette: {
@@ -83,7 +83,7 @@ const QPalette *VisionTheme::palette(Palette type) const
     return new QPalette();
 }
 
-const QFont *VisionTheme::font(Font type) const
+const QFont *MauiTheme::font(Font type) const
 {
     QFont *font = new QFont(m_settings->value("font-name").toString());
 
@@ -105,7 +105,7 @@ const QFont *VisionTheme::font(Font type) const
     return font;
 }
 
-QVariant VisionTheme::themeHint(ThemeHint hint) const
+QVariant MauiTheme::themeHint(ThemeHint hint) const
 {
     switch (hint) {
         case TextCursorWidth:
