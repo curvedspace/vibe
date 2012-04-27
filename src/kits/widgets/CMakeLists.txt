@@ -2,9 +2,11 @@ add_definitions(-DVIBE_BUILDING ${Qt5Widgets_DEFINITIONS})
 
 include_directories(
     ${Qt5Core_INCLUDE_DIRS}
+    ${Qt5DBus_INCLUDE_DIRS}
     ${Qt5Gui_INCLUDE_DIRS}
     ${Qt5Widgets_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/headers
+    ${CMAKE_SOURCE_DIR}/src/kits/gui
     ${CMAKE_BINARY_DIR}/src/kits/core
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs
@@ -23,6 +25,7 @@ set(SOURCES
     itemviews/vfileplacesviewdelegate.cpp
     itemviews/vfileplacesview.cpp
     itemviews/vfilesystemmodel.cpp
+    kernel/vapplication.cpp
     paged/vpagemodel.cpp
     paged/vpageview.cpp
     paged/vpageview_p.cpp
@@ -42,6 +45,7 @@ set(HEADERS
     itemviews/vfileplacesmodel.h
     itemviews/vfileplacesview.h
     itemviews/vfilesystemmodel.h
+    kernel/vapplication.h
     paged/vpagemodel.h
     paged/vpageview.h
     paged/vpagewidget.h
@@ -55,7 +59,8 @@ set(HEADERS
 )
 
 add_library(VibeWidgets SHARED ${SOURCES})
-target_link_libraries(VibeWidgets ${Qt5Widgets_LIBRARIES} VibeCore VibeHardware)
+target_link_libraries(VibeWidgets ${Qt5DBus_LIBRARIES} ${Qt5Widgets_LIBRARIES}
+    VibeCore VibeGui VibeHardware)
 set_target_properties(VibeWidgets PROPERTIES
     VERSION ${VIBE_VERSION_STRING}
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_PATCH})

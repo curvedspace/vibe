@@ -1,6 +1,6 @@
 set(HEADERS
     VColorScheme
-    VMainApplicationAdaptor
+    VGuiApplication
 )
 
 install(FILES ${HEADERS}

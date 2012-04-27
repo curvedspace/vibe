@@ -1,5 +1,6 @@
 set(HEADERS
     VAboutDialog
+    VApplication
     VBreadcrumbView
     VFilePlacesModel
     VFilePlacesView

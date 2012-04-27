@@ -20,6 +20,7 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
+#include <QCoreApplication>
 #include <QDebug>
 #include <QStringList>
 #include <QDirIterator>
@@ -31,6 +32,7 @@
 
 #include "vmainapplicationadaptor.h"
 #include "vmainapplicationadaptor_p.h"
+#include "vguiapplication.h"
 
 using namespace VStandardDirectories;
 
@@ -38,57 +40,93 @@ using namespace VStandardDirectories;
  * VMainApplicationAdaptorPrivate
  */
 
-VMainApplicationAdaptorPrivate::VMainApplicationAdaptorPrivate(const QString &identifier,
-                                                               QGuiApplication *application) :
+VMainApplicationAdaptorPrivate::VMainApplicationAdaptorPrivate(
+    VMainApplicationAdaptor *self, const QString &identifier,
+    QGuiApplication *vapp) :
+    q_ptr(self),
+    app(vapp),
     id(identifier),
-    app(application)
+    internalId(0)
 {
+    // Connect signals defined on QGuiApplication and derivates (such as QApplication)
+    QObject::connect(app, SIGNAL(lastWindowClosed()), q_ptr, SLOT(_q_lastWindowClosed()));
+    QObject::connect(app, SIGNAL(aboutToQuit()), q_ptr, SLOT(_q_aboutToQuit()));
+}
+
+void VMainApplicationAdaptorPrivate::_q_lastWindowClosed()
+{
+    Q_Q(VMainApplicationAdaptor);
+    emit q->LastWindowClosed(internalId);
+}
+
+void VMainApplicationAdaptorPrivate::_q_aboutToQuit()
+{
+    Q_Q(VMainApplicationAdaptor);
+    emit q->Quit(internalId);
 }
 
 /*
  * VMainApplicationAdaptor
  */
 
-VMainApplicationAdaptor::VMainApplicationAdaptor(const QString &identifier,
-                                                 QGuiApplication *application) :
-    QDBusAbstractAdaptor(application),
-    d_ptr(new VMainApplicationAdaptorPrivate(identifier, application))
+VMainApplicationAdaptor::VMainApplicationAdaptor(const QString &identifier, QGuiApplication *app) :
+    QDBusAbstractAdaptor(app),
+    d_ptr(new VMainApplicationAdaptorPrivate(this, identifier, app))
 {
-    connect(application, SIGNAL(aboutToQuit()), SIGNAL(aboutToQuit()));
+    // Install the event filter
+    app->installEventFilter(this);
 
     // Check if we're connected to the session bus
     if (!QDBusConnection::sessionBus().isConnected()) {
         qWarning() << "Cannot connect to the D-Bus session bus.";
         qWarning() << "To start it, run:\n\teval `dbus-launch --auto-syntax`";
-        application->exit(127);
+        QCoreApplication::exit(127);
     }
 
-    QStringList parts = organizationDomain().split(QLatin1Char('.'), QString::SkipEmptyParts);
+    // Register the service on the session bus
+    QStringList parts = QCoreApplication::organizationDomain()
+                        .split(QLatin1Char('.'), QString::SkipEmptyParts);
     QString reversedDomain;
     if (parts.isEmpty())
         reversedDomain = QStringLiteral("local.");
     else
-        foreach(const QString & s, parts) {
-        reversedDomain.prepend(QLatin1Char('.'));
-        reversedDomain.prepend(s);
-    }
-    const QString pidSuffix = QString::number(applicationPid()).prepend(QLatin1String("-"));
-    const QString serviceName = reversedDomain + applicationName() + pidSuffix;
+        foreach (const QString & s, parts) {
+            reversedDomain.prepend(QLatin1Char('.'));
+            reversedDomain.prepend(s);
+        }
+    const QString pidSuffix = QString::number(QCoreApplication::applicationPid())
+                              .prepend(QLatin1String("-"));
+    const QString serviceName = reversedDomain + QCoreApplication::applicationName()
+                                + pidSuffix;
     if (!QDBusConnection::sessionBus().registerService(serviceName)) {
         qWarning() << "Couldn't register \"" << qPrintable(serviceName)
                    << "\" with D-Bus, another process already owns it!";
-        application->exit(127);
+        QCoreApplication::exit(127);
     }
 
     // Register this object on the session bus
-    if (!QDBusConnection::sessionBus().registerObject(QStringLiteral("/MainApplication"), application)) {
+    if (!QDBusConnection::sessionBus().registerObject("/MainApplication", app)) {
         qWarning() << "Couldn't register /MainApplication object with D-Bus!";
-        application->exit(127);
+        QCoreApplication::exit(127);
     }
 
-    // Register this application
+    // Call registrar in order to register this application
     QDBusInterface registrar("org.maui.Mirage", "/Registrar");
-    qDebug() << registrar.call("Register", identifier, applicationVersion());
+    QDBusMessage reply = registrar.call("Register", d_ptr->id,
+                                        QCoreApplication::applicationVersion());
+    if (reply.type() == QDBusMessage::ErrorMessage) {
+        qWarning() << qPrintable(reply.errorMessage());
+        QCoreApplication::exit(127);
+    }
+
+    // Get the internal serial number
+    d_ptr->internalId = reply.arguments()[0].toInt();
+    if (d_ptr->internalId == 0) {
+        qWarning() << "Registrar gave us an invalid serial number for"
+                   << qPrintable(d_ptr->id)
+                   << qPrintable(QCoreApplication::applicationVersion());
+        QCoreApplication::exit(127);
+    }
 }
 
 QString VMainApplicationAdaptor::identifier() const
@@ -99,44 +137,56 @@ QString VMainApplicationAdaptor::identifier() const
 
 QString VMainApplicationAdaptor::applicationName() const
 {
-    Q_D(const VMainApplicationAdaptor);
-    return d->app->applicationName();
+    return QCoreApplication::applicationName();
 }
 
 QString VMainApplicationAdaptor::applicationVersion() const
 {
-    Q_D(const VMainApplicationAdaptor);
-    return d->app->applicationVersion();
-}
-
-QString VMainApplicationAdaptor::organizationName() const
-{
-    Q_D(const VMainApplicationAdaptor);
-    return d->app->organizationName();
-}
-
-QString VMainApplicationAdaptor::organizationDomain() const
-{
-    Q_D(const VMainApplicationAdaptor);
-    return d->app->organizationDomain();
+    return QCoreApplication::applicationVersion();
 }
 
 qint64 VMainApplicationAdaptor::applicationPid() const
 {
-    Q_D(const VMainApplicationAdaptor);
-    return d->app->applicationPid();
+    return QCoreApplication::applicationPid();
 }
 
-QString VMainApplicationAdaptor::desktopFileName() const
+QString VMainApplicationAdaptor::applicationDirPath() const
 {
-    Q_D(const VMainApplicationAdaptor);
+    return QCoreApplication::applicationFilePath();
+}
+
+QString VMainApplicationAdaptor::applicationFilePath() const
+{
+    return QCoreApplication::applicationFilePath();
+}
+
+QString VMainApplicationAdaptor::organizationName() const
+{
+    return QCoreApplication::organizationName();
+}
+
+QString VMainApplicationAdaptor::organizationDomain() const
+{
+    return QCoreApplication::organizationDomain();
+}
+
+void VMainApplicationAdaptor::emitDemandsAttention()
+{
+    Q_D(VMainApplicationAdaptor);
+
+    emit DemandsAttention(d->internalId);
+}
+
+QString VMainApplicationAdaptor::GetDesktopFileName()
+{
+    Q_D(VMainApplicationAdaptor);
 
     // Search for the desktop file
-    QStringList paths =
-        QStringList() << findDirectory(SystemApplicationsDirectory)
-        << findDirectory(CommonApplicationsDirectory)
-        << findDirectory(UserApplicationsDirectory);
-    foreach(QString path, paths) {
+    QStringList paths = QStringList()
+                        << findDirectory(SystemApplicationsDirectory)
+                        << findDirectory(CommonApplicationsDirectory)
+                        << findDirectory(UserApplicationsDirectory);
+    foreach (QString path, paths) {
         QDirIterator walker(path,
                             QDir::Files | QDir::NoDotAndDotDot | QDir::Readable,
                             QDirIterator::Subdirectories);
@@ -146,7 +196,7 @@ QString VMainApplicationAdaptor::desktopFileName() const
             if (walker.fileInfo().completeSuffix() == "desktop") {
                 // Return the desktop file if it matches
                 VApplicationInfo info(walker.fileInfo().absoluteFilePath());
-                if (info.isValid() && info.identifier() == d->id && info.version() == d->app->applicationVersion())
+                if (info.isValid() && info.identifier() == identifier() && info.version() == applicationVersion())
                     return info.fileName();
             }
         }
@@ -155,14 +205,39 @@ QString VMainApplicationAdaptor::desktopFileName() const
     return QString();
 }
 
-void VMainApplicationAdaptor::quit()
+void VMainApplicationAdaptor::ReloadSettings()
 {
     Q_D(VMainApplicationAdaptor);
-    d->app->quit();
+    QMetaObject::invokeMethod(d->app, "reloadSettings", Qt::QueuedConnection);
 }
 
-void VMainApplicationAdaptor::reloadSettings()
+void VMainApplicationAdaptor::CloseAllWindows()
 {
+    Q_D(VMainApplicationAdaptor);
+    QMetaObject::invokeMethod(d->app, "closeAllWindows", Qt::QueuedConnection);
+}
+
+void VMainApplicationAdaptor::Quit()
+{
+    QCoreApplication::quit();
+}
+
+bool VMainApplicationAdaptor::eventFilter(QObject *obj, QEvent *e)
+{
+    Q_D(VMainApplicationAdaptor);
+
+    if (obj == d->app) {
+        // When the application is ready, emit the event
+        // When the application is activate, emit the event
+        if (e->type() == QEvent::ApplicationActivate)
+            emit Activate(d->internalId);
+
+        // When the application is deactivate, emit the event
+        if (e->type() == QEvent::ApplicationDeactivate)
+            emit Deactivate(d->internalId);
+    }
+
+    return QObject::eventFilter(obj, e);
 }
 
 #include "moc_vmainapplicationadaptor.cpp"

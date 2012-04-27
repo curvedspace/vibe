@@ -23,8 +23,8 @@
 #ifndef VMAINAPPLICATIONADAPTOR_H
 #define VMAINAPPLICATIONADAPTOR_H
 
-#include <QGuiApplication>
 #include <QDBusAbstractAdaptor>
+#include <QGuiApplication>
 
 #include <VibeCore/VGlobal>
 
@@ -37,33 +37,49 @@ class VIBE_EXPORT VMainApplicationAdaptor : public QDBusAbstractAdaptor
     Q_PROPERTY(QString identifier READ identifier)
     Q_PROPERTY(QString applicationName READ applicationName)
     Q_PROPERTY(QString applicationVersion READ applicationVersion)
+    Q_PROPERTY(qint64 applicationPid READ applicationPid)
+    Q_PROPERTY(QString applicationDirPath READ applicationDirPath)
+    Q_PROPERTY(QString applicationFilePath READ applicationFilePath)
     Q_PROPERTY(QString organizationName READ organizationName)
     Q_PROPERTY(QString organizationDomain READ organizationDomain)
-    Q_PROPERTY(qint64 applicationPid READ applicationPid)
 public:
-    explicit VMainApplicationAdaptor(const QString &identifier,
-                                     QGuiApplication *application);
+    explicit VMainApplicationAdaptor(const QString &identifier, QGuiApplication *app);
 
     QString identifier() const;
 
     QString applicationName() const;
     QString applicationVersion() const;
+    qint64 applicationPid() const;
+    QString applicationDirPath() const;
+    QString applicationFilePath() const;
+
     QString organizationName() const;
     QString organizationDomain() const;
 
-    qint64 applicationPid() const;
+    void emitDemandsAttention();
 
 signals:
-    void aboutToQuit();
+    void Activate(uint);
+    void Deactivate(uint);
+    void DemandsAttention(uint);
+    void LastWindowClosed(uint);
+    void Quit(uint);
 
 public slots:
-    QString desktopFileName() const;
-    Q_NOREPLY void quit();
+    QString GetDesktopFileName();
 
-    void reloadSettings();
+    Q_NOREPLY void ReloadSettings();
+
+    Q_NOREPLY void CloseAllWindows();
+    Q_NOREPLY void Quit();
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *e);
 
 private:
     Q_DECLARE_PRIVATE(VMainApplicationAdaptor)
+    Q_PRIVATE_SLOT(d_ptr, void _q_lastWindowClosed())
+    Q_PRIVATE_SLOT(d_ptr, void _q_aboutToQuit())
 
     VMainApplicationAdaptorPrivate *const d_ptr;
 };

@@ -4,14 +4,37 @@
     <property name="identifier" type="s" access="read"/>
     <property name="applicationName" type="s" access="read"/>
     <property name="applicationVersion" type="s" access="read"/>
+    <property name="applicationPid" type="x" access="read"/>
+    <property name="applicationDirPath" type="s" access="read"/>
+    <property name="applicationFilePath" type="s" access="read"/>
     <property name="organizationName" type="s" access="read"/>
     <property name="organizationDomain" type="s" access="read"/>
-    <signal name="aboutToQuit">
+    <signal name="Activate">
+      <arg type="u" direction="out"/>
     </signal>
-    <method name="quit">
+    <signal name="Deactivate">
+      <arg type="u" direction="out"/>
+    </signal>
+    <signal name="DemandsAttention">
+      <arg type="u" direction="out"/>
+    </signal>
+    <signal name="LastWindowClosed">
+      <arg type="u" direction="out"/>
+    </signal>
+    <signal name="Quit">
+      <arg type="u" direction="out"/>
+    </signal>
+    <method name="GetDesktopFileName">
+      <arg type="s" direction="out"/>
+    </method>
+    <method name="ReloadSettings">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="reloadSettings">
+    <method name="CloseAllWindows">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="Quit">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
   </interface>
 </node>

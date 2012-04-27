@@ -13,13 +13,14 @@ include_directories(
 
 set(SOURCES
     vcolorscheme.cpp
+    vguiapplication.cpp
     vmainapplicationadaptor.cpp
 
 )
 
 set(HEADERS
     vcolorscheme.h
-    vmainapplicationadaptor.h
+    vguiapplication.h
 )
 
 add_library(VibeGui SHARED ${SOURCES})

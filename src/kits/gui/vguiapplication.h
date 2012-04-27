@@ -20,37 +20,34 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#ifndef VMAINAPPLICATIONADAPTOR_P_H
-#define VMAINAPPLICATIONADAPTOR_P_H
+#ifndef VGUIAPPLICATION_H
+#define VGUIAPPLICATION_H
 
-//
-//  W A R N I N G
-//  -------------
-//
-// This file is not part of the Vibe API.  It exists purely as an
-// implementation detail.  This header file may change from version to
-// version without notice, or even be removed.
-//
-// We mean it.
-//
+#include <QGuiApplication>
 
-class VMainApplicationAdaptorPrivate
+#include <VibeCore/VGlobal>
+
+class VGuiApplicationPrivate;
+
+class VIBE_EXPORT VGuiApplication : public QGuiApplication
 {
-    Q_DECLARE_PUBLIC(VMainApplicationAdaptor)
+    Q_OBJECT
+    Q_PROPERTY(QString identifier READ identifier WRITE setIdentifier)
 public:
-    explicit VMainApplicationAdaptorPrivate(VMainApplicationAdaptor *self,
-                                            const QString &identifier,
-                                            QGuiApplication *app);
+    explicit VGuiApplication(int &argc, char **argv);
 
-    VMainApplicationAdaptor *const q_ptr;
+    QString identifier() const;
+    void setIdentifier(const QString &identifier);
 
-    QGuiApplication *app;
-    QString id;
-    quint32 internalId;
+    void demandsAttention();
 
-public slots:
-    void _q_lastWindowClosed();
-    void _q_aboutToQuit();
+    virtual void reloadSettings();
+    virtual void closeAllWindows();
+
+private:
+    Q_DECLARE_PRIVATE(VGuiApplication)
+
+    VGuiApplicationPrivate *const d_ptr;
 };
 
-#endif // VMAINAPPLICATIONADAPTOR_P_H
+#endif // VGUIAPPLICATION_H

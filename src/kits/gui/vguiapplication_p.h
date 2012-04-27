@@ -20,8 +20,8 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#ifndef VMAINAPPLICATIONADAPTOR_P_H
-#define VMAINAPPLICATIONADAPTOR_P_H
+#ifndef VGUIAPPLICATION_P_H
+#define VGUIAPPLICATION_P_H
 
 //
 //  W A R N I N G
@@ -34,23 +34,15 @@
 // We mean it.
 //
 
-class VMainApplicationAdaptorPrivate
+class VMainApplicationAdaptor;
+
+class VGuiApplicationPrivate
 {
-    Q_DECLARE_PUBLIC(VMainApplicationAdaptor)
 public:
-    explicit VMainApplicationAdaptorPrivate(VMainApplicationAdaptor *self,
-                                            const QString &identifier,
-                                            QGuiApplication *app);
+    explicit VGuiApplicationPrivate();
 
-    VMainApplicationAdaptor *const q_ptr;
-
-    QGuiApplication *app;
     QString id;
-    quint32 internalId;
-
-public slots:
-    void _q_lastWindowClosed();
-    void _q_aboutToQuit();
+    VMainApplicationAdaptor *adaptor;
 };
 
-#endif // VMAINAPPLICATIONADAPTOR_P_H
+#endif // VGUIAPPLICATION_P_H

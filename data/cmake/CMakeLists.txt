@@ -25,5 +25,5 @@ endmacro()
 
 produce_cmake_script("Core" "Qt5Core;Qt5DBus;Qt5Xml")
 produce_cmake_script("Gui" "Qt5Gui;VibeCore")
-produce_cmake_script("Widgets" "Qt5Gui;Qt5Widgets;VibeCore;VibeHardware")
+produce_cmake_script("Widgets" "Qt5Gui;Qt5Widgets;VibeGui;VibeHardware")
 produce_cmake_script("Hardware" "Qt5Gui;VibeCore")
