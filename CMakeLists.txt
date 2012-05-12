@@ -24,9 +24,24 @@ set(VIBE_VERSION_MINOR 0)
 set(VIBE_VERSION_PATCH 0)
 set(VIBE_VERSION_STRING "${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_PATCH}")
 
-# Assume release build by default
+# Build flags
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden -fvisibility-inlines-hidden -Wall -std=c++0x")
+
+# Add -fPIC on x86_64
+if("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fPIC")
+    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -fPIC")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fPIC")
+endif()
+
+# Assume release build with debug info by default
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "" FORCE)
+endif()
+
+# Disable debug output for release builds
+if(CMAKE_BUILD_TYPE MATCHES "^[Rr]elease$")
+    add_definitions(-DQT_NO_DEBUG_OUTPUT)
 endif()
 
 # Configure checks
@@ -76,11 +91,6 @@ endif()
 find_package(Qt5DBus REQUIRED)
 if(NOT Qt5DBus_FOUND)
     message(FATAL_ERROR "Qt5DBus module is required!")
-endif()
-
-# Disable debug output for release builds
-if(CMAKE_BUILD_TYPE MATCHES "^[Rr]elease$")
-    add_definitions(-DQT_NO_DEBUG_OUTPUT)
 endif()
 
 # Find DBus session bus services directory
