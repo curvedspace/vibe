@@ -77,10 +77,6 @@ find_package(Qt5DBus REQUIRED)
 if(NOT Qt5DBus_FOUND)
     message(FATAL_ERROR "Qt5DBus module is required!")
 endif()
-find_package(Qt5DBusTools REQUIRED)
-if(NOT Qt5DBusTools_FOUND)
-    message(FATAL_ERROR "Qt5DBusTools module is required!")
-endif()
 
 # Disable debug output for release builds
 if(CMAKE_BUILD_TYPE MATCHES "^[Rr]elease$")
