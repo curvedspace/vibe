@@ -26,7 +26,7 @@
 #include "iconimageprovider.h"
 
 IconImageProvider::IconImageProvider() :
-    QQmlImageProvider(QQmlImageProvider::Image)
+    QQuickImageProvider(QQuickImageProvider::Image)
 {
 }
 
