@@ -20,7 +20,7 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QPlatformThemePlugin>
+#include <qpa/qplatformthemeplugin.h>
 
 #include "mauitheme.h"
 

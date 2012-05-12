@@ -23,7 +23,7 @@
 #ifndef MAUITHEME_H
 #define MAUITHEME_H
 
-#include <QtGui/qplatformtheme_qpa.h>
+#include <qpa/qplatformtheme.h>
 
 class VSettings;
 

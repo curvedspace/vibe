@@ -25,10 +25,6 @@
 #include <QEvent>
 #include <QDesktopServices>
 #include <QFont>
-#include <QApplication>
-#include <QIcon>
-#include <QToolBar>
-#include <QToolButton>
 
 #include <VibeCore/VSettings>
 #include <VibeCore/VStandardDirectories>
