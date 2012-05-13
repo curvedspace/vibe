@@ -101,7 +101,7 @@ VUserAccount *VAccountsManager::findUserById(uid_t uid)
     struct passwd pwd;
     struct passwd *result;
 
-    size_t bufsize = sysconf(_SC_GETPW_R_SIZE_MAX);
+    long bufsize = sysconf(_SC_GETPW_R_SIZE_MAX);
     if (bufsize == -1)
         bufsize = 16384;
 
@@ -143,7 +143,7 @@ VUserAccount *VAccountsManager::findUserByName(const QString &userName)
     struct passwd pwd;
     struct passwd *result;
 
-    size_t bufsize = sysconf(_SC_GETPW_R_SIZE_MAX);
+    long bufsize = sysconf(_SC_GETPW_R_SIZE_MAX);
     if (bufsize == -1)
         bufsize = 16384;
 
