@@ -67,12 +67,12 @@ const QPalette *MauiTheme::palette(Palette type) const
                   << findDirectory(CommonThemesDirectory) + "/color-schemes"
                   << findDirectory(SystemThemesDirectory) + "/color-schemes";
 
-            foreach(QString path, paths) {
+            foreach (QString path, paths) {
                 VColorScheme colorScheme(QString("%1/%2.colors").arg(path).arg(colorSchemeName));
                 return colorScheme.palette();
             }
         }
-        case ToolTipPalette:
+        default:
             break;
     }
 
@@ -146,6 +146,10 @@ QVariant MauiTheme::themeHint(ThemeHint hint) const
             return QVariant(true);
         case KeyboardScheme:
             return QVariant(int(MacKeyboardScheme));
+        case UiEffects:
+            return AnimateMenuUiEffect | FadeMenuUiEffect |
+                   AnimateComboUiEffect | AnimateTooltipUiEffect |
+                   FadeTooltipUiEffect;
     }
 
     return QPlatformTheme::themeHint(hint);
