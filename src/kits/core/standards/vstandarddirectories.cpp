@@ -168,5 +168,7 @@ namespace VStandardDirectories
             default:
                 break;
         }
+
+        return QString();
     }
 }
