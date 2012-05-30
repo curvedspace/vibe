@@ -91,10 +91,10 @@ VUserAccountList VAccountsManager::listUsers(bool systemUsers)
 }
 
 /*!
-    Finds a user by \p uid.
+    Finds a user by \a uid.
 
     \param uid The uid to look up.
-    \returns the corresponding VUserAccount object.
+    \return the corresponding VUserAccount object.
 */
 VUserAccount *VAccountsManager::findUserById(uid_t uid)
 {
@@ -194,6 +194,7 @@ VUserAccount *VAccountsManager::createUser(const QString &userName)
 
     \param uid The user identifier.
     \param removeFiles If true all files owned by the user will be removed.
+    \return whether the user was deleted successfully.
 */
 bool VAccountsManager::deleteUser(uid_t uid, bool removeFiles)
 {
@@ -205,6 +206,7 @@ bool VAccountsManager::deleteUser(uid_t uid, bool removeFiles)
 
     \param userName The user name.
     \param removeFiles If true all files owned by the user will be removed.
+    \return whether the user was deleted successfully.
 */
 bool VAccountsManager::deleteUser(const QString &userName, bool removeFiles)
 {

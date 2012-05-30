@@ -1,0 +1,6 @@
+headerdirs += $SOURCE_TREE/headers/VibeGui \
+              $SOURCE_TREE/src/kits/gui
+
+exampledirs += $SOURCE_TREE/docs/snippets/code/vibegui
+
+sourcedirs += $SOURCE_TREE/src/kits/gui

@@ -58,7 +58,7 @@ public:
         Creates and returns a VArchiveHandler object for the given MIME Type.
         If a plugin cannot create an archive handler, it should return 0 instead.
 
-        \param key the MIME Type.
+        \param mimeType the MIME Type.
 
         \sa keys()
     */

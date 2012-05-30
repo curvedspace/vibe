@@ -13,7 +13,6 @@ include_directories(
 add_definitions(-DQT_PLUGIN -DQT_SHARED)
 
 set(SOURCES
-    desktopitem.cpp
     fluidplugin.cpp
     iconimageprovider.cpp
     styleitem.cpp

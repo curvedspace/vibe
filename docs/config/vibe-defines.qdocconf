@@ -1,0 +1,11 @@
+defines                 = VIBE_.*_LIB \
+                          Q_OS_.* \
+                          Q_BYTE_ORDER \
+                          QT_DEPRECATED \
+                          Q_NO_USING_KEYWORD \
+                          __cplusplus \
+                          Q_COMPILER_INITIALIZER_LISTS
+
+versionsym              = VIBE_VERSION_STRING
+
+codeindent              = 1

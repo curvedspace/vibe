@@ -25,6 +25,8 @@
 
 #include <QString>
 
+#include <VibeCore/VGlobal>
+
 namespace VStandardDirectories
 {
     typedef enum {
@@ -251,7 +253,7 @@ namespace VStandardDirectories
     /*!
      *
      */
-    QString findDirectory(DirectoryWhich which);
+    VIBE_EXPORT QString findDirectory(DirectoryWhich which);
 }
 
 #endif // VSTANDARDDIRECTORIES_H

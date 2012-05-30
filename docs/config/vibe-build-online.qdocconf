@@ -1,0 +1,2 @@
+include(vibe.qdocconf)
+include(vibe-html-templates-online.qdocconf)

@@ -1,0 +1,19 @@
+headerdirs += $SOURCE_TREE/headers/VibeCore \
+              $SOURCE_TREE/src/kits/core \
+              $SOURCE_TREE/src/kits/core/accounts \
+              $SOURCE_TREE/src/kits/core/archives \
+              $SOURCE_TREE/src/kits/core/compression \
+              $SOURCE_TREE/src/kits/core/io \
+              $SOURCE_TREE/src/kits/core/settings \
+              $SOURCE_TREE/src/kits/core/standards
+
+exampledirs += $SOURCE_TREE/docs/snippets/code/vibecore
+
+sourcedirs += $SOURCE_TREE/src/kits/core \
+              $SOURCE_TREE/src/kits/core/accounts \
+              $SOURCE_TREE/src/kits/core/archives \
+              $SOURCE_TREE/src/kits/core/compression \
+              $SOURCE_TREE/src/kits/core/io \
+              $SOURCE_TREE/src/kits/core/settings \
+              $SOURCE_TREE/src/kits/core/standards \
+              $SOURCE_TREE/src/kits/core/doc

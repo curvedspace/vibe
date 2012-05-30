@@ -1,0 +1,62 @@
+include(compat.qdocconf)
+include(macros.qdocconf)
+include(vibe-cpp-ignore.qdocconf)
+include(vibe-defines.qdocconf)
+
+project                 = Vibe
+description             = Vibe Reference Documentation
+url                     = http://docs.maui-project.org/vibe
+#url                     = qthelp://org.maui-project.vibe.100
+version                 = 1.0.0
+
+sourceencoding          = UTF-8
+outputencoding          = UTF-8
+naturallanguage         = en_US
+qhp.projects            = Vibe
+
+qhp.Vibe.file                = vibe.qhp
+qhp.Vibe.namespace           = org.maui-project.vibe.100
+qhp.Vibe.virtualFolder       = qdoc
+qhp.Vibe.indexTitle          = Vibe Reference Documentation
+qhp.Vibe.indexRoot           =
+
+qhp.Vibe.filterAttributes    = vibe 1.0.0 qtrefdoc
+qhp.Vibe.customFilters.Vibe.name = Vibe 1.0.0
+qhp.Vibe.customFilters.Vibe.filterAttributes = vibe 1.0.0
+qhp.Vibe.subprojects         = classes overviews examples
+qhp.Vibe.subprojects.classes.title = Classes
+qhp.Vibe.subprojects.classes.indexTitle = Vibe's Classes
+qhp.Vibe.subprojects.classes.selectors = class fake:headerfile
+qhp.Vibe.subprojects.classes.sortPages = true
+qhp.Vibe.subprojects.overviews.title = Overviews
+qhp.Vibe.subprojects.overviews.indexTitle = All Overviews and HOWTOs
+qhp.Vibe.subprojects.overviews.selectors = fake:page,group,module
+qhp.Vibe.subprojects.examples.title = Tutorials and Examples
+qhp.Vibe.subprojects.examples.indexTitle = Vibe Examples
+qhp.Vibe.subprojects.examples.selectors = fake:example
+
+dita.metadata.default.author      = Vibe Development Frameworks
+dita.metadata.default.permissions = all
+dita.metadata.default.publisher   = Pier Luigi Fiorini
+dita.metadata.default.copyryear = 2012
+dita.metadata.default.copyrholder = Pier Luigi Fiorini
+dita.metadata.default.audience = programmer
+
+sources.fileextensions  = "*.c++ *.cc *.cpp *.cxx *.mm *.qml *.qdoc"
+headers.fileextensions  = "*.ch *.h *.h++ *.hh *.hpp *.hxx"
+
+examples.fileextensions = "*.cpp *.h *.js *.xq *.svg *.xml *.ui *.qhp *.qhcp *.qml *.css"
+examples.imageextensions = "*.png"
+
+# Vibe base submodule
+include($VIBE_CORE_QDOCCONF)
+include($VIBE_GUI_QDOCCONF)
+include($VIBE_WIDGETS_QDOCCONF)
+include($MODULE_SOURCE_TREE/config/modules/docs.qdocconf)
+
+imagedirs += images
+
+outputdir               = $MODULE_BUILD_TREE/html
+tagfile                 = $MODULE_BUILD_TREE/html/vibe.tags
+
+HTML.generatemacrefs    = "true"

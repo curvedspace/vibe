@@ -24,10 +24,10 @@
 
 /*!
    \class VArchiveHandlerPlugin
-   \ingroup core Vibe Core
-
    \brief The VArchiveHandlerPlugin class provides an abstract base for custom
    VArchiveHandler plugins.
+
+   \ingroup archives
 
    VArchiveHandlerPlugin is a simple plugin interface that makes it easy to
    create custom archive handlers that can be loaded dynamically into
@@ -38,16 +38,18 @@
    reimplementing the pure virtual mimeTypes() and create() methods, and exporting
    the class using the Q_EXPORT_PLUGIN2() macro.
 
-   \sa VArchiveHandler
-
    \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+
+   \sa VArchiveHandler
 */
 
 /*!
-    Constructor.
+    Constructs a VArchiveHandlerPlugin with the given \a parent object.
+
+    \param parent The parent object.
 */
-VArchiveHandlerPlugin::VArchiveHandlerPlugin(QObject *parent) :
-    QObject(parent)
+VArchiveHandlerPlugin::VArchiveHandlerPlugin(QObject *parent)
+    : QObject(parent)
 {
 }
 

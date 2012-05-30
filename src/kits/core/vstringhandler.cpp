@@ -23,7 +23,9 @@
 #include "vstringhandler.h"
 
 /*!
-    \ingroup core
+    \namespace VStringHandler
+    \inmodule core
+    \target Vibe Namespace
 
     \brief Namespace for manipulating words and sentences in strings.
 
@@ -58,10 +60,10 @@ namespace VStringHandler
         \param str is the string to modify
         \param mode is where the ellipsis appears
         \param maxlen is the maximum length the modified string will have
-        If the original string is shorter than \p maxlen, it is returned verbatim
+        If the original string is shorter than \a maxlen, it is returned verbatim
 
-        \return the modified string or the same string if \p mode is Qt::ElideNone or
-        the \p str string length is more than \p maxlen.
+        \return the modified string or the same string if \a mode is Qt::ElideNone or
+        the \a str string length is more than \a maxlen.
     */
     QString elide(const QString &str, Qt::TextElideMode mode, int maxlen)
     {

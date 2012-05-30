@@ -1,0 +1,60 @@
+/****************************************************************************
+ * This file is part of Vibe.
+ *
+ * Copyright (c) 2012 Pier Luigi Fiorini
+ *
+ * Author(s):
+ *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *
+ * $BEGIN_LICENSE:FDL$
+ *
+ * Permission is granted to copy, distribute and/or modify this document
+ * under the terms of the GNU Free Documentation License, Version 1.3
+ * or any later version published by the Free Software Foundation;
+ * with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+ * A copy of the license is included in the section entitled "GNU
+ * Free Documentation License".
+ *
+ * $END_LICENSE$
+ ***************************************************************************/
+
+/*!
+    \page index.html
+    \keyword Vibe Reference Documentation
+
+    \div {class="indexbox tools"}
+        \div {class="indexboxcont indexboxbar"}
+            \div {class="sectionlist normallist"}
+                \div {class="heading"}
+                    What is Vibe
+                \enddiv
+                \list
+                \li \l{Vibe Features Overview}
+                \endlist
+            \enddiv
+        \enddiv
+    \enddiv
+    \div {class="indexbox tools"}
+        \div {class="indexboxcont indexboxbar"}
+        \enddiv
+    \enddiv
+    \div {class="indexbox tools"}
+        \div {class="heading"}
+            Reference
+        \enddiv
+        \div {class="indexboxcont indexboxbar"}
+            \div {class="sectionlist normallist"}
+                \div {class="heading"}
+                    Vibe API
+                \enddiv
+                \list
+                \li \l{All Classes}{All Classes}
+                \li \l{All Functions}{All Functions}
+                \li \l{All Modules}{All Modules}
+                \li \l{All Namespaces}{All Namespaces}
+                \li \l{Global Vibe Declarations}{Global Declarations}
+                \endlist
+            \enddiv
+        \enddiv
+    \enddiv
+*/

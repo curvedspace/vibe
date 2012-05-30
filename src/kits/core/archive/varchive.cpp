@@ -58,10 +58,10 @@ VArchivePrivate::~VArchivePrivate()
 }
 
 /*!
-   \class VArchive varchive.h <VArchive>
-   \ingroup core
+   \class VArchive
+   \brief The VArchive class provides a standard way for reading and writing archives.
 
-   \brief Class for reading and writing archives.
+   \ingroup archives
 
    \author David Faure <faure@kde.org>
    \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
@@ -69,7 +69,8 @@ VArchivePrivate::~VArchivePrivate()
 
 /*!
     Constructor.
-    \param fileName is a local path (e.g. "/common/var/tmp/myfile.ext"),
+
+    \param fileName Is a local path (e.g. "/common/var/tmp/myfile.ext"),
     from which the archive will be read from, or into which the archive
     will be written, depending on the mode given to open().
     MIME type will be recognized and the appropriate plugin will
@@ -176,7 +177,7 @@ VArchive::~VArchive()
     Opens the archive for reading or writing.
     \param mode may be QIODevice::ReadOnly or QIODevice::WriteOnly
 
-    \see close
+    \sa close
 */
 bool VArchive::open(QIODevice::OpenMode mode)
 {
@@ -189,7 +190,7 @@ bool VArchive::open(QIODevice::OpenMode mode)
 
     \return true if close succeeded without problems
 
-    \see open
+    \sa open
 */
 bool VArchive::close()
 {
@@ -211,7 +212,7 @@ bool VArchive::isOpen() const
     Returns the mode in which the archive was opened.
     \return the mode in which the archive was opened (QIODevice::ReadOnly or QIODevice::WriteOnly)
 
-    \see open()
+    \sa open()
 */
 QIODevice::OpenMode VArchive::mode() const
 {
@@ -436,7 +437,7 @@ bool VArchive::writeSymLink(const QString &name, const QString &target,
     \param name the name of the file
     \param user the user that owns the file
     \param group the group that owns the file
-    \param data the data to write (\p size bytes)
+    \param data the data to write (\a size bytes)
     \param size the size of the file
     \param perm permissions of the file
     \param atime time the file was last accessed
@@ -504,7 +505,7 @@ bool VArchive::prepareWriting(const QString &name, const QString &user,
     Call finishWriting after writing the data.
     \param size the size of the file
 
-    \see prepareWriting()
+    \sa prepareWriting()
 */
 bool VArchive::finishWriting(qint64 size)
 {
@@ -532,16 +533,16 @@ VArchiveEntryPrivate::VArchiveEntryPrivate(VArchive *_archive,
 }
 
 /*!
-    \class VArchiveEntry <varchive.h> <VArchive>
-    \ingroup core Core Kit
+    \class VArchiveEntry
+    \brief The VArchiveEntry class is the base of all entries in a VArchive.
 
-    \brief A base class for entries in a VArchive.
-
-    \see VArchiveFile
-    \see VArchiveDirectory
+    \ingroup archives
 
     \author David Faure <faure@kde.org>
     \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+
+    \sa VArchiveFile
+    \sa VArchiveDirectory
 */
 
 /*!
@@ -681,13 +682,13 @@ VArchiveFilePrivate::VArchiveFilePrivate(qint64 _pos, qint64 _size) :
 }
 
 /*!
-    \class VArchiveFile <varchive.h> <VArchive>
-    \ingroup core Core Kit
+    \class VArchiveFile
+    \brief VArchiveFile represents a file entry in a VArchive.
 
-    \brief Represents a file entry in a VArchive.
+    \ingroup archives
 
-    \see VArchive
-    \see VArchiveDirectory
+    \sa VArchive
+    \sa VArchiveDirectory
 
     \author David Faure <faure@kde.org>
     \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
@@ -841,12 +842,12 @@ VArchiveDirectoryPrivate::~VArchiveDirectoryPrivate()
 
 /*!
     \class VArchiveDirectory <varchive.h> <VArchive>
-    \ingroup core Core Kit
+    \brief The VArchiveDirectory class represents a directory entry in a VArchive.
 
-    \brief Represents a directory entry in a VArchive.
+    \ingroup archives
 
-    \see VArchive
-    \see VArchiveFile
+    \sa VArchive
+    \sa VArchiveFile
 
     \author David Faure <faure@kde.org>
     \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>

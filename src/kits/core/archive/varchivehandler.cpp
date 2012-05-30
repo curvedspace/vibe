@@ -67,10 +67,10 @@ void VArchiveHandlerPrivate::abortWriting()
 }
 
 /*!
-    \class VArchiveHandler varchivehandler.h <VArchiveHandler>
-    \ingroup core Core Kit
-
+    \class VArchiveHandler
     \brief Base class for archive handlers.
+
+    \ingroup archives
 
     \author David Faure <faure@kde.org>
     \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
@@ -200,7 +200,7 @@ bool VArchiveHandler::isOpen() const
     Returns the mode in which the archive was opened.
     \return the mode in which the archive was opened (QIODevice::ReadOnly or QIODevice::WriteOnly)
 
-    \see open()
+    \sa open()
 */
 QIODevice::OpenMode VArchiveHandler::mode() const
 {

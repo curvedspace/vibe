@@ -79,10 +79,10 @@ class VFileSystemWatcherPrivate;
  * The choice of implementation can be adjusted by the user, with the key
  * [DirWatch] PreferredMethod={Fam|Stat|QFSWatch|inotify}
  *
- * \see self()
- *
  * \author Sven Radej <sven@lisa.exp.univie.ac.at>
  * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *
+ * \sa self()
  */
 class VIBE_EXPORT VFileSystemWatcher : public QObject
 {
@@ -132,7 +132,7 @@ public:
      * \param path the path to watch
      * \param watchModes watch modes
      *
-     * \see VFileSystemWatcher::WatchMode
+     * \sa VFileSystemWatcher::WatchMode
      */
     void addDir(const QString &path, WatchModes watchModes = WatchDirOnly);
 

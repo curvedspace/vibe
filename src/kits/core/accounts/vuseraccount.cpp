@@ -35,15 +35,15 @@ VUserAccountPrivate::VUserAccountPrivate() :
 
 /*!
     \class VUserAcccount
-    \ingroup core Core Kit
-
     \brief The VUserAccount class describes user accounts.
+
+    \ingroup accounts
 
     This class describes user accounts retrieved with VAccountsManager.
 
-    \sa VAccountsManager
-
     \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+
+    \sa VAccountsManager
 */
 
 /*!

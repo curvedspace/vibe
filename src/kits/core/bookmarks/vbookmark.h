@@ -70,7 +70,7 @@ public:
      * Constructs a null bookmark, i.e. a bookmark for which isNull() returns true
      * If you want to create a new bookmark use VBookmarkGroup::addBookmark().
      *
-     * \see VBookmarkGroup::addBookmark
+     * \sa VBookmarkGroup::addBookmark
      */
     VBookmark();
 
@@ -321,10 +321,10 @@ protected:
  *
  * A QList that contains bookmarks with a few convenience methods.
  *
- * \see VBookmark
- * \see QList
- *
  * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *
+ * \sa VBookmark
+ * \sa QList
  */
 class VBookmarkList : public QList<VBookmark>
 {
