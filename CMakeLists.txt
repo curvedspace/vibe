@@ -115,7 +115,6 @@ set(CMAKE_INSTALL_IMPORTSDIR "${CMAKE_INSTALL_SYSTEMDIR}/imports")
 
 # Subdirectories
 add_subdirectory(cmake)
-add_subdirectory(doxygen)
 add_subdirectory(data)
 add_subdirectory(headers)
 add_subdirectory(src)
