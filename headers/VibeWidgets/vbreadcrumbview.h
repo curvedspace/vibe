@@ -1,1 +1,1 @@
-#include "../../src/kits/widgets/vbreadcrumbview.h"
+#include "../../src/widgets/vbreadcrumbview.h"

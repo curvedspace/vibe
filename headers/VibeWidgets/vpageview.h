@@ -1,1 +1,1 @@
-#include "../../src/kits/widgets/paged/vpageview.h"
+#include "../../src/widgets/paged/vpageview.h"

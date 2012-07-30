@@ -1,1 +1,1 @@
-#include "../../src/kits/widgets/kernel/vapplication.h"
+#include "../../src/widgets/kernel/vapplication.h"

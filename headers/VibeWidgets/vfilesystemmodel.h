@@ -1,1 +1,1 @@
-#include "../../src/kits/widgets/itemmodels/vfilesystemmodel.h"
+#include "../../src/widgets/itemmodels/vfilesystemmodel.h"

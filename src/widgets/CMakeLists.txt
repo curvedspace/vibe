@@ -1,4 +1,12 @@
-add_definitions(-DVIBE_BUILDING ${Qt5Widgets_DEFINITIONS})
+add_definitions(
+    -DVIBE_BUILDING
+    ${Qt5Core_DEFINITIONS}
+    ${Qt5DBus_DEFINITIONS}
+    ${Qt5Gui_DEFINITIONS}
+    ${Qt5Widgets_DEFINITIONS}
+)
+
+set(CMAKE_CXX_FLAGS "${Qt5Widgets_LIBRARY_COMPILE_FLAGS}")
 
 include_directories(
     ${Qt5Core_INCLUDE_DIRS}
@@ -6,8 +14,8 @@ include_directories(
     ${Qt5Gui_INCLUDE_DIRS}
     ${Qt5Widgets_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/headers
-    ${CMAKE_SOURCE_DIR}/src/kits/gui
-    ${CMAKE_BINARY_DIR}/src/kits/core
+    ${CMAKE_SOURCE_DIR}/src/gui
+    ${CMAKE_BINARY_DIR}/src/core
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs
     ${CMAKE_CURRENT_SOURCE_DIR}/itemviews
@@ -18,6 +26,7 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
+# Sources
 set(SOURCES
     dialogs/vaboutdialog.cpp
     itemviews/vfileplacesmodel.cpp
@@ -40,6 +49,7 @@ set(SOURCES
     widgets/private/navigationitemdelegate.cpp
 )
 
+# Headers
 set(HEADERS
     dialogs/vaboutdialog.h
     itemviews/vfileplacesmodel.h
@@ -58,6 +68,7 @@ set(HEADERS
     widgets/vtitlewidget.h
 )
 
+# Add library
 add_library(VibeWidgets SHARED ${SOURCES})
 target_link_libraries(VibeWidgets ${Qt5DBus_LIBRARIES} ${Qt5Widgets_LIBRARIES}
     VibeCore VibeGui VibeHardware)
@@ -65,7 +76,6 @@ set_target_properties(VibeWidgets PROPERTIES
     VERSION ${VIBE_VERSION_STRING}
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_PATCH})
 
-install(FILES ${HEADERS}
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/VibeWidgets COMPONENT Devel)
-install(TARGETS VibeWidgets LIBRARY
-    DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Framework)
+# Install files
+install(FILES ${HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/VibeWidgets)
+install(TARGETS VibeWidgets LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})

@@ -1,1 +1,1 @@
-#include "../../src/kits/widgets/widgets/vtitlewidget.h"
+#include "../../src/widgets/widgets/vtitlewidget.h"

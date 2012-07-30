@@ -1,1 +1,1 @@
-#include "../../src/kits/widgets/widgets/vnavigationbar.h"
+#include "../../src/widgets/widgets/vnavigationbar.h"
