@@ -1,1 +1,1 @@
-#include "../../src/kits/core/accounts/vaccountsmanager.h"
+#include "../../src/core/accounts/vaccountsmanager.h"

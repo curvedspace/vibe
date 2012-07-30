@@ -1,1 +1,1 @@
-#include "../../src/kits/core/standards/vstandarddirectories.h"
+#include "../../src/core/standards/vstandarddirectories.h"

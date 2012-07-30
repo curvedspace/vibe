@@ -1,1 +1,1 @@
-#include "../../src/kits/core/vstringhandler.h"
+#include "../../src/core/vstringhandler.h"

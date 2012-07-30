@@ -1,1 +1,1 @@
-#include "../../src/kits/core/settings/vsettings.h"
+#include "../../src/core/settings/vsettings.h"

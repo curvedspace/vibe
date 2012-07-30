@@ -1,1 +1,1 @@
-#include "../../src/kits/core/vapplicationinfo.h"
+#include "../../src/core/vapplicationinfo.h"

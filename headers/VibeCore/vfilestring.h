@@ -1,1 +1,1 @@
-#include "../../src/kits/core/io/vfilestring.h"
+#include "../../src/core/io/vfilestring.h"

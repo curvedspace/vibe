@@ -1,1 +1,1 @@
-#include "../../src/kits/core/compression/vcompressionfilter.h"
+#include "../../src/core/compression/vcompressionfilter.h"

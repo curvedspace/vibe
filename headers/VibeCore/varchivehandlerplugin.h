@@ -1,1 +1,1 @@
-#include "../../src/kits/core/archive/varchivehandlerplugin.h"
+#include "../../src/core/archive/varchivehandlerplugin.h"

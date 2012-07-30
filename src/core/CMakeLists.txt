@@ -1,4 +1,11 @@
-add_definitions(-DVIBE_BUILDING -Wno-multichar ${Qt5Core_DEFINITIONS})
+add_definitions(
+    -DVIBE_BUILDING -Wno-multichar
+    ${Qt5Core_DEFINITIONS}
+    ${Qt5DBus_DEFINITIONS}
+    ${Qt5Xml_DEFINITIONS}
+)
+
+set(CMAKE_CXX_FLAGS "${Qt5Core_LIBRARY_COMPILE_FLAGS}")
 
 include_directories(
     ${Qt5Core_INCLUDE_DIRS}
@@ -15,6 +22,7 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
+# Create the vglobal.h header file
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/vglobal.h.in
     ${CMAKE_CURRENT_BINARY_DIR}/vglobal.h
@@ -42,6 +50,7 @@ if(LIBLZMA_FOUND)
    set(VibeCore_OPTIONAL_LIBS ${VibeCore_OPTIONAL_LIBS} ${LIBLZMA_LIBRARIES})
 endif(LIBLZMA_FOUND)
 
+# Sources
 set(SOURCES
     vapplicationinfo.cpp
     vcommandoptions.cpp
@@ -77,6 +86,7 @@ set(SOURCES
     ${VibeCore_OPTIONAL_SRCS}
 )
 
+# Headers
 set(HEADERS
     vapplicationinfo.h
     vcommandoptions.h
@@ -106,13 +116,13 @@ set(HEADERS
     standards/vstandarddirectories.h
 )
 
+# Add library
 add_library(VibeCore SHARED ${SOURCES})
 target_link_libraries(VibeCore ${Qt5Core_LIBRARIES} ${Qt5DBus_LIBRARIES} ${Qt5Xml_LIBRARIES} ${VibeCore_OPTIONAL_LIBS})
 set_target_properties(VibeCore PROPERTIES
     VERSION ${VIBE_VERSION_STRING}
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_PATCH})
 
-install(FILES ${HEADERS}
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/VibeCore COMPONENT Devel)
-install(TARGETS VibeCore LIBRARY
-    DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Framework)
+# Install files
+install(FILES ${HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/VibeCore)
+install(TARGETS VibeCore LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})

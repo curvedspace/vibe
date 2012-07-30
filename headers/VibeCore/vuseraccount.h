@@ -1,1 +1,1 @@
-#include "../../src/kits/core/accounts/vuseraccount.h"
+#include "../../src/core/accounts/vuseraccount.h"

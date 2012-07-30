@@ -1,1 +1,1 @@
-#include "../../src/kits/core/standards/vdesktopfile.h"
+#include "../../src/core/standards/vdesktopfile.h"
