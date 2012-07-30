@@ -1,4 +1,12 @@
-add_definitions(-DVIBE_BUILDING)
+add_definitions(
+    -DVIBE_BUILDING
+    ${Qt5Core_DEFINITIONS}
+    ${Qt5DBus_DEFINITIONS}
+    ${Qt5Xml_DEFINITIONS}
+    ${Qt5Widgets_DEFINITIONS}
+)
+
+set(CMAKE_CXX_FLAGS "${Qt5Core_LIBRARY_COMPILE_FLAGS}")
 
 include_directories(
     ${Qt5Core_INCLUDE_DIRS}
@@ -7,7 +15,7 @@ include_directories(
     ${Qt5Widgets_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_BINARY_DIR}/src/kits/core
+    ${CMAKE_BINARY_DIR}/src/core
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_BINARY_DIR}
 )
@@ -267,10 +275,8 @@ set_target_properties(VibeHardware PROPERTIES
 #install(FILES org.freedesktop.PowerManagement.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR})
 #install(FILES org.freedesktop.PowerManagement.Inhibit.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR})
 
-install(FILES ${HEADERS}
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/VibeHardware COMPONENT Devel)
-install(TARGETS VibeHardware LIBRARY
-    DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Framework)
+install(FILES ${HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/VibeHardware)
+install(TARGETS VibeHardware LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 ########### parser build ###############
 

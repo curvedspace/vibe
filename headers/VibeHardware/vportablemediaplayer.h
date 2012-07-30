@@ -1,1 +1,1 @@
-#include "../../src/kits/hardware/vportablemediaplayer.h"
+#include "../../src/hardware/vportablemediaplayer.h"

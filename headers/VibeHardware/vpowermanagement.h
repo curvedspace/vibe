@@ -1,1 +1,1 @@
-#include "../../src/kits/hardware/vpowermanagement.h"
+#include "../../src/hardware/vpowermanagement.h"

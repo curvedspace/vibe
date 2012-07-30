@@ -1,1 +1,1 @@
-#include "../../src/kits/hardware/vacadapter.h"
+#include "../../src/hardware/vacadapter.h"

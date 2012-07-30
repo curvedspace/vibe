@@ -1,1 +1,1 @@
-#include "../../src/kits/hardware/vinternetgateway.h"
+#include "../../src/hardware/vinternetgateway.h"

@@ -1,1 +1,1 @@
-#include "../../src/kits/hardware/vdvbinterface.h"
+#include "../../src/hardware/vdvbinterface.h"

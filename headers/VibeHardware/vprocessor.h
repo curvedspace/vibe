@@ -1,1 +1,1 @@
-#include "../../src/kits/hardware/vprocessor.h"
+#include "../../src/hardware/vprocessor.h"

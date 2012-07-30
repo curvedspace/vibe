@@ -1,1 +1,1 @@
-#include "../../src/kits/hardware/vdevicenotifier.h"
+#include "../../src/hardware/vdevicenotifier.h"

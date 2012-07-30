@@ -1,1 +1,1 @@
-#include "../../src/kits/hardware/vsmartcardreader.h"
+#include "../../src/hardware/vsmartcardreader.h"

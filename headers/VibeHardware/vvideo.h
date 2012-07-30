@@ -1,1 +1,1 @@
-#include "../../src/kits/hardware/vvideo.h"
+#include "../../src/hardware/vvideo.h"

@@ -4,4 +4,5 @@
 #add_subdirectory(plugins)
 add_subdirectory(core)
 add_subdirectory(gui)
+add_subdirectory(hardware)
 add_subdirectory(widgets)

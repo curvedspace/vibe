@@ -1,1 +1,1 @@
-#include "../../src/kits/hardware/vaudiointerface.h"
+#include "../../src/hardware/vaudiointerface.h"

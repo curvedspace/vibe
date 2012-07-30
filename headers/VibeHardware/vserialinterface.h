@@ -1,1 +1,1 @@
-#include "../../src/kits/hardware/vserialinterface.h"
+#include "../../src/hardware/vserialinterface.h"

@@ -1,1 +1,1 @@
-#include "../../src/kits/hardware/vgenericinterface.h"
+#include "../../src/hardware/vgenericinterface.h"

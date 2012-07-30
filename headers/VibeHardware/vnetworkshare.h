@@ -1,1 +1,1 @@
-#include "../../src/kits/hardware/vnetworkshare.h"
+#include "../../src/hardware/vnetworkshare.h"
