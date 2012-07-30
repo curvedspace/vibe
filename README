@@ -1,0 +1,26 @@
+General Information
+===================
+
+Vibe contains libraries with missing features from Qt.
+Some of the classes here are Maui and Hawaii specific, however some others are not
+and the plan is to push what can be used by other projects to Qt.
+
+Bulding
+=======
+
+Vibe uses CMake and install the files into GNU-style installation directories.
+To build the code create a separate build/ directory and run cmake from there,
+for example:
+
+$ mkdir build
+$ cd build
+$ cmake ..
+
+The default prefix is /usr/local, in order to install on a different path, for
+example /usr, run cmake as reported below:
+
+$ cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+
+Under Maui you have to run cmake as follows:
+
+cmake -DCMAKE_INSTALL_PREFIX=/system -DCMAKE_INSTALL_INCLUDEDIR=develop/headers ..

@@ -1,0 +1,15 @@
+If you want to hack on Vibe, you will need to have the following packages
+installed:
+
+    - CMake >= 2.8.7
+    - pkg-config >= 0.22
+    - Qt5Core
+    - Qt5Xml
+    - Qt5DBus
+    - Qt5Gui
+    - Qt5Widgets
+    - Qt5Designer
+
+To build Qt5 from git follow the instructions here:
+
+    http://qt-project.org/wiki/Building-Qt-5-from-Git
