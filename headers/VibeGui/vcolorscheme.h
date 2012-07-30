@@ -1,1 +1,1 @@
-#include "../../src/kits/gui/vcolorscheme.h"
+#include "../../src/gui/vcolorscheme.h"

@@ -1,1 +1,1 @@
-#include "../../src/kits/gui/kernel/vguiapplication.h"
+#include "../../src/gui/kernel/vguiapplication.h"
