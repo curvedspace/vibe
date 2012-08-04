@@ -5,11 +5,14 @@
 #  CMAKE_INSTALL_FULL_<dir> - corresponding absolute path
 # where <dir> is one of:
 #  BINDIR           - user executables (bin)
+#  APPSDIR          - applications' desktop files (apps)
+#  PROGSDIR         - user programs (progs)
 #  SYSCONFDIR       - read-only single-machine data (settings)
 #  LOCALSTATEDIR    - modifiable single-machine data (/common/var)
 #  LIBDIR           - object code libraries (lib or lib64)
 #  INCLUDEDIR       - C header files (develop/headers)
 #  PKGCONFIGDIR     - pkg-config files (develop/pkgconfig)
+#  CMAKEDIR         - CMake files (develop/cmake)
 #  DATAROOTDIR      - read-only architecture-independent data root (data)
 #  DATADIR          - read-only architecture-independent data (DATAROOTDIR)
 #  INFODIR          - info documentation (DATAROOTDIR/info)
@@ -61,6 +64,14 @@ set(CMAKE_INSTALL_PREFIX "/system" CACHE PATH "installation prefix (/system)")
 
 # Installation directories
 #
+if(NOT DEFINED CMAKE_INSTALL_APPSDIR)
+  set(CMAKE_INSTALL_APPSDIR "apps" CACHE PATH "applications' desktop files (apps)")
+endif()
+
+if(NOT DEFINED CMAKE_INSTALL_PROGSDIR)
+  set(CMAKE_INSTALL_PROGSDIR "progs" CACHE PATH "user programs (progs)")
+endif()
+
 if(NOT DEFINED CMAKE_INSTALL_BINDIR)
   set(CMAKE_INSTALL_BINDIR "bin" CACHE PATH "user executables (bin)")
 endif()
@@ -104,6 +115,10 @@ if(NOT DEFINED CMAKE_INSTALL_PKGCONFIGDIR)
   set(CMAKE_INSTALL_PKGCONFIGDIR "develop/pkgconfig" CACHE PATH "pkg-config files (develop/pkg-config)")
 endif()
 
+if(NOT DEFINED CMAKE_INSTALL_CMAKEDIR)
+  set(CMAKE_INSTALL_CMAKEDIR "develop/cmake" CACHE PATH "CMake files (develop/cmake)")
+endif()
+
 if(NOT DEFINED CMAKE_INSTALL_DATAROOTDIR)
   set(CMAKE_INSTALL_DATAROOTDIR "data" CACHE PATH "read-only architecture-independent data root (data)")
 endif()
@@ -142,11 +157,14 @@ endif()
 
 mark_as_advanced(
   CMAKE_INSTALL_BINDIR
+  CMAKE_INSTALL_APPSDIR
+  CMAKE_INSTALL_PROGSDIR
   CMAKE_INSTALL_SYSCONFDIR
   CMAKE_INSTALL_LOCALSTATEDIR
   CMAKE_INSTALL_LIBDIR
   CMAKE_INSTALL_INCLUDEDIR
   CMAKE_INSTALL_PKGCONFIGDIR
+  CMAKE_INSTALL_CMAKEDIR
   CMAKE_INSTALL_DATAROOTDIR
   CMAKE_INSTALL_DATADIR
   CMAKE_INSTALL_INFODIR
@@ -159,11 +177,14 @@ mark_as_advanced(
 #
 foreach(dir
     BINDIR
+    APPSDIR
+    PROGSDIR
     SYSCONFDIR
     LOCALSTATEDIR
     LIBDIR
     INCLUDEDIR
     PKGCONFIGDIR
+    CMAKEDIR
     DATAROOTDIR
     DATADIR
     INFODIR
