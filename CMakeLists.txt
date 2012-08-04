@@ -8,8 +8,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Our CMake modules
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
-# Support GNU-style installation directories
-include(GNUInstallDirs)
+# Installation directories
+include(MauiInstallDirs)
 
 # Make CPack available to easy generate binary packages
 include(CPack)
