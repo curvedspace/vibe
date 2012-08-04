@@ -18,9 +18,9 @@ macro(produce_cmake_script _module_name _module_deps)
     set(CMAKE_MODULE_DEPS)
 
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Vibe${_module_name}Config.cmake
-        DESTINATION ${CMAKE_INSTALL_DEVELOPDIR}/cmake/Vibe${_module_name} COMPONENT Devel)
+        DESTINATION ${CMAKE_INSTALL_CMAKEDIR}/Vibe${_module_name} COMPONENT Devel)
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Vibe${_module_name}ConfigVersion.cmake
-        DESTINATION ${CMAKE_INSTALL_DEVELOPDIR}/cmake/Vibe${_module_name} COMPONENT Devel)
+        DESTINATION ${CMAKE_INSTALL_CMAKEDIR}/Vibe${_module_name} COMPONENT Devel)
 endmacro()
 
 produce_cmake_script("Core" "Qt5Core;Qt5DBus;Qt5Xml")

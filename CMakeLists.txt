@@ -111,7 +111,7 @@ string(REGEX REPLACE "[ \t\n]+" \; DBUS_SESSION_BUS_SERVICES_DIR "${DBUS_SESSION
 
 # Subdirectories
 add_subdirectory(cmake)
-#add_subdirectory(data)
-#add_subdirectory(headers)
+add_subdirectory(data)
+add_subdirectory(headers)
 add_subdirectory(src)
 #add_subdirectory(docs)
