@@ -9,6 +9,7 @@
 #  LOCALSTATEDIR    - modifiable single-machine data (/common/var)
 #  LIBDIR           - object code libraries (lib or lib64)
 #  INCLUDEDIR       - C header files (develop/headers)
+#  PKGCONFIGDIR     - pkg-config files (develop/pkgconfig)
 #  DATAROOTDIR      - read-only architecture-independent data root (data)
 #  DATADIR          - read-only architecture-independent data (DATAROOTDIR)
 #  INFODIR          - info documentation (DATAROOTDIR/info)
@@ -55,6 +56,7 @@
 
 # Default installation prefix
 #
+# TODO: It doesn't work, cmake always uses its default
 set(CMAKE_INSTALL_PREFIX "/system" CACHE PATH "installation prefix (/system)")
 
 # Installation directories
@@ -96,6 +98,10 @@ endif()
 
 if(NOT DEFINED CMAKE_INSTALL_INCLUDEDIR)
   set(CMAKE_INSTALL_INCLUDEDIR "develop/headers" CACHE PATH "C header files (develop/headers)")
+endif()
+
+if(NOT DEFINED CMAKE_INSTALL_PKGCONFIGDIR)
+  set(CMAKE_INSTALL_PKGCONFIGDIR "develop/pkgconfig" CACHE PATH "pkg-config files (develop/pkg-config)")
 endif()
 
 if(NOT DEFINED CMAKE_INSTALL_DATAROOTDIR)
@@ -140,6 +146,7 @@ mark_as_advanced(
   CMAKE_INSTALL_LOCALSTATEDIR
   CMAKE_INSTALL_LIBDIR
   CMAKE_INSTALL_INCLUDEDIR
+  CMAKE_INSTALL_PKGCONFIGDIR
   CMAKE_INSTALL_DATAROOTDIR
   CMAKE_INSTALL_DATADIR
   CMAKE_INSTALL_INFODIR
@@ -156,6 +163,7 @@ foreach(dir
     LOCALSTATEDIR
     LIBDIR
     INCLUDEDIR
+    PKGCONFIGDIR
     DATAROOTDIR
     DATADIR
     INFODIR
