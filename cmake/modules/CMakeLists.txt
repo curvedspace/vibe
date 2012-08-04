@@ -24,6 +24,7 @@ set(cmakeFiles
     MacroOptionalFindPackage.cmake
     MacroPushRequiredVars.cmake
     MacroWriteBasicCMakeVersionFile.cmake
+    MauiInstallDirs
 )
 
 install(FILES ${cmakeFiles} DESTINATION ${CMAKE_ROOT}/Modules)
