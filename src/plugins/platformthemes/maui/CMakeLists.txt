@@ -4,8 +4,7 @@ include_directories(
     ${_qt5Gui_install_prefix}/include/QtGui/5.0.0
     ${_qt5Gui_install_prefix}/include/QtGui/5.0.0/QtGui
     ${CMAKE_SOURCE_DIR}/headers
-    ${CMAKE_BINARY_DIR}/src/kits/core
-    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_BINARY_DIR}/src/core
 )
 
 add_definitions(${Qt5Core_DEFINITIONS} ${Qt5Gui_DEFINITIONS})
@@ -18,5 +17,4 @@ set(SOURCES
 add_library(maui SHARED ${SOURCES})
 target_link_libraries(maui ${Qt5Gui_LIBRARIES} VibeCore)
 
-install(TARGETS maui LIBRARY
-    DESTINATION ${CMAKE_INSTALL_PLUGINSDIR}/platformthemes COMPONENT Framework)
+install(TARGETS maui LIBRARY DESTINATION ${CMAKE_INSTALL_PLUGINSDIR}/platformthemes)
