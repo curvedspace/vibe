@@ -23,9 +23,7 @@
 #ifndef VSETTINGS_P_H
 #define VSETTINGS_P_H
 
-#include <QSettings>
-
-#include "settingsschemaloader.h"
+#include "vsettingsschema.h"
 
 //
 //  W A R N I N G
@@ -38,8 +36,6 @@
 // We mean it.
 //
 
-class VFileSystemWatcher;
-
 class VSettingsPrivate
 {
     Q_DECLARE_PUBLIC(VSettings)
@@ -47,23 +43,10 @@ public:
     VSettingsPrivate(VSettings *parent);
     ~VSettingsPrivate();
 
-    void setSchema(const QString &schemaId);
-    void setPath(const QString &pathName);
+    const VSettingsSchema *schema;
+    QString *path;
 
-    VPrivate::SettingsSchemaLoader *loader;
-    VPrivate::SettingsSchema *schema;
-    VPrivate::SettingsPath *path;
-    bool dynamic;
-    QSettings *file;
-    QString fileName;
-    VFileSystemWatcher *watcher;
-
-    void extractPathAndKey(const QString &setting,
-                           QString &pathName,
-                           QString &keyName) const;
-
-    void _q_dirty(const QString &fileName);
-    void _q_deleted(const QString &fileName);
+    void notify(const char *key);
 
 protected:
     VSettings *const q_ptr;

@@ -20,47 +20,15 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#ifndef VSETTINGS_H
-#define VSETTINGS_H
+#ifndef VSETTINGSTYPES_H
+#define VSETTINGSTYPES_H
 
-#include <QObject>
+#include <QVariant>
+#include <glib.h>
 
-#include <VibeCore/VGlobal>
+QVariant::Type vsettings_types_convert(const GVariantType *gtype);
+GVariant *vsettings_types_collect(const GVariantType *gtype, const void *argument);
+void vsettings_types_unpack(GVariant *value, void *argument);
+QVariant vsettings_types_to_qvariant(GVariant *value);
 
-class VSettingsPrivate;
-
-class VIBE_EXPORT VSettings : public QObject
-{
-    Q_OBJECT
-    Q_DECLARE_PRIVATE(VSettings)
-public:
-    explicit VSettings(const QString &schema, const QString &path = QString());
-    ~VSettings();
-
-    QString schema() const;
-    void setSchema(const QString &schema);
-
-    QString path() const;
-    void setPath(const QString &path);
-
-    /*!
-        Returns the value of a key.
-        \param key the key, with the complete path.
-    */
-    QVariant value(const QString &key) const;
-
-    /*!
-        Sets the value for the specified key.
-        \param key full path of the key.
-        \param value the value to set the key to.
-    */
-    void setValue(const QString &key, const QVariant &value);
-
-signals:
-    void changed(const QString &key, const QVariant &value);
-
-private:
-    VSettingsPrivate *const d_ptr;
-};
-
-#endif // VSETTINGS_H
+#endif // VSETTINGSTYPES_H

@@ -1,7 +1,7 @@
 /****************************************************************************
  * This file is part of Vibe.
  *
- * Copyright (c) 2011 Pier Luigi Fiorini
+ * Copyright (c) 2011-2012 Pier Luigi Fiorini
  *
  * Author(s):
  *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
@@ -20,140 +20,80 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QDebug>
-#include <QStringList>
-#include <QFileInfo>
-
-#include <VibeCore/VStandardDirectories>
-#include <VibeCore/VFileSystemWatcher>
-
 #include "vsettings.h"
 #include "vsettings_p.h"
+#include "vsettingstypes.h"
 
-#define VSETTINGS_DEBUG 0
+#include <dconf-dbus-1.h>
+
+#include <QtDBus>
+#include <QDebug>
+
+static DConfDBusClient *dconfClient;
+
+static void dconfClientInitialize()
+{
+    if (!dconfClient) {
+        DBusConnection *sessionBus =
+            (DBusConnection *)QDBusConnection::sessionBus().internalPointer();
+        DBusConnection *systemBus =
+            (DBusConnection *)QDBusConnection::systemBus().internalPointer();
+        dconfClient = dconf_dbus_client_new(0, sessionBus, systemBus);
+    }
+}
+
+static void vsettings_notify(DConfDBusClient *, const char *key, void *user_data)
+{
+    VSettingsPrivate *self = (VSettingsPrivate *)user_data;
+    self->notify(key);
+}
 
 /*
  * VSettingsPrivate
  */
 
-VSettingsPrivate::VSettingsPrivate(VSettings *parent) :
-    q_ptr(parent),
-    schema(0),
-    path(0),
-    dynamic(false),
-    file(0)
+VSettingsPrivate::VSettingsPrivate(VSettings *parent)
+    : schema(0)
+    , path(0)
+    , q_ptr(parent)
 {
-    // Compiled schemas list loader
-    loader = new VPrivate::SettingsSchemaLoader();
-
-    watcher = new VFileSystemWatcher(q_ptr);
-    // Watch for events happening to this file
-    QObject::connect(watcher, SIGNAL(dirty(QString)),
-                     q_ptr, SLOT(_q_dirty(QString)));
-    QObject::connect(watcher, SIGNAL(deleted(QString)),
-                     q_ptr, SLOT(_q_deleted(QString)));
 }
 
 VSettingsPrivate::~VSettingsPrivate()
 {
-    delete loader;
-    delete file;
-    delete watcher;
-}
-
-void VSettingsPrivate::setSchema(const QString &schemaId)
-{
-    schema = 0;
-
-    // Find the schema whose identifier is the value passed as argument
-    VPrivate::SettingsSchemaList list = loader->readCompiledSchemas();
-    foreach(VPrivate::SettingsSchema * curSchema, list) {
-#if VSETTINGS_DEBUG
-        qDebug() << "Settings schema" << curSchema->id() << "vs" << schemaId;
-#endif
-        if (curSchema->id() == schemaId) {
-            schema = curSchema;
-            break;
-        }
+    if (path) {
+        dconf_dbus_client_unsubscribe(dconfClient, vsettings_notify, this);
+        delete path;
     }
-    Q_ASSERT(schema);
 
-    // Determine user's settings file by schema identifier
-    fileName = QString("%1/vsettings/%2.conf")
-               .arg(VStandardDirectories::findDirectory(VStandardDirectories::UserSettingsDirectory))
-               .arg(schemaId);
-
-    // Create a new settings object
-    delete file;
-    file = new QSettings(fileName, QSettings::IniFormat);
-
-    // Watch for this file
-    QFileInfo fileInfo(fileName);
-    watcher->addDir(fileInfo.absolutePath(), VFileSystemWatcher::WatchFiles);
+    dconf_dbus_client_unref(dconfClient);
+    dconfClient = 0;
 }
 
-void VSettingsPrivate::setPath(const QString &pathName)
+void VSettingsPrivate::notify(const char *key)
 {
-    Q_ASSERT(schema);
+    Q_Q(VSettings);
 
-    path = 0;
-
-    // When an empty path name is passed it means the user don't
-    // want to stick to a specific path
-    if (pathName.isEmpty()) {
-        file->endGroup();
+    const char *rel = key + path->size();
+    qDebug() << key << rel;
+    int id = schema->findKey(rel);
+    qDebug() << id;
+    if (id < 0)
         return;
+
+    GVariant *gvar = dconf_dbus_client_read(dconfClient, key);
+    if (!gvar)
+        gvar = schema->defaultValue(id);
+
+    if (!g_variant_is_of_type(gvar, schema->valueType(id))) {
+        g_variant_unref(gvar);
+        gvar = schema->defaultValue(id);
     }
 
-    // Find the path whose name is the value passed as argument
-    foreach(VPrivate::SettingsPath * curPath, schema->paths()) {
-        if (curPath->name() == pathName) {
-            path = curPath;
-            break;
-        }
-    }
-    Q_ASSERT(path);
-}
+    QVariant qvar = vsettings_types_to_qvariant(gvar);
+    g_variant_unref(gvar);
 
-void VSettingsPrivate::extractPathAndKey(const QString &setting,
-                                         QString &pathName,
-                                         QString &keyName) const
-{
-    QStringList parts = setting.split('/', QString::SkipEmptyParts);
-    Q_ASSERT(!parts.isEmpty());
-    keyName = parts.takeLast();
-    pathName = path ? path->name() : QString();
-    if (parts.size() >= 1)
-        pathName = QString("/") + parts.join("/");
-    Q_ASSERT(!pathName.isEmpty());
-}
-
-void VSettingsPrivate::_q_dirty(const QString &changedFileName)
-{
-    Q_Q(VSettings);
-
-    if (changedFileName == fileName) {
-        // Settings file has changed, it could have been modified by the user
-        // with a text editor, or by another instance of VSettings in any case
-        // it must be reloaded
-        delete file;
-        file = new QSettings(fileName, QSettings::IniFormat);
-        emit q->changed();
-    }
-}
-
-void VSettingsPrivate::_q_deleted(const QString &deletedFileName)
-{
-    Q_Q(VSettings);
-
-    if (deletedFileName == fileName) {
-        // Settings file has been delete, inform that settings changed because
-        // without the settings file they are reset to default values from the
-        // schema or the ones assumed by the caller
-        delete file;
-        file = 0;
-        emit q->changed();
-    }
+    emit q->changed(QString(key), qvar);
 }
 
 /*
@@ -164,8 +104,10 @@ VSettings::VSettings(const QString &schema, const QString &path) :
     QObject(),
     d_ptr(new VSettingsPrivate(this))
 {
-    d_ptr->setSchema(schema);
-    d_ptr->setPath(path);
+    dconfClientInitialize();
+
+    setSchema(schema);
+    setPath(path);
 }
 
 VSettings::~VSettings()
@@ -176,75 +118,94 @@ VSettings::~VSettings()
 QString VSettings::schema() const
 {
     Q_D(const VSettings);
-    return d->schema->id();
+    return d->schema->name();
 }
 
 void VSettings::setSchema(const QString &schema)
 {
     Q_D(VSettings);
-    d->setSchema(schema);
+
+    d->schema = VSettingsSchema::getSchema(schema);
+
+    const char *schemaPath = d->schema->path();
+    if (schemaPath)
+        setPath(schemaPath);
 }
 
 QString VSettings::path() const
 {
     Q_D(const VSettings);
-    return d->path ? d->path->name() : QString();
+    return d->path->toUtf8();
 }
 
 void VSettings::setPath(const QString &path)
 {
     Q_D(VSettings);
-    d->setPath(path);
+
+    if (path.isEmpty())
+        return;
+
+    if (d->path) {
+        if (d->schema && d->schema->path())
+            qFatal("VSettings path specifified, but schema '%s' has its own path",
+                   qPrintable(d->schema->name()));
+        else
+            qFatal("VSettings path has already been specified!");
+    }
+
+    d->path = new QString(path);
+
+    dconf_dbus_client_subscribe(dconfClient, d->path->toUtf8(), vsettings_notify, d);
 }
 
 QVariant VSettings::value(const QString &key) const
 {
     Q_D(const VSettings);
 
-    // Determine actual key name and path
-    QString keyName, pathName;
-    d->extractPathAndKey(key, pathName, keyName);
-
-    // Find the key from the schema
-    VPrivate::SettingsKey *actualKey = 0;
-    foreach(VPrivate::SettingsPath * curPath, d->schema->paths()) {
-#if VSETTINGS_DEBUG
-        qDebug() << "Settings path" << curPath->name() << "vs" << pathName;
-#endif
-        if (curPath->name() == pathName) {
-            foreach(VPrivate::SettingsKey * curKey, curPath->keys()) {
-#if VSETTINGS_DEBUG
-                qDebug() << "Settings key" << curKey->name() << "vs" << keyName;
-#endif
-                if (curKey->name() == keyName) {
-                    actualKey = curKey;
-                    break;
-                }
-            }
-        }
+    char *name = new char[key.length() + 1];
+    (void)strncpy(name, key.toUtf8().constData(), key.length() + 1);
+    int id = d->schema->findKey(name);
+qDebug() << "findKey" << name << id;
+    if (id < 0) {
+        delete name;
+        return QVariant();
     }
-    Q_ASSERT(actualKey);
 
-    // Take value from settings file
-    if (d->file)
-        return d->file->value(QString("%1/%2")
-                              .arg(pathName).arg(keyName),
-                              actualKey->defaultValue());
+    // Read the value from DConf
+    GVariant *value = dconf_dbus_client_read(dconfClient, name);
 
-    // Take default value from schema
-    return actualKey->defaultValue();
+    // If the value is missing use the default one
+    if (!value)
+        value = d->schema->defaultValue(id);
+
+    // Maybe the value is not missing, but it has the wrong type,
+    // in this case we ignore it and replace with the default value
+    if (!g_variant_is_of_type(value, d->schema->valueType(id))) {
+        g_variant_unref(value);
+        value = d->schema->defaultValue(id);
+    }
+
+    QVariant retval = vsettings_types_to_qvariant(value);
+    g_variant_unref(value);
+    delete name;
+    return retval;
 }
 
 void VSettings::setValue(const QString &key, const QVariant &value)
 {
     Q_D(VSettings);
 
-    // Determine actual key name and path
-    QString keyName, pathName;
-    d->extractPathAndKey(key, pathName, keyName);
+    char *name = new char[key.length() + 1];
+    (void)strncpy(name, key.toUtf8().constData(), key.length() + 1);
+    int id = d->schema->findKey(name);
+    if (id < 0) {
+        delete name;
+        return;
+    }
 
-    // Set the value
-    d->file->setValue(QString("%1/%2").arg(pathName).arg(keyName), value);
+    GVariant *gvar = vsettings_types_collect(d->schema->valueType(id), value.constData());
+    dconf_dbus_client_write(dconfClient, name, gvar);
+    delete name;
 }
 
 #include "moc_vsettings.cpp"

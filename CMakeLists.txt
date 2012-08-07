@@ -2,6 +2,7 @@ project(Vibe)
 
 cmake_minimum_required(VERSION 2.8.7)
 
+# Enable automoc and include current directory
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -98,20 +99,10 @@ if (_failed)
 endif (_failed)
 string(REGEX REPLACE "[ \t\n]+" \; DBUS_SESSION_BUS_SERVICES_DIR "${DBUS_SESSION_BUS_SERVICES_DIR}")
 
-# Installation directories.
-#set(CMAKE_INSTALL_SYSTEMDIR "/system")
-#set(CMAKE_INSTALL_DEVELOPDIR "${CMAKE_INSTALL_SYSTEMDIR}/develop")
-#set(CMAKE_INSTALL_INCLUDEDIR "${CMAKE_INSTALL_DEVELOPDIR}/headers")
-#set(CMAKE_INSTALL_BINDIR "${CMAKE_INSTALL_SYSTEMDIR}/bin")
-#set(CMAKE_INSTALL_LIBDIR "${CMAKE_INSTALL_SYSTEMDIR}/lib")
-#set(CMAKE_INSTALL_DATADIR "${CMAKE_INSTALL_SYSTEMDIR}/data")
-#set(CMAKE_INSTALL_APPSDIR "${CMAKE_INSTALL_SYSTEMDIR}/apps")
-#set(CMAKE_INSTALL_PLUGINSDIR "${CMAKE_INSTALL_SYSTEMDIR}/plugins")
-#set(CMAKE_INSTALL_IMPORTSDIR "${CMAKE_INSTALL_SYSTEMDIR}/imports")
-
 # Subdirectories
 add_subdirectory(cmake)
 add_subdirectory(data)
 add_subdirectory(headers)
 add_subdirectory(src)
 #add_subdirectory(docs)
+add_subdirectory(tests)

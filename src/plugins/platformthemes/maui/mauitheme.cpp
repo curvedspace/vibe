@@ -36,7 +36,12 @@ using namespace VStandardDirectories;
 
 MauiTheme::MauiTheme()
 {
-    m_settings = new VSettings("org.vision.desktop", "/interface");
+    m_settings = new VSettings("org.maui.desktop.interface");
+    qDebug() << "************************************************************************";
+    qDebug() << m_settings->value("icon-theme");
+m_settings->setValue("icon-theme", "Pippo");
+    qDebug() << m_settings->value("icon-theme");
+    qDebug() << "************************************************************************";
 }
 
 MauiTheme::~MauiTheme()
@@ -67,7 +72,7 @@ const QPalette *MauiTheme::palette(Palette type) const
                   << findDirectory(CommonThemesDirectory) + "/color-schemes"
                   << findDirectory(SystemThemesDirectory) + "/color-schemes";
 
-            foreach (QString path, paths) {
+            foreach(QString path, paths) {
                 VColorScheme colorScheme(QString("%1/%2.colors").arg(path).arg(colorSchemeName));
                 return colorScheme.palette();
             }
@@ -104,36 +109,41 @@ const QFont *MauiTheme::font(Font type) const
 QVariant MauiTheme::themeHint(ThemeHint hint) const
 {
     switch (hint) {
+        case CursorFlashTime:
+        case KeyboardInputInterval:
+        case MouseDoubleClickInterval:
+        case StartDragDistance:
+        case StartDragTime:
+        case KeyboardAutoRepeatRate:
+        case PasswordMaskDelay:
+        case StartDragVelocity:
+            return QVariant();
         case TextCursorWidth:
             return QVariant(1);
         case DropShadow:
             return QVariant(true);
         case MaximumScrollBarDragDistance:
             return QVariant(-1);
-#if 0
         case ToolButtonStyle:
             return m_settings->value("toolbutton-style");
         case ToolBarIconSize:
             return m_settings->value("toolbar-icon-size");
-#endif
         case ItemViewActivateItemOnSingleClick:
             return QVariant(false);
         case SystemIconThemeName:
-            return QStringLiteral("KFaenza");
             return m_settings->value("icon-theme");
         case SystemIconFallbackThemeName:
             return QVariant("hicolor");
         case IconThemeSearchPaths: {
             QStringList paths;
-            paths << findDirectory(UserThemesDirectory) + "/icons"
-                  << findDirectory(CommonThemesDirectory) + "/icons"
-                  << findDirectory(SystemThemesDirectory) + "/icons";
+            paths << findDirectory(UserDataDirectory) + "/icons"
+                  << findDirectory(CommonDataDirectory) + "/icons"
+                  << findDirectory(SystemDataDirectory) + "/icons";
             return QVariant(paths);
         }
         case StyleNames: {
             QStringList styles;
-            styles << m_settings->value("style").toString()
-                   << QStringLiteral("plastique");
+            styles << m_settings->value("style").toString();
             return QVariant(styles);
         }
         case WindowAutoPlacement:
@@ -141,7 +151,7 @@ QVariant MauiTheme::themeHint(ThemeHint hint) const
         case DialogButtonBoxLayout:
             return QVariant(1); // QDialogButtonBox::MacLayout
         case DialogButtonBoxButtonsHaveIcons:
-            return QVariant(true);
+            return QVariant(false);
         case UseFullScreenForPopupMenu:
             return QVariant(true);
         case KeyboardScheme:
@@ -149,7 +159,9 @@ QVariant MauiTheme::themeHint(ThemeHint hint) const
         case UiEffects:
             return AnimateMenuUiEffect | FadeMenuUiEffect |
                    AnimateComboUiEffect | AnimateTooltipUiEffect |
-                   FadeTooltipUiEffect;
+                   FadeTooltipUiEffect | AnimateToolBoxUiEffect;
+        case SpellCheckUnderlineStyle:
+            return QVariant();
     }
 
     return QPlatformTheme::themeHint(hint);

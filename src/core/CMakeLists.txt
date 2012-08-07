@@ -5,8 +5,6 @@ add_definitions(
     ${Qt5Xml_DEFINITIONS}
 )
 
-set(CMAKE_CXX_FLAGS "${Qt5Core_LIBRARY_COMPILE_FLAGS}")
-
 include_directories(
     ${Qt5Core_INCLUDE_DIRS}
     ${Qt5DBus_INCLUDE_DIRS}
@@ -50,6 +48,11 @@ if(LIBLZMA_FOUND)
    set(VibeCore_OPTIONAL_LIBS ${VibeCore_OPTIONAL_LIBS} ${LIBLZMA_LIBRARIES})
 endif(LIBLZMA_FOUND)
 
+# Configure checks for settings/
+include(settings/ConfigureChecks.cmake)
+set(VibeCore_OPTIONAL_LIBS ${VibeCore_OPTIONAL_LIBS} ${DCONF_LIBRARIES})
+include_directories(${DCONF_INCLUDE_DIRS})
+
 # Sources
 set(SOURCES
     vapplicationinfo.cpp
@@ -76,9 +79,11 @@ set(SOURCES
     io/vfilesystemwatcher.cpp
     io/vsavefile.cpp
 
-    settings/settingsschema.cpp
-    settings/settingsschemaloader.cpp
     settings/vsettings.cpp
+    settings/vsettingstypes.cpp
+    settings/vsettingsschema.cpp
+    settings/gvdb/gvdb-builder.c
+    settings/gvdb/gvdb-reader.c
 
     standards/vdesktopfile.cpp
     standards/vstandarddirectories.cpp

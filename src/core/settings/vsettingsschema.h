@@ -1,7 +1,7 @@
 /****************************************************************************
  * This file is part of Vibe.
  *
- * Copyright (c) 2011 Pier Luigi Fiorini
+ * Copyright (c) 2011-2012 Pier Luigi Fiorini
  *
  * Author(s):
  *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
@@ -20,43 +20,32 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#ifndef SETTINGSSCHEMALOADER_H
-#define SETTINGSSCHEMALOADER_H
+#ifndef VSETTINGSSCHEMA_H
+#define VSETTINGSSCHEMA_H
 
-#include <VibeCore/VGlobal>
+#include <glib.h>
 
-#include "settingsschema.h"
+#include <QObject>
 
-//
-//  W A R N I N G
-//  -------------
-//
-// This file is not part of the Vibe API.  It exists purely as an
-// implementation detail.  This header file may change from version to
-// version without notice, or even be removed.
-//
-// We mean it.
-//
+typedef struct _VSettingsSchemaPrivate VSettingsSchemaPrivate;
 
-namespace VPrivate
+class VSettingsSchema
 {
-    class VIBE_EXPORT SettingsSchemaLoader
-    {
-    public:
-        explicit SettingsSchemaLoader();
-        ~SettingsSchemaLoader();
+public:
+    static const VSettingsSchema *getSchema(const QString &name);
 
-        bool parseSchemaSource(const QString &fileName);
-        SettingsSchemaList readCompiledSchemas();
+    const GVariantType *valueType(int id) const;
+    GVariant *defaultValue(int id) const;
+    const char *keyName(int id) const;
+    const char *path() const;
+    const QString &name() const;
+    int count() const;
+    int findKey(const char *key) const;
 
-        bool appendParsedSchema();
+private:
+    VSettingsSchema(const QString &name);
 
-    private:
-        SettingsSchema *m_schema;
+    VSettingsSchemaPrivate *priv;
+};
 
-        QString decodeVersion(quint32 version) const;
-        QString compiledSchemasFileName() const;
-    };
-}
-
-#endif // SETTINGSSCHEMALOADER_H
+#endif // VSETTINGSSCHEMA_H

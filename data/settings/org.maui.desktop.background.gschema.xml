@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="gsettings-hawaii-schemas">
+  <schema path="/org/maui/desktop/background/" id="org.maui.desktop.background">
+    <key name="type" enum="org.maui.desktop.BackgroundType">
+      <default>'color'</default>
+      <summary>Background Type</summary>
+      <description>Determines the background type. Possible values are "color", "wallpaper".</description>
+    </key>
+    <key type="s" name="primary-color">
+      <default>'#336699'</default>
+      <summary>Primary Color</summary>
+      <description>Left or Top color when draring gradients, or the solid color.</description>
+    </key>
+    <key type="s" name="secondary-color">
+      <default>'#2e5d8c'</default>
+      <summary>Secondary Color</summary>
+      <description>Right or Bottom color when draring gradients, not used for solid color.</description>
+    </key>
+    <key name="color-shading-type" enum="org.maui.desktop.BackgroundShading">
+      <default>'solid'</default>
+      <summary>Color Shading Type</summary>
+      <description>How to shade the background color. Possible values are "solid", "horizontal" or "vertical".</description>
+    </key>
+    <key type="s" name="wallpaper-uri">
+      <default>'file:///system/data/wallpapers/Evening/contents/images/1920x1200.jpg'</default>
+      <summary>Picture URI</summary>
+      <description>URI to use for the background wallpaper.</description>
+    </key>
+  </schema>
+</schemalist>
