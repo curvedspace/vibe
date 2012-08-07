@@ -24,28 +24,28 @@
 
 #include "mauitheme.h"
 
-class VisionThemePlugin : public QPlatformThemePlugin
+class MauiThemePlugin : public QPlatformThemePlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QPlatformThemeFactoryInterface" FILE "mauitheme.json")
 public:
-    explicit VisionThemePlugin(QObject *parent = 0);
+    explicit MauiThemePlugin(QObject *parent = 0);
 
     QStringList keys() const;
     QPlatformTheme *create(const QString &key, const QStringList &paramList);
 };
 
-VisionThemePlugin::VisionThemePlugin(QObject *parent) :
+MauiThemePlugin::MauiThemePlugin(QObject *parent) :
     QPlatformThemePlugin(parent)
 {
 }
 
-QStringList VisionThemePlugin::keys() const
+QStringList MauiThemePlugin::keys() const
 {
     return QStringList() << "Maui";
 }
 
-QPlatformTheme *VisionThemePlugin::create(const QString &key, const QStringList &paramList)
+QPlatformTheme *MauiThemePlugin::create(const QString &key, const QStringList &paramList)
 {
     if (key.toLower() == "maui")
         return new MauiTheme();
