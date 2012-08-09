@@ -22,7 +22,7 @@
       <description>How to shade the background color. Possible values are "solid", "horizontal" or "vertical".</description>
     </key>
     <key type="s" name="wallpaper-uri">
-      <default>'file:///system/data/wallpapers/Evening/contents/images/1920x1200.jpg'</default>
+      <default>'file:///system/data/wallpapers/Nature/Evening/contents/images/1920x1200.jpg'</default>
       <summary>Picture URI</summary>
       <description>URI to use for the background wallpaper.</description>
     </key>
