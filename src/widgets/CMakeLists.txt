@@ -29,6 +29,9 @@ include_directories(
 # Sources
 set(SOURCES
     dialogs/vaboutdialog.cpp
+    itemviews/vcategorizedsortfilterproxymodel.cpp
+    itemviews/vcategorizedview.cpp
+    itemviews/vcategorydrawer.cpp
     itemviews/vfileplacesmodel.cpp
     itemviews/vfileplacesitem.cpp
     itemviews/vfileplacesviewdelegate.cpp
@@ -53,6 +56,9 @@ set(SOURCES
 # Headers
 set(HEADERS
     dialogs/vaboutdialog.h
+    itemviews/vcategorizedsortfilterproxymodel.h
+    itemviews/vcategorizedview.h
+    itemviews/vcategorydrawer.h
     itemviews/vfileplacesmodel.h
     itemviews/vfileplacesview.h
     itemviews/vfilesystemmodel.h
