@@ -41,6 +41,7 @@ set(SOURCES
     paged/vpagewidget.cpp
     paged/vpagewidgetmodel.cpp
     preferences/vpreferencesmodule.cpp
+    preferences/vpreferencesmoduleplugin.cpp
     widgets/vbreadcrumbview.cpp
     widgets/vlineedit.cpp
     widgets/vnavigationbar.cpp

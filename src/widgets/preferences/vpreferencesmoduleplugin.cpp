@@ -20,26 +20,15 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#ifndef VPREFERENCESMODULE_P_H
-#define VPREFERENCESMODULE_P_H
+#include "vpreferencesmoduleplugin.h"
 
-//
-//  W A R N I N G
-//  -------------
-//
-// This file is not part of the Vibe API.  It exists purely as an
-// implementation detail.  This header file may change from version to
-// version without notice, or even be removed.
-//
-// We mean it.
-//
-
-class VPreferencesModulePrivate
+VPreferencesModulePlugin::VPreferencesModulePlugin(QObject *parent)
+    : QObject(parent)
 {
-public:
-    VPreferencesModulePrivate();
+}
 
-    bool firstShow : 1;
-};
+VPreferencesModulePlugin::~VPreferencesModulePlugin()
+{
+}
 
-#endif // VPREFERENCESMODULE_P_H
+#include "moc_vpreferencesmoduleplugin.cpp"

@@ -1,7 +1,7 @@
 /****************************************************************************
  * This file is part of Vibe.
  *
- * Copyright (c) 2011 Pier Luigi Fiorini
+ * Copyright (c) 2011-2012 Pier Luigi Fiorini
  *
  * Author(s):
  *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
@@ -28,10 +28,9 @@
 
 #include <VibeCore/VGlobal>
 
-class QString;
-class QStringList;
-
 class VPreferencesModule;
+
+#define VPreferencesModuleFactoryInterface_iid "org.maui.Vibe.VPreferencesModuleFactoryInterface"
 
 /** \addtogroup gui Gui Kit
  *  @{
@@ -42,63 +41,30 @@ class VPreferencesModule;
  *
  * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  */
-class VIBE_EXPORT VPreferencesModulePlugin
+class VIBE_EXPORT VPreferencesModulePlugin : public QObject
 {
-    Q_ENUMS(Category)
+    Q_OBJECT
 public:
-    enum Category {
-        //! Personal preferences.
-        PersonalCategory,
-        //! Hardware preferences.
-        HardwareCategory,
-        //! System preferences.
-        SystemCategory,
-        //! Other preferences.
-        OtherCategory,
-    };
+    /**
+     * Contructs the VPreferencesModulePlugin object.
+     */
+    explicit VPreferencesModulePlugin(QObject *parent = 0);
 
     /**
      * Destructs the VPreferencesModulePlugin object.
      */
-    virtual ~VPreferencesModulePlugin() {}
+    ~VPreferencesModulePlugin();
 
     /**
-     * @returns the module's name.
+     * Return the keys corresponding to the module objects that can be created.
      */
-    virtual QString name() const = 0;
+    virtual QStringList keys() const = 0;
 
     /**
-     * @returns the module's comment.
+     * Creates the preferences module object that corresponds to \a key.
      */
-    virtual QString comment() const = 0;
-
-    /**
-     * @returns the module's icon name.
-     */
-    virtual QString iconName() const = 0;
-
-    /**
-     * @returns the keywords associated with this module.
-     */
-    virtual QStringList keywords() const = 0;
-
-    /**
-     * @returns the category for this module.
-     */
-    virtual Category category() const = 0;
-
-    /**
-     * @returns the module's weight.
-     */
-    virtual int weight() const = 0;
-
-    /**
-     * @returns the actual preferences module object.
-     */
-    virtual VPreferencesModule *module() const = 0;
+    virtual VPreferencesModule *create(const QString &key) const = 0;
 };
-
-Q_DECLARE_INTERFACE(VPreferencesModulePlugin, "org.maui.Preferences.Module/1.0")
 
 /** @}*/
 

@@ -1,7 +1,7 @@
 /****************************************************************************
  * This file is part of Vibe.
  *
- * Copyright (c) 2011 Pier Luigi Fiorini
+ * Copyright (c) 2011-2012 Pier Luigi Fiorini
  *
  * Author(s):
  *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
@@ -96,12 +96,54 @@ class VIBE_EXPORT VPreferencesModule : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(bool requireAdministrativePrivileges READ requireAdministrativePrivileges)
+    Q_ENUMS(Category)
     Q_DECLARE_PRIVATE(VPreferencesModule)
 public:
+    enum Category {
+        //! Personal preferences.
+        PersonalCategory,
+        //! Hardware preferences.
+        HardwareCategory,
+        //! System preferences.
+        SystemCategory,
+        //! Other preferences.
+        OtherCategory,
+    };
+
     /**
      * Constructs a VPreferencesModule object.
      */
     explicit VPreferencesModule(QWidget *parent = 0);
+
+    /**
+     * @returns the module's name.
+     */
+    virtual QString name() const = 0;
+
+    /**
+     * @returns the module's comment.
+     */
+    virtual QString comment() const = 0;
+
+    /**
+     * @returns the module's icon name.
+     */
+    virtual QString iconName() const = 0;
+
+    /**
+     * @returns the keywords associated with this module.
+     */
+    virtual QStringList keywords() const = 0;
+
+    /**
+     * @returns the category for this module.
+     */
+    virtual Category category() const = 0;
+
+    /**
+     * @returns the module's weight.
+     */
+    virtual int weight() const = 0;
 
     /**
      * When a module must be run with administrative privileges, or acts
