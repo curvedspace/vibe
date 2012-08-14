@@ -20,11 +20,11 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QDebug>
 #include <QFileInfo>
 #include <QEvent>
 #include <QDesktopServices>
 #include <QFont>
+#include <QVariant>
 
 #include <VibeCore/VSettings>
 #include <VibeCore/VStandardDirectories>
@@ -37,11 +37,6 @@ using namespace VStandardDirectories;
 MauiTheme::MauiTheme()
 {
     m_settings = new VSettings("org.maui.desktop.interface");
-    qDebug() << "************************************************************************";
-    qDebug() << m_settings->value("icon-theme");
-m_settings->setValue("icon-theme", "Pippo");
-    qDebug() << m_settings->value("icon-theme");
-    qDebug() << "************************************************************************";
 }
 
 MauiTheme::~MauiTheme()
