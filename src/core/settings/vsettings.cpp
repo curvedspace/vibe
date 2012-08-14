@@ -27,7 +27,6 @@
 #include <dconf-dbus-1.h>
 
 #include <QtDBus>
-#include <QDebug>
 
 static DConfDBusClient *dconfClient;
 
@@ -75,9 +74,7 @@ void VSettingsPrivate::notify(const char *key)
     Q_Q(VSettings);
 
     const char *rel = key + path->size();
-    qDebug() << key << rel;
     int id = schema->findKey(rel);
-    qDebug() << id;
     if (id < 0)
         return;
 
@@ -165,7 +162,6 @@ QVariant VSettings::value(const QString &key) const
     char *name = new char[key.length() + 1];
     (void)strncpy(name, key.toUtf8().constData(), key.length() + 1);
     int id = d->schema->findKey(name);
-qDebug() << "findKey" << name << id;
     if (id < 0) {
         delete name;
         return QVariant();
