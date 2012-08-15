@@ -1,8 +1,7 @@
 include_directories(
     ${Qt5Core_INCLUDE_DIRS}
     ${Qt5Gui_INCLUDE_DIRS}
-    ${_qt5Gui_install_prefix}/include/QtGui/5.0.0
-    ${_qt5Gui_install_prefix}/include/QtGui/5.0.0/QtGui
+    ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_BINARY_DIR}/src/core
 )
