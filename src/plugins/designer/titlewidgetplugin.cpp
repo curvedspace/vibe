@@ -23,13 +23,12 @@
 #include <QtDesigner/QDesignerFormEditorInterface>
 #include <QtDesigner/QExtensionManager>
 
-#include <VibeGui/VTitleWidget>
+#include <VibeWidgets/VTitleWidget>
 
 #include "titlewidgetplugin.h"
 
-TitleWidgetPlugin::TitleWidgetPlugin(const QIcon &icon, QObject *parent) :
-    QObject(parent),
-    m_icon(icon)
+TitleWidgetPlugin::TitleWidgetPlugin(QObject *parent)
+    : QObject(parent)
 {
     m_initialized = false;
 }
@@ -63,17 +62,17 @@ QWidget *TitleWidgetPlugin::createWidget(QWidget *parent)
 
 QString TitleWidgetPlugin::name() const
 {
-    return QLatin1String("VTitleWidget");
+    return QStringLiteral("VTitleWidget");
 }
 
 QString TitleWidgetPlugin::group() const
 {
-    return QLatin1String("Vibe");
+    return QStringLiteral("Vibe");
 }
 
 QIcon TitleWidgetPlugin::icon() const
 {
-    return m_icon;
+    return QIcon(":/qt.png");
 }
 
 QString TitleWidgetPlugin::toolTip() const
@@ -83,29 +82,29 @@ QString TitleWidgetPlugin::toolTip() const
 
 QString TitleWidgetPlugin::whatsThis() const
 {
-    return QLatin1String("");
+    return QStringLiteral("");
 }
 
 QString TitleWidgetPlugin::domXml() const
 {
-    return QLatin1String(""
-                         "<ui language=\"c++\">"
-                         "    <widget class=\"VTitleWidget\" name=\"titleWidget\">"
-                         "        <property name=\"geometry\">"
-                         "            <rect>"
-                         "                <x>0</x>"
-                         "                <y>0</y>"
-                         "                <width>100</width>"
-                         "                <height>40</height>"
-                         "            </rect>"
-                         "        </property>"
-                         "    </widget>"
-                         "</ui>");
+    return QStringLiteral(""
+                          "<ui language=\"c++\">"
+                          "    <widget class=\"VTitleWidget\" name=\"titleWidget\">"
+                          "        <property name=\"geometry\">"
+                          "            <rect>"
+                          "                <x>0</x>"
+                          "                <y>0</y>"
+                          "                <width>100</width>"
+                          "                <height>40</height>"
+                          "            </rect>"
+                          "        </property>"
+                          "    </widget>"
+                          "</ui>");
 }
 
 QString TitleWidgetPlugin::includeFile() const
 {
-    return QLatin1String("VibeGui/VTitleWidget");
+    return QStringLiteral("VibeWidgets/VTitleWidget");
 }
 
-#include "titlewidgetplugin.moc"
+#include "moc_titlewidgetplugin.cpp"

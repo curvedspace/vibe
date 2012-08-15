@@ -23,13 +23,12 @@
 #include <QtDesigner/QDesignerFormEditorInterface>
 #include <QtDesigner/QExtensionManager>
 
-#include <VibeGui/VNavigationBar>
+#include <VibeWidgets/VNavigationBar>
 
 #include "navigationbarplugin.h"
 
-NavigationBarPlugin::NavigationBarPlugin(const QIcon &icon, QObject *parent) :
-    QObject(parent),
-    m_icon(icon)
+NavigationBarPlugin::NavigationBarPlugin(QObject *parent)
+    : QObject(parent)
 {
     m_initialized = false;
 }
@@ -65,17 +64,17 @@ QWidget *NavigationBarPlugin::createWidget(QWidget *parent)
 
 QString NavigationBarPlugin::name() const
 {
-    return QLatin1String("VNavigationBar");
+    return QStringLiteral("VNavigationBar");
 }
 
 QString NavigationBarPlugin::group() const
 {
-    return QLatin1String("Vibe");
+    return QStringLiteral("Vibe");
 }
 
 QIcon NavigationBarPlugin::icon() const
 {
-    return m_icon;
+    return QIcon(":/qt.png");
 }
 
 QString NavigationBarPlugin::toolTip() const
@@ -85,29 +84,29 @@ QString NavigationBarPlugin::toolTip() const
 
 QString NavigationBarPlugin::whatsThis() const
 {
-    return QLatin1String("");
+    return QStringLiteral("");
 }
 
 QString NavigationBarPlugin::domXml() const
 {
-    return QLatin1String(""
-                         "<ui language=\"c++\">"
-                         "    <widget class=\"VNavigationBar\" name=\"navigationBar\">"
-                         "        <property name=\"geometry\">"
-                         "            <rect>"
-                         "                <x>0</x>"
-                         "                <y>0</y>"
-                         "                <width>100</width>"
-                         "                <height>80</height>"
-                         "            </rect>"
-                         "        </property>"
-                         "    </widget>"
-                         "</ui>");
+    return QStringLiteral(""
+                          "<ui language=\"c++\">"
+                          "    <widget class=\"VNavigationBar\" name=\"navigationBar\">"
+                          "        <property name=\"geometry\">"
+                          "            <rect>"
+                          "                <x>0</x>"
+                          "                <y>0</y>"
+                          "                <width>100</width>"
+                          "                <height>80</height>"
+                          "            </rect>"
+                          "        </property>"
+                          "    </widget>"
+                          "</ui>");
 }
 
 QString NavigationBarPlugin::includeFile() const
 {
-    return QLatin1String("VibeGui/VNavigationBar");
+    return QStringLiteral("VibeWidgets/VNavigationBar");
 }
 
-#include "navigationbarplugin.moc"
+#include "moc_navigationbarplugin.cpp"

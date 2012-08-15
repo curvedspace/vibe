@@ -23,14 +23,14 @@
 #ifndef FILEPLACESVIEWPLUGIN_H
 #define FILEPLACESVIEWPLUGIN_H
 
-#include <QtDesigner/QDesignerCustomWidgetInterface>
+#include <QDesignerCustomWidgetInterface>
 
 class FilePlacesViewPlugin : public QObject, public QDesignerCustomWidgetInterface
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    explicit FilePlacesViewPlugin(const QIcon &icon, QObject *parent = 0);
+    explicit FilePlacesViewPlugin(QObject *parent = 0);
 
     void initialize(QDesignerFormEditorInterface *formEditor);
     bool isInitialized() const;
@@ -48,7 +48,6 @@ public:
 
 private:
     bool m_initialized;
-    QIcon m_icon;
 };
 
 #endif // FILEPLACESVIEWPLUGIN_H

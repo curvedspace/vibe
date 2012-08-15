@@ -23,14 +23,14 @@
 #ifndef TITLEWIDGETPLUGIN_H
 #define TITLEWIDGETPLUGIN_H
 
-#include <QtDesigner/QDesignerCustomWidgetInterface>
+#include <QDesignerCustomWidgetInterface>
 
 class TitleWidgetPlugin : public QObject, public QDesignerCustomWidgetInterface
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    explicit TitleWidgetPlugin(const QIcon &icon, QObject *parent = 0);
+    explicit TitleWidgetPlugin(QObject *parent = 0);
 
     void initialize(QDesignerFormEditorInterface *formEditor);
     bool isInitialized() const;
@@ -48,7 +48,6 @@ public:
 
 private:
     bool m_initialized;
-    QIcon m_icon;
 };
 
 #endif // TITLEWIDGETPLUGIN_H

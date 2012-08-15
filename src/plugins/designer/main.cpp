@@ -20,29 +20,32 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QtCore/QtPlugin>
+#include <QDesignerCustomWidgetCollectionInterface>
 
-#include "vibewidgets.h"
 #include "fileplacesviewplugin.h"
 #include "lineeditplugin.h"
 #include "navigationbarplugin.h"
 #include "titlewidgetplugin.h"
 
-VibeWidgets::VibeWidgets(QObject *parent)
-    : QObject(parent)
+class VibeWidgets : public QObject, QDesignerCustomWidgetCollectionInterface
 {
-    const QIcon icon(":/qt.png");
-    //m_plugins.append(new FilePlacesViewPlugin(icon, this));
-    m_plugins.append(new LineEditPlugin(icon, this));
-    m_plugins.append(new NavigationBarPlugin(icon, this));
-    m_plugins.append(new TitleWidgetPlugin(icon, this));
-}
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QDesignerCustomWidgetCollectionInterface" FILE "vibewidgets.json")
+    Q_INTERFACES(QDesignerCustomWidgetCollectionInterface)
+public:
+    explicit VibeWidgets(QObject *parent = 0) {
+        //m_plugins.append(new FilePlacesViewPlugin(icon, this));
+        m_plugins.append(new LineEditPlugin(this));
+        m_plugins.append(new NavigationBarPlugin(this));
+        m_plugins.append(new TitleWidgetPlugin(this));
+    }
 
-QList<QDesignerCustomWidgetInterface *> VibeWidgets::customWidgets() const
-{
-    return m_plugins;
-}
+    virtual QList<QDesignerCustomWidgetInterface *> customWidgets() const {
+        return m_plugins;
+    }
 
-Q_EXPORT_PLUGIN2(VibeWidgetsPlugin, VibeWidgets)
+private:
+    QList<QDesignerCustomWidgetInterface *> m_plugins;
+};
 
-#include "vibewidgets.moc"
+#include "main.moc"

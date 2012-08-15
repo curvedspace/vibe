@@ -1,18 +1,17 @@
 include_directories(
-    ${QT_INCLUDE_DIR}
-    ${QT_QTCORE_INCLUDE_DIR}
-    ${QT_QTGUI_INCLUDE_DIR}
-    ${QT_QTDESIGNER_INCLUDE_DIR}
+    ${Qt5Designer_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/headers
-    ${CMAKE_BINARY_DIR}/src/kits/core
-    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_BINARY_DIR}/src/core
+    ${CMAKE_BINARY_DIR}/src/widgets
 )
 
-add_definitions(${QT_DEFINITIONS})
-add_definitions(-DQT_PLUGIN -DQT_NO_DEBUG -DQT_SHARED)
+add_definitions(
+    ${Qt5Designer_DEFINITIONS}
+    -DQT_PLUGIN
+)
 
 set(SOURCES
-    vibewidgets.cpp
+    main.cpp
     fileplacesviewplugin.cpp
     lineeditplugin.cpp
     navigationbarplugin.cpp
@@ -22,7 +21,6 @@ set(SOURCES
 qt5_add_resources(RESOURCES_RCC icons.qrc)
 
 add_library(VibeDesignerPlugin SHARED ${SOURCES} ${RESOURCES_RCC})
-target_link_libraries(VibeDesignerPlugin ${QT_QTDESIGNER_LIBRARIES} VibeGui VibeStorage)
+target_link_libraries(VibeDesignerPlugin ${Qt5Designer_LIBRARIES} VibeWidgets)
 
-install(TARGETS VibeDesignerPlugin LIBRARY
-    DESTINATION ${QT_PLUGINS_DIR}/designer COMPONENT Devel)
+install(TARGETS VibeDesignerPlugin LIBRARY DESTINATION ${CMAKE_INSTALL_PLUGINSDIR}/designer)

@@ -23,14 +23,14 @@
 #ifndef NAVIGATIONBARPLUGIN_H
 #define NAVIGATIONBARPLUGIN_H
 
-#include <QtDesigner/QDesignerCustomWidgetInterface>
+#include <QDesignerCustomWidgetInterface>
 
 class NavigationBarPlugin : public QObject, public QDesignerCustomWidgetInterface
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    explicit NavigationBarPlugin(const QIcon &icon, QObject *parent = 0);
+    explicit NavigationBarPlugin(QObject *parent = 0);
 
     void initialize(QDesignerFormEditorInterface *formEditor);
     bool isInitialized() const;
@@ -48,7 +48,6 @@ public:
 
 private:
     bool m_initialized;
-    QIcon m_icon;
 };
 
 #endif // NAVIGATIONBARPLUGIN_H

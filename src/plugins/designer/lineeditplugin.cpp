@@ -23,13 +23,12 @@
 #include <QtDesigner/QDesignerFormEditorInterface>
 #include <QtDesigner/QExtensionManager>
 
-#include <VibeGui/VLineEdit>
+#include <VibeWidgets/VLineEdit>
 
 #include "lineeditplugin.h"
 
-LineEditPlugin::LineEditPlugin(const QIcon &icon, QObject *parent) :
-    QObject(parent),
-    m_icon(icon)
+LineEditPlugin::LineEditPlugin(QObject *parent)
+    : QObject(parent)
 {
     m_initialized = false;
 }
@@ -63,17 +62,17 @@ QWidget *LineEditPlugin::createWidget(QWidget *parent)
 
 QString LineEditPlugin::name() const
 {
-    return QLatin1String("VLineEdit");
+    return QStringLiteral("VLineEdit");
 }
 
 QString LineEditPlugin::group() const
 {
-    return QLatin1String("Vibe");
+    return QStringLiteral("Vibe");
 }
 
 QIcon LineEditPlugin::icon() const
 {
-    return m_icon;
+    return QIcon(":/qt.png");
 }
 
 QString LineEditPlugin::toolTip() const
@@ -83,29 +82,29 @@ QString LineEditPlugin::toolTip() const
 
 QString LineEditPlugin::whatsThis() const
 {
-    return QLatin1String("");
+    return QStringLiteral("");
 }
 
 QString LineEditPlugin::domXml() const
 {
-    return QLatin1String(""
-                         "<ui language=\"c++\">"
-                         "    <widget class=\"VLineEdit\" name=\"lineEdit\">"
-                         "        <property name=\"geometry\">"
-                         "            <rect>"
-                         "                <x>0</x>"
-                         "                <y>0</y>"
-                         "                <width>100</width>"
-                         "                <height>20</height>"
-                         "            </rect>"
-                         "        </property>"
-                         "    </widget>"
-                         "</ui>");
+    return QStringLiteral(""
+                          "<ui language=\"c++\">"
+                          "    <widget class=\"VLineEdit\" name=\"lineEdit\">"
+                          "        <property name=\"geometry\">"
+                          "            <rect>"
+                          "                <x>0</x>"
+                          "                <y>0</y>"
+                          "                <width>100</width>"
+                          "                <height>20</height>"
+                          "            </rect>"
+                          "        </property>"
+                          "    </widget>"
+                          "</ui>");
 }
 
 QString LineEditPlugin::includeFile() const
 {
-    return QLatin1String("VibeGui/VLineEdit");
+    return QStringLiteral("VibeWidgets/VLineEdit");
 }
 
-#include "lineeditplugin.moc"
+#include "moc_lineeditplugin.cpp"

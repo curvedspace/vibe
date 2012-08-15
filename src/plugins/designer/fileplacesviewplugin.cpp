@@ -23,13 +23,12 @@
 #include <QtDesigner/QDesignerFormEditorInterface>
 #include <QtDesigner/QExtensionManager>
 
-#include <VibeStorage/VFilePlacesView>
+#include <VibeWidgets/VFilePlacesView>
 
 #include "fileplacesviewplugin.h"
 
-FilePlacesViewPlugin::FilePlacesViewPlugin(const QIcon &icon, QObject *parent) :
-    QObject(parent),
-    m_icon(icon)
+FilePlacesViewPlugin::FilePlacesViewPlugin(QObject *parent)
+    : QObject(parent)
 {
     m_initialized = false;
 }
@@ -63,17 +62,17 @@ QWidget *FilePlacesViewPlugin::createWidget(QWidget *parent)
 
 QString FilePlacesViewPlugin::name() const
 {
-    return QLatin1String("VFilePlacesView");
+    return QStringLiteral("VFilePlacesView");
 }
 
 QString FilePlacesViewPlugin::group() const
 {
-    return QLatin1String("Vibe");
+    return QStringLiteral("Vibe");
 }
 
 QIcon FilePlacesViewPlugin::icon() const
 {
-    return m_icon;
+    return QIcon(":/qt.png");
 }
 
 QString FilePlacesViewPlugin::toolTip() const
@@ -83,29 +82,29 @@ QString FilePlacesViewPlugin::toolTip() const
 
 QString FilePlacesViewPlugin::whatsThis() const
 {
-    return QLatin1String("");
+    return QStringLiteral("");
 }
 
 QString FilePlacesViewPlugin::domXml() const
 {
-    return QLatin1String(""
-                         "<ui language=\"c++\">"
-                         "    <widget class=\"VFilePlacesView\" name=\"filePlaces\">"
-                         "        <property name=\"geometry\">"
-                         "            <rect>"
-                         "                <x>0</x>"
-                         "                <y>0</y>"
-                         "                <width>145</width>"
-                         "                <height>280</height>"
-                         "            </rect>"
-                         "        </property>"
-                         "    </widget>"
-                         "</ui>");
+    return QStringLiteral(""
+                          "<ui language=\"c++\">"
+                          "    <widget class=\"VFilePlacesView\" name=\"filePlaces\">"
+                          "        <property name=\"geometry\">"
+                          "            <rect>"
+                          "                <x>0</x>"
+                          "                <y>0</y>"
+                          "                <width>145</width>"
+                          "                <height>280</height>"
+                          "            </rect>"
+                          "        </property>"
+                          "    </widget>"
+                          "</ui>");
 }
 
 QString FilePlacesViewPlugin::includeFile() const
 {
-    return QLatin1String("VibeStorage/VFilePlacesView");
+    return QStringLiteral("VibeWidgets/VFilePlacesView");
 }
 
-#include "fileplacesviewplugin.moc"
+#include "moc_fileplacesviewplugin.cpp"

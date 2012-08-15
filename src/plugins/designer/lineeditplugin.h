@@ -23,14 +23,14 @@
 #ifndef LINEEDITPLUGIN_H
 #define LINEEDITPLUGIN_H
 
-#include <QtDesigner/QDesignerCustomWidgetInterface>
+#include <QDesignerCustomWidgetInterface>
 
 class LineEditPlugin : public QObject, public QDesignerCustomWidgetInterface
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    explicit LineEditPlugin(const QIcon &icon, QObject *parent = 0);
+    explicit LineEditPlugin(QObject *parent = 0);
 
     void initialize(QDesignerFormEditorInterface *formEditor);
     bool isInitialized() const;
@@ -48,7 +48,6 @@ public:
 
 private:
     bool m_initialized;
-    QIcon m_icon;
 };
 
 #endif // LINEEDITPLUGIN_H

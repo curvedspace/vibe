@@ -89,6 +89,10 @@ find_package(Qt5DBus REQUIRED)
 if(NOT Qt5DBus_FOUND)
     message(FATAL_ERROR "Qt5DBus module is required!")
 endif()
+find_package(Qt5Designer REQUIRED)
+if(NOT Qt5Designer_FOUND)
+    message(FATAL_ERROR "Qt5Designer module is required!")
+endif()
 
 # Find DBus session bus services directory
 execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=session_bus_services_dir dbus-1
