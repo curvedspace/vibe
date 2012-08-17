@@ -11,6 +11,7 @@
 #  LOCALSTATEDIR    - modifiable single-machine data (/common/var)
 #  LIBDIR           - object code libraries (lib or lib64)
 #  PLUGINSDIR       - object code plugin libraries (plugins)
+#  IMPORTSDIR       - Qml modules (imports)
 #  INCLUDEDIR       - C header files (develop/headers)
 #  PKGCONFIGDIR     - pkg-config files (develop/pkgconfig)
 #  CMAKEDIR         - CMake files (develop/cmake)
@@ -112,6 +113,10 @@ if(NOT DEFINED CMAKE_INSTALL_PLUGINSDIR)
   set(CMAKE_INSTALL_PLUGINSDIR "plugins" CACHE PATH "object code plugins libraries (plugins)")
 endif()
 
+if(NOT DEFINED CMAKE_INSTALL_IMPORTSDIR)
+  set(CMAKE_INSTALL_IMPORTSDIR "imports" CACHE PATH "Qml modules (imports)")
+endif()
+
 if(NOT DEFINED CMAKE_INSTALL_INCLUDEDIR)
   set(CMAKE_INSTALL_INCLUDEDIR "develop/headers" CACHE PATH "C header files (develop/headers)")
 endif()
@@ -168,6 +173,7 @@ mark_as_advanced(
   CMAKE_INSTALL_LOCALSTATEDIR
   CMAKE_INSTALL_LIBDIR
   CMAKE_INSTALL_PLUGINSDIR
+  CMAKE_INSTALL_IMPORTSDIR
   CMAKE_INSTALL_INCLUDEDIR
   CMAKE_INSTALL_PKGCONFIGDIR
   CMAKE_INSTALL_CMAKEDIR
@@ -189,6 +195,7 @@ foreach(dir
     LOCALSTATEDIR
     LIBDIR
     PLUGINSDIR
+    IMPORTSDIR
     INCLUDEDIR
     PKGCONFIGDIR
     CMAKEDIR
