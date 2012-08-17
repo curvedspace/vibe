@@ -20,21 +20,24 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
+#include <QQmlExtensionPlugin>
 #include <QQmlEngine>
 
-#include "fluidplugin.h"
 #include "iconimageprovider.h"
 
-void FluidPlugin::registerTypes(const char *uri)
+class FluidPlugin : public QQmlExtensionPlugin
 {
-}
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+public:
+    void registerTypes(const char *uri) {
+        Q_UNUSED(uri);
+    }
 
-void FluidPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
-{
-    Q_UNUSED(uri);
-    engine->addImageProvider("desktoptheme", new IconImageProvider);
-}
+    void initializeEngine(QQmlEngine *engine, const char *uri) {
+        Q_UNUSED(uri);
+        engine->addImageProvider("desktoptheme", new IconImageProvider);
+    }
+};
 
-Q_EXPORT_PLUGIN2(vibefluidplugin, FluidPlugin);
-
-#include "moc_fluidplugin.cpp"
+#include "fluidplugin.moc"
