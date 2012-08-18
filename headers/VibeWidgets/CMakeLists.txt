@@ -4,6 +4,7 @@ set(HEADERS
     VCategorizedSortFilterProxyModel
     VCategorizedView
     VCategoryDrawer
+    VColorButton
     VBreadcrumbView
     VFilePlacesModel
     VFilePlacesView

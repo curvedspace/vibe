@@ -46,6 +46,7 @@ set(SOURCES
     preferences/vpreferencesmodule.cpp
     preferences/vpreferencesmoduleplugin.cpp
     widgets/vbreadcrumbview.cpp
+    widgets/vcolorbutton.cpp
     widgets/vlineedit.cpp
     widgets/vnavigationbar.cpp
     widgets/vtitlewidget.cpp
@@ -70,6 +71,7 @@ set(HEADERS
     preferences/vpreferencesmodule.h
     preferences/vpreferencesmoduleplugin.h
     widgets/vbreadcrumbview.h
+    widgets/vcolorbutton.h
     widgets/vlineedit.h
     widgets/vnavigationbar.h
     widgets/vtitlewidget.h
