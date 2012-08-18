@@ -14,6 +14,6 @@ set(SOURCES
 )
 
 add_library(maui SHARED ${SOURCES})
-target_link_libraries(maui ${Qt5Gui_LIBRARIES} VibeCore)
+target_link_libraries(maui ${Qt5Gui_LIBRARIES} VibeGui)
 
 install(TARGETS maui LIBRARY DESTINATION ${CMAKE_INSTALL_PLUGINSDIR}/platformthemes)

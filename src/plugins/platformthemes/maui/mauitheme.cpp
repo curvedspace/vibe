@@ -56,6 +56,7 @@ QPlatformDialogHelper *MauiTheme::createPlatformDialogHelper(DialogType type) co
 
 const QPalette *MauiTheme::palette(Palette type) const
 {
+#if 0
     switch (type) {
         case SystemPalette: {
             QString colorSchemeName = m_settings->value("color-scheme").toString();
@@ -75,24 +76,28 @@ const QPalette *MauiTheme::palette(Palette type) const
         default:
             break;
     }
+#endif
 
     return new QPalette();
 }
 
 const QFont *MauiTheme::font(Font type) const
 {
-    QFont *font = new QFont(m_settings->value("font-name").toString());
+    QString fontName = m_settings->value("font-name").toString();
+    int fontSize = m_settings->value("font-size").toInt();
+    QFont *font = new QFont(fontName, fontSize);
 
     switch (type) {
         case TitleBarFont:
+        case MdiSubWindowTitleFont:
         case DockWidgetTitleFont:
             font->setBold(true);
             break;
         case SmallFont:
-            font->setPointSize(9);
+            font->setPointSize(fontSize / 1.10);
             break;
         case MiniFont:
-            font->setPointSize(8);
+            font->setPointSize(fontSize / 1.25);
             break;
         default:
             break;
