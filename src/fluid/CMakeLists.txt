@@ -21,3 +21,4 @@ add_library(VibeFluidPlugin SHARED ${SOURCES} ${RESOURCES_RCC})
 target_link_libraries(VibeFluidPlugin ${Qt5Qml_LIBRARIES} ${Qt5Quick_LIBRARIES})
 
 install(TARGETS VibeFluidPlugin LIBRARY DESTINATION ${CMAKE_INSTALL_IMPORTSDIR}/VibeFluid)
+install(FILES qmldir DESTINATION ${CMAKE_INSTALL_IMPORTSDIR}/VibeFluid)
