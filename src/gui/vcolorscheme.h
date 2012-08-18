@@ -23,7 +23,8 @@
 #ifndef VCOLORSCHEME_H
 #define VCOLORSCHEME_H
 
-#include <QtGui/QPalette>
+#include <QString>
+#include <QPalette>
 
 #include <VibeCore/VGlobal>
 

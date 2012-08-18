@@ -20,8 +20,8 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#include <QtCore/QLocale>
-#include <QtCore/QSettings>
+#include <QLocale>
+#include <QSettings>
 
 #include "vcolorscheme.h"
 #include "vcolorscheme_p.h"
