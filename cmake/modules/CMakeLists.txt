@@ -7,6 +7,7 @@ set(cmakeFiles
     FindFlex.cmake
     FindHUpnp.cmake
     FindLibLZMA.cmake
+    FindPAM.cmake
     FindSharedMimeInfo.cmake
     FindUDev.cmake
     HandleImportedTargetsInCMakeRequiredLibraries.cmake
