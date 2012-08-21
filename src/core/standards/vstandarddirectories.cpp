@@ -60,6 +60,8 @@ namespace VStandardDirectories
                 return "/system/apps";
             case SystemProgramsDirectory:
                 return "/system/progs";
+            case SystemServersDirectory:
+                return "/system/servers";
             case SystemDevelopmentDirectory:
                 return "/system/develop";
             case SystemHeadersDirectory:
@@ -97,6 +99,8 @@ namespace VStandardDirectories
                 return "/common/apps";
             case CommonProgramsDirectory:
                 return "/common/progs";
+            case CommonServersDirectory:
+                return "/common/servers";
             case CommonDevelopmentDirectory:
                 return "/common/develop";
             case CommonHeadersDirectory:

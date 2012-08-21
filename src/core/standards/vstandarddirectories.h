@@ -83,6 +83,9 @@ namespace VStandardDirectories
         /*! System programs directory (/system/progs) */
         SystemProgramsDirectory,
 
+        /*! System servers directory (/system/servers) */
+        SystemServersDirectory,
+
         /*! System development directory (/system/develop) */
         SystemDevelopmentDirectory,
 
@@ -140,6 +143,9 @@ namespace VStandardDirectories
 
         /*! Common programs directory (/common/progs) */
         CommonProgramsDirectory,
+
+        /*! Common servers directory (/common/servers) */
+        CommonServersDirectory,
 
         /*! Common development directory (/common/develop) */
         CommonDevelopmentDirectory,
