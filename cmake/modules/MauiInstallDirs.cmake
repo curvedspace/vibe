@@ -7,6 +7,7 @@
 #  BINDIR           - user executables (bin)
 #  APPSDIR          - applications' desktop files (apps)
 #  PROGSDIR         - user programs (progs)
+#  SERVERSDIR       - server executables (servers)
 #  SYSCONFDIR       - read-only single-machine data (settings)
 #  LOCALSTATEDIR    - modifiable single-machine data (/common/var)
 #  LIBDIR           - object code libraries (lib or lib64)
@@ -72,6 +73,10 @@ endif()
 
 if(NOT DEFINED CMAKE_INSTALL_PROGSDIR)
   set(CMAKE_INSTALL_PROGSDIR "progs" CACHE PATH "user programs (progs)")
+endif()
+
+if(NOT DEFINED CMAKE_INSTALL_SERVERSDIR)
+  set(CMAKE_INSTALL_SERVERSDIR "servers" CACHE PATH "server executables (servers)")
 endif()
 
 if(NOT DEFINED CMAKE_INSTALL_BINDIR)
@@ -169,6 +174,7 @@ mark_as_advanced(
   CMAKE_INSTALL_BINDIR
   CMAKE_INSTALL_APPSDIR
   CMAKE_INSTALL_PROGSDIR
+  CMAKE_INSTALL_SERVERSDIR
   CMAKE_INSTALL_SYSCONFDIR
   CMAKE_INSTALL_LOCALSTATEDIR
   CMAKE_INSTALL_LIBDIR
@@ -191,6 +197,7 @@ foreach(dir
     BINDIR
     APPSDIR
     PROGSDIR
+    SERVERSDIR
     SYSCONFDIR
     LOCALSTATEDIR
     LIBDIR
