@@ -188,11 +188,13 @@ void VAboutDialog::Private::_q_close()
  */
 
 VAboutDialog::VAboutDialog(QWidget *parent) :
-    QDialog(parent),
+    QDialog(parent, Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint),
     d(new Private(this))
 {
     setWindowTitle(tr("About"));
+    setModal(true);
     setSizeGripEnabled(false);
+    layout()->setSizeConstraint(QLayout::SetFixedSize);
 
     connect(d->moreInfoButton, SIGNAL(clicked()),
             this, SLOT(_q_moreInformation()));
