@@ -155,25 +155,32 @@ void VAboutDialog::Private::setLink(const QUrl &url)
 void VAboutDialog::Private::_q_moreInformation()
 {
     QDialog *dialog = new QDialog(q);
+    dialog->setModal(true);
     dialog->setWindowTitle(tr("More Information"));
 
     QTabWidget *tab = new QTabWidget();
+    QVBoxLayout *vbox = new QVBoxLayout(dialog);
+    vbox->addWidget(tab);
 
     if (m_authors.count() > 0) {
         QTextBrowser *authors = new QTextBrowser();
         authors->setText(m_authors.join("\n"));
-        tab->addTab(authors, tr("Authors"));
+
+        QWidget *authorsPage = new QWidget(tab);
+        QVBoxLayout *authorsVbox = new QVBoxLayout(authorsPage);
+        authorsVbox->addWidget(authors);
+        tab->addTab(authorsPage, tr("Authors"));
     }
 
     if (m_licenseText.trimmed() != QString::null) {
         QTextBrowser *license = new QTextBrowser();
         license->setText(m_licenseText);
 
-        tab->addTab(license, tr("License"));
+        QWidget *licensePage = new QWidget(tab);
+        QVBoxLayout *licenseVbox = new QVBoxLayout(licensePage);
+        licenseVbox->addWidget(license);
+        tab->addTab(licensePage, tr("License"));
     }
-
-    QVBoxLayout *vbox = new QVBoxLayout(dialog);
-    vbox->addWidget(tab);
 
     dialog->exec();
 }
