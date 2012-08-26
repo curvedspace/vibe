@@ -23,8 +23,8 @@
 #ifndef VFILESYSTEMMODEL_H
 #define VFILESYSTEMMODEL_H
 
-#include <QtCore/QMimeDatabase>
-#include <QtWidgets/QFileSystemModel>
+#include <QMimeDatabase>
+#include <QFileSystemModel>
 
 #include <VibeCore/VGlobal>
 
