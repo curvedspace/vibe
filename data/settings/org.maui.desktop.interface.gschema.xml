@@ -46,6 +46,21 @@
       <summary>Icon Theme</summary>
       <description>Theme used for all the icons.</description>
     </key>
+    <key type="i" name="small-icon-size">
+      <default>22</default>
+      <summary>Small Icon Size</summary>
+      <description>Size of the small icons.</description>
+    </key>
+    <key type="i" name="large-icon-size">
+      <default>48</default>
+      <summary>Large Icon Size</summary>
+      <description>Size of the large icons.</description>
+    </key>
+    <key type="i" name="iconview-icon-size">
+      <default>48</default>
+      <summary>Icon View Icon Size</summary>
+      <description>Size of icon view icons.</description>
+    </key>
     <key type="s" name="cursor-theme">
       <default>'Vanish'</default>
       <summary>Cursor Theme</summary>
