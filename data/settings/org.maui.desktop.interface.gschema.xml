@@ -56,6 +56,11 @@
       <summary>Large Icon Size</summary>
       <description>Size of the large icons.</description>
     </key>
+    <key type="i" name="toolbar-icon-size">
+      <default>24</default>
+      <summary>Toolbar Icon Size</summary>
+      <description>Size of toolbar icons.</description>
+    </key>
     <key type="i" name="iconview-icon-size">
       <default>48</default>
       <summary>Icon View Icon Size</summary>
@@ -75,11 +80,6 @@
       <default>'icon-only'</default>
       <summary>Toolbar Buttons Style</summary>
       <description>Style of toolbar buttons. Valid values are "icon-only", "text-only", "text-beside-icon" or "text-under-icon".</description>
-    </key>
-    <key name="toolbar-icon-size" enum="org.maui.desktop.ToolbarIconSize">
-      <default>'small'</default>
-      <summary>Toolbar Icon Size</summary>
-      <description>Size of icons in toolbars, either "small" or "large".</description>
     </key>
   </schema>
 </schemalist>
