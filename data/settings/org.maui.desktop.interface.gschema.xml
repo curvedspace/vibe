@@ -61,6 +61,11 @@
       <summary>Toolbar Icon Size</summary>
       <description>Size of toolbar icons.</description>
     </key>
+    <key type="i" name="button-icon-size">
+      <default>16</default>
+      <summary>Button Icon Size</summary>
+      <description>Size of button icons.</description>
+    </key>
     <key type="i" name="iconview-icon-size">
       <default>48</default>
       <summary>Icon View Icon Size</summary>
