@@ -112,11 +112,11 @@ namespace VPrivate
         }
 
         // Draw top-level item's text with bold font
-        if (!index.parent().isValid()) {
-            QFont boldFont;
-            boldFont.setBold(true);
-            painter->setFont(boldFont);
-        }
+        QFont textFont;
+        if (!index.parent().isValid())
+            textFont.setBold(true);
+        textFont.setPointSize(textFont.pointSize() * 0.80);
+        painter->setFont(textFont);
 
         QRect rectText;
 
@@ -127,6 +127,7 @@ namespace VPrivate
         else
             rectText = QRect(isLTR ? m_iconSize + kLateralMargin * 2 + option.rect.left()
                              : 0, option.rect.top(), option.rect.width() - m_iconSize - kLateralMargin * 2, option.rect.height());
+        painter->setFont(textFont);
         painter->drawText(rectText, Qt::AlignLeft | Qt::AlignVCenter,
                           option.fontMetrics.elidedText(index.model()->data(index).toString(), Qt::ElideRight, rectText.width()));
 
