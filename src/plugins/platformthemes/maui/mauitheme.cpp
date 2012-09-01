@@ -124,8 +124,20 @@ QVariant MauiTheme::themeHint(ThemeHint hint) const
             return QVariant(true);
         case MaximumScrollBarDragDistance:
             return QVariant(-1);
-        case ToolButtonStyle:
-            return m_settings->value("toolbutton-style");
+        case ToolButtonStyle: {
+            QString val = m_settings->value("toolbutton-style").toString();
+
+            if (val == "icon-only")
+                return QVariant(int(Qt::ToolButtonIconOnly));
+            else if (val == "text-only")
+                return QVariant(int(Qt::ToolButtonTextOnly));
+            else if (val == "text-beside-icon")
+                return QVariant(int(Qt::ToolButtonTextBesideIcon));
+            else if (val == "text-under-icon")
+                return QVariant(int(Qt::ToolButtonTextUnderIcon));
+
+            return QVariant(int(Qt::ToolButtonFollowStyle));
+        }
         case ToolBarIconSize:
             return m_settings->value("toolbar-icon-size");
         case ItemViewActivateItemOnSingleClick:
