@@ -16,7 +16,7 @@ set(HEADERS
     VGlobal
     VSaveFile
     VSettings
-    VSharedPtr
+    VSharedPointer
     VStandardDirectories
     VStringHandler
     VUserAccount

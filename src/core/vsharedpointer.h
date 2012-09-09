@@ -36,105 +36,145 @@
  * $END_LICENSE$
  ***************************************************************************/
 
-#ifndef VSHAREDPTR_H
-#define VSHAREDPTR_H
+#ifndef VSHAREDPOINTER_H
+#define VSHAREDPOINTER_H
 
 #include <QSharedData>
 
 /**
- * \class VSharedPtr ksharedptr.h <VSharedPtr>
- *
  * Can be used to control the lifetime of an object that has derived
  * QSharedData. As long a someone holds
- * a VSharedPtr on some QSharedData object it won't become deleted but
+ * a VSharedPointer on some QSharedData object it won't become deleted but
  * is deleted once its reference count is 0.
  * This struct emulates C++ pointers virtually perfectly.
  * So just use it like a simple C++ pointer.
  *
  * The difference with QSharedPointer is that QSharedPointer does the refcounting
- * in the pointer, while VSharedPtr does the refcounting in the object.
- * This allows to convert to a raw pointer temporarily and back to a VSharedPtr
+ * in the pointer, while VSharedPointer does the refcounting in the object.
+ * This allows to convert to a raw pointer temporarily and back to a VSharedPointer
  * without deleting the object, if another reference exists. But it imposes a
  * requirement on the object, which must inherit QSharedData.
  *
  * The difference with using QSharedDataPointer is that QSharedDataPointer is
  * a building block for implementing a value class with implicit sharing (like QString),
- * whereas VSharedPtr provides refcounting to code that uses pointers.
+ * whereas VSharedPointer provides refcounting to code that uses pointers.
  *
  * @author Waldo Bastian <bastian@kde.org>
  */
 template< class T >
-class VSharedPtr
+class VSharedPointer
 {
 public:
     /**
      * Creates a null pointer.
      */
-    inline VSharedPtr()
+    inline VSharedPointer()
         : d(0) { }
 
     /**
      * Creates a new pointer.
      * @param p the pointer
      */
-    inline explicit VSharedPtr( T* p )
-        : d(p) { if(d) d->ref.ref(); }
+    inline explicit VSharedPointer(T *p)
+        : d(p) {
+        if (d) d->ref.ref();
+    }
 
     /**
      * Copies a pointer.
      * @param o the pointer to copy
      */
-    inline VSharedPtr( const VSharedPtr& o )
-        : d(o.d) { if(d) d->ref.ref(); }
+    inline VSharedPointer(const VSharedPointer &o)
+        : d(o.d) {
+        if (d) d->ref.ref();
+    }
 
     /**
      * Unreferences the object that this pointer points to. If it was
      * the last reference, the object will be deleted.
      */
-    inline ~VSharedPtr() { if (d && !d->ref.deref()) delete d; }
+    inline ~VSharedPointer() {
+        if (d && !d->ref.deref()) delete d;
+    }
 
-    inline VSharedPtr<T>& operator= ( const VSharedPtr& o ) { attach(o.d); return *this; }
-    inline bool operator== ( const VSharedPtr& o ) const { return ( d == o.d ); }
-    inline bool operator!= ( const VSharedPtr& o ) const { return ( d != o.d ); }
-    inline bool operator< ( const VSharedPtr& o ) const { return ( d < o.d ); }
+    inline VSharedPointer<T>& operator= (const VSharedPointer &o) {
+        attach(o.d);
+        return *this;
+    }
+    inline bool operator== (const VSharedPointer &o) const {
+        return (d == o.d);
+    }
+    inline bool operator!= (const VSharedPointer &o) const {
+        return (d != o.d);
+    }
+    inline bool operator< (const VSharedPointer &o) const {
+        return (d < o.d);
+    }
 
-    inline VSharedPtr<T>& operator= ( T* p ) { attach(p); return *this; }
-    inline bool operator== ( const T* p ) const { return ( d == p ); }
-    inline bool operator!= ( const T* p ) const { return ( d != p ); }
+    inline VSharedPointer<T>& operator= (T *p) {
+        attach(p);
+        return *this;
+    }
+    inline bool operator== (const T *p) const {
+        return (d == p);
+    }
+    inline bool operator!= (const T *p) const {
+        return (d != p);
+    }
 
     /**
      * Test if the shared pointer is NOT null.
      * @return true if the shared pointer is NOT null, false otherwise.
      * @see isNull
      */
-    inline operator bool() const { return ( d != 0 ); }
+    inline operator bool() const {
+        return (d != 0);
+    }
 
     /**
      * @return the pointer
      */
-    inline T* data() { return d; }
+    inline T *data() {
+        return d;
+    }
 
     /**
      * @return the pointer
      */
-    inline const T* data() const { return d; }
+    inline const T *data() const {
+        return d;
+    }
 
     /**
      * @return a const pointer to the shared object.
      */
-    inline const T* constData() const { return d; }
+    inline const T *constData() const {
+        return d;
+    }
 
-    inline const T& operator*() const { Q_ASSERT(d); return *d; }
-    inline T& operator*() { Q_ASSERT(d); return *d; }
-    inline const T* operator->() const { Q_ASSERT(d); return d; }
-    inline T* operator->() { Q_ASSERT(d); return d; }
+    inline const T &operator*() const {
+        Q_ASSERT(d);
+        return *d;
+    }
+    inline T &operator*() {
+        Q_ASSERT(d);
+        return *d;
+    }
+    inline const T *operator->() const {
+        Q_ASSERT(d);
+        return d;
+    }
+    inline T *operator->() {
+        Q_ASSERT(d);
+        return d;
+    }
 
     /**
-     * Attach the given pointer to the current VSharedPtr.
-     * If the previous shared pointer is not owned by any VSharedPtr,
+     * Attach the given pointer to the current VSharedPointer.
+     * If the previous shared pointer is not owned by any VSharedPointer,
      * it is deleted.
      */
-    void attach(T* p);
+    void attach(T *p);
 
     /**
      * Clear the pointer, i.e. make it a null pointer.
@@ -145,78 +185,84 @@ public:
      * Returns the number of references.
      * @return the number of references
      */
-    inline int count() const { return d ?
+    inline int count() const {
+        return d ?
 #if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
-        static_cast<int>(d->ref)
+               static_cast<int>(d->ref)
 #else
-        d->ref.load()
+               d->ref.load()
 #endif
-        : 0; } // for debugging purposes
+               : 0;
+    } // for debugging purposes
 
     /**
      * Test if the shared pointer is null.
      * @return true if the pointer is null, false otherwise.
      * @see opertor (bool)
      */
-    inline bool isNull() const { return (d == 0); }
+    inline bool isNull() const {
+        return (d == 0);
+    }
 
     /**
      * @return Whether this is the only shared pointer pointing to
      * to the pointee, or whether it's shared among multiple
      * shared pointers.
      */
-    inline bool isUnique() const { return count() == 1; }
+    inline bool isUnique() const {
+        return count() == 1;
+    }
 
-    template <class U> friend class VSharedPtr;
+    template <class U> friend class VSharedPointer;
 
     /**
-     * Convert VSharedPtr<U> to VSharedPtr<T>, using a static_cast.
+     * Convert VSharedPointer<U> to VSharedPointer<T>, using a static_cast.
      * This will compile whenever T* and U* are compatible, i.e.
      * T is a subclass of U or vice-versa.
      * Example syntax:
      * <code>
-     *   VSharedPtr<T> tPtr;
-     *   VSharedPtr<U> uPtr = VSharedPtr<U>::staticCast( tPtr );
+     *   VSharedPointer<T> tPtr;
+     *   VSharedPointer<U> uPtr = VSharedPointer<U>::staticCast( tPtr );
      * </code>
      */
     template <class U>
-    static VSharedPtr<T> staticCast( const VSharedPtr<U>& o ) {
-        return VSharedPtr<T>( static_cast<T *>( o.d ) );
+    static VSharedPointer<T> staticCast(const VSharedPointer<U>& o) {
+        return VSharedPointer<T>(static_cast<T *>(o.d));
     }
     /**
-     * Convert VSharedPtr<U> to VSharedPtr<T>, using a dynamic_cast.
+     * Convert VSharedPointer<U> to VSharedPointer<T>, using a dynamic_cast.
      * This will compile whenever T* and U* are compatible, i.e.
      * T is a subclass of U or vice-versa.
      * Example syntax:
      * <code>
-     *   VSharedPtr<T> tPtr;
-     *   VSharedPtr<U> uPtr = VSharedPtr<U>::dynamicCast( tPtr );
+     *   VSharedPointer<T> tPtr;
+     *   VSharedPointer<U> uPtr = VSharedPointer<U>::dynamicCast( tPtr );
      * </code>
      * Since a dynamic_cast is used, if U derives from T, and tPtr isn't an instance of U, uPtr will be 0.
      */
     template <class U>
-    static VSharedPtr<T> dynamicCast( const VSharedPtr<U>& o ) {
-        return VSharedPtr<T>( dynamic_cast<T *>( o.d ) );
+    static VSharedPointer<T> dynamicCast(const VSharedPointer<U>& o) {
+        return VSharedPointer<T>(dynamic_cast<T *>(o.d));
     }
 
 protected:
-    T* d;
+    T *d;
 };
 
 template <class T>
-Q_INLINE_TEMPLATE bool operator== (const T* p, const VSharedPtr<T>& o)
+Q_INLINE_TEMPLATE bool operator== (const T *p, const VSharedPointer<T>& o)
 {
-    return ( o == p );
+    return (o == p);
 }
 
 template <class T>
-Q_INLINE_TEMPLATE bool operator!= (const T* p, const VSharedPtr<T>& o)
+Q_INLINE_TEMPLATE bool operator!= (const T *p, const VSharedPointer<T>& o)
 {
-    return ( o != p );
+    return (o != p);
 }
 
 template <class T>
-Q_INLINE_TEMPLATE void VSharedPtr<T>::attach(T* p)
+Q_INLINE_TEMPLATE void VSharedPointer<T>::attach(T *p)
 {
     if (d != p) {
         if (p) p->ref.ref();
@@ -227,9 +273,9 @@ Q_INLINE_TEMPLATE void VSharedPtr<T>::attach(T* p)
 }
 
 template <class T>
-Q_INLINE_TEMPLATE void VSharedPtr<T>::clear()
+Q_INLINE_TEMPLATE void VSharedPointer<T>::clear()
 {
-    attach(static_cast<T*>(0));
+    attach(static_cast<T *>(0));
 }
 
 #endif // VSHAREDPTR
