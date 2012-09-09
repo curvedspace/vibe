@@ -15,9 +15,7 @@ set(SOURCES
     iconimageprovider.cpp
 )
 
-qt5_add_resources(RESOURCES_RCC fluid.qrc)
-
-add_library(VibeFluidPlugin SHARED ${SOURCES} ${RESOURCES_RCC})
+add_library(VibeFluidPlugin SHARED ${SOURCES})
 target_link_libraries(VibeFluidPlugin ${Qt5Qml_LIBRARIES} ${Qt5Quick_LIBRARIES})
 
 install(TARGETS VibeFluidPlugin LIBRARY DESTINATION ${CMAKE_INSTALL_IMPORTSDIR}/VibeFluid)
