@@ -32,7 +32,8 @@ class IconImageProvider : public QQuickImageProvider
 public:
     explicit IconImageProvider();
 
-    virtual QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize);
+    QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize);
+    QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize);
 };
 
 #endif // ICONIMAGEPROVIDER_H
