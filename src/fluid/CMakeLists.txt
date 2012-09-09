@@ -1,12 +1,14 @@
 include_directories(
     ${Qt5Qml_INCLUDE_DIRS}
     ${Qt5Quick_INCLUDE_DIRS}
-    ${VIBE_CORE_INCLUDEDIR}
+    ${CMAKE_SOURCE_DIR}/headers
+    ${CMAKE_BINARY_DIR}/src/core
 )
 
 add_definitions(
-    ${Qt5Qml_DEFINES}
-    ${Qt5Quick_DEFINES}
+    -DVIBE_BUILDING
+    ${Qt5Qml_DEFINITIONS}
+    ${Qt5Quick_DEFINITIONS}
     -DQT_PLUGIN
 )
 
