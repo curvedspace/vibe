@@ -15,6 +15,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/archive
     ${CMAKE_CURRENT_SOURCE_DIR}/compression
     ${CMAKE_CURRENT_SOURCE_DIR}/io
+    ${CMAKE_CURRENT_SOURCE_DIR}/jobs
     ${CMAKE_CURRENT_SOURCE_DIR}/settings
     ${CMAKE_CURRENT_SOURCE_DIR}/standards
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -79,6 +80,11 @@ set(SOURCES
     io/vfilesystemwatcher.cpp
     io/vsavefile.cpp
 
+    jobs/vcompositejob.cpp
+    jobs/vjob.cpp
+    jobs/vjobtrackerinterface.cpp
+    jobs/vjobuidelegate.cpp
+
     settings/vsettings.cpp
     settings/vsettingstypes.cpp
     settings/vsettingsschema.cpp
@@ -115,6 +121,11 @@ set(HEADERS
     io/vfilestring.h
     io/vfilesystemwatcher.h
     io/vsavefile.h
+
+    jobs/vcompositejob.h
+    jobs/vjob.h
+    jobs/vjobtrackerinterface.h
+    jobs/vjobuidelegate.h
 
     settings/vsettings.h
 

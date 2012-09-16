@@ -8,12 +8,16 @@ set(HEADERS
     VBookmark
     VBookmarkManager
     VCommandOptions
+    VCompositeJob
     VCompressionFilter
     VDesktopFile
     VFileString
     VFileSupport
     VFileSystemWatcher
     VGlobal
+    VJob
+    VJobTrackerInterface
+    VJobUiDelegate
     VSaveFile
     VSettings
     VSharedPointer
