@@ -174,7 +174,8 @@ void VBookmark::setFullText(const QString &fullText)
 
 QUrl VBookmark::url() const
 {
-    return QUrl(element.attribute("href").toAscii()); // Decodes it from utf8
+    // Decodes it from UTF-8
+    return QUrl(element.attribute("href").toLatin1());
 }
 
 void VBookmark::setUrl(const QUrl &url)

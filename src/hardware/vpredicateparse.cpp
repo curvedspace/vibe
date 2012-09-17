@@ -52,7 +52,7 @@ VPredicate VPredicate::fromString(const QString &predicate)
 {
     VPredicateParse::ParsingData *data = new VPredicateParse::ParsingData();
     s_parsingData()->setLocalData(data);
-    data->buffer = predicate.toAscii();
+    data->buffer = predicate.toLatin1();
     VPredicateParse_mainParse(data->buffer.constData());
     VPredicate result;
     if (data->result) {
