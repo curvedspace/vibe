@@ -30,7 +30,7 @@
 #include <VibeCore/VStandardDirectories>
 #include <VibeGui/VColorScheme>
 
-#include "hawaiiheme.h"
+#include "hawaiitheme.h"
 
 using namespace VStandardDirectories;
 
