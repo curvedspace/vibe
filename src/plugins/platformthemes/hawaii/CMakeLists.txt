@@ -10,10 +10,10 @@ add_definitions(${Qt5Core_DEFINITIONS} ${Qt5Gui_DEFINITIONS})
 
 set(SOURCES
     main.cpp
-    mauitheme.cpp
+    hawaiitheme.cpp
 )
 
-add_library(maui SHARED ${SOURCES})
-target_link_libraries(maui ${Qt5Gui_LIBRARIES} VibeGui)
+add_library(hawaii SHARED ${SOURCES})
+target_link_libraries(hawaii ${Qt5Gui_LIBRARIES} VibeGui)
 
-install(TARGETS maui LIBRARY DESTINATION ${CMAKE_INSTALL_PLUGINSDIR}/platformthemes)
+install(TARGETS hawaii LIBRARY DESTINATION ${CMAKE_INSTALL_PLUGINSDIR}/platformthemes)

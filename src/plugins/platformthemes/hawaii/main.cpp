@@ -4,7 +4,7 @@
  * Copyright (c) 2010-2012 Pier Luigi Fiorini
  *
  * Author(s):
- *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *	Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
  * Vibe is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,29 +20,36 @@
  * along with Vibe.  If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
 
-#ifndef MAUITHEME_H
-#define MAUITHEME_H
+#include <qpa/qplatformthemeplugin.h>
 
-#include <qpa/qplatformtheme.h>
+#include "hawaiitheme.h"
 
-class VSettings;
-
-class Q_GUI_EXPORT MauiTheme : public QPlatformTheme
+class HawaiiThemePlugin : public QPlatformThemePlugin
 {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QPA.QPlatformThemeFactoryInterface.5.1" FILE "mauitheme.json")
 public:
-    MauiTheme();
-    ~MauiTheme();
+    explicit HawaiiThemePlugin(QObject *parent = 0);
 
-    bool usePlatformNativeDialog(DialogType type) const;
-    QPlatformDialogHelper *createPlatformDialogHelper(DialogType type) const;
-
-    const QPalette *palette(Palette type = SystemPalette) const;
-    const QFont *font(Font type = SystemFont) const;
-
-    QVariant themeHint(ThemeHint hint) const;
-
-private:
-    VSettings *m_settings;
+    QStringList keys() const;
+    QPlatformTheme *create(const QString &key, const QStringList &paramList);
 };
 
-#endif // MAUITHEME_H
+HawaiiThemePlugin::HawaiiThemePlugin(QObject *parent) :
+    QPlatformThemePlugin(parent)
+{
+}
+
+QStringList HawaiiThemePlugin::keys() const
+{
+    return QStringList() << "Hawaii";
+}
+
+QPlatformTheme *HawaiiThemePlugin::create(const QString &key, const QStringList &paramList)
+{
+    if (key.toLower() == "hawaii")
+        return new HawaiiTheme();
+    return 0;
+}
+
+#include "main.moc"

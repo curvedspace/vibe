@@ -30,31 +30,31 @@
 #include <VibeCore/VStandardDirectories>
 #include <VibeGui/VColorScheme>
 
-#include "mauitheme.h"
+#include "hawaiiheme.h"
 
 using namespace VStandardDirectories;
 
-MauiTheme::MauiTheme()
+HawaiiTheme::HawaiiTheme()
 {
     m_settings = new VSettings("org.maui.desktop.interface");
 }
 
-MauiTheme::~MauiTheme()
+HawaiiTheme::~HawaiiTheme()
 {
     delete m_settings;
 }
 
-bool MauiTheme::usePlatformNativeDialog(DialogType type) const
+bool HawaiiTheme::usePlatformNativeDialog(DialogType type) const
 {
     return false;
 }
 
-QPlatformDialogHelper *MauiTheme::createPlatformDialogHelper(DialogType type) const
+QPlatformDialogHelper *HawaiiTheme::createPlatformDialogHelper(DialogType type) const
 {
     return 0;
 }
 
-const QPalette *MauiTheme::palette(Palette type) const
+const QPalette *HawaiiTheme::palette(Palette type) const
 {
 #if 0
     switch (type) {
@@ -81,7 +81,7 @@ const QPalette *MauiTheme::palette(Palette type) const
     return new QPalette();
 }
 
-const QFont *MauiTheme::font(Font type) const
+const QFont *HawaiiTheme::font(Font type) const
 {
     QString fontName = m_settings->value("font-name").toString();
     int fontSize = m_settings->value("font-size").toInt();
@@ -106,7 +106,7 @@ const QFont *MauiTheme::font(Font type) const
     return font;
 }
 
-QVariant MauiTheme::themeHint(ThemeHint hint) const
+QVariant HawaiiTheme::themeHint(ThemeHint hint) const
 {
     switch (hint) {
         case CursorFlashTime:
