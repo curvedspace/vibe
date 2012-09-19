@@ -27,7 +27,7 @@
 class HawaiiThemePlugin : public QPlatformThemePlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QPA.QPlatformThemeFactoryInterface.5.1" FILE "mauitheme.json")
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QPA.QPlatformThemeFactoryInterface.5.1" FILE "hawaiitheme.json")
 public:
     explicit HawaiiThemePlugin(QObject *parent = 0);
 

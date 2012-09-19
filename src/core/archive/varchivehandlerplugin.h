@@ -36,7 +36,7 @@ struct VIBE_EXPORT VArchiveHandlerFactoryInterface {
     virtual QStringList mimeTypes() const = 0;
 };
 
-#define VArchiveHandlerFactoryInterface_iid "org.maui.Vibe.VArchiveHandlerFactoryInterface"
+#define VArchiveHandlerFactoryInterface_iid "org.hawaii.Vibe.VArchiveHandlerFactoryInterface"
 
 Q_DECLARE_INTERFACE(VArchiveHandlerFactoryInterface, VArchiveHandlerFactoryInterface_iid)
 

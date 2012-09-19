@@ -35,7 +35,7 @@ class VMainApplicationAdaptorPrivate;
 class VIBE_EXPORT VMainApplicationAdaptor : public QDBusAbstractAdaptor
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.maui.DBus.MainApplication")
+    Q_CLASSINFO("D-Bus Interface", "org.hawaii.DBus.MainApplication")
     Q_PROPERTY(QString identifier READ identifier)
     Q_PROPERTY(QString applicationName READ applicationName)
     Q_PROPERTY(QString applicationVersion READ applicationVersion)

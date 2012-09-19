@@ -45,7 +45,7 @@
 #define METADATA_FREEDESKTOP_OWNER "http://freedesktop.org"
 #define METADATA_MIME_OWNER "http://www.freedesktop.org/standards/shared-mime-info"
 
-#define MAUI_URI_LIST_MIMETYPE "application/x-maui-urilist"
+#define HAWAII_URI_LIST_MIMETYPE "application/x-hawaii-urilist"
 
 /*
  * Utility functions.
@@ -470,14 +470,14 @@ bool VBookmarkList::canDecode(const QMimeData *mimeData)
 {
     return mimeData->hasFormat(QString::fromLatin1("application/x-xbel")) ||
            mimeData->hasFormat(QString::fromLatin1("text/uri-list")) ||
-           mimeData->hasFormat(QString::fromLatin1(MAUI_URI_LIST_MIMETYPE));
+           mimeData->hasFormat(QString::fromLatin1(HAWAII_URI_LIST_MIMETYPE));
 }
 
 QStringList VBookmarkList::mimeDataTypes()
 {
     return QStringList() << QString::fromLatin1("application/x-xbel")
            << QString::fromLatin1("text/uri-list")
-           << QString::fromLatin1(MAUI_URI_LIST_MIMETYPE);
+           << QString::fromLatin1(HAWAII_URI_LIST_MIMETYPE);
 }
 
 VBookmarkList VBookmarkList::fromMimeData(const QMimeData *mimeData, QDomDocument &doc)

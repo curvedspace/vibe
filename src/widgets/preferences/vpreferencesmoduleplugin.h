@@ -32,7 +32,7 @@
 
 class VPreferencesModule;
 
-#define VPreferencesModuleFactoryInterface_iid "org.maui.Vibe.VPreferencesModuleFactoryInterface"
+#define VPreferencesModuleFactoryInterface_iid "org.hawaii.Vibe.VPreferencesModuleFactoryInterface"
 
 /** \addtogroup gui Gui Kit
  *  @{

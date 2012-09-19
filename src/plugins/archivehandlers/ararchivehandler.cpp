@@ -37,7 +37,7 @@
 class ArPlugin : public VArchiveHandlerPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.maui.Vibe.VArchiveHandlerFactoryInterface" FILE "ar.json")
+    Q_PLUGIN_METADATA(IID "org.hawaii.Vibe.VArchiveHandlerFactoryInterface" FILE "ar.json")
 public:
     QStringList mimeTypes() const {
         QStringList types;

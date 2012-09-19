@@ -113,7 +113,7 @@ VMainApplicationAdaptor::VMainApplicationAdaptor(const QString &identifier, QGui
     }
 
     // Call registrar in order to register this application
-    QDBusInterface registrar("org.maui.Hawaii", "/Registrar");
+    QDBusInterface registrar("org.hawaii.Hawaii", "/Registrar");
     QDBusMessage reply = registrar.call("Register", d_ptr->id,
                                         QCoreApplication::applicationVersion());
     if (reply.type() == QDBusMessage::ErrorMessage) {
