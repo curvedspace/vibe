@@ -1,7 +1,7 @@
 set(FILES
-    org.maui.desktop.background.gschema.xml
-    org.maui.desktop.enums.xml
-    org.maui.desktop.interface.gschema.xml
+    org.hawaii.desktop.background.gschema.xml
+    org.hawaii.desktop.enums.xml
+    org.hawaii.desktop.interface.gschema.xml
 )
 
 set(CMAKE_INSTALL_SCHEMASDIR ${CMAKE_INSTALL_DATADIR}/glib-2.0/schemas)

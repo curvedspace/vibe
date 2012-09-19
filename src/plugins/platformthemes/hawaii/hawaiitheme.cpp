@@ -36,7 +36,7 @@ using namespace VStandardDirectories;
 
 HawaiiTheme::HawaiiTheme()
 {
-    m_settings = new VSettings("org.maui.desktop.interface");
+    m_settings = new VSettings("org.hawaii.desktop.interface");
 }
 
 HawaiiTheme::~HawaiiTheme()

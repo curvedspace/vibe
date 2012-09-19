@@ -45,7 +45,7 @@ class TestSettings : public QObject
     Q_OBJECT
 public:
     TestSettings() {
-        m_settings = new VSettings("org.maui.desktop.interface");
+        m_settings = new VSettings("org.hawaii.desktop.interface");
         connect(m_settings, SIGNAL(changed(QString, QVariant)),
                 this, SLOT(slot(QString, QVariant)));
 

@@ -1,19 +1,19 @@
 <schemalist>
-  <enum id="org.maui.desktop.ToolButtonStyle">
+  <enum id="org.hawaii.desktop.ToolButtonStyle">
     <value nick="icon-only" value="0"/>        <!-- Qt::ToolButtonIconOnly -->
     <value nick="text-only" value="1"/>        <!-- Qt::ToolButtonTextOnly -->
     <value nick="text-beside-icon" value="2"/> <!-- Qt::ToolButtonTextBesideIcon -->
     <value nick="text-under-icon" value="3"/>  <!-- Qt::ToolButtonTextUnderIcon -->
   </enum>
-  <enum id="org.maui.desktop.ToolbarIconSize">
+  <enum id="org.hawaii.desktop.ToolbarIconSize">
     <value nick="small" value="24"/>
     <value nick="large" value="32"/>
   </enum>
-  <enum id="org.maui.desktop.BackgroundType">
+  <enum id="org.hawaii.desktop.BackgroundType">
     <value nick="color" value="0"/>
     <value nick="wallpaper" value="1"/>
   </enum>
-  <enum id="org.maui.desktop.BackgroundShading">
+  <enum id="org.hawaii.desktop.BackgroundShading">
     <value nick="solid" value="0"/>
     <value nick="horizontal" value="1"/>
     <value nick="vertical" value="2"/>

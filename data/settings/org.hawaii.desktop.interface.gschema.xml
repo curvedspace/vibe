@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="gsettings-hawaii-schemas">
-  <schema path="/org/maui/desktop/interface/" id="org.maui.desktop.interface">
+  <schema path="/org/hawaii/desktop/interface/" id="org.hawaii.desktop.interface">
     <key type="b" name="enable-animations">
       <default>true</default>
       <summary>Enable Animations</summary>
@@ -81,7 +81,7 @@
       <summary>Cursor Size</summary>
       <description>Size of the cursor used as cursor theme.</description>
     </key>
-    <key name="toolbutton-style" enum="org.maui.desktop.ToolButtonStyle">
+    <key name="toolbutton-style" enum="org.hawaii.desktop.ToolButtonStyle">
       <default>'icon-only'</default>
       <summary>Toolbar Buttons Style</summary>
       <description>Style of toolbar buttons. Valid values are "icon-only", "text-only", "text-beside-icon" or "text-under-icon".</description>

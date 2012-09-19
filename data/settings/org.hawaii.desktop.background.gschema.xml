@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="gsettings-hawaii-schemas">
-  <schema path="/org/maui/desktop/background/" id="org.maui.desktop.background">
-    <key name="type" enum="org.maui.desktop.BackgroundType">
+  <schema path="/org/hawaii/desktop/background/" id="org.hawaii.desktop.background">
+    <key name="type" enum="org.hawaii.desktop.BackgroundType">
       <default>'color'</default>
       <summary>Background Type</summary>
       <description>Determines the background type. Possible values are "color", "wallpaper".</description>
@@ -16,7 +16,7 @@
       <summary>Secondary Color</summary>
       <description>Right or Bottom color when draring gradients, not used for solid color.</description>
     </key>
-    <key name="color-shading-type" enum="org.maui.desktop.BackgroundShading">
+    <key name="color-shading-type" enum="org.hawaii.desktop.BackgroundShading">
       <default>'solid'</default>
       <summary>Color Shading Type</summary>
       <description>How to shade the background color. Possible values are "solid", "horizontal" or "vertical".</description>
