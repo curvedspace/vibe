@@ -58,7 +58,7 @@ namespace VStandardDirectories
             case SystemBinariesDirectory:
                 return INSTALL_BINDIR;
             case SystemBundlesDirectory:
-                return "/system/bundles";
+                return INSTALL_BUNDLESDIR;
             case SystemApplicationsDirectory:
                 return INSTALL_APPSDIR;
             case SystemProgramsDirectory:
@@ -66,7 +66,7 @@ namespace VStandardDirectories
             case SystemServersDirectory:
                 return INSTALL_SERVERSDIR;
             case SystemDevelopmentDirectory:
-                return "/system/develop";
+                return INSTALL_DEVELOPDIR;
             case SystemHeadersDirectory:
                 return INSTALL_INCLUDEDIR;
             case SystemDataDirectory:
@@ -133,42 +133,42 @@ namespace VStandardDirectories
             case CommonTemporaryDirectory:
                 return "/common/var/tmp";
             case CommonRunDirectory:
-                return "/common/var/run";
+                return "/common/run";
             case CommonLockDirectory:
-                return "/common/var/lock";
+                return "/common/run/lock";
 
             case UsersDirectory:
                 return "/users";
             case UserHomeDirectory:
                 return QDir::homePath();
             case UserSettingsDirectory:
-                return QDir::homePath() + "/.settings";
+                return QDir::homePath() + "/.config";
             case UserBundlesDirectory:
-                return QDir::homePath() + "/.bundles";
+                return QDir::homePath() + "/.local/bundles";
             case UserApplicationsDirectory:
-                return QDir::homePath() + "/.apps";
+                return QDir::homePath() + "/.local/apps";
             case UserDesktopDirectory:
-                return QDir::homePath() + "/.desktop";
+                return QDir::homePath() + "/Desktop";
             case UserDownloadsDirectory:
-                return QDir::homePath() + "/downloads";
+                return QDir::homePath() + "/Downloads";
             case UserDocumentsDirectory:
-                return QDir::homePath() + "/documents";
+                return QDir::homePath() + "/Documents";
             case UserMusicDirectory:
-                return QDir::homePath() + "/music";
+                return QDir::homePath() + "/Music";
             case UserMoviesDirectory:
-                return QDir::homePath() + "/movies";
+                return QDir::homePath() + "/Movies";
             case UserPicturesDirectory:
-                return QDir::homePath() + "/pictures";
+                return QDir::homePath() + "/Pictures";
             case UserTemporaryDirectory:
-                return QDir::homePath() + "/.tmp";
+                return QDir::homePath() + "/.local/tmp";
             case UserDataDirectory:
-                return QDir::homePath() + "/.data";
+                return QDir::homePath() + "/.local/data";
             case UserThemesDirectory:
-                return QDir::homePath() + "/.data/themes";
+                return QDir::homePath() + "/.local/data/themes";
             case UserFontsDirectory:
-                return QDir::homePath() + "/.data/fonts";
+                return QDir::homePath() + "/.local/data/fonts";
             case UserCacheDirectory:
-                return QDir::homePath() + "/.data/cache";
+                return QDir::homePath() + "/.cache";
 
             case VolumesDirectory:
                 return "/volumes";
