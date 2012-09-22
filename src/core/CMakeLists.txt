@@ -27,6 +27,9 @@ configure_file(
     ${CMAKE_CURRENT_BINARY_DIR}/vglobal.h
     IMMEDIATE @ONLY)
 
+# Create the cmakedirs.h header file
+configure_file(cmakedirs.h.in ${CMAKE_CURRENT_BINARY_DIR}/cmakedirs.h)
+
 # Configure checks for compression/
 include(compression/ConfigureChecks.cmake)
 configure_file(

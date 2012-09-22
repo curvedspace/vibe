@@ -25,6 +25,7 @@
 #include <QDir>
 
 #include "vstandarddirectories.h"
+#include "cmakedirs.h"
 
 namespace VStandardDirectories
 {
@@ -47,41 +48,41 @@ namespace VStandardDirectories
                 return "/system/kernel/firmware";
 
             case SystemDirectory:
-                return "/system";
+                return INSTALL_PREFIX;
             case SystemLibrariesDirectory:
-                return "/system/lib";
+                return INSTALL_LIBDIR;
             case SystemPluginsDirectory:
-                return "/system/plugins";
+                return INSTALL_PLUGINSDIR;
             case SystemImportsDirectory:
-                return "/system/imports";
+                return INSTALL_IMPORTSDIR;
             case SystemBinariesDirectory:
-                return "/system/bin";
+                return INSTALL_BINDIR;
             case SystemBundlesDirectory:
                 return "/system/bundles";
             case SystemApplicationsDirectory:
-                return "/system/apps";
+                return INSTALL_APPSDIR;
             case SystemProgramsDirectory:
-                return "/system/progs";
+                return INSTALL_PROGSDIR;
             case SystemServersDirectory:
-                return "/system/servers";
+                return INSTALL_SERVERSDIR;
             case SystemDevelopmentDirectory:
                 return "/system/develop";
             case SystemHeadersDirectory:
-                return "/system/develop/headers";
+                return INSTALL_INCLUDEDIR;
             case SystemDataDirectory:
-                return "/system/data";
+                return INSTALL_DATADIR;
             case SystemFontsDirectory:
-                return "/system/data/fonts";
+                return QString("%1/fonts").arg(INSTALL_DATAROOTDIR);
             case SystemManDirectory:
-                return "/system/data/man";
+                return INSTALL_MANDIR;
             case SystemInfoDirectory:
-                return "/system/data/info";
+                return INSTALL_INFODIR;
             case SystemTranslationsDirectory:
-                return "/system/data/translations";
+                return QString("%1/translations").arg(INSTALL_DATAROOTDIR);
             case SystemThemesDirectory:
-                return "/system/data/themes";
+                return QString("%1/themes").arg(INSTALL_DATAROOTDIR);
             case SystemDocumentationDirectory:
-                return "/system/data/doc";
+                return INSTALL_DOCDIR;
 
             case CommonDirectory:
                 return "/common";
