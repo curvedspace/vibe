@@ -7,15 +7,17 @@
 #  BINDIR           - user executables (bin)
 #  APPSDIR          - applications' desktop files (apps)
 #  PROGSDIR         - user programs (progs)
+#  BUNDLESDIR       - bundles (bundles)
 #  SERVERSDIR       - server executables (servers)
 #  SYSCONFDIR       - read-only single-machine data (settings)
 #  LOCALSTATEDIR    - modifiable single-machine data (/common/var)
 #  LIBDIR           - object code libraries (lib or lib64)
 #  PLUGINSDIR       - object code plugin libraries (plugins)
 #  IMPORTSDIR       - Qml modules (imports)
-#  INCLUDEDIR       - C header files (develop/headers)
-#  PKGCONFIGDIR     - pkg-config files (develop/pkgconfig)
-#  CMAKEDIR         - CMake files (develop/cmake)
+#  DEVELOPDIR       - development directory (develop)
+#  INCLUDEDIR       - C header files (DEVELOPDIR/headers)
+#  PKGCONFIGDIR     - pkg-config files (DEVELOPDIR/pkgconfig)
+#  CMAKEDIR         - CMake files (DEVELOPDIR/cmake)
 #  DATAROOTDIR      - read-only architecture-independent data root (data)
 #  DATADIR          - read-only architecture-independent data (DATAROOTDIR)
 #  INFODIR          - info documentation (DATAROOTDIR/info)
@@ -75,6 +77,10 @@ if(NOT DEFINED CMAKE_INSTALL_PROGSDIR)
   set(CMAKE_INSTALL_PROGSDIR "progs" CACHE PATH "user programs (progs)")
 endif()
 
+if(NOT DEFINED CMAKE_INSTALL_BUNDLESDIR)
+  set(CMAKE_INSTALL_PROGSDIR "bundles" CACHE PATH "bundles directory (bundles)")
+endif()
+
 if(NOT DEFINED CMAKE_INSTALL_SERVERSDIR)
   set(CMAKE_INSTALL_SERVERSDIR "servers" CACHE PATH "server executables (servers)")
 endif()
@@ -122,16 +128,20 @@ if(NOT DEFINED CMAKE_INSTALL_IMPORTSDIR)
   set(CMAKE_INSTALL_IMPORTSDIR "imports" CACHE PATH "Qml modules (imports)")
 endif()
 
+if(NOT DEFINED CMAKE_INSTALL_DEVELOPDIR)
+  set(CMAKE_INSTALL_DEVELOPDIR "develop" CACHE PATH "development directory (develop)")
+endif()
+
 if(NOT DEFINED CMAKE_INSTALL_INCLUDEDIR)
-  set(CMAKE_INSTALL_INCLUDEDIR "develop/headers" CACHE PATH "C header files (develop/headers)")
+  set(CMAKE_INSTALL_INCLUDEDIR "${CMAKE_INSTALL_DEVELOPDIR}/headers" CACHE PATH "C header files (DEVELOPDIR/headers)")
 endif()
 
 if(NOT DEFINED CMAKE_INSTALL_PKGCONFIGDIR)
-  set(CMAKE_INSTALL_PKGCONFIGDIR "develop/pkgconfig" CACHE PATH "pkg-config files (develop/pkg-config)")
+  set(CMAKE_INSTALL_PKGCONFIGDIR "${CMAKE_INSTALL_DEVELOPDIR}/pkgconfig" CACHE PATH "pkg-config files (DEVELOPDIR/pkg-config)")
 endif()
 
 if(NOT DEFINED CMAKE_INSTALL_CMAKEDIR)
-  set(CMAKE_INSTALL_CMAKEDIR "develop/cmake" CACHE PATH "CMake files (develop/cmake)")
+  set(CMAKE_INSTALL_CMAKEDIR "${CMAKE_INSTALL_DEVELOPDIR}/cmake" CACHE PATH "CMake files (DEVELOPDIR/cmake)")
 endif()
 set(CMAKE_PREFIX_PATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_CMAKEDIR}")
 
@@ -175,12 +185,14 @@ mark_as_advanced(
   CMAKE_INSTALL_BINDIR
   CMAKE_INSTALL_APPSDIR
   CMAKE_INSTALL_PROGSDIR
+  CMAKE_INSTALL_BUNDLESDIR
   CMAKE_INSTALL_SERVERSDIR
   CMAKE_INSTALL_SYSCONFDIR
   CMAKE_INSTALL_LOCALSTATEDIR
   CMAKE_INSTALL_LIBDIR
   CMAKE_INSTALL_PLUGINSDIR
   CMAKE_INSTALL_IMPORTSDIR
+  CMAKE_INSTALL_DEVELOP
   CMAKE_INSTALL_INCLUDEDIR
   CMAKE_INSTALL_PKGCONFIGDIR
   CMAKE_INSTALL_CMAKEDIR
@@ -198,12 +210,14 @@ foreach(dir
     BINDIR
     APPSDIR
     PROGSDIR
+    BUNDLESDIR
     SERVERSDIR
     SYSCONFDIR
     LOCALSTATEDIR
     LIBDIR
     PLUGINSDIR
     IMPORTSDIR
+    DEVELOPDIR
     INCLUDEDIR
     PKGCONFIGDIR
     CMAKEDIR
