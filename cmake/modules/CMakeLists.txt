@@ -7,7 +7,6 @@ set(cmakeFiles
     FindLibLZMA.cmake
     FindPAM.cmake
     FindSharedMimeInfo.cmake
-    FindSolid.cmake
     FindUDev.cmake
     HandleImportedTargetsInCMakeRequiredLibraries.cmake
     MacroAddCompileFlags.cmake
