@@ -42,6 +42,7 @@ extern "C" {
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <unistd.h>
 }
 
 class VSaveFile::Private

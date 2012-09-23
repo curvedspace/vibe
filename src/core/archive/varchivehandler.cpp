@@ -34,6 +34,7 @@
 #include "varchivehandler.h"
 #include "varchivehandler_p.h"
 
+#include <unistd.h>
 #include <grp.h>
 #include <pwd.h>
 
