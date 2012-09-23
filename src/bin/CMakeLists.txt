@@ -12,5 +12,4 @@ add_definitions(${Qt5Core_CFLAGS})
 set(lshw_SOURCES lshw.cpp)
 add_executable(lshw ${lshw_SOURCES})
 target_link_libraries(lshw VibeCore ${Solid_LIBRARIES})
-install(TARGETS lshw
-    DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT Binaries)
+install(TARGETS lshw DESTINATION ${CMAKE_INSTALL_FULL_BINDIR})
