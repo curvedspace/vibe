@@ -1,10 +1,8 @@
 set(cmakeFiles
-    CheckCXXSymbolExists.cmake
     check_installed_exports_file.cmake
     CheckPointerMember.cmake
     CheckPrototypeExists.cmake
     CheckStructMember.cmake
-    FindLibLZMA.cmake
     FindPAM.cmake
     FindSharedMimeInfo.cmake
     HandleImportedTargetsInCMakeRequiredLibraries.cmake
