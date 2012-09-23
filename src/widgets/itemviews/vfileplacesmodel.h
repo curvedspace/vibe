@@ -41,11 +41,12 @@
  */
 
 class QAction;
-
 class VBookmark;
-class VDevice;
-
 class VFilePlacesModelPrivate;
+
+namespace Solid {
+    class Device;
+}
 
 /**
  * \class VFilePlacesModel vfileplacesmodel.h <VFilePlacesModel>
@@ -168,7 +169,7 @@ public:
      * @param index the index which contains the row to look at.
      * @returns the corresponding device for the given index.
      */
-    VDevice deviceForIndex(const QModelIndex &index) const;
+    Solid::Device deviceForIndex(const QModelIndex &index) const;
 
     /**
      * If the item corresponding to the given index is a removable device, return
@@ -221,8 +222,8 @@ private:
     Q_PRIVATE_SLOT(d_ptr, void _q_itemChanged(const QString &))
     Q_PRIVATE_SLOT(d_ptr, void _q_reloadFavorites())
     Q_PRIVATE_SLOT(d_ptr, void _q_reloadDevices())
-    Q_PRIVATE_SLOT(d_ptr, void _q_storageTeardownDone(VHardware::ErrorType, QVariant))
-    Q_PRIVATE_SLOT(d_ptr, void _q_storageSetupDone(VHardware::ErrorType, QVariant))
+    Q_PRIVATE_SLOT(d_ptr, void _q_storageTeardownDone(Solid::ErrorType, QVariant))
+    Q_PRIVATE_SLOT(d_ptr, void _q_storageSetupDone(Solid::ErrorType, QVariant))
 
     VFilePlacesModelPrivate *const d_ptr;
 };

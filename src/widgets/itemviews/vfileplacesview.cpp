@@ -34,7 +34,7 @@
 #include <QTimer>
 #include <QScrollBar>
 
-#include <VibeHardware/VStorageAccess>
+#include <solid/storageaccess.h>
 
 #include "vfileplacesview.h"
 #include "vfileplacesview_p.h"

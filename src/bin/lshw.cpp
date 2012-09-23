@@ -1,7 +1,7 @@
 /****************************************************************************
  * This file is part of Vibe.
  *
- * Copyright (c) 2011 Pier Luigi Fiorini
+ * Copyright (c) 2011-2012 Pier Luigi Fiorini
  * Copyright (c) 2006 Kevin Ottens
  *
  * Author(s):
@@ -28,10 +28,11 @@
 #include <QMetaEnum>
 #include <QTimer>
 
-#include <VibeHardware/VDevice>
-#include <VibeHardware/VGenericInterface>
-#include <VibeHardware/VStorageAccess>
-#include <VibeHardware/VOpticalDrive>
+#include <solid/device.h>
+#include <solid/genericinterface.h>
+#include <solid/storageaccess.h>
+#include <solid/opticaldrive.h>
+
 #include <VibeCore/VCommandOptions>
 
 #include "lshw.h"
@@ -98,19 +99,19 @@ std::ostream &operator<<(std::ostream &out, const QVariant &value)
     return out;
 }
 
-std::ostream &operator<<(std::ostream &out, const VDevice &device)
+std::ostream &operator<<(std::ostream &out, const Solid::Device &device)
 {
     out << "  parent = " << QVariant(device.parentUdi()) << endl;
     out << "  vendor = " << QVariant(device.vendor()) << endl;
     out << "  product = " << QVariant(device.product()) << endl;
     out << "  description = " << QVariant(device.description()) << endl;
 
-    int index = VDeviceInterface::staticMetaObject.indexOfEnumerator("Type");
-    QMetaEnum typeEnum = VDeviceInterface::staticMetaObject.enumerator(index);
+    int index = Solid::DeviceInterface::staticMetaObject.indexOfEnumerator("Type");
+    QMetaEnum typeEnum = Solid::DeviceInterface::staticMetaObject.enumerator(index);
 
     for (int i = 0; i < typeEnum.keyCount(); i++) {
-        VDeviceInterface::Type type = (VDeviceInterface::Type)typeEnum.value(i);
-        const VDeviceInterface *interface = device.asDeviceInterface(type);
+        Solid::DeviceInterface::Type type = (Solid::DeviceInterface::Type)typeEnum.value(i);
+        const Solid::DeviceInterface *interface = device.asDeviceInterface(type);
 
         if (interface) {
             const QMetaObject *meta = interface->metaObject();
@@ -236,9 +237,9 @@ HardwareConsole::HardwareConsole(int &argc, char *argv[]) :
 
 bool HardwareConsole::hwList(bool interfaces, bool system)
 {
-    const QList<VDevice> all = VDevice::allDevices();
+    const QList<Solid::Device> all = Solid::Device::allDevices();
 
-    foreach(const VDevice & device, all) {
+    foreach(const Solid::Device & device, all) {
         cout << "udi = '" << device.udi() << "'" << endl;
 
         if (interfaces) {
@@ -254,7 +255,7 @@ bool HardwareConsole::hwList(bool interfaces, bool system)
 
 bool HardwareConsole::hwCapabilities(const QString &udi)
 {
-    const VDevice device(udi);
+    const Solid::Device device(udi);
 
     cout << "udi = '" << device.udi() << "'" << endl;
     cout << device << endl;
@@ -264,7 +265,7 @@ bool HardwareConsole::hwCapabilities(const QString &udi)
 
 bool HardwareConsole::hwProperties(const QString &udi)
 {
-    const VDevice device(udi);
+    const Solid::Device device(udi);
 
     cout << "udi = '" << device.udi() << "'" << endl;
     if (device.is<VGenericInterface>()) {
@@ -277,10 +278,10 @@ bool HardwareConsole::hwProperties(const QString &udi)
 
 bool HardwareConsole::hwQuery(const QString &parentUdi, const QString &query)
 {
-    const QList<VDevice> devices =
-        VDevice::listFromQuery(query, parentUdi);
+    const QList<Solid::Device> devices =
+        Solid::Device::listFromQuery(query, parentUdi);
 
-    foreach(const VDevice & device, devices) {
+    foreach(const Solid::Device & device, devices) {
         cout << "udi = '" << device.udi() << "'" << endl;
     }
 
@@ -289,37 +290,37 @@ bool HardwareConsole::hwQuery(const QString &parentUdi, const QString &query)
 
 bool HardwareConsole::hwVolumeCall(HardwareConsole::VolumeCallType type, const QString &udi)
 {
-    VDevice device(udi);
+    Solid::Device device(udi);
 
-    if (!device.is<VStorageAccess>() && type != Eject) {
+    if (!device.is<Solid::StorageAccess>() && type != Eject) {
         cerr << tr("Error: %1 does not have the interface StorageAccess.").arg(udi) << endl;
         return false;
-    } else if (!device.is<VOpticalDrive>() && type == Eject) {
+    } else if (!device.is<Solid::OpticalDrive>() && type == Eject) {
         cerr << tr("Error: %1 does not have the interface OpticalDrive.").arg(udi) << endl;
         return false;
     }
 
     switch (type) {
         case Mount:
-            connect(device.as<VStorageAccess>(),
-                    SIGNAL(setupDone(VHardware::ErrorType, QVariant, const QString &)),
+            connect(device.as<Solid::StorageAccess>(),
+                    SIGNAL(setupDone(Solid::ErrorType, QVariant, const QString &)),
                     this,
-                    SLOT(slotStorageResult(VHardware::ErrorType, QVariant)));
-            device.as<VStorageAccess>()->setup();
+                    SLOT(slotStorageResult(Solid::ErrorType, QVariant)));
+            device.as<Solid::StorageAccess>()->setup();
             break;
         case Unmount:
-            connect(device.as<VStorageAccess>(),
-                    SIGNAL(teardownDone(VHardware::ErrorType, QVariant, const QString &)),
+            connect(device.as<Solid::StorageAccess>(),
+                    SIGNAL(teardownDone(Solid::ErrorType, QVariant, const QString &)),
                     this,
-                    SLOT(slotStorageResult(VHardware::ErrorType, QVariant)));
-            device.as<VStorageAccess>()->teardown();
+                    SLOT(slotStorageResult(Solid::ErrorType, QVariant)));
+            device.as<Solid::StorageAccess>()->teardown();
             break;
         case Eject:
-            connect(device.as<VOpticalDrive>(),
-                    SIGNAL(ejectDone(VHardware::ErrorType, QVariant, const QString &)),
+            connect(device.as<Solid::OpticalDrive>(),
+                    SIGNAL(ejectDone(Solid::ErrorType, QVariant, const QString &)),
                     this,
-                    SLOT(slotStorageResult(VHardware::ErrorType, QVariant)));
-            device.as<VOpticalDrive>()->eject();
+                    SLOT(slotStorageResult(Solid::ErrorType, QVariant)));
+            device.as<Solid::OpticalDrive>()->eject();
             break;
     }
 
@@ -333,7 +334,7 @@ bool HardwareConsole::hwVolumeCall(HardwareConsole::VolumeCallType type, const Q
     return true;
 }
 
-void HardwareConsole::slotStorageResult(VHardware::ErrorType error, const QVariant &errorData)
+void HardwareConsole::slotStorageResult(Solid::ErrorType error, const QVariant &errorData)
 {
     if (error) {
         m_error = 1;

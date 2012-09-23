@@ -41,9 +41,6 @@ if(CMAKE_BUILD_TYPE MATCHES "^[Rr]elease$")
     add_definitions(-DQT_NO_DEBUG_OUTPUT)
 endif()
 
-# Configure checks
-include(ConfigureChecks.cmake)
-
 # Include important macros
 include(MacroOptionalFindPackage)
 include(MacroLogFeature)
@@ -93,6 +90,9 @@ find_package(Qt5Designer REQUIRED)
 if(NOT Qt5Designer_FOUND)
     message(FATAL_ERROR "Qt5Designer module is required!")
 endif()
+
+# Find Solid
+find_package(Solid REQUIRED)
 
 # Find DBus session bus services directory
 execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=session_bus_services_dir dbus-1

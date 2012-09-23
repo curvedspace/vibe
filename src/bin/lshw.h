@@ -28,10 +28,10 @@
 #include <QCoreApplication>
 #include <QEventLoop>
 
-#include <VibeHardware/VStorageAccess>
-#include <VibeHardware/VOpticalDrive>
+#include <solid/storageaccess.h>
+#include <solid/opticaldrive.h>
 
-namespace VHardware
+namespace Solid
 {
     namespace Control
     {
@@ -63,7 +63,7 @@ private:
     QString m_errorString;
 
 private slots:
-    void slotStorageResult(VHardware::ErrorType error, const QVariant &errorData);
+    void slotStorageResult(Solid::ErrorType error, const QVariant &errorData);
 };
 
 Q_DECLARE_METATYPE(QList<int>)

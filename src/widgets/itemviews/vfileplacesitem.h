@@ -38,15 +38,18 @@
 
 #include <QPointer>
 
+#include <solid/device.h>
+
 #include <VibeCore/VBookmarkManager>
-#include <VibeHardware/VDevice>
 
 class QUrl;
 class QIcon;
 
-class VStorageAccess;
-class VStorageVolume;
-class VOpticalDisc;
+namespace Solid {
+    class StorageAccess;
+    class StorageVolume;
+    class OpticalDisc;
+}
 
 namespace VPrivate
 {
@@ -77,7 +80,7 @@ namespace VPrivate
         bool isTopLevel() const;
 
         bool isDevice() const;
-        VDevice device() const;
+        Solid::Device device() const;
 
         QString id() const;
 
@@ -119,10 +122,10 @@ namespace VPrivate
         bool m_folderIsEmpty;
 
         bool m_isDevice;
-        mutable VDevice m_device;
-        mutable QPointer<VStorageAccess> m_access;
-        mutable QPointer<VStorageVolume> m_volume;
-        mutable QPointer<VOpticalDisc> m_disc;
+        mutable Solid::Device m_device;
+        mutable QPointer<Solid::StorageAccess> m_access;
+        mutable QPointer<Solid::StorageVolume> m_volume;
+        mutable QPointer<Solid::OpticalDisc> m_disc;
 
         QList<FilePlacesItem *> m_childItems;
         FilePlacesItem *m_parentItem;

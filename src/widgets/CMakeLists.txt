@@ -13,6 +13,7 @@ include_directories(
     ${Qt5DBus_INCLUDE_DIRS}
     ${Qt5Gui_INCLUDE_DIRS}
     ${Qt5Widgets_INCLUDE_DIRS}
+    ${SOLID_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_SOURCE_DIR}/src/gui
     ${CMAKE_BINARY_DIR}/src/core
@@ -80,7 +81,8 @@ set(HEADERS
 # Add library
 add_library(VibeWidgets SHARED ${SOURCES})
 target_link_libraries(VibeWidgets ${Qt5DBus_LIBRARIES} ${Qt5Widgets_LIBRARIES}
-    VibeCore VibeGui VibeHardware)
+    VibeCore VibeGui
+    ${SOLID_LIBS})
 set_target_properties(VibeWidgets PROPERTIES
     VERSION ${VIBE_VERSION_STRING}
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_PATCH})

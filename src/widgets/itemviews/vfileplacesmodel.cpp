@@ -29,14 +29,15 @@
 #include <QTimer>
 #include <QAction>
 
+#include <solid/devicenotifier.h>
+#include <solid/device.h>
+#include <solid/storageaccess.h>
+#include <solid/storagedrive.h>
+#include <solid/opticaldisc.h>
+#include <solid/opticaldrive.h>
+
 #include <VibeCore/VStandardDirectories>
 #include <VibeCore/VBookmarkManager>
-#include <VibeHardware/VDeviceNotifier>
-#include <VibeHardware/VDevice>
-#include <VibeHardware/VStorageAccess>
-#include <VibeHardware/VStorageDrive>
-#include <VibeHardware/VOpticalDisc>
-#include <VibeHardware/VOpticalDrive>
 
 #include "vfileplacesmodel.h"
 #include "vfileplacesmodel_p.h"
@@ -63,7 +64,7 @@ VFilePlacesModelPrivate::VFilePlacesModelPrivate(VFilePlacesModel *parent) :
                                          rootItem);
 
     // Devices predicate
-    predicate = VPredicate::fromString(
+    predicate = Solid::Predicate::fromString(
                     "[[[[ StorageVolume.ignored == false AND [ StorageVolume.usage == 'FileSystem' OR StorageVolume.usage == 'Encrypted' ]]"
                     " OR "
                     "[ IS StorageAccess AND StorageDrive.driveType == 'Floppy' ]]"
@@ -270,15 +271,15 @@ void VFilePlacesModelPrivate::_q_initDeviceList()
 {
     Q_Q(VFilePlacesModel);
 
-    VDeviceNotifier *notifier = VDeviceNotifier::instance();
+    Solid::DeviceNotifier *notifier = Solid::DeviceNotifier::instance();
 
     q->connect(notifier, SIGNAL(deviceAdded(const QString &)),
                q, SLOT(_q_deviceAdded(const QString &)));
     q->connect(notifier, SIGNAL(deviceRemoved(const QString &)),
                q, SLOT(_q_deviceRemoved(const QString &)));
 
-    const QList<VDevice> &deviceList = VDevice::listFromQuery(predicate);
-    foreach(const VDevice & device, deviceList)
+    const QList<Solid::Device> &deviceList = Solid::Device::listFromQuery(predicate);
+    foreach(const Solid::Device & device, deviceList)
     availableDevices << device.udi();
 
     _q_reloadDevices();
@@ -286,7 +287,7 @@ void VFilePlacesModelPrivate::_q_initDeviceList()
 
 void VFilePlacesModelPrivate::_q_deviceAdded(const QString &udi)
 {
-    VDevice d(udi);
+    Solid::Device d(udi);
 
     if (predicate.matches(d)) {
         availableDevices << udi;
@@ -341,7 +342,7 @@ void VFilePlacesModelPrivate::_q_reloadDevices()
     reloadList(q->index(1, 0, QModelIndex()), devices, deviceItems);
 }
 
-void VFilePlacesModelPrivate::_q_storageTeardownDone(VHardware::ErrorType error, QVariant errorData)
+void VFilePlacesModelPrivate::_q_storageTeardownDone(Solid::ErrorType error, QVariant errorData)
 {
     Q_Q(VFilePlacesModel);
 
@@ -349,7 +350,7 @@ void VFilePlacesModelPrivate::_q_storageTeardownDone(VHardware::ErrorType error,
         emit q->errorMessage(errorData.toString());
 }
 
-void VFilePlacesModelPrivate::_q_storageSetupDone(VHardware::ErrorType error, QVariant errorData)
+void VFilePlacesModelPrivate::_q_storageSetupDone(Solid::ErrorType error, QVariant errorData)
 {
     Q_Q(VFilePlacesModel);
 
@@ -575,26 +576,26 @@ VBookmark VFilePlacesModel::bookmarkForIndex(const QModelIndex &index) const
     return VBookmark();
 }
 
-VDevice VFilePlacesModel::deviceForIndex(const QModelIndex &index) const
+Solid::Device VFilePlacesModel::deviceForIndex(const QModelIndex &index) const
 {
     if (!index.isValid())
-        return VDevice();
+        return Solid::Device();
 
     FilePlacesItem *item =
         static_cast<FilePlacesItem *>(index.internalPointer());
     if (item->isDevice())
         return item->device();
-    return VDevice();
+    return Solid::Device();
 }
 
 QAction *VFilePlacesModel::teardownActionForIndex(const QModelIndex &index) const
 {
-    VDevice device = deviceForIndex(index);
+    Solid::Device device = deviceForIndex(index);
 
-    if (device.is<VStorageAccess>() && device.as<VStorageAccess>()->isAccessible()) {
-        VStorageDrive *drive = device.as<VStorageDrive>();
+    if (device.is<Solid::StorageAccess>() && device.as<Solid::StorageAccess>()->isAccessible()) {
+        Solid::StorageDrive *drive = device.as<Solid::StorageDrive>();
         if (!drive)
-            drive = device.parent().as<VStorageDrive>();
+            drive = device.parent().as<Solid::StorageDrive>();
 
         bool isHotpluggable = false;
         bool isRemovable = false;
@@ -607,7 +608,7 @@ QAction *VFilePlacesModel::teardownActionForIndex(const QModelIndex &index) cons
         QString label = text(index).replace('&', "&&");
         QString iconName, text;
 
-        if (device.is<VOpticalDisc>())
+        if (device.is<Solid::OpticalDisc>())
             text = tr("&Release '%1'").arg(label);
         else if (isHotpluggable || isRemovable) {
             text = tr("&Safely Remove '%1'").arg(label);
@@ -627,9 +628,9 @@ QAction *VFilePlacesModel::teardownActionForIndex(const QModelIndex &index) cons
 
 QAction *VFilePlacesModel::ejectActionForIndex(const QModelIndex &index) const
 {
-    VDevice device = deviceForIndex(index);
+    Solid::Device device = deviceForIndex(index);
 
-    if (device.is<VOpticalDisc>()) {
+    if (device.is<Solid::OpticalDisc>()) {
         QString label = text(index).replace('&', "&&");
         QString text = tr("&Eject '%1'").arg(label);
 
@@ -641,24 +642,24 @@ QAction *VFilePlacesModel::ejectActionForIndex(const QModelIndex &index) const
 
 void VFilePlacesModel::requestTeardown(const QModelIndex &index)
 {
-    VDevice device = deviceForIndex(index);
-    VStorageAccess *access = device.as<VStorageAccess>();
+    Solid::Device device = deviceForIndex(index);
+    Solid::StorageAccess *access = device.as<Solid::StorageAccess>();
 
     if (access) {
-        connect(access, SIGNAL(teardownDone(VHardware::ErrorType, QVariant, QString)),
-                this, SLOT(_q_storageTeardownDone(VHardware::ErrorType, QVariant)));
+        connect(access, SIGNAL(teardownDone(Solid::ErrorType, QVariant, QString)),
+                this, SLOT(_q_storageTeardownDone(Solid::ErrorType, QVariant)));
         access->teardown();
     }
 }
 
 void VFilePlacesModel::requestEject(const QModelIndex &index)
 {
-    VDevice device = deviceForIndex(index);
-    VOpticalDrive *drive = device.parent().as<VOpticalDrive>();
+    Solid::Device device = deviceForIndex(index);
+    Solid::OpticalDrive *drive = device.parent().as<Solid::OpticalDrive>();
 
     if (drive) {
-        connect(drive, SIGNAL(ejectDone(VHardware::ErrorType, QVariant, QString)),
-                this, SLOT(_q_storageTeardownDone(VHardware::ErrorType, QVariant)));
+        connect(drive, SIGNAL(ejectDone(Solid::ErrorType, QVariant, QString)),
+                this, SLOT(_q_storageTeardownDone(Solid::ErrorType, QVariant)));
         drive->eject();
     } else {
         QString label = text(index).replace('&', "&&");
@@ -671,16 +672,16 @@ void VFilePlacesModel::requestSetup(const QModelIndex &index)
 {
     Q_D(VFilePlacesModel);
 
-    VDevice device = deviceForIndex(index);
+    Solid::Device device = deviceForIndex(index);
 
-    if (device.is<VStorageAccess>() &&
-            !d->setupInProgress.contains(device.as<VStorageAccess>()) &&
-            !device.as<VStorageAccess>()->isAccessible()) {
-        VStorageAccess *access = device.as<VStorageAccess>();
+    if (device.is<Solid::StorageAccess>() &&
+            !d->setupInProgress.contains(device.as<Solid::StorageAccess>()) &&
+            !device.as<Solid::StorageAccess>()->isAccessible()) {
+        Solid::StorageAccess *access = device.as<Solid::StorageAccess>();
         d->setupInProgress[access] = index;
 
-        connect(access, SIGNAL(setupDone(VHardware::ErrorType, QVariant, QString)),
-                this, SLOT(_q_storageSetupDone(VHardware::ErrorType, QVariant)));
+        connect(access, SIGNAL(setupDone(Solid::ErrorType, QVariant, QString)),
+                this, SLOT(_q_storageSetupDone(Solid::ErrorType, QVariant)));
         access->setup();
     }
 }

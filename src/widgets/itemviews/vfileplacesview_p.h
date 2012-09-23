@@ -42,7 +42,9 @@ class QUrl;
 class QPersistentModelIndex;
 class QTimeLine;
 
-class VStorageAccess;
+namespace Solid {
+    class StorageAccess;
+}
 
 class VFilePlacesViewPrivate
 {
@@ -53,7 +55,7 @@ public:
     QUrl currentUrl;
     bool showAll;
 
-    VStorageAccess *lastClickedStorage;
+    Solid::StorageAccess *lastClickedStorage;
     QPersistentModelIndex lastClickedIndex;
 
     VPrivate::FilePlacesViewDelegate *delegate;

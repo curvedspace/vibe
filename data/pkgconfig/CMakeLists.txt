@@ -10,16 +10,11 @@ configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/VibeWidgets.pc.in"
     "${CMAKE_CURRENT_BINARY_DIR}/VibeWidgets.pc"
     IMMEDIATE @ONLY)
-configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/VibeHardware.pc.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/VibeHardware.pc"
-    IMMEDIATE @ONLY)
 
 set(PC_FILES
     ${CMAKE_CURRENT_BINARY_DIR}/VibeCore.pc
     ${CMAKE_CURRENT_BINARY_DIR}/VibeGui.pc
     ${CMAKE_CURRENT_BINARY_DIR}/VibeWidgets.pc
-    ${CMAKE_CURRENT_BINARY_DIR}/VibeHardware.pc
 )
 
 install(FILES ${PC_FILES} DESTINATION ${CMAKE_INSTALL_PKGCONFIGDIR})

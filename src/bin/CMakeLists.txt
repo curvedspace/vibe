@@ -1,5 +1,6 @@
 include_directories(
     ${Qt5Core_INCLUDE_DIRS}
+    ${SOLID_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_SOURCE_DIR}/src/kits/core
     ${CMAKE_BINARY_DIR}/src/kits/core
@@ -10,6 +11,6 @@ add_definitions(${Qt5Core_CFLAGS})
 
 set(lshw_SOURCES lshw.cpp)
 add_executable(lshw ${lshw_SOURCES})
-target_link_libraries(lshw VibeCore VibeHardware)
+target_link_libraries(lshw VibeCore ${SOLID_LIBS})
 install(TARGETS lshw
     DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT Binaries)

@@ -4,11 +4,10 @@ set(cmakeFiles
     CheckPointerMember.cmake
     CheckPrototypeExists.cmake
     CheckStructMember.cmake
-    FindFlex.cmake
-    FindHUpnp.cmake
     FindLibLZMA.cmake
     FindPAM.cmake
     FindSharedMimeInfo.cmake
+    FindSolid.cmake
     FindUDev.cmake
     HandleImportedTargetsInCMakeRequiredLibraries.cmake
     MacroAddCompileFlags.cmake

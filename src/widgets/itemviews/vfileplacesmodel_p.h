@@ -36,7 +36,7 @@
 // We mean it.
 //
 
-#include <VibeHardware/VPredicate>
+#include <solid/predicate.h>
 
 class VBoomarkManager;
 
@@ -60,7 +60,7 @@ public:
     QList<VPrivate::FilePlacesItem *> deviceItems;
 
     QSet<QString> availableDevices;
-    VPredicate predicate;
+    Solid::Predicate predicate;
 
     QMap<QObject *, QPersistentModelIndex> setupInProgress;
 
@@ -80,8 +80,8 @@ public:
     void _q_itemChanged(const QString &udi);
     void _q_reloadFavorites();
     void _q_reloadDevices();
-    void _q_storageTeardownDone(VHardware::ErrorType error, QVariant errorData);
-    void _q_storageSetupDone(VHardware::ErrorType error, QVariant errorData);
+    void _q_storageTeardownDone(Solid::ErrorType error, QVariant errorData);
+    void _q_storageSetupDone(Solid::ErrorType error, QVariant errorData);
 };
 
 #endif // VFILEPLACESMODEL_P_H

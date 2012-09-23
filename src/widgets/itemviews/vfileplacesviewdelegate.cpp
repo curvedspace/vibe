@@ -31,10 +31,10 @@
 #include <QStyle>
 #include <QTimeLine>
 
+#include <solid/device.h>
+
 #include <VibeWidgets/VFilePlacesModel>
 #include <VibeWidgets/VFilePlacesView>
-
-#include <VibeHardware/VDevice>
 
 #include "vfileplacesviewdelegate.h"
 
@@ -67,7 +67,7 @@ namespace VPrivate
             iconSize = m_disappearingIconSize;
 
         const VFilePlacesModel *model = static_cast<const VFilePlacesModel *>(index.model());
-        VDevice device = model->deviceForIndex(index);
+        Solid::Device device = model->deviceForIndex(index);
 
         return QSize(option.rect.width(), option.fontMetrics.height() / 2
                      + qMax(iconSize, option.fontMetrics.height()));

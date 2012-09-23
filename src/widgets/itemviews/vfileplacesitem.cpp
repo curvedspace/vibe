@@ -26,11 +26,11 @@
 #include <QUrl>
 #include <QDateTime>
 
-#include <VibeHardware/VStorageAccess>
-#include <VibeHardware/VStorageVolume>
-#include <VibeHardware/VStorageDrive>
-#include <VibeHardware/VBlock>
-#include <VibeHardware/VOpticalDisc>
+#include <solid/storageaccess.h>
+#include <solid/storagevolume.h>
+#include <solid/storagedrive.h>
+#include <solid/block.h>
+#include <solid/opticaldisc.h>
 
 #include <VibeWidgets/VFilePlacesModel>
 
@@ -96,9 +96,9 @@ namespace VPrivate
                 // xx
             }
         } else if (!udi.isEmpty() && m_device.isValid()) {
-            m_access = m_device.as<VStorageAccess>();
-            m_volume = m_device.as<VStorageVolume>();
-            m_disc = m_device.as<VOpticalDisc>();
+            m_access = m_device.as<Solid::StorageAccess>();
+            m_volume = m_device.as<Solid::StorageVolume>();
+            m_disc = m_device.as<Solid::OpticalDisc>();
 
             if (m_access)
                 connect(m_access, SIGNAL(accessibilityChanged(bool, const QString &)),
@@ -143,14 +143,14 @@ namespace VPrivate
         return m_isDevice;
     }
 
-    VDevice FilePlacesItem::device() const
+    Solid::Device FilePlacesItem::device() const
     {
         if (m_device.udi().isEmpty()) {
-            m_device = VDevice(bookmark().metaDataItem("UDI"));
+            m_device = Solid::Device(bookmark().metaDataItem("UDI"));
             if (m_device.isValid()) {
-                m_access = m_device.as<VStorageAccess>();
-                m_volume = m_device.as<VStorageVolume>();
-                m_disc = m_device.as<VOpticalDisc>();
+                m_access = m_device.as<Solid::StorageAccess>();
+                m_volume = m_device.as<Solid::StorageVolume>();
+                m_disc = m_device.as<Solid::OpticalDisc>();
             } else {
                 m_access = 0;
                 m_volume = 0;
@@ -289,7 +289,7 @@ namespace VPrivate
 
     QVariant FilePlacesItem::deviceData(int role) const
     {
-        VDevice d = device();
+        Solid::Device d = device();
 
         if (!d.isValid())
             return QVariant();
@@ -302,16 +302,16 @@ namespace VPrivate
             case VFilePlacesModel::UrlRole:
                 if (m_access)
                     return QUrl::fromLocalFile(m_access->filePath());
-                else if (m_disc && (m_disc->availableContent() && VOpticalDisc::Audio) != 0) {
-                    QString device = d.as<VBlock>()->device();
+                else if (m_disc && (m_disc->availableContent() && Solid::OpticalDisc::Audio) != 0) {
+                    QString device = d.as<Solid::Block>()->device();
                     return QUrl(QString("audiocd:///?device=%1").arg(device));
                 }
             case VFilePlacesModel::FixedDeviceRole: {
-                VStorageDrive *drive = 0;
-                VDevice parentDevice = d;
+                Solid::StorageDrive *drive = 0;
+                Solid::Device parentDevice = d;
 
                 while (parentDevice.isValid() && !drive) {
-                    drive = parentDevice.as<VStorageDrive>();
+                    drive = parentDevice.as<Solid::StorageDrive>();
                     parentDevice = parentDevice.parent();
                 }
 
