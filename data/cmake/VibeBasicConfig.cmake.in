@@ -43,6 +43,20 @@ foreach(_module_dep ${_Vibe_MODULE_DEPENDENCIES})
     if (NOT ${_module_dep}_FOUND)
         find_package(${_module_dep} REQUIRED)
     endif()
+
+    # Compatibility with ECM modules
+    # FIXME: Fix ECM variable names with ours because they are actually the same as Qt 5
+    if("${${_module_dep}_INCLUDE_DIR}")
+        set(${_module_dep}_INCLUDE_DIRS ${_module_dep}_INCLUDE_DIR)
+    endif()
+    if("${${_module_dep}_LIBRARY_DIR}")
+        set(${_module_dep}_LIBRARIES -L${_module_dep}_LIBRARY_DIR ${_module_dep}_LIBRARY_DIR)
+    else()
+        if("${${_module_dep}_LIBRARY}")
+            set(${_module_dep}_LIBRARIES ${_module_dep}_LIBRARY)
+        endif()
+    endif()
+
     list(APPEND Vibe@CMAKE_MODULE_NAME@_INCLUDE_DIRS ${${_module_dep}_INCLUDE_DIRS})
     list(APPEND Vibe@CMAKE_MODULE_NAME@_DEFINITIONS ${${_module_dep}_DEFINITIONS})
     list(APPEND Vibe@CMAKE_MODULE_NAME@_COMPILE_DEFINITIONS ${${_module_dep}_COMPILE_DEFINITIONS})
