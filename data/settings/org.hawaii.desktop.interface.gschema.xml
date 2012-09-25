@@ -36,6 +36,11 @@
       <summary>User Interface Style</summary>
       <description>Style used to draw all user interface elements.</description>
     </key>
+    <key type="s" name="theme">
+      <default>'Vanish'</default>
+      <summary>User Interface Theme</summary>
+      <description>Theme to draw all desktop user interface elements.</description>
+    </key>
     <key type="s" name="color-scheme">
       <default>'Default'</default>
       <summary>User Interface Color Scheme</summary>
