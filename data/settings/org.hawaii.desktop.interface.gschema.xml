@@ -37,7 +37,7 @@
       <description>Style used to draw all user interface elements.</description>
     </key>
     <key type="s" name="theme">
-      <default>'Vanish'</default>
+      <default>'default'</default>
       <summary>User Interface Theme</summary>
       <description>Theme to draw all desktop user interface elements.</description>
     </key>
