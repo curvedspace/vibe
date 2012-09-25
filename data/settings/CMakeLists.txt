@@ -1,7 +1,12 @@
 set(FILES
-    org.hawaii.desktop.background.gschema.xml
+    ${CMAKE_CURRENT_BINARY_DIR}/org.hawaii.desktop.background.gschema.xml
     org.hawaii.desktop.enums.xml
     org.hawaii.desktop.interface.gschema.xml
+)
+
+configure_file(
+    org.hawaii.desktop.background.gschema.xml.in
+    ${CMAKE_CURRENT_BINARY_DIR}/org.hawaii.desktop.background.gschema.xml
 )
 
 # Check if pkg-config is available so that
