@@ -34,7 +34,7 @@
 #include <pwd.h>
 #include <unistd.h>
 
-const uid_t kMinimalUid = 500;
+const uid_t kMinimalUid = 1000;
 
 using namespace VStandardDirectories;
 
@@ -66,16 +66,20 @@ VUserAccountList VAccountsManager::listUsers(bool systemUsers)
 {
     struct passwd pwd, *pwp;
     char buf[4096];
-    int i;
     VUserAccountList list;
 
     setpwent();
     while (1) {
-        i = getpwent_r(&pwd, buf, 4096, &pwp);
-        if (i)
+        if (getpwent_r(&pwd, buf, 4096, &pwp))
             break;
 
-        if (systemUsers && pwp->pw_uid < minimalUid())
+        // Include system users only if specified
+        if (!systemUsers && pwp->pw_uid < minimalUid())
+            continue;
+
+        // The nobody user is a system user but it often has a uid > minimal uid,
+        // we need to take core of this
+        if (!systemUsers && strcmp(pwp->pw_name, "nobody") == 0)
             continue;
 
         VUserAccount *user = new VUserAccount();
