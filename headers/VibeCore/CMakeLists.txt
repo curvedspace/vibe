@@ -21,7 +21,6 @@ set(HEADERS
     VSaveFile
     VSettings
     VSharedPointer
-    VStandardDirectories
     VStringHandler
     VUserAccount
     VUserAccountList

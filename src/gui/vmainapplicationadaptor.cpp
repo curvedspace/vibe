@@ -24,19 +24,17 @@
 
 #include <QCoreApplication>
 #include <QDebug>
+#include <QStandardPaths>
 #include <QStringList>
 #include <QDirIterator>
 #include <QDBusConnection>
 #include <QDBusInterface>
 
-#include <VStandardDirectories>
 #include <VApplicationInfo>
 
 #include "vmainapplicationadaptor.h"
 #include "vmainapplicationadaptor_p.h"
 #include "vguiapplication.h"
-
-using namespace VStandardDirectories;
 
 /*
  * VMainApplicationAdaptorPrivate
@@ -184,23 +182,18 @@ QString VMainApplicationAdaptor::GetDesktopFileName()
     Q_D(VMainApplicationAdaptor);
 
     // Search for the desktop file
-    QStringList paths = QStringList()
-                        << findDirectory(SystemApplicationsDirectory)
-                        << findDirectory(CommonApplicationsDirectory)
-                        << findDirectory(UserApplicationsDirectory);
-    foreach (QString path, paths) {
-        QDirIterator walker(path,
-                            QDir::Files | QDir::NoDotAndDotDot | QDir::Readable,
-                            QDirIterator::Subdirectories);
-        while (walker.hasNext()) {
-            walker.next();
+    QString path = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation);
+    QDirIterator walker(path,
+                        QDir::Files | QDir::NoDotAndDotDot | QDir::Readable,
+                        QDirIterator::Subdirectories);
+    while (walker.hasNext()) {
+        walker.next();
 
-            if (walker.fileInfo().completeSuffix() == "desktop") {
-                // Return the desktop file if it matches
-                VApplicationInfo info(walker.fileInfo().absoluteFilePath());
-                if (info.isValid() && info.identifier() == identifier() && info.version() == applicationVersion())
-                    return info.fileName();
-            }
+        if (walker.fileInfo().completeSuffix() == "desktop") {
+            // Return the desktop file if it matches
+            VApplicationInfo info(walker.fileInfo().absoluteFilePath());
+            if (info.isValid() && info.identifier() == identifier() && info.version() == applicationVersion())
+                return info.fileName();
         }
     }
 

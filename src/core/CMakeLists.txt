@@ -95,7 +95,6 @@ set(SOURCES
     settings/gvdb/gvdb-reader.c
 
     standards/vdesktopfile.cpp
-    standards/vstandarddirectories.cpp
 
     ${VibeCore_OPTIONAL_SRCS}
 )
@@ -133,7 +132,6 @@ set(HEADERS
     settings/vsettings.h
 
     standards/vdesktopfile.h
-    standards/vstandarddirectories.h
 )
 
 # Add library

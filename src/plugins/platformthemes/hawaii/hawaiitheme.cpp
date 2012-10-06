@@ -25,14 +25,12 @@
 #include <QDesktopServices>
 #include <QFont>
 #include <QVariant>
+#include <QStandardPaths>
 
 #include <VibeCore/VSettings>
-#include <VibeCore/VStandardDirectories>
 #include <VibeGui/VColorScheme>
 
 #include "hawaiitheme.h"
-
-using namespace VStandardDirectories;
 
 HawaiiTheme::HawaiiTheme()
 {
@@ -63,15 +61,8 @@ const QPalette *HawaiiTheme::palette(Palette type) const
             if (colorSchemeName.isEmpty())
                 return QPlatformTheme::palette(type);
 
-            QStringList paths;
-            paths << findDirectory(UserThemesDirectory) + "/color-schemes"
-                  << findDirectory(CommonThemesDirectory) + "/color-schemes"
-                  << findDirectory(SystemThemesDirectory) + "/color-schemes";
-
-            foreach(QString path, paths) {
-                VColorScheme colorScheme(QString("%1/%2.colors").arg(path).arg(colorSchemeName));
-                return colorScheme.palette();
-            }
+            VColorScheme colorScheme(QString("%1/%2.colors").arg(path).arg(colorSchemeName));
+            return colorScheme.palette();
         }
         default:
             break;
@@ -146,13 +137,10 @@ QVariant HawaiiTheme::themeHint(ThemeHint hint) const
             return m_settings->value("icon-theme");
         case SystemIconFallbackThemeName:
             return QVariant("hicolor");
-        case IconThemeSearchPaths: {
-            QStringList paths;
-            paths << findDirectory(UserDataDirectory) + "/icons"
-                  << findDirectory(CommonDataDirectory) + "/icons"
-                  << findDirectory(SystemDataDirectory) + "/icons";
-            return QVariant(paths);
-        }
+        case IconThemeSearchPaths:
+            return QVariant(QStandardPaths::locateAll(
+                        QStandardPaths::GenericDataLocation,
+                        "icons", QStandardPaths::LocateDirectory));
         case StyleNames: {
             QStringList styles;
             styles << m_settings->value("style").toString();

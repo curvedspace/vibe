@@ -37,9 +37,9 @@
 #include <QtCore/QFileSystemWatcher>
 #include <QtDBus/QtDBus>
 #include <QtWidgets/QApplication>
+#include <QStandardPaths>
 
 #include <VibeCore/VSaveFile>
-#include <VibeCore/VStandardDirectories>
 
 #include "vbookmarkmanager.h"
 #include "vbookmarkmanageradaptor.h"
@@ -606,8 +606,8 @@ void VBookmarkManager::updateFavicon(const QString &url, const QString &/*favico
 
 VBookmarkManager *VBookmarkManager::userBookmarksManager()
 {
-    QString bookmarksFile = QString("%1/colombo/bookmarks.xbel")
-                            .arg(VStandardDirectories::findDirectory(VStandardDirectories::UserDataDirectory));
+    QString bookmarksFile = QStandardPaths::locate(
+                QStandardPaths::GenericDataLocation, "colombo/bookmarks.xbel");
     VBookmarkManager *bookmarkManager = VBookmarkManager::managerForFile(bookmarksFile, "colombo");
     return bookmarkManager;
 }

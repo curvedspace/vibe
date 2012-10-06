@@ -26,17 +26,14 @@
 #include <QFile>
 #include <QRegExp>
 
-#include <VibeCore/VStandardDirectories>
-
 #include "vaccountsmanager.h"
 #include "vuseraccount_p.h"
+#include "cmakedirs.h"
 
 #include <pwd.h>
 #include <unistd.h>
 
 const uid_t kMinimalUid = 1000;
-
-using namespace VStandardDirectories;
 
 /*!
     \class VAccountsManager
@@ -233,8 +230,7 @@ bool VAccountsManager::deleteUser(VUserAccount *user, bool removeFiles)
 uid_t VAccountsManager::minimalUid() const
 {
     uid_t uid = kMinimalUid;
-    QString fileName = QString("%1/login.defs").arg(findDirectory(
-                                                        CommonSettingsDirectory));
+    QString fileName = QString("%1/login.defs").arg(INSTALL_SYSCONFDIR);
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly))
         return kMinimalUid;

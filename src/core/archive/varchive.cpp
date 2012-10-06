@@ -33,17 +33,15 @@
 #include <QPluginLoader>
 
 #include <VibeCore/VFileSupport>
-#include <VibeCore/VStandardDirectories>
 
 #include "varchive.h"
 #include "varchivehandler.h"
 #include "varchivehandlerplugin.h"
 #include "varchive_p.h"
 #include "vlimitediodevice_p.h"
+#include "cmakedirs.h"
 
 #include <errno.h>
-
-using namespace VStandardDirectories;
 
 /*
  * VArchivePrivate
@@ -93,21 +91,15 @@ VArchive::VArchive(const QString &fileName) :
 
     // Try to find the appropriate plugin, otherwise give up
     VArchiveHandler *handler = 0;
-    QList<QDir> directories;
-    directories << QDir(QString("%1/archivehandlers")
-                        .arg(findDirectory(CommonPluginsDirectory)));
-    directories << QDir(QString("%1/archivehandlers")
-                        .arg(findDirectory(SystemPluginsDirectory)));
-    foreach(QDir pluginsDir, directories) {
-        foreach(QString fileName, pluginsDir.entryList(QDir::Files)) {
-            QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
-            VArchiveHandlerPlugin *plugin = qobject_cast<VArchiveHandlerPlugin *>(
-                                                loader.instance());
-            if (plugin) {
-                handler = plugin->create(mimeType.name());
-                if (handler)
-                    break;
-            }
+    QDir pluginsDir(QString("%1/archivehandlers").arg(INSTALL_PLUGINSDIR));
+    foreach(QString fileName, pluginsDir.entryList(QDir::Files)) {
+        QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
+        VArchiveHandlerPlugin *plugin = qobject_cast<VArchiveHandlerPlugin *>(
+                    loader.instance());
+        if (plugin) {
+            handler = plugin->create(mimeType.name());
+            if (handler)
+                break;
         }
     }
     if (!handler)
@@ -139,21 +131,15 @@ VArchive::VArchive(QIODevice *dev) :
 
     // Try to find the appropriate plugin, otherwise give up
     VArchiveHandler *handler = 0;
-    QList<QDir> directories;
-    directories << QDir(QString("%1/archivehandlers")
-                        .arg(findDirectory(CommonPluginsDirectory)));
-    directories << QDir(QString("%1/archivehandlers")
-                        .arg(findDirectory(SystemPluginsDirectory)));
-    foreach(QDir pluginsDir, directories) {
-        foreach(QString fileName, pluginsDir.entryList(QDir::Files)) {
-            QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
-            VArchiveHandlerPlugin *plugin = qobject_cast<VArchiveHandlerPlugin *>(
-                                                loader.instance());
-            if (plugin) {
-                handler = plugin->create(mimeType.name());
-                if (handler)
-                    break;
-            }
+    QDir pluginsDir(QString("%1/archivehandlers").arg(INSTALL_PLUGINSDIR));
+    foreach(QString fileName, pluginsDir.entryList(QDir::Files)) {
+        QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
+        VArchiveHandlerPlugin *plugin = qobject_cast<VArchiveHandlerPlugin *>(
+                    loader.instance());
+        if (plugin) {
+            handler = plugin->create(mimeType.name());
+            if (handler)
+                break;
         }
     }
     if (!handler)

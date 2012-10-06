@@ -28,6 +28,7 @@
 #include <QIcon>
 #include <QTimer>
 #include <QAction>
+#include <QStandardPaths>
 
 #include <solid/devicenotifier.h>
 #include <solid/device.h>
@@ -36,7 +37,6 @@
 #include <solid/opticaldisc.h>
 #include <solid/opticaldrive.h>
 
-#include <VibeCore/VStandardDirectories>
 #include <VibeCore/VBookmarkManager>
 
 #include "vfileplacesmodel.h"
@@ -75,8 +75,8 @@ VFilePlacesModelPrivate::VFilePlacesModelPrivate(VFilePlacesModel *parent) :
     Q_ASSERT(predicate.isValid());
 
     // Standard places bookmark manager
-    QString fileName = QString("%1/tracker/bookmarks.xbel")
-                       .arg(VStandardDirectories::findDirectory(VStandardDirectories::UserDataDirectory));
+    QString fileName = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                              "tracker/bookmarks.xbel");
     bookmarkManager = VBookmarkManager::managerForFile(fileName, "filemanager");
 
     // If the bookmarks file doesn't exist, create initial items
@@ -84,35 +84,35 @@ VFilePlacesModelPrivate::VFilePlacesModelPrivate(VFilePlacesModel *parent) :
     if (root.first().isNull() || !QFile::exists(fileName)) {
         FilePlacesItem::createSystemBookmark(bookmarkManager,
                                              "Desktop", QT_TRANSLATE_NOOP("Places Bookmarks", "Desktop"),
-                                             QUrl::fromLocalFile(VStandardDirectories::findDirectory(VStandardDirectories::UserDesktopDirectory)),
+                                             QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)),
                                              "user-desktop");
         FilePlacesItem::createSystemBookmark(bookmarkManager,
                                              "Home", QT_TRANSLATE_NOOP("Places Bookmarks", "Home"),
-                                             QUrl::fromLocalFile(VStandardDirectories::findDirectory(VStandardDirectories::UserHomeDirectory)),
+                                             QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)),
                                              "user-home");
         FilePlacesItem::createSystemBookmark(bookmarkManager,
                                              "Applications", QT_TRANSLATE_NOOP("Places Bookmarks", "Applications"),
-                                             QUrl::fromLocalFile(VStandardDirectories::findDirectory(VStandardDirectories::UserApplicationsDirectory)),
+                                             QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation)),
                                              "folder-applications");
         FilePlacesItem::createSystemBookmark(bookmarkManager,
                                              "Documents", QT_TRANSLATE_NOOP("Places Bookmarks", "Documents"),
-                                             QUrl::fromLocalFile(VStandardDirectories::findDirectory(VStandardDirectories::UserDocumentsDirectory)),
+                                             QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)),
                                              "folder-documents");
         FilePlacesItem::createSystemBookmark(bookmarkManager,
                                              "Music", QT_TRANSLATE_NOOP("Places Bookmarks", "Music"),
-                                             QUrl::fromLocalFile(VStandardDirectories::findDirectory(VStandardDirectories::UserMusicDirectory)),
+                                             QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::MusicLocation)),
                                              "folder-sound");
         FilePlacesItem::createSystemBookmark(bookmarkManager,
                                              "Movies", QT_TRANSLATE_NOOP("Places Bookmarks", "Movies"),
-                                             QUrl::fromLocalFile(VStandardDirectories::findDirectory(VStandardDirectories::UserMoviesDirectory)),
+                                             QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation)),
                                              "folder-video");
         FilePlacesItem::createSystemBookmark(bookmarkManager,
                                              "Pictures", QT_TRANSLATE_NOOP("Places Bookmarks", "Pictures"),
-                                             QUrl::fromLocalFile(VStandardDirectories::findDirectory(VStandardDirectories::UserPicturesDirectory)),
+                                             QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)),
                                              "folder-image");
         FilePlacesItem::createSystemBookmark(bookmarkManager,
                                              "Downloads", QT_TRANSLATE_NOOP("Places Bookmarks", "Downloads"),
-                                             QUrl::fromLocalFile(VStandardDirectories::findDirectory(VStandardDirectories::UserDownloadsDirectory)),
+                                             QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation)),
                                              "folder-download");
 
         // Force bookmarks to be saved so that open/save dialogs or applications
