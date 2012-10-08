@@ -75,8 +75,8 @@ VFilePlacesModelPrivate::VFilePlacesModelPrivate(VFilePlacesModel *parent) :
     Q_ASSERT(predicate.isValid());
 
     // Standard places bookmark manager
-    QString fileName = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                              "tracker/bookmarks.xbel");
+    QString fileName = QStringLiteral("%1/tracker/bookmarks.xbel").arg(
+        QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
     bookmarkManager = VBookmarkManager::managerForFile(fileName, "filemanager");
 
     // If the bookmarks file doesn't exist, create initial items
