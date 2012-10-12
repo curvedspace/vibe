@@ -45,14 +45,12 @@ class TestSettings : public QObject
     Q_OBJECT
 public:
     TestSettings() {
-        m_settings = new VSettings("org.hawaii.desktop.interface");
-        connect(m_settings, SIGNAL(changed(QString, QVariant)),
-                this, SLOT(slot(QString, QVariant)));
+        m_settings = new VSettings();
+        connect(m_settings, SIGNAL(changed(QString)),
+                this, SLOT(slot(QString)));
 
-        qDebug() << m_settings->path();
-
-        qDebug() << m_settings->value("icon-theme");
-        m_settings->setValue("icon-theme", "TestSettings");
+        qDebug() << m_settings->value("/org/hawaii/desktop/interface/icon-theme");
+        m_settings->setValue("/org/hawaii/desktop/interface/icon-theme", "TestSettings");
         qDebug() << m_settings->value("icon-theme");
     }
 
@@ -61,8 +59,8 @@ public:
     }
 
 public slots:
-    void slot(const QString &s, const QVariant &v) {
-        qDebug() << "changed" << s << v << m_settings->value("icon-theme");
+    void slot(const QString &s) {
+        qDebug() << "changed" << s << m_settings->value("/org/hawaii/desktop/interface/icon-theme");
     }
 
 private:

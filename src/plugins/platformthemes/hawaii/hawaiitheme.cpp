@@ -34,7 +34,7 @@
 
 HawaiiTheme::HawaiiTheme()
 {
-    m_settings = new VSettings("org.hawaii.desktop.interface");
+    m_settings = new VSettings();
 }
 
 HawaiiTheme::~HawaiiTheme()
@@ -74,8 +74,8 @@ const QPalette *HawaiiTheme::palette(Palette type) const
 
 const QFont *HawaiiTheme::font(Font type) const
 {
-    QString fontName = m_settings->value("font-name").toString();
-    int fontSize = m_settings->value("font-size").toInt();
+    QString fontName = m_settings->value("/org/hawaii/desktop/interface/font-name").toString();
+    int fontSize = m_settings->value("/org/hawaii/desktop/interface/font-size").toInt();
     QFont *font = new QFont(fontName, fontSize);
 
     switch (type) {
@@ -116,7 +116,7 @@ QVariant HawaiiTheme::themeHint(ThemeHint hint) const
         case MaximumScrollBarDragDistance:
             return QVariant(-1);
         case ToolButtonStyle: {
-            QString val = m_settings->value("toolbutton-style").toString();
+            QString val = m_settings->value("/org/hawaii/desktop/interface/toolbutton-style").toString();
 
             if (val == "icon-only")
                 return QVariant(int(Qt::ToolButtonIconOnly));
@@ -130,11 +130,11 @@ QVariant HawaiiTheme::themeHint(ThemeHint hint) const
             return QVariant(int(Qt::ToolButtonFollowStyle));
         }
         case ToolBarIconSize:
-            return m_settings->value("toolbar-icon-size");
+            return m_settings->value("/org/hawaii/desktop/interface/toolbar-icon-size");
         case ItemViewActivateItemOnSingleClick:
             return QVariant(false);
         case SystemIconThemeName:
-            return m_settings->value("icon-theme");
+            return m_settings->value("/org/hawaii/desktop/interface/icon-theme");
         case SystemIconFallbackThemeName:
             return QVariant("hicolor");
         case IconThemeSearchPaths:
@@ -143,7 +143,7 @@ QVariant HawaiiTheme::themeHint(ThemeHint hint) const
                         "icons", QStandardPaths::LocateDirectory));
         case StyleNames: {
             QStringList styles;
-            styles << m_settings->value("style").toString();
+            styles << m_settings->value("/org/hawaii/desktop/interface/style").toString();
             return QVariant(styles);
         }
         case WindowAutoPlacement:

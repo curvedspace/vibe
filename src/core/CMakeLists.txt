@@ -90,9 +90,6 @@ set(SOURCES
 
     settings/vsettings.cpp
     settings/vsettingstypes.cpp
-    settings/vsettingsschema.cpp
-    settings/gvdb/gvdb-builder.c
-    settings/gvdb/gvdb-reader.c
 
     standards/vdesktopfile.cpp
 

@@ -25,8 +25,6 @@
 #ifndef VSETTINGS_P_H
 #define VSETTINGS_P_H
 
-#include "vsettingsschema.h"
-
 //
 //  W A R N I N G
 //  -------------
@@ -45,8 +43,7 @@ public:
     VSettingsPrivate(VSettings *parent);
     ~VSettingsPrivate();
 
-    const VSettingsSchema *schema;
-    QString *path;
+    DConfClient *client;
 
     void notify(const char *key);
 

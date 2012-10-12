@@ -36,14 +36,11 @@ class VIBE_EXPORT VSettings : public QObject
     Q_OBJECT
     Q_DECLARE_PRIVATE(VSettings)
 public:
-    explicit VSettings(const QString &schema, const QString &path = QString());
+    explicit VSettings();
     ~VSettings();
 
-    QString schema() const;
-    void setSchema(const QString &schema);
-
-    QString path() const;
-    void setPath(const QString &path);
+    void addWatch(const QString &path);
+    void removeWatch(const QString &path);
 
     /*!
         Returns the value of a key.
@@ -59,7 +56,7 @@ public:
     void setValue(const QString &key, const QVariant &value);
 
 signals:
-    void changed(const QString &key, const QVariant &value);
+    void changed(const QString &key);
 
 private:
     VSettingsPrivate *const d_ptr;
