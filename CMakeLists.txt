@@ -46,9 +46,6 @@ include(MacroOptionalFindPackage)
 include(MacroLogFeature)
 include(MacroBoolTo01)
 
-# Generate header files
-configure_file(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
-
 # Find pkg-config
 find_package(PkgConfig "0.22" REQUIRED)
 
