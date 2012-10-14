@@ -7,7 +7,7 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-add_definitions(${Qt5Core_CFLAGS})
+add_definitions(${Qt5Core_DEFINITIONS})
 
 set(lshw_SOURCES lshw.cpp)
 add_executable(lshw ${lshw_SOURCES})
