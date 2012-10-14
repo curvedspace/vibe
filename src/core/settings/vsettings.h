@@ -36,23 +36,12 @@ class VIBE_EXPORT VSettings : public QObject
     Q_OBJECT
     Q_DECLARE_PRIVATE(VSettings)
 public:
-    explicit VSettings();
+    explicit VSettings(const QString &schemaName);
     ~VSettings();
 
-    void subscribe(const QString &path);
-    void unsubscribe(const QString &path);
+    QString schemaName() const;
 
-    /*!
-        Returns the value of a key.
-        \param key the key, with the complete path.
-    */
     QVariant value(const QString &key) const;
-
-    /*!
-        Sets the value for the specified key.
-        \param key full path of the key.
-        \param value the value to set the key to.
-    */
     void setValue(const QString &key, const QVariant &value);
 
 signals:

@@ -40,13 +40,12 @@ class VSettingsPrivate
 {
     Q_DECLARE_PUBLIC(VSettings)
 public:
-    VSettingsPrivate(VSettings *parent);
+    VSettingsPrivate(VSettings *parent, const QString &schema);
     ~VSettingsPrivate();
 
-    DConfClient *client;
-    DConfDBusClient *dbusClient;
-
-    void notify(const char *key);
+    QString schemaName;
+    QString fileName;
+    QSettings *storage;
 
 protected:
     VSettings *const q_ptr;

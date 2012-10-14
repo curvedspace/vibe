@@ -52,11 +52,6 @@ if(LIBLZMA_FOUND)
    set(VibeCore_OPTIONAL_LIBS ${VibeCore_OPTIONAL_LIBS} ${LIBLZMA_LIBRARIES})
 endif(LIBLZMA_FOUND)
 
-# Configure checks for settings/
-include(settings/ConfigureChecks.cmake)
-set(VibeCore_OPTIONAL_LIBS ${VibeCore_OPTIONAL_LIBS} ${DCONF_LIBRARIES})
-include_directories(${DCONF_INCLUDE_DIRS})
-
 # Sources
 set(SOURCES
     vapplicationinfo.cpp
@@ -89,7 +84,6 @@ set(SOURCES
     jobs/vjobuidelegate.cpp
 
     settings/vsettings.cpp
-    settings/vsettingstypes.cpp
 
     standards/vdesktopfile.cpp
 
