@@ -1,4 +1,4 @@
-#add_subdirectory(bin)
+add_subdirectory(bin)
 add_subdirectory(core)
 add_subdirectory(gui)
 add_subdirectory(widgets)
