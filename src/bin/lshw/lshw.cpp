@@ -244,8 +244,8 @@ bool HardwareConsole::hwList(bool interfaces, bool system)
 
         if (interfaces) {
             cout << device << endl;
-        } else if (system && device.is<VGenericInterface>()) {
-            QMap<QString, QVariant> properties = device.as<VGenericInterface>()->allProperties();
+        } else if (system && device.is<Solid::GenericInterface>()) {
+            QMap<QString, QVariant> properties = device.as<Solid::GenericInterface>()->allProperties();
             cout << properties << endl;
         }
     }
@@ -268,8 +268,8 @@ bool HardwareConsole::hwProperties(const QString &udi)
     const Solid::Device device(udi);
 
     cout << "udi = '" << device.udi() << "'" << endl;
-    if (device.is<VGenericInterface>()) {
-        QMap<QString, QVariant> properties = device.as<VGenericInterface>()->allProperties();
+    if (device.is<Solid::GenericInterface>()) {
+        QMap<QString, QVariant> properties = device.as<Solid::GenericInterface>()->allProperties();
         cout << properties << endl;
     }
 
