@@ -45,13 +45,13 @@ class TestSettings : public QObject
     Q_OBJECT
 public:
     TestSettings() {
-        m_settings = new VSettings();
+        m_settings = new VSettings("org.hawaii.test");
         connect(m_settings, SIGNAL(changed(QString)),
                 this, SLOT(slot(QString)));
 
-        qDebug() << m_settings->value("/org/hawaii/desktop/interface/icon-theme");
-        m_settings->setValue("/org/hawaii/desktop/interface/icon-theme", "TestSettings");
-        qDebug() << m_settings->value("icon-theme");
+        qDebug() << m_settings->value("key");
+        m_settings->setValue("key", "TestSettings");
+        qDebug() << m_settings->value("key");
     }
 
     ~TestSettings() {
