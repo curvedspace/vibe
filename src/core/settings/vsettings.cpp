@@ -23,8 +23,10 @@
  ***************************************************************************/
 
 #include <dconf/dconf.h>
+#include <dconf-dbus-1/dconf-dbus-1.h>
 
 #include <QDebug>
+#include <QDBusConnection>
 
 #include "vsettings.h"
 #include "vsettings_p.h"
@@ -34,10 +36,21 @@ static void vsettings_notify(DConfClient *client, const gchar *path,
                              const gchar * const *items, gint n_items,
                              const gchar *tag, gpointer data)
 {
-    qDebug() << "Received notification for key" << path;
+    qDebug() << "Received notification for path" << path;
 
     VSettingsPrivate *self = (VSettingsPrivate *)data;
-    self->notify(path);
+    if (self)
+        self->notify(path);
+}
+
+static void vsettings_subscribe(DConfDBusClient *client, const gchar *key,
+                                gpointer data)
+{
+    qDebug() << "Received notification for key" << key;
+
+    VSettingsPrivate *self = (VSettingsPrivate *)data;
+    if (self)
+        self->notify(key);
 }
 
 static void vsettings_wrote(GObject *object, GAsyncResult *result, gpointer data)
@@ -49,42 +62,28 @@ static void vsettings_wrote(GObject *object, GAsyncResult *result, gpointer data
         dconf_client_write_finish(self->client, result, NULL, NULL);
 }
 
-static void vsettings_watch(GObject *object, GAsyncResult *result, gpointer data)
-{
-    Q_UNUSED(object);
-
-    VSettingsPrivate *self = (VSettingsPrivate *)data;
-    if (self)
-        dconf_client_watch_finish(self->client, result, NULL);
-}
-
-static void vsettings_unwatch(GObject *object, GAsyncResult *result, gpointer data)
-{
-    Q_UNUSED(object);
-
-    VSettingsPrivate *self = (VSettingsPrivate *)data;
-    if (self)
-        dconf_client_unwatch_finish(self->client, result, NULL);
-}
-
 /*
  * VSettingsPrivate
  */
 
 VSettingsPrivate::VSettingsPrivate(VSettings *parent)
-    : schema(0)
-    , path(0)
-    , q_ptr(parent)
+    : q_ptr(parent)
 {
     // Create the client object
     client = dconf_client_new(NULL, vsettings_notify, this, NULL);
     if (!client)
         qWarning() << "Unable to create a new DConfClient object!";
+
+    // Create the DBus client object
+    dbusClient = dconf_dbus_client_new(NULL,
+                                       (DBusConnection *)QDBusConnection::sessionBus().internalPointer(),
+                                       (DBusConnection *)QDBusConnection::systemBus().internalPointer());
 }
 
 VSettingsPrivate::~VSettingsPrivate()
 {
     client = 0;
+    dconf_dbus_client_unref(dbusClient);
 }
 
 void VSettingsPrivate::notify(const char *key)
@@ -109,20 +108,19 @@ VSettings::~VSettings()
     delete d_ptr;
 }
 
-void VSettings::addWatch(const QString &path)
+void VSettings::subscribe(const QString &path)
 {
     Q_D(VSettings);
 
-    dconf_client_watch_async(d->client, path.toUtf8().constData(),
-                             NULL, vsettings_watch, d);
+    dconf_dbus_client_subscribe(d->dbusClient, path.toUtf8().constData(),
+                                vsettings_subscribe, d);
 }
 
-void VSettings::removeWatch(const QString &path)
+void VSettings::unsubscribe(const QString &path)
 {
     Q_D(VSettings);
 
-    return dconf_client_unwatch_async(d->client, path.toUtf8().constData(),
-                                      NULL, vsettings_unwatch, d);
+    dconf_dbus_client_unsubscribe(d->dbusClient, vsettings_subscribe, d);
 }
 
 QVariant VSettings::value(const QString &key) const
@@ -159,19 +157,25 @@ void VSettings::setValue(const QString &key, const QVariant &value)
     GVariant *defaultValue = NULL;
 
     // Get the current value, well convert its type to QVariant's
-    defaultValue = dconf_client_read(d->client, key.toUtf8().constData());
+    defaultValue = dconf_client_read_no_default(d->client, key.toUtf8());
     if (!defaultValue) {
-        defaultValue = dconf_client_read_default(d->client, key.toUtf8().constData());
+        defaultValue = dconf_client_read_default(d->client, key.toUtf8());
         if (!defaultValue)
-            defaultValue = dconf_client_read_no_default(d->client, key.toUtf8().constData());
+            defaultValue = dconf_client_read(d->client, key.toUtf8());
+    }
+
+    if (!defaultValue) {
+        qWarning("Cannot determine type for key '%s' thus we don't set the value as requested!",
+                 key.toUtf8().constData());
+        return;
     }
 
     // Find out which type the key is
     const GVariantType *type = g_variant_get_type(defaultValue);
 
     // Convert the value we are about to set to GVariant
-    GVariant *gvar = vsettings_types_collect(type, value.constData());
-    dconf_client_write_async(d->client, key.toUtf8().constData(), gvar, NULL, vsettings_wrote, d);
+    GVariant *gvalue = vsettings_types_collect(type, value.constData());
+    dconf_client_write_async(d->client, key.toUtf8().constData(), gvalue, NULL, vsettings_wrote, d);
 }
 
 #include "moc_vsettings.cpp"

@@ -39,8 +39,8 @@ public:
     explicit VSettings();
     ~VSettings();
 
-    void addWatch(const QString &path);
-    void removeWatch(const QString &path);
+    void subscribe(const QString &path);
+    void unsubscribe(const QString &path);
 
     /*!
         Returns the value of a key.

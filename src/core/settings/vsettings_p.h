@@ -44,6 +44,7 @@ public:
     ~VSettingsPrivate();
 
     DConfClient *client;
+    DConfDBusClient *dbusClient;
 
     void notify(const char *key);
 
