@@ -25,6 +25,8 @@
 #ifndef VUSERACCOUNT_H
 #define VUSERACCOUNT_H
 
+#include <QtCore/QString>
+
 #include <VibeCore/VibeCoreExport>
 
 class VAccountsManager;
