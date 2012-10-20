@@ -51,7 +51,6 @@ VSettingsPrivate::VSettingsPrivate(VSettings *parent, const QString &_schema)
 VSettingsPrivate::~VSettingsPrivate()
 {
     delete schema;
-    storage->sync();
     delete storage;
 }
 
@@ -88,7 +87,8 @@ QVariant VSettings::value(const QString &key) const
 {
     Q_D(const VSettings);
 
-    return d->storage->value(key);
+    VSettingsKey *rawKey = d->schema->lookupKey(key);
+    return d->storage->value(key, rawKey ? rawKey->defaultValue() : QVariant());
 }
 
 /*!

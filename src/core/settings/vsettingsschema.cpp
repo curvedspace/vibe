@@ -287,9 +287,7 @@ VSettingsKey *VSettingsSchema::parseEntry(const QString &group, const QDomElemen
                     return 0;
                 }
 
-                QString tmpDefaultValue = e.text();
-                preProcessDefault(tmpDefaultValue, name, type, choices);
-                paramDefaultValues[i] = tmpDefaultValue;
+                paramDefaultValues[i] = e.text();
             }
         }
     }
@@ -315,8 +313,6 @@ VSettingsKey *VSettingsSchema::parseEntry(const QString &group, const QDomElemen
     }
     m_allNames.append(name);
 
-    preProcessDefault(defaultValue, name, type, choices);
-
     VSettingsKey *result = new VSettingsKey(group, type, key, name, context, summary, toolTip, description,
                                             defaultValue, choices, hidden == "true");
     if (!param.isEmpty()) {
@@ -333,71 +329,6 @@ VSettingsKey *VSettingsSchema::parseEntry(const QString &group, const QDomElemen
     return result;
 }
 
-void VSettingsSchema::preProcessDefault(QString &defaultValue, const QString &name,
-                                        const QString &type,
-                                        const VSettingsKey::Choices &choices)
-{
-#if 0
-    if (type == QLatin1String("String") && !defaultValue.isEmpty()) {
-        defaultValue = literalString(defaultValue);
-    } else if (type == QLatin1String("Path") && !defaultValue.isEmpty()) {
-        defaultValue = literalString(defaultValue);
-    } else if (type == QLatin1String("Url") && !defaultValue.isEmpty()) {
-        // Use fromUserInput in order to support absolute paths and absolute urls, like KDE4's KUrl(QString) did.
-        defaultValue = QString::fromLatin1("QUrl::fromUserInput(") + literalString(defaultValue) + QLatin1Char(')');
-    } else if ((type == QLatin1String("UrlList") || type == QLatin1String("StringList") || type == QLatin1String("PathList")) && !defaultValue.isEmpty()) {
-        QTextStream cpp(&code, QIODevice::WriteOnly | QIODevice::Append);
-        if (!code.isEmpty())
-            cpp << endl;
-
-        cpp << "  QStringList default" << name << ";" << endl;
-        const QStringList defaults = defaultValue.split(QLatin1Char(','));
-        QStringList::ConstIterator it;
-        for (it = defaults.constBegin(); it != defaults.constEnd(); ++it) {
-            cpp << "  default" << name << ".append(";
-            if (type == QLatin1String("UrlList"))
-                cpp << "QUrl::fromUserInput(";
-            cpp << "QString::fromUtf8(\"" << *it << "\") ";
-            if (type == QLatin1String("UrlList"))
-                cpp << ") ";
-            cpp << ");" << endl;
-        }
-        defaultValue = QString::fromLatin1("default") + name;
-
-    } else if (type == QLatin1String("Color") && !defaultValue.isEmpty()) {
-        QRegExp colorRe(QLatin1String("\\d+,\\s*\\d+,\\s*\\d+(,\\s*\\d+)?"));
-        if (colorRe.exactMatch(defaultValue))
-            defaultValue = QLatin1String("QColor(") + defaultValue + QLatin1String(")");
-        else
-            defaultValue = QLatin1String("QColor(\"") + defaultValue + QLatin1String("\")");
-
-    } else if (type == QLatin1String("Enum")) {
-        QList<VSettingsKey::Choice>::ConstIterator it;
-        for (it = choices.choices.constBegin(); it != choices.choices.constEnd(); ++it) {
-            if ((*it).name == defaultValue) {
-                defaultValue.prepend(enumTypeQualifier(name, choices) + choices.prefix);
-                break;
-            }
-        }
-    } else if (type == QLatin1String("IntList")) {
-        QTextStream cpp(&code, QIODevice::WriteOnly | QIODevice::Append);
-        if (!code.isEmpty())
-            cpp << endl;
-
-        cpp << "  QList<int> default" << name << ";" << endl;
-        if (!defaultValue.isEmpty()) {
-            const QStringList defaults = defaultValue.split(QLatin1Char(','));
-            QStringList::ConstIterator it;
-            for (it = defaults.constBegin(); it != defaults.constEnd(); ++it) {
-                cpp << "  default" << name << ".append(" << *it << ");"
-                    << endl;
-            }
-        }
-        defaultValue = QString::fromLatin1("default") + name;
-    }
-#endif
-}
-
 QString VSettingsSchema::dumpNode(const QDomNode &node)
 {
     QString msg;
@@ -408,4 +339,27 @@ QString VSettingsSchema::dumpNode(const QDomNode &node)
     if (msg.length() > 40)
         return msg.left(37) + QString::fromLatin1("...");
     return msg;
+}
+
+VSettingsKey *VSettingsSchema::lookupKey(const QString &keyName)
+{
+    // Split keyName to get group and key name
+    QStringList parts = keyName.split(QLatin1Char('/'));
+    if (parts.length() != 2) {
+        qWarning("Settings key '%s' has a wrong notation!", keyName.toUtf8().constData());
+        return 0;
+    }
+
+    // FIXME: This need to be optimized, for example instead of a list of
+    // VSettingsKey we need a map between groups and lists of keys.
+    foreach(VSettingsKey * key, m_entries) {
+        // Ignore keys of other groups
+        if (key->group() != parts.at(0))
+            continue;
+
+        if (key->key() == parts.at(1))
+            return key;
+    }
+
+    return 0;
 }

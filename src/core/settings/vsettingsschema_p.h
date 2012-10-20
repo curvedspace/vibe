@@ -26,6 +26,11 @@
 #define VSETTINGSSCHEMA_P_H
 
 #include <QDomAttr>
+#include <QRect>
+#include <QSize>
+#include <QPoint>
+#include <QUrl>
+#include <QList>
 
 //
 //  W A R N I N G
@@ -94,9 +99,9 @@ public:
         , m_summary(summary)
         , m_toolTip(toolTip)
         , m_description(description)
-        , m_defaultValue(defaultValue)
         , m_choices(choices)
         , m_hidden(hidden) {
+        m_defaultValue = stringToVariant(defaultValue, m_type);
     }
 
     void setGroup(const QString &group) {
@@ -155,10 +160,10 @@ public:
         return m_toolTip;
     }
 
-    void setDefaultValue(const QString &d) {
+    void setDefaultValue(const QVariant &d) {
         m_defaultValue = d;
     }
-    QString defaultValue() const {
+    QVariant defaultValue() const {
         return m_defaultValue;
     }
 
@@ -214,7 +219,7 @@ public:
     void setParamDefaultValues(const QStringList &d) {
         m_paramDefaultValues = d;
     }
-    QString param_defaultValue(int i) const {
+    QString paramDefaultValue(int i) const {
         return m_paramDefaultValues[i];
     }
 
@@ -262,7 +267,7 @@ private:
     QString m_summary;
     QString m_toolTip;
     QString m_description;
-    QString m_defaultValue;
+    QVariant m_defaultValue;
     QString m_param;
     QString m_paramName;
     QString m_paramType;
@@ -273,6 +278,78 @@ private:
     bool m_hidden;
     QString m_min;
     QString m_max;
+
+    QStringList splitValueArgs(const QString &s) {
+        int l = s.length();
+        int idx = 0;
+
+        QStringList result;
+        QString item;
+
+        for (++idx; idx < l; ++idx) {
+            QChar c = s.at(idx);
+
+            if (c == QLatin1Char(' ')) {
+                result.append(item);
+                item.clear();
+            } else {
+                item.append(c);
+            }
+        }
+
+        return result;
+    }
+
+    QVariant stringToVariant(const QString &value, const QString &type) {
+        // TODO: Types read from the schema must be converted to integer and here
+        // we need to use a switch
+
+        // Font
+        if (type == "Rect") {
+            QStringList args = splitValueArgs(value);
+            if (args.length() == 4)
+                return QVariant(QRect(args[0].toInt(), args[1].toInt(), args[2].toInt(), args[3].toInt()));
+        } else if (type == "Size") {
+            QStringList args = splitValueArgs(value);
+            if (args.length() == 2)
+                return QVariant(QSize(args[0].toInt(), args[1].toInt()));
+            /*
+            		} else if (type == "Color") {
+            			QStringList args = splitValueArgs(value);
+            			if (args.length() >= 3) {
+            				int a = args.length() == 4 ? args[3].toInt() : 255;
+            				return QVariant(QColor(args[0].toInt(), args[1].toInt(), args[2].toInt(), a));
+            			}
+            			return QVariant(QColor(value));
+            */
+        } else if (type == "Point") {
+            QStringList args = splitValueArgs(value);
+            if (args.length() == 2)
+                return QVariant(QPoint(args[0].toInt(), args[1].toInt()));
+            // DateTime
+        } else if (type == "IntList") {
+            QStringList args = splitValueArgs(value);
+            QList<int> list;
+            foreach(QString val, args)
+            list.append(val.toInt());
+            return QVariant::fromValue(list);
+            // Enum
+            // Path
+        } else if (type == "PathList") {
+            return QVariant::fromValue(splitValueArgs(value));
+            // Password
+        } else if (type == "Url") {
+            return QVariant(QUrl::fromUserInput(value));
+        } else if (type == "UrlList") {
+            QStringList args = splitValueArgs(value);
+            QList<QUrl> list;
+            foreach(QString url, args)
+            list.append(QUrl::fromUserInput(url));
+            return QVariant::fromValue(list);
+        }
+
+        return QVariant(value);
+    }
 };
 
 class VSettingsParam
@@ -292,10 +369,9 @@ public:
 
     VSettingsKey *parseEntry(const QString &group, const QDomElement &element);
 
-    void preProcessDefault(QString &defaultValue, const QString &name,
-                           const QString &type,
-                           const VSettingsKey::Choices &choices);
     QString dumpNode(const QDomNode &node);
+
+    VSettingsKey *lookupKey(const QString &keyName);
 
 private:
     QRegExp *m_validNameRegexp;
