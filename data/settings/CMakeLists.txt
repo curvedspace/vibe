@@ -3,4 +3,5 @@ configure_file(
     ${CMAKE_CURRENT_BINARY_DIR}/org.hawaii.desktop.settings
 )
 
-install(FILES ${FILES} DESTINATION ${CMAKE_INSTALL_SETTINGSDIR})
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.hawaii.desktop.settings
+        DESTINATION ${CMAKE_INSTALL_SETTINGSDIR})
