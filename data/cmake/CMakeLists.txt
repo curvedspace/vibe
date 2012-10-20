@@ -1,7 +1,7 @@
 include(CMakePackageConfigHelpers)
 
 macro(produce_cmake_script _module_name _module_deps)
-    set(INSTALL_CMAKEDIR ${CMAKE_INSTALL_DATAROOTDIR}/Vibe-${VIBE_VERSION_STRING}/cmake)
+    set(INSTALL_CMAKEDIR ${CMAKE_INSTALL_LIBDIR}/cmake/Vibe${_module_name})
 
     configure_package_config_file(VibeBasicConfig.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/Vibe${_module_name}Config.cmake
                                   INSTALL_DESTINATION ${INSTALL_CMAKEDIR}
