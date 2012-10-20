@@ -37,7 +37,7 @@
     <key name="wallpaper-uri" type="Url">
       <summary>Picture URI</summary>
       <description>URI to use for the background wallpaper.</description>
-      <default>'file://@CMAKE_INSTALL_DATADIR@/wallpapers/Nature/Evening/contents/images/1920x1200.jpg'</default>
+      <default>file://@CMAKE_INSTALL_FULL_DATADIR@/wallpapers/Nature/Evening/contents/images/1920x1200.jpg</default>
     </key>
   </group>
   <group name="interface">
