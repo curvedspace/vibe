@@ -7,6 +7,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_SOURCE_DIR}/src/core
     ${CMAKE_BINARY_DIR}/src/core
+    ${CMAKE_BINARY_DIR}/src/widgets
 )
 
 add_executable(vcategorizedview vcategorizedview.cpp)

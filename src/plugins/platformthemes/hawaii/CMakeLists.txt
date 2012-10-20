@@ -4,6 +4,7 @@ include_directories(
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_BINARY_DIR}/src/core
+    ${CMAKE_BINARY_DIR}/src/gui
 )
 
 add_definitions(${Qt5Core_DEFINITIONS} ${Qt5Gui_DEFINITIONS})
