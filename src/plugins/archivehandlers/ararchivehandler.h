@@ -36,7 +36,7 @@
     \author Laurence Anderson <l.d.anderson@warwick.ac.uk>
     \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
 */
-class VIBE_EXPORT ArArchiveHandler : public VArchiveHandler
+class VIBECORE_EXPORT ArArchiveHandler : public VArchiveHandler
 {
 public:
     /*!

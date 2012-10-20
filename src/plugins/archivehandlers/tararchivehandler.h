@@ -41,7 +41,7 @@ class TarArchiveHandlerPrivate;
    \author David Faure <faure@kde.org>
    \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
 */
-class VIBE_EXPORT TarArchiveHandler : public VArchiveHandler
+class VIBECORE_EXPORT TarArchiveHandler : public VArchiveHandler
 {
 public:
     /*!
