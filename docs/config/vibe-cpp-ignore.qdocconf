@@ -1,4 +1,6 @@
-Cpp.ignoretokens        = VIBE_EXPORT \
+Cpp.ignoretokens        = VIBECORE_EXPORT \
+                          VIBEGUI_EXPORT \
+                          VIBEWIDGETS_EXPORT \
                           Q_INVOKABLE \
                           Q_DECL_CONSTEXPR
 
