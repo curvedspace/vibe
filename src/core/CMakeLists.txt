@@ -91,7 +91,6 @@ set(HEADERS
     vcommandoptions.h
     vstringhandler.h
     vsharedpointer.h
-    ${CMAKE_CURRENT_BINARY_DIR}/vglobal.h
 
     accounts/vaccountsmanager.h
     accounts/vuseraccount.h
