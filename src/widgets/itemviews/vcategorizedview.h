@@ -86,7 +86,7 @@ class VCategoryDrawer;
   * @author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
   * @author Rafael Fernández López <ereslibre@kde.org>
   */
-class VIBE_EXPORT VCategorizedView : public QListView
+class VIBEWIDGETS_EXPORT VCategorizedView : public QListView
 {
     Q_OBJECT
     Q_PROPERTY(int categorySpacing READ categorySpacing WRITE setCategorySpacing)

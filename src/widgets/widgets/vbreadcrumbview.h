@@ -31,7 +31,7 @@
 
 class VBreadcrumbViewPrivate;
 
-class VIBE_EXPORT VBreadcrumbView : public QAbstractItemView
+class VIBEWIDGETS_EXPORT VBreadcrumbView : public QAbstractItemView
 {
     Q_OBJECT
 public:

@@ -75,7 +75,7 @@
  * @author Urs Wolfer <uwolfer@kde.org>
  * @author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  */
-class VIBE_EXPORT VTitleWidget : public QWidget
+class VIBEWIDGETS_EXPORT VTitleWidget : public QWidget
 {
     Q_OBJECT
     Q_ENUMS(ImageAlignment)

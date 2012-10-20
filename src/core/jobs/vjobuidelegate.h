@@ -33,7 +33,7 @@
 
 #include <QObject>
 
-#include <VibeCore/VGlobal>
+#include <VibeCore/VibeCoreExport>
 
 class VJob;
 
@@ -46,7 +46,7 @@ class VJob;
  *
  * @see VJob
  */
-class VIBE_EXPORT VJobUiDelegate : public QObject
+class VIBECORE_EXPORT VJobUiDelegate : public QObject
 {
     Q_OBJECT
 public:

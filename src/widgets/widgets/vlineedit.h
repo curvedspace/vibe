@@ -41,7 +41,7 @@ class VLineEditPrivate;
  *
  * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  */
-class VIBE_EXPORT VLineEdit : public QLineEdit
+class VIBEWIDGETS_EXPORT VLineEdit : public QLineEdit
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(VLineEdit)

@@ -40,7 +40,7 @@
  *
  * This class provides a nice navigation bar.
  */
-class VIBE_EXPORT VNavigationBar : public QTreeView
+class VIBEWIDGETS_EXPORT VNavigationBar : public QTreeView
 {
     Q_OBJECT
 public:

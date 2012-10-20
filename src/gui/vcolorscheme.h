@@ -32,7 +32,7 @@
 
 class VColorSchemePrivate;
 
-class VIBE_EXPORT VColorScheme
+class VIBEGUI_EXPORT VColorScheme
 {
     Q_DECLARE_PRIVATE(VColorScheme)
 public:

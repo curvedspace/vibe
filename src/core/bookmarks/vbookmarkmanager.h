@@ -39,7 +39,6 @@
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
-#include <VibeCore/VGlobal>
 #include <VibeCore/VBookmark>
 
 class QDBusMessage;
@@ -74,7 +73,7 @@ class VBookmarkGroup;
  *
  * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  */
-class VIBE_EXPORT VBookmarkManager : public QObject
+class VIBECORE_EXPORT VBookmarkManager : public QObject
 {
     Q_OBJECT
 public:
@@ -343,7 +342,7 @@ private Q_SLOTS:
  * If you wish to use your own editor or allow the user to add
  * bookmarks, you must overload this class.
  */
-class VIBE_EXPORT VBookmarkOwner
+class VIBECORE_EXPORT VBookmarkOwner
 {
 public:
     virtual ~VBookmarkOwner() {}

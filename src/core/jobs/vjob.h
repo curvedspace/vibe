@@ -31,7 +31,7 @@
 #ifndef VJOB_H
 #define VJOB_H
 
-#include <VibeCore/VGlobal>
+#include <VibeCore/VibeCoreExport>
 
 #include <QObject>
 #include <QPair>
@@ -93,7 +93,7 @@ class VJobPrivate;
  * behaviour can be changed), so a job instance will
  * disappear after the next event loop run.
  */
-class VIBE_EXPORT VJob : public QObject
+class VIBECORE_EXPORT VJob : public QObject
 {
     Q_OBJECT
     Q_ENUMS(KillVerbosity Capability Unit)

@@ -42,7 +42,7 @@
 #include <unistd.h>
 #include <utime.h>
 
-#include <VibeCore/VGlobal>
+#include <VibeCore/VibeCoreExport>
 
 #if (defined _LFS64_LARGEFILE) && (defined _LARGEFILE64_SOURCE) && (!defined _GNU_SOURCE)
 /*
@@ -117,31 +117,31 @@ class QString;
 namespace Vibe
 {
     /** Replacement for ::access() to handle filenames in a platform independent way */
-    VIBE_EXPORT int access(const QString &path, int mode);
+    VIBECORE_EXPORT int access(const QString &path, int mode);
 
     /** Replacement for ::chmod() to handle filenames in a platform independent way */
-    VIBE_EXPORT int chmod(const QString &path, mode_t mode);
+    VIBECORE_EXPORT int chmod(const QString &path, mode_t mode);
 
     /** Replacement for ::fopen()/::fopen64() to handle filenames in a platform independent way */
-    VIBE_EXPORT FILE *fopen(const QString &pathname, const char *mode);
+    VIBECORE_EXPORT FILE *fopen(const QString &pathname, const char *mode);
 
     /** Replacement for ::lstat()/::lstat64() to handle filenames in a platform independent way */
-    VIBE_EXPORT int lstat(const QString &path, Vibe_struct_stat *buf);
+    VIBECORE_EXPORT int lstat(const QString &path, Vibe_struct_stat *buf);
 
     /** Replacement for ::mkdir() to handle pathnames in a platform independent way */
-    VIBE_EXPORT int mkdir(const QString &pathname, mode_t mode);
+    VIBECORE_EXPORT int mkdir(const QString &pathname, mode_t mode);
 
     /** Replacement for ::open()/::open64() to handle filenames in a platform independent way */
-    VIBE_EXPORT int open(const QString &pathname, int flags, mode_t mode = 0);
+    VIBECORE_EXPORT int open(const QString &pathname, int flags, mode_t mode = 0);
 
     /** Replacement for ::rename() to handle pathnames in a platform independent way */
-    VIBE_EXPORT int rename(const QString &in, const QString &out);
+    VIBECORE_EXPORT int rename(const QString &in, const QString &out);
 
     /** Replacement for ::stat()/::stat64() to handle filenames in a platform independent way */
-    VIBE_EXPORT int stat(const QString &path, Vibe_struct_stat *buf);
+    VIBECORE_EXPORT int stat(const QString &path, Vibe_struct_stat *buf);
 
     /** Replacement for ::utime() to handle filenames in a platform independent way */
-    VIBE_EXPORT int utime(const QString &filename, struct utimbuf *buf);
+    VIBECORE_EXPORT int utime(const QString &filename, struct utimbuf *buf);
 
 #ifndef Q_WS_WIN
     inline int access(const QString &path, int mode)

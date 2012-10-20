@@ -30,13 +30,13 @@
 #include <QObject>
 #include <QString>
 
-#include <VibeCore/VGlobal>
+#include <VibeCore/VibeCoreExport>
 
 class QIODevice;
 
 class VAbstractCompressionFilterPrivate;
 
-class VIBE_EXPORT VAbstractCompressionFilter
+class VIBECORE_EXPORT VAbstractCompressionFilter
 {
 public:
     enum Result {

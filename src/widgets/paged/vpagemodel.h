@@ -66,7 +66,7 @@ class VPageModelPrivate;
  * @author Tobias Koenig <tokoe@kde.org>
  * @author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  */
-class VIBE_EXPORT VPageModel : public QAbstractItemModel
+class VIBEWIDGETS_EXPORT VPageModel : public QAbstractItemModel
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(VPageModel)

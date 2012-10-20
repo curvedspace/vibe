@@ -42,7 +42,7 @@ class QStyleOption;
 
 class VCategorizedView;
 
-class VIBE_EXPORT VCategoryDrawer : public QObject
+class VIBEWIDGETS_EXPORT VCategoryDrawer : public QObject
 {
     Q_OBJECT
 public:

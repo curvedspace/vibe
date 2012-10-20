@@ -30,7 +30,7 @@
 
 #include <VibeCore/VGlobal>
 
-class VIBE_EXPORT VAboutDialog : public QDialog
+class VIBEWIDGETS_EXPORT VAboutDialog : public QDialog
 {
     Q_OBJECT
     Q_PROPERTY(QPixmap logo READ logo WRITE setLogo)

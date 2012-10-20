@@ -50,7 +50,7 @@ class VJobUiDelegate;
 class QTimer;
 class QEventLoop;
 
-class VIBE_EXPORT VJobPrivate
+class VIBECORE_EXPORT VJobPrivate
 {
 public:
     VJobPrivate();

@@ -68,7 +68,7 @@ class VPageViewPrivate;
  *
  * @author Tobias Koenig <tokoe@kde.org>
  */
-class VIBE_EXPORT VPageView : public QWidget
+class VIBEWIDGETS_EXPORT VPageView : public QWidget
 {
     Q_OBJECT
     Q_ENUMS(FaceType)

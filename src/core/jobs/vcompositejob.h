@@ -29,7 +29,7 @@
 
 #include <QList>
 
-#include <VibeCore/VGlobal>
+#include <VibeCore/VibeCoreExport>
 #include <VibeCore/VJob>
 
 class VCompositeJobPrivate;
@@ -38,7 +38,7 @@ class VCompositeJobPrivate;
  * The base class for all jobs able to be composed of one
  * or more subjobs.
  */
-class VIBE_EXPORT VCompositeJob : public VJob
+class VIBECORE_EXPORT VCompositeJob : public VJob
 {
     Q_OBJECT
 public:

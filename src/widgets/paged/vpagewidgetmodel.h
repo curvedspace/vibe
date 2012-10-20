@@ -60,7 +60,7 @@ class QIcon;
  * @author Tobias Koenig <tokoe@kde.org>
  * @author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  */
-class VIBE_EXPORT VPageWidgetItem : public QObject
+class VIBEWIDGETS_EXPORT VPageWidgetItem : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName)
@@ -202,7 +202,7 @@ class VPageWidgetModelPrivate;
  * @author Tobias Koenig <tokoe@kde.org>
  * @author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  */
-class VIBE_EXPORT VPageWidgetModel : public VPageModel
+class VIBEWIDGETS_EXPORT VPageWidgetModel : public VPageModel
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(VPageWidgetModel)

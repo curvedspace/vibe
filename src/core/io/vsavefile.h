@@ -36,7 +36,7 @@
 #include <QFile>
 #include <QString>
 
-#include <VibeCore/VGlobal>
+#include <VibeCore/VibeCoreExport>
 
 /** \addtogroup core Core Kit
  *  @{
@@ -106,7 +106,7 @@
  * @author Waldo Bastian <bastian@kde.org>
  * @author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  */
-class VIBE_EXPORT VSaveFile : public QFile
+class VIBECORE_EXPORT VSaveFile : public QFile
 {
 public:
     /**

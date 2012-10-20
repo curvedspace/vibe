@@ -31,7 +31,7 @@
 
 class VGuiApplicationPrivate;
 
-class VIBE_EXPORT VGuiApplication : public QGuiApplication
+class VIBEGUI_EXPORT VGuiApplication : public QGuiApplication
 {
     Q_OBJECT
     Q_PROPERTY(QString identifier READ identifier WRITE setIdentifier)

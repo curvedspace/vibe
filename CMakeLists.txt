@@ -46,6 +46,9 @@ include(MacroOptionalFindPackage)
 include(MacroLogFeature)
 include(MacroBoolTo01)
 
+# Include important features
+include(GenerateExportHeader)
+
 # Find pkg-config
 find_package(PkgConfig "0.22" REQUIRED)
 
