@@ -17,6 +17,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_SOURCE_DIR}/src/gui
     ${CMAKE_BINARY_DIR}/src/core
+    ${CMAKE_BINARY_DIR}/src/gui
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs
     ${CMAKE_CURRENT_SOURCE_DIR}/itemviews

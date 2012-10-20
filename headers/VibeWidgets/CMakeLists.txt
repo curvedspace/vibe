@@ -9,6 +9,7 @@ set(HEADERS
     VFilePlacesModel
     VFilePlacesView
     VFileSystemModel
+    VibeWidgetsExport
     VLineEdit
     VNavigationBar
     VPageModel
