@@ -49,9 +49,9 @@ public:
         connect(m_settings, SIGNAL(changed(QString)),
                 this, SLOT(slot(QString)));
 
-        qDebug() << m_settings->value("key");
-        m_settings->setValue("key", "TestSettings");
-        qDebug() << m_settings->value("key");
+        qDebug() << "Get value:" << m_settings->value("group/key");
+        m_settings->setValue("group/key", "TestSettings");
+        qDebug() << "Value should be TestSettings:" << m_settings->value("group/key");
     }
 
     ~TestSettings() {
@@ -60,7 +60,7 @@ public:
 
 public slots:
     void slot(const QString &s) {
-        qDebug() << "changed" << s << m_settings->value("/org/hawaii/desktop/interface/icon-theme");
+        qDebug() << "changed" << s << m_settings->value(s);
     }
 
 private:

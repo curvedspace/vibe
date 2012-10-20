@@ -84,6 +84,7 @@ set(SOURCES
     jobs/vjobuidelegate.cpp
 
     settings/vsettings.cpp
+    settings/vsettingsschema.cpp
 
     standards/vdesktopfile.cpp
 

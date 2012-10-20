@@ -1,7 +1,0 @@
-# Compile Hawaii schemas
-message("Executing @GLIB_COMPILE_SCHEMAS@ @INSTALL_SCHEMASDIR@ ...")
-execute_process(COMMAND @GLIB_COMPILE_SCHEMAS@ @INSTALL_SCHEMASDIR@
-    RESULT_VARIABLE _failed)
-if(_failed)
-    message(FATAL_ERROR "Cannot install configuration schemas: ${_failed}")
-endif(_failed)

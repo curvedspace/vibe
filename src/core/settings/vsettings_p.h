@@ -1,7 +1,7 @@
 /****************************************************************************
  * This file is part of Vibe.
  *
- * Copyright (c) 2011 Pier Luigi Fiorini
+ * Copyright (c) 2011-2012 Pier Luigi Fiorini
  *
  * Author(s):
  *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
@@ -46,6 +46,7 @@ public:
     QString schemaName;
     QString fileName;
     QSettings *storage;
+    VSettingsSchema *schema;
 
 protected:
     VSettings *const q_ptr;

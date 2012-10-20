@@ -25,6 +25,7 @@
 #include <QSettings>
 #include <QStandardPaths>
 
+#include "vsettingsschema_p.h"
 #include "vsettings.h"
 #include "vsettings_p.h"
 
@@ -32,8 +33,8 @@
  * VSettingsPrivate
  */
 
-VSettingsPrivate::VSettingsPrivate(VSettings *parent, const QString &schema)
-    : schemaName(schema)
+VSettingsPrivate::VSettingsPrivate(VSettings *parent, const QString &_schema)
+    : schemaName(_schema)
     , q_ptr(parent)
 {
     // Determine the file path
@@ -42,10 +43,14 @@ VSettingsPrivate::VSettingsPrivate(VSettings *parent, const QString &schema)
 
     // Create the storage
     storage = new QSettings(fileName, QSettings::IniFormat);
+
+    // Schema
+    schema = new VSettingsSchema(_schema);
 }
 
 VSettingsPrivate::~VSettingsPrivate()
 {
+    delete schema;
     storage->sync();
     delete storage;
 }

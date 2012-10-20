@@ -1,0 +1,4 @@
+File=org.hawaii.desktop.settings
+ClassName=HawaiiDesktopSettings
+Singleton=true
+Mutators=true
