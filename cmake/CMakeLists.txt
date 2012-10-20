@@ -6,7 +6,7 @@ set(cmakeFiles
     FindPAM.cmake
     FindSharedMimeInfo.cmake
     HandleImportedTargetsInCMakeRequiredLibraries.cmake
-    HawaiinstallDirs.cmake
+    HawaiiInstallDirs.cmake
     MacroAddCompileFlags.cmake
     MacroAdditionalCleanFiles.cmake
     MacroAddLinkFlags.cmake
