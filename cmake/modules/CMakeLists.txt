@@ -6,6 +6,7 @@ set(cmakeFiles
     FindPAM.cmake
     FindSharedMimeInfo.cmake
     HandleImportedTargetsInCMakeRequiredLibraries.cmake
+    HawaiinstallDirs.cmake
     MacroAddCompileFlags.cmake
     MacroAdditionalCleanFiles.cmake
     MacroAddLinkFlags.cmake
@@ -20,7 +21,6 @@ set(cmakeFiles
     MacroOptionalFindPackage.cmake
     MacroPushRequiredVars.cmake
     MacroWriteBasicCMakeVersionFile.cmake
-    MauiInstallDirs.cmake
 )
 
 install(FILES ${cmakeFiles} DESTINATION ${CMAKE_ROOT}/Modules)
