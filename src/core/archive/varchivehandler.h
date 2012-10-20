@@ -31,13 +31,13 @@
 
 #include <QIODevice>
 
-#include <VibeCore/VGlobal>
+#include <VibeCore/VibeCoreExport>
 
 class VArchive;
 class VArchiveDirectory;
 class VArchiveHandlerPrivate;
 
-class VIBE_EXPORT VArchiveHandler
+class VIBECORE_EXPORT VArchiveHandler
 {
 public:
     VArchiveHandler(const QString &mimeType);

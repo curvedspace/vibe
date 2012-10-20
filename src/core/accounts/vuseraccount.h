@@ -25,12 +25,12 @@
 #ifndef VUSERACCOUNT_H
 #define VUSERACCOUNT_H
 
-#include <VibeCore/VGlobal>
+#include <VibeCore/VibeCoreExport>
 
 class VAccountsManager;
 class VUserAccountPrivate;
 
-class VIBE_EXPORT VUserAccount
+class VIBECORE_EXPORT VUserAccount
 {
 public:
     enum AccountType {

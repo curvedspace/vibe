@@ -1,26 +1,18 @@
+include(CMakePackageConfigHelpers)
+
 macro(produce_cmake_script _module_name _module_deps)
-    set(CMAKE_MODULE_NAME ${_module_name})
-    set(CMAKE_MODULE_DEPS ${_module_deps})
+    set(INSTALL_CMAKEDIR ${CMAKE_INSTALL_DATAROOTDIR}/Vibe-${VIBE_VERSION_STRING}/cmake)
 
-    configure_file(
-        "${CMAKE_CURRENT_SOURCE_DIR}/VibeBasicConfig.cmake.in"
-        "${CMAKE_CURRENT_BINARY_DIR}/Vibe${_module_name}Config.cmake"
-        IMMEDIATE @ONLY
-    )
-
-    configure_file(
-        "${CMAKE_CURRENT_SOURCE_DIR}/VibeConfigVersion.cmake.in"
-        "${CMAKE_CURRENT_BINARY_DIR}/Vibe${_module_name}ConfigVersion.cmake"
-        IMMEDIATE @ONLY
-    )
-
-    set(CMAKE_MODULE_NAME)
-    set(CMAKE_MODULE_DEPS)
+    configure_package_config_file(VibeBasicConfig.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/Vibe${_module_name}Config.cmake
+                                  INSTALL_DESTINATION ${INSTALL_CMAKEDIR}
+                                  PATH_VARS INSTALL_CMAKEDIR)
+    write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/Vibe${_module_name}ConfigVersion.cmake
+                                     VERSION ${VIBE_VERSION_STRING}
+                                     COMPATIBILITY AnyNewerVersion)
 
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Vibe${_module_name}Config.cmake
-        DESTINATION ${CMAKE_INSTALL_CMAKEDIR}/Vibe${_module_name})
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Vibe${_module_name}ConfigVersion.cmake
-        DESTINATION ${CMAKE_INSTALL_CMAKEDIR}/Vibe${_module_name})
+                  ${CMAKE_CURRENT_BINARY_DIR}/Vibe${_module_name}ConfigVersion.cmake
+            DESTINATION ${INSTALL_CMAKEDIR})
 endmacro()
 
 produce_cmake_script("Core" "Qt5Core;Qt5DBus;Qt5Xml")

@@ -35,7 +35,7 @@
 
 #include <QSortFilterProxyModel>
 
-#include <VibeCore/VGlobal>
+#include <VibeWidgets/VibeWidgetsExport>
 
 class QItemSelection;
 
@@ -53,7 +53,7 @@ class QItemSelection;
   * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
   * \author Rafael Fernández López <ereslibre@kde.org>
   */
-class VIBE_EXPORT VCategorizedSortFilterProxyModel : public QSortFilterProxyModel
+class VIBEWIDGETS_EXPORT VCategorizedSortFilterProxyModel : public QSortFilterProxyModel
 {
 public:
     enum AdditionalRoles {

@@ -49,7 +49,7 @@ class VFilePlacesViewPrivate;
  *
  * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  */
-class VIBE_EXPORT VFilePlacesView : public QTreeView
+class VIBEWIDGETS_EXPORT VFilePlacesView : public QTreeView
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(VFilePlacesView)

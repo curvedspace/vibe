@@ -30,13 +30,12 @@
 #include <QObject>
 #include <QPair>
 
-#include <VibeCore/VGlobal>
 #include <VibeCore/VJob>
 
 /**
  * The interface to implement to track the progresses of a job.
  */
-class VIBE_EXPORT VJobTrackerInterface : public QObject
+class VIBECORE_EXPORT VJobTrackerInterface : public QObject
 {
     Q_OBJECT
 public:

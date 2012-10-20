@@ -79,7 +79,12 @@ set(HEADERS
 )
 
 # Add library
+add_compiler_export_flags()
 add_library(VibeWidgets SHARED ${SOURCES})
+generate_export_header(VibeWidgets
+    BASE_NAME vibewidgets
+    DEPRECATED_MACRO_NAME VIBE_DEPRECATED
+)
 target_link_libraries(VibeWidgets ${Qt5DBus_LIBRARIES} ${Qt5Widgets_LIBRARIES}
     VibeCore VibeGui
     -L${solid_LIBRARY_DIR} ${solid_LIBRARY})
@@ -88,5 +93,6 @@ set_target_properties(VibeWidgets PROPERTIES
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_PATCH})
 
 # Install files
+set(HEADERS ${HEADERS} ${CMAKE_CURRENT_BINARY_DIR}/vibewidgets_export.h)
 install(FILES ${HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/VibeWidgets)
 install(TARGETS VibeWidgets LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})

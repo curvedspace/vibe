@@ -27,10 +27,10 @@
 
 #include <QList>
 
-#include <VibeCore/VGlobal>
+#include <VibeCore/VibeCoreExport>
 #include <VibeCore/VUserAccountList>
 
-class VIBE_EXPORT VAccountsManager : public QObject
+class VIBECORE_EXPORT VAccountsManager : public QObject
 {
     Q_OBJECT
 public:

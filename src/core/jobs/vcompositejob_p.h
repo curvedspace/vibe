@@ -41,7 +41,7 @@
 // We mean it.
 //
 
-class VIBE_EXPORT VCompositeJobPrivate: public VJobPrivate
+class VIBECORE_EXPORT VCompositeJobPrivate: public VJobPrivate
 {
 public:
     VCompositeJobPrivate();

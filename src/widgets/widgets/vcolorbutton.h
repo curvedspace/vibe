@@ -25,9 +25,9 @@
 
 #include <QAbstractButton>
 
-#include <VibeCore/VGlobal>
+#include <VibeWidgets/VibeWidgetsExport>
 
-class VIBE_EXPORT VColorButton : public QAbstractButton
+class VIBEWIDGETS_EXPORT VColorButton : public QAbstractButton
 {
     Q_OBJECT
 public:

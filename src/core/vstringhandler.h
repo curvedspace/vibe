@@ -27,12 +27,12 @@
 
 #include <QString>
 
-#include <VibeCore/VGlobal>
+#include <VibeCore/VibeCoreExport>
 
 namespace VStringHandler
 {
-    VIBE_EXPORT QString elide(const QString &str, Qt::TextElideMode mode, int maxlen = 40);
-    VIBE_EXPORT int naturalCompare(const QString &a, const QString &b,
+    VIBECORE_EXPORT QString elide(const QString &str, Qt::TextElideMode mode, int maxlen = 40);
+    VIBECORE_EXPORT int naturalCompare(const QString &a, const QString &b,
                                    Qt::CaseSensitivity caseSensitivity = Qt::CaseSensitive);
 }
 

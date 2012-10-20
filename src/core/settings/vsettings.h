@@ -27,11 +27,11 @@
 
 #include <QObject>
 
-#include <VibeCore/VGlobal>
+#include <VibeCore/VibeCoreExport>
 
 class VSettingsPrivate;
 
-class VIBE_EXPORT VSettings : public QObject
+class VIBECORE_EXPORT VSettings : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(VSettings)

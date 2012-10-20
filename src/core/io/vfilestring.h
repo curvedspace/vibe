@@ -29,12 +29,12 @@
 
 #include <QString>
 
-#include <VibeCore/VGlobal>
+#include <VibeCore/VibeCoreExport>
 
 namespace VFileString
 {
-    VIBE_EXPORT QString forSize(qreal size);
-    VIBE_EXPORT QString forPermissions(mode_t perm);
+    VIBECORE_EXPORT QString forSize(qreal size);
+    VIBECORE_EXPORT QString forPermissions(mode_t perm);
 }
 
 #endif // VFILESTRING_H

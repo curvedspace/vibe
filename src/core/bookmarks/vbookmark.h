@@ -38,7 +38,7 @@
 #include <QtCore/QMimeType>
 #include <QtXml/QDomElement>
 
-#include <VibeCore/VGlobal>
+#include <VibeCore/VibeCoreExport>
 
 class QMimeData;
 class QMimeType;
@@ -57,7 +57,7 @@ class VBookmarkGroup;
  *
  * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  */
-class VIBE_EXPORT VBookmark
+class VIBECORE_EXPORT VBookmark
 {
     friend class VBookmarkGroup;
 
@@ -369,7 +369,7 @@ public:
  *
  * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  */
-class VIBE_EXPORT VBookmarkGroup : public VBookmark
+class VIBECORE_EXPORT VBookmarkGroup : public VBookmark
 {
 public:
     /**
@@ -485,7 +485,7 @@ private:
  *
  * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  */
-class VIBE_EXPORT VBookmarkGroupTraverser
+class VIBECORE_EXPORT VBookmarkGroupTraverser
 {
 protected:
     virtual ~VBookmarkGroupTraverser();

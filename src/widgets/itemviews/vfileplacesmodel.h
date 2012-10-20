@@ -27,7 +27,7 @@
 
 #include <QAbstractItemModel>
 
-#include <VibeCore/VGlobal>
+#include <VibeWidgets/VibeWidgetsExport>
 
 /*
  * This code is inspired by KFilePlacesModel from KDE libraries.
@@ -62,7 +62,7 @@ namespace Solid {
  *
  * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  */
-class VIBE_EXPORT VFilePlacesModel : public QAbstractItemModel
+class VIBEWIDGETS_EXPORT VFilePlacesModel : public QAbstractItemModel
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(VFilePlacesModel)

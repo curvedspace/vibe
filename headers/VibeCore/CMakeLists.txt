@@ -14,7 +14,7 @@ set(HEADERS
     VFileString
     VFileSupport
     VFileSystemWatcher
-    VGlobal
+    VibeCoreExport
     VJob
     VJobTrackerInterface
     VJobUiDelegate

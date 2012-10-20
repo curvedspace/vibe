@@ -37,7 +37,7 @@
  *
  * \internal
  */
-class VIBE_EXPORT VGzipCompressionFilter : public VAbstractCompressionFilter
+class VIBECORE_EXPORT VGzipCompressionFilter : public VAbstractCompressionFilter
 {
 public:
     VGzipCompressionFilter();

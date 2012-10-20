@@ -27,11 +27,11 @@
 
 #include <QtCore/qplugin.h>
 
-#include <VibeCore/VGlobal>
+#include <VibeCore/VibeCoreExport>
 
 class VArchiveHandler;
 
-struct VIBE_EXPORT VArchiveHandlerFactoryInterface {
+struct VIBECORE_EXPORT VArchiveHandlerFactoryInterface {
     virtual VArchiveHandler *create(const QString &mimeType) = 0;
     virtual QStringList mimeTypes() const = 0;
 };
@@ -40,7 +40,7 @@ struct VIBE_EXPORT VArchiveHandlerFactoryInterface {
 
 Q_DECLARE_INTERFACE(VArchiveHandlerFactoryInterface, VArchiveHandlerFactoryInterface_iid)
 
-class VIBE_EXPORT VArchiveHandlerPlugin : public QObject, public VArchiveHandlerFactoryInterface
+class VIBECORE_EXPORT VArchiveHandlerPlugin : public QObject, public VArchiveHandlerFactoryInterface
 {
     Q_OBJECT
     Q_INTERFACES(VArchiveHandlerFactoryInterface)

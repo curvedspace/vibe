@@ -30,14 +30,14 @@
 #include <QIODevice>
 #include <QString>
 
-#include <VibeCore/VGlobal>
+#include <VibeCore/VibeCoreExport>
 
 class QFile;
 
 class VAbstractCompressionFilter;
 class VCompressionFilterPrivate;
 
-class VIBE_EXPORT VCompressionFilter : public QIODevice
+class VIBECORE_EXPORT VCompressionFilter : public QIODevice
 {
 public:
     virtual ~VCompressionFilter();

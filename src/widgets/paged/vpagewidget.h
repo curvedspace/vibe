@@ -45,7 +45,7 @@ class VPageWidgetPrivate;
  * @author Tobias Koenig <tokoe@kde.org>
  * @author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  */
-class VIBE_EXPORT VPageWidget : public VPageView
+class VIBEWIDGETS_EXPORT VPageWidget : public VPageView
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(VPageWidget)

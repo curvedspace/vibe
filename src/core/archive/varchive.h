@@ -37,14 +37,14 @@
 #include <QStringList>
 #include <QHash>
 
-#include <VibeCore/VGlobal>
+#include <VibeCore/VibeCoreExport>
 
 class VArchiveDirectory;
 class VArchiveFile;
 
 class VArchivePrivate;
 
-class VIBE_EXPORT VArchive
+class VIBECORE_EXPORT VArchive
 {
 public:
     explicit VArchive(const QString &fileName);
@@ -96,7 +96,7 @@ private:
 
 class VArchiveEntryPrivate;
 
-class VIBE_EXPORT VArchiveEntry
+class VIBECORE_EXPORT VArchiveEntry
 {
 public:
     VArchiveEntry(VArchive *archive, const QString &name, int access, int date,
@@ -130,7 +130,7 @@ private:
 
 class VArchiveFilePrivate;
 
-class VIBE_EXPORT VArchiveFile : public VArchiveEntry
+class VIBECORE_EXPORT VArchiveFile : public VArchiveEntry
 {
 public:
     VArchiveFile(VArchive *archive, const QString &name, int access, int date,
@@ -159,7 +159,7 @@ private:
 
 class VArchiveDirectoryPrivate;
 
-class VIBE_EXPORT VArchiveDirectory : public VArchiveEntry
+class VIBECORE_EXPORT VArchiveDirectory : public VArchiveEntry
 {
 public:
     VArchiveDirectory(VArchive *archive, const QString &name, int access, int date,

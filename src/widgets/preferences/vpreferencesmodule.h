@@ -27,7 +27,7 @@
 
 #include <QWidget>
 
-#include <VibeCore/VGlobal>
+#include <VibeWidgets/VibeWidgetsExport>
 
 class VPreferencesModulePrivate;
 
@@ -94,7 +94,7 @@ class VPreferencesModulePrivate;
  *
  * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  */
-class VIBE_EXPORT VPreferencesModule : public QWidget
+class VIBEWIDGETS_EXPORT VPreferencesModule : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(bool requireAdministrativePrivileges READ requireAdministrativePrivileges)

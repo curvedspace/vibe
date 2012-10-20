@@ -21,12 +21,6 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-# Create the vglobal.h header file
-configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/vglobal.h.in
-    ${CMAKE_CURRENT_BINARY_DIR}/vglobal.h
-    IMMEDIATE @ONLY)
-
 # Create the cmakedirs.h header file
 configure_file(cmakedirs.h.in ${CMAKE_CURRENT_BINARY_DIR}/cmakedirs.h)
 
@@ -127,12 +121,18 @@ set(HEADERS
 )
 
 # Add library
+add_compiler_export_flags()
 add_library(VibeCore SHARED ${SOURCES})
+generate_export_header(VibeCore
+    BASE_NAME vibecore
+    DEPRECATED_MACRO_NAME VIBE_DEPRECATED
+)
 target_link_libraries(VibeCore ${Qt5Core_LIBRARIES} ${Qt5DBus_LIBRARIES} ${Qt5Xml_LIBRARIES} ${VibeCore_OPTIONAL_LIBS})
 set_target_properties(VibeCore PROPERTIES
     VERSION ${VIBE_VERSION_STRING}
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_PATCH})
 
 # Install files
+set(HEADERS ${HEADERS} ${CMAKE_CURRENT_BINARY_DIR}/vibecore_export.h)
 install(FILES ${HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/VibeCore)
 install(TARGETS VibeCore LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})

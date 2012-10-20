@@ -39,7 +39,7 @@
 #include <QObject>
 #include <QString>
 
-#include <VibeCore/VGlobal>
+#include <VibeCore/VibeCoreExport>
 
 /** \addtogroup core Core Kit
  *  @{
@@ -86,7 +86,7 @@ class VFileSystemWatcherPrivate;
  *
  * \sa self()
  */
-class VIBE_EXPORT VFileSystemWatcher : public QObject
+class VIBECORE_EXPORT VFileSystemWatcher : public QObject
 {
     Q_OBJECT
 public:

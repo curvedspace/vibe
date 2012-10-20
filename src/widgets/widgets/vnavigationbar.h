@@ -27,7 +27,7 @@
 
 #include <QTreeView>
 
-#include <VibeCore/VGlobal>
+#include <VibeWidgets/VibeWidgetsExport>
 
 /** \addtogroup gui Gui Kit
  *  @{
@@ -40,7 +40,7 @@
  *
  * This class provides a nice navigation bar.
  */
-class VIBE_EXPORT VNavigationBar : public QTreeView
+class VIBEWIDGETS_EXPORT VNavigationBar : public QTreeView
 {
     Q_OBJECT
 public:

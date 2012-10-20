@@ -28,7 +28,7 @@
 #include <QObject>
 #include <QtCore/qplugin.h>
 
-#include <VibeCore/VGlobal>
+#include <VibeWidgets/VibeWidgetsExport>
 
 class VPreferencesModule;
 
@@ -43,7 +43,7 @@ class VPreferencesModule;
  *
  * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  */
-class VIBE_EXPORT VPreferencesModulePlugin : public QObject
+class VIBEWIDGETS_EXPORT VPreferencesModulePlugin : public QObject
 {
     Q_OBJECT
 public:

@@ -35,7 +35,7 @@
 #include <QMultiHash>
 #include <QFlags>
 
-#include <VibeCore/VGlobal>
+#include <VibeCore/VibeCoreExport>
 
 QT_FORWARD_DECLARE_CLASS(QTextStream)
 QT_FORWARD_DECLARE_CLASS(QIODevice)
@@ -107,7 +107,7 @@ class VCommandOptionsPrivate;
 
     \sa QCoreApplication::arguments()
 */
-class VIBE_EXPORT VCommandOptions
+class VIBECORE_EXPORT VCommandOptions
 {
     Q_DECLARE_TR_FUNCTIONS(VCommandOptions)
 public:
