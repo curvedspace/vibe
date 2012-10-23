@@ -74,7 +74,7 @@
     <key name="style" type="String">
       <summary>User Interface Style</summary>
       <description>Style used to draw all user interface elements.</description>
-      <default>Plastique</default>
+      <default>Fusion</default>
     </key>
     <key name="theme" type="String">
       <summary>User Interface Theme</summary>
