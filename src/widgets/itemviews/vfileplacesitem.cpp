@@ -339,7 +339,7 @@ namespace VPrivate
                 return m_text;
             case Qt::BackgroundRole:
                 if (m_bookmark.metaDataItem("IsHidden") == "true")
-                    return Qt::lightGray;
+                    return QColor(Qt::lightGray);
             case VFilePlacesModel::UrlRole:
                 return m_bookmark.url();
             case VFilePlacesModel::HiddenRole:
