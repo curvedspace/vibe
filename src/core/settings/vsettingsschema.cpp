@@ -2,9 +2,19 @@
  * This file is part of Vibe.
  *
  * Copyright (c) 2012 Pier Luigi Fiorini
+ * Copyright (c) 2003 Cornelius Schumacher
+ * Copyright (c) 2003 Waldo Bastian
+ * Copyright (c) 2003 Zack Rusin
+ * Copyright (c) 2006 Michaël Larouche
+ * Copyright (c) 2008 Allen Winter
  *
  * Author(s):
  *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *    Cornelius Schumacher <schumacher@kde.org>
+ *    Waldo Bastian <bastian@kde.org>
+ *    Zack Rusin <zack@kde.org>
+ *    Michaël Larouche <michael.larouche@kdemail.net>
+ *    Allen Winter <winter@kde.org>
  *
  * $BEGIN_LICENSE:LGPL-ONLY$
  *

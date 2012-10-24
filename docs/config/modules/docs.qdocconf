@@ -1,4 +1,0 @@
-sourcedirs  += $MODULE_SOURCE_TREE/src
-
-imagedirs   += $MODULE_SOURCE_TREE/src/images \
-               $MODULE_SOURCE_TREE/src/template/images
