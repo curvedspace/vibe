@@ -1,10 +1,18 @@
 /****************************************************************************
  * This file is part of Vibe.
  *
+ * Copyright (c) 1999 Ian Zepp
+ * Copyright (c) 2000 Rik Hemsley (rikkus)
+ * Copyright (c) 2006 by Dominic Battre
+ * Copyright (c) 2006 by Martin Pool
  * Copyright (c) 2010-2012 Pier Luigi Fiorini
  *
  * Author(s):
  *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *    Ian Zepp <icszepp@islc.net>
+ *    Rik Hemsley (rikkus) <rik@kde.org>
+ *    Dominic Battre <dominic@battre.de>
+ *    Martin Pool <mbp@canonical.com>
  *
  * $BEGIN_LICENSE:LGPL-ONLY$
  *
@@ -31,7 +39,6 @@
 
 namespace VStringHandler
 {
-    VIBECORE_EXPORT QString elide(const QString &str, Qt::TextElideMode mode, int maxlen = 40);
     VIBECORE_EXPORT int naturalCompare(const QString &a, const QString &b,
                                    Qt::CaseSensitivity caseSensitivity = Qt::CaseSensitive);
 }

@@ -142,7 +142,7 @@ bool VBookmark::hasParent() const
 
 QString VBookmark::text() const
 {
-    return VStringHandler::elide(fullText(), Qt::ElideMiddle);
+    return fullText();
 }
 
 QString VBookmark::fullText() const

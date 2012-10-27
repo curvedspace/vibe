@@ -1,10 +1,18 @@
 /****************************************************************************
  * This file is part of Vibe.
  *
+ * Copyright (c) 1999 Ian Zepp
+ * Copyright (c) 2000 Rik Hemsley (rikkus)
+ * Copyright (c) 2006 by Dominic Battre
+ * Copyright (c) 2006 by Martin Pool
  * Copyright (c) 2010-2012 Pier Luigi Fiorini
  *
  * Author(s):
  *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *    Ian Zepp <icszepp@islc.net>
+ *    Rik Hemsley (rikkus) <rik@kde.org>
+ *    Dominic Battre <dominic@battre.de>
+ *    Martin Pool <mbp@canonical.com>
  *
  * $BEGIN_LICENSE:LGPL-ONLY$
  *
@@ -55,46 +63,6 @@
 */
 namespace VStringHandler
 {
-    /*!
-        Substitute characters at the beginning, at the middle or at the end of
-        a string by an ellipsis ("...").
-
-        \param str is the string to modify
-        \param mode is where the ellipsis appears
-        \param maxlen is the maximum length the modified string will have
-        If the original string is shorter than \a maxlen, it is returned verbatim
-
-        \return the modified string or the same string if \a mode is Qt::ElideNone or
-        the \a str string length is more than \a maxlen.
-    */
-    QString elide(const QString &str, Qt::TextElideMode mode, int maxlen)
-    {
-        switch (mode) {
-            case Qt::ElideLeft:
-                if (str.length() > maxlen) {
-                    int part = maxlen - 3;
-                    return QString::fromLatin1("...") + str.right(part);
-                }
-                break;
-            case Qt::ElideRight:
-                if (str.length() > maxlen) {
-                    int part = maxlen - 3;
-                    return str.left(part) + QLatin1String("...");
-                }
-                break;
-            case Qt::ElideMiddle:
-                if (str.length() > maxlen) {
-                    const int part = (maxlen - 3) / 2;
-                    return str.left(part) + QLatin1String("...") + str.right(part);
-                }
-                break;
-            default:
-                break;
-        }
-
-        return str;
-    }
-
     /*!
         Does a natural comparing of the strings. A negative value is returned if \a a
         is smaller than \a b. A positive value is returned if \a a is greater than \a b. 0
