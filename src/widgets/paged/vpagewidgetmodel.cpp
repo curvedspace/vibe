@@ -1,25 +1,28 @@
 /****************************************************************************
  * This file is part of Vibe.
  *
- * Copyright (c) 2011 Pier Luigi Fiorini
+ * Copyright (c) 2011-2012 Pier Luigi Fiorini
  * Copyright (C) 2006 Tobias Koenig
  *
  * Author(s):
  *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *    Tobias Koenig <tokoe@kde.org>
  *
- * $BEGIN_LICENSE:LGPL-ONLY$
+ * $BEGIN_LICENSE:LGPL2$
  *
- * This file may be used under the terms of the GNU Lesser General
- * Public License as published by the Free Software Foundation and
- * appearing in the file LICENSE.LGPL included in the packaging of
- * this file, either version 2.1 of the License, or (at your option) any
- * later version.  Please review the following information to ensure the
- * GNU Lesser General Public License version 2.1 requirements
- * will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+ * This library is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Library General Public License as published by
+ * the Free Software Foundation; version 2.
  *
- * If you have questions regarding the use of this file, please contact
- * us via http://www.maui-project.org/.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public License
+ * along with this library; see the file COPYING.LIB.  If not, write to
+ * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  *
  * $END_LICENSE$
  ***************************************************************************/

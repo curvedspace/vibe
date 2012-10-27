@@ -1,16 +1,17 @@
 /****************************************************************************
- * This file is part of Vibe.
+ * This file is part of $APP$.
  *
- * Copyright (c) 2012 Pier Luigi Fiorini
+ * Copyright (c) $YEAR$ $NAME$
  *
  * Author(s):
- *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ *    $AUTHOR$ <$EMAIL$>
  *
- * $BEGIN_LICENSE:LGPL2$
+ * $BEGIN_LICENSE:LGPL2+$
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Library General Public License as published by
- * the Free Software Foundation; version 2.
+ * the Free Software Foundation; either version 2, or (at your option) any later
+ * version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -24,35 +25,3 @@
  *
  * $END_LICENSE$
  ***************************************************************************/
-
-#ifndef VGUIAPPLICATION_H
-#define VGUIAPPLICATION_H
-
-#include <QGuiApplication>
-
-#include <VibeGui/VibeGuiExport>
-
-class VGuiApplicationPrivate;
-
-class VIBEGUI_EXPORT VGuiApplication : public QGuiApplication
-{
-    Q_OBJECT
-    Q_PROPERTY(QString identifier READ identifier WRITE setIdentifier)
-public:
-    explicit VGuiApplication(int &argc, char **argv);
-
-    QString identifier() const;
-    void setIdentifier(const QString &identifier);
-
-    void demandsAttention();
-
-    virtual void reloadSettings();
-    virtual void closeAllWindows();
-
-private:
-    Q_DECLARE_PRIVATE(VGuiApplication)
-
-    VGuiApplicationPrivate *const d_ptr;
-};
-
-#endif // VGUIAPPLICATION_H
