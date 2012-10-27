@@ -147,9 +147,8 @@ protected:
         QStylePainter painter(this);
         QStyleOptionButton option;
         option.initFrom(this);
-        if (rect().contains(mapFromGlobal(QCursor::pos()))) {
+        if (rect().contains(mapFromGlobal(QCursor::pos())))
             painter.drawPrimitive(QStyle::PE_PanelButtonTool, option);
-        }
         int border = painter.style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
         option.rect = option.rect.adjusted(border, border, -border, -border);
         if (index.isValid()) {
@@ -223,6 +222,12 @@ VBreadcrumbView::VBreadcrumbView(QWidget *parent)
 
     QObject::connect(d->view, SIGNAL(activated(QModelIndex)), this, SLOT(enterTree(QModelIndex)));
     QObject::connect(backButton, SIGNAL(clicked()), this, SLOT(back()));
+
+    // FIXME: Temporarily hide the list view and back button, we need
+    //        to do something better, some programs like Swordfish don't even
+    //        want to create it
+    d->view->hide();
+    backButton->hide();
 }
 
 void VBreadcrumbView::setModel(QAbstractItemModel *model)
