@@ -1,147 +1,134 @@
 /****************************************************************************
- * This file is part of Vibe.
- *
- * Copyright (c) 2012 Pier Luigi Fiorini
- *
- * Author(s):
- *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
- *
- * $BEGIN_LICENSE:LGPL-ONLY$
- *
- * This file may be used under the terms of the GNU Lesser General
- * Public License as published by the Free Software Foundation and
- * appearing in the file LICENSE.LGPL included in the packaging of
- * this file, either version 2.1 of the License, or (at your option) any
- * later version.  Please review the following information to ensure the
- * GNU Lesser General Public License version 2.1 requirements
- * will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
- *
- * If you have questions regarding the use of this file, please contact
- * us via http://www.maui-project.org/.
- *
- * $END_LICENSE$
- ***************************************************************************/
-
-/*
- * Partially based on QxtCrumbView from the LibQxt project.
- * Copyright (c) 2006 - 2011, the LibQxt project.
- * See the Qxt AUTHORS file for a list of authors and copyright holders.
- */
+** Copyright (c) 2006 - 2011, the LibQxt project.
+** See the Qxt AUTHORS file for a list of authors and copyright holders.
+** All rights reserved.
+**
+** Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are met:
+**     * Redistributions of source code must retain the above copyright
+**       notice, this list of conditions and the following disclaimer.
+**     * Redistributions in binary form must reproduce the above copyright
+**       notice, this list of conditions and the following disclaimer in the
+**       documentation and/or other materials provided with the distribution.
+**     * Neither the name of the LibQxt project nor the
+**       names of its contributors may be used to endorse or promote products
+**       derived from this software without specific prior written permission.
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+** ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+** WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+** DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+** DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+** (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+** LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+** ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+** SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+**
+** <http://libqxt.org>  <foundation@libqxt.org>
+*****************************************************************************/
 
 #include <QApplication>
-#include <QBoxLayout>
-#include <QFontMetrics>
-#include <QListView>
-#include <QStylePainter>
-#include <QToolButton>
 #include <QDebug>
+#include <QPaintEvent>
+#include <QListView>
+#include <QToolButton>
+#include <QBoxLayout>
+#include <QModelIndex>
+#include <QAbstractItemDelegate>
+#include <QStyle>
+#include <QStylePainter>
+#include <QSize>
+#include <QFont>
+#include <QtAlgorithms>
 
 #include "vbreadcrumbview.h"
 #include "vbreadcrumbview_p.h"
 
-VBreadcrumbViewDelegate::VBreadcrumbViewDelegate(QObject *parent) :
-    QAbstractItemDelegate(parent)
+// This class exists only to grant access to QListView's protected members
+class VBreadcrumbViewList : public QListView
 {
+    friend class VBreadcrumbView;
+public:
+    VBreadcrumbViewList(QWidget *parent)
+        : QListView(parent) {
+    }
+};
+
+VBreadcrumbViewDelegate::VBreadcrumbViewDelegate(QAbstractItemDelegate *other, QObject *parent)
+    : QAbstractItemDelegate(parent), delegate(other)
+{
+    QObject::connect(other, SIGNAL(closeEditor(QWidget *, QAbstractItemDelegate::EndEditHint)),
+                     this, SIGNAL(closeEditor(QWidget *, QAbstractItemDelegate::EndEditHint)));
+    QObject::connect(other, SIGNAL(commitData(QWidget *)), this, SIGNAL(commitData(QWidget *)));
+    QObject::connect(other, SIGNAL(sizeHintChanged(QModelIndex)), this, SIGNAL(sizeHintChanged(QModelIndex)));
+
 }
 
-void VBreadcrumbViewDelegate::paint(QPainter *painter,
-                                    const QStyleOptionViewItem &option,
-                                    const QModelIndex &index) const
+void VBreadcrumbViewDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    const QAbstractItemModel *model = index.model();
-    const bool isChild = model->hasChildren(index);
-    const bool isLTR = option.direction == Qt::LeftToRight;
+    delegate->paint(painter, option, index);
 
-    if (!model->hasChildren(index))
+    if (!index.model()->hasChildren(index))
         return;
 
-    painter->save();
-
     int arrow = 8;
-    int iconSize = QApplication::style()->pixelMetric(QStyle::PM_ToolBarIconSize, &option);
-    int pad = (option.rect.height() - iconSize) / 2;
-    int kLateralMargin = 4;
-    int margin = kLateralMargin;
-
-    // Draw icon
-    QIcon icon = QIcon(model->data(index, Qt::DecorationRole).value<QIcon>());
-    QPixmap pm = icon.pixmap(iconSize, iconSize);
-    QPoint point(isLTR ? option.rect.left() + margin
-                 : option.rect.right() - margin - iconSize,
-                 option.rect.top() + pad);
-    painter->drawPixmap(point, pm);
-
-    QRect rectText(0, 0, 0, 0);
-    if (index.parent().isValid()) {
-        // Increase margin
-        margin += kLateralMargin;
-
-        // Draw text for every child item
-        rectText = QRect(isLTR
-                         ? option.rect.left() + iconSize + margin
-                         : 0,
-                         option.rect.top(), option.rect.width() - iconSize - margin, option.rect.height());
-        painter->drawText(rectText, Qt::AlignLeft | Qt::AlignVCenter,
-                          option.fontMetrics.elidedText(model->data(index).toString(), Qt::ElideRight, rectText.width()));
-    }
-
-    painter->restore();
+    int pad = (option.rect.height() - arrow) / 2;
+    QStyleOption arrowOption;
+    arrowOption = option;
+    arrowOption.rect = QRect(option.rect.right() - arrow, option.rect.top() + pad, arrow, arrow);
+    QApplication::style()->drawPrimitive(QStyle::PE_IndicatorArrowRight, &arrowOption, painter);
 }
 
-QSize VBreadcrumbViewDelegate::sizeHint(const QStyleOptionViewItem &option,
-                                        const QModelIndex &index) const
+QSize VBreadcrumbViewDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    QStyleOptionViewItemV4 opt = option;
+    return delegate->sizeHint(option, index) + QSize(8, 0);
+}
 
-    QWidget *widget = 0;
-    if (const QStyleOptionViewItemV3 *v3 = qstyleoption_cast<const QStyleOptionViewItemV3 *>(&option))
-        widget = (QWidget *)v3->widget;
+QWidget *VBreadcrumbViewDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index)
+{
+    return delegate->createEditor(parent, option, index);
+}
 
-    int w = 0, h = 0;
-    int kLateralMargin = 4;
-    int iconSize = QApplication::style()->pixelMetric(QStyle::PM_ToolBarIconSize, &option);
-    const QAbstractItemModel *model = index.model();
+void VBreadcrumbViewDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
+{
+    delegate->setEditorData(editor, index);
+}
 
-    w = h = iconSize;
+void VBreadcrumbViewDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
+{
+    delegate->setModelData(editor, model, index);
+}
 
-    if (index.parent().isValid()) {
-        QFont font;
-        QFontMetrics fm(font);
+void VBreadcrumbViewDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    delegate->updateEditorGeometry(editor, option, index);
+}
 
-        QSize textSize = fm.size(Qt::TextShowMnemonic, model->data(index).toString());
-        textSize.setWidth(textSize.width() + fm.width(QLatin1Char(' ')) * 2);
-        w += 4 + textSize.width() + kLateralMargin;
-        if (textSize.height() > h)
-            h = textSize.height();
-    }
-
-    return QApplication::style()->sizeFromContents(QStyle::CT_ToolButton,
-                                                   &opt, QSize(w, h), widget);
+bool VBreadcrumbViewDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
+{
+    return delegate->editorEvent(event, model, option, index);
 }
 
 class VBreadcrumbViewButton : public QAbstractButton
 {
 public:
-    VBreadcrumbViewButton(const QModelIndex &idx, VBreadcrumbView *parent) : QAbstractButton(parent), index(idx) {
+    VBreadcrumbViewButton(const QModelIndex &idx, VBreadcrumbView *parent)
+        : QAbstractButton(parent), index(idx) {
         // initializers only
     }
 
     QModelIndex index;
 
     QSize sizeHint() const {
+        QStyleOptionViewItem itemOption;
+        itemOption.initFrom(this);
         int border = style()->pixelMetric(QStyle::PM_DefaultFrameWidth) * 2;
-
-        if (index.isValid()) {
-            VBreadcrumbView *view = qobject_cast<VBreadcrumbView *>(parent());
-            if (view) {
-                QStyleOptionViewItemV4 option;
-                option.initFrom(this);
-
-                return view->itemDelegate()->sizeHint(option, index) + QSize(border, border);
-            }
-        }
-
-        return QSize(border, border);
+        int arrow = 8;
+        if (index.isValid())
+            return static_cast<VBreadcrumbView *>(parent())->itemDelegate()->sizeHint(itemOption, index) + QSize(border + arrow, border);
+        else
+            return QSize(border + arrow, border + arrow);
     }
 
 protected:
@@ -157,29 +144,21 @@ protected:
 
     void paintEvent(QPaintEvent *event) {
         Q_UNUSED(event);
-
         QStylePainter painter(this);
         QStyleOptionButton option;
         option.initFrom(this);
-
-        if (rect().contains(mapFromGlobal(QCursor::pos())))
+        if (rect().contains(mapFromGlobal(QCursor::pos()))) {
             painter.drawPrimitive(QStyle::PE_PanelButtonTool, option);
-
+        }
         int border = painter.style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
         option.rect = option.rect.adjusted(border, border, -border, -border);
-
         if (index.isValid()) {
-            VBreadcrumbView *view = qobject_cast<VBreadcrumbView *>(parent());
-            if (view) {
-                QAbstractItemDelegate *delegate = qobject_cast<QAbstractItemDelegate *>(view->itemDelegate());
-                QStyleOptionViewItem itemOption;
-                itemOption.initFrom(this);
-                itemOption.rect = option.rect;
-                delegate->paint(&painter, itemOption, index);
-            }
+            QAbstractItemDelegate *delegate = static_cast<VBreadcrumbView *>(parent())->crumbDelegate();
+            QStyleOptionViewItem itemOption;
+            itemOption.initFrom(this);
+            itemOption.rect = option.rect;
+            delegate->paint(&painter, itemOption, index);
         }
-        return;
-
         int arrow = 8;
         int pad = (height() - (2 * border) - arrow) / 2;
         QStyleOption arrowOption;
@@ -189,9 +168,11 @@ protected:
     }
 };
 
-VBreadcrumbViewPrivate::VBreadcrumbViewPrivate(VBreadcrumbView *self) :
-    q_ptr(self)
+VBreadcrumbViewPrivate::VBreadcrumbViewPrivate(VBreadcrumbView *parent)
+    : crumbDelegate(0)
+    , q_ptr(parent)
 {
+    // initializers only
 }
 
 void VBreadcrumbViewPrivate::addCrumb(const QModelIndex &index)
@@ -213,9 +194,9 @@ void VBreadcrumbViewPrivate::buttonPressed()
     q->enterTree(static_cast<VBreadcrumbViewButton *>(sender())->index);
 }
 
-VBreadcrumbView::VBreadcrumbView(QWidget *parent) :
-    QAbstractItemView(parent),
-    d_ptr(new VBreadcrumbViewPrivate(this))
+VBreadcrumbView::VBreadcrumbView(QWidget *parent)
+    : QAbstractItemView(parent)
+    , d_ptr(new VBreadcrumbViewPrivate(this))
 {
     Q_D(VBreadcrumbView);
 
@@ -224,35 +205,34 @@ VBreadcrumbView::VBreadcrumbView(QWidget *parent) :
     viewport()->setAutoFillBackground(false);
     viewport()->setBackgroundRole(QPalette::Window);
     setFrameStyle(QFrame::NoFrame);
-    d->buttonLayout = new QHBoxLayout(this);
+    QVBoxLayout *layout = new QVBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
+    d->buttonLayout = new QHBoxLayout;
     d->buttonLayout->setContentsMargins(0, 0, 0, 0);
     d->buttonLayout->setSpacing(0);
     d->buttonLayout->addStretch(1);
+    QToolButton *backButton = new QToolButton(this);
+    backButton->setIcon(style()->standardPixmap(QStyle::SP_FileDialogBack));
+    backButton->setAutoRaise(true);
+    backButton->setFocusPolicy(Qt::NoFocus);
+    d->buttonLayout->addWidget(backButton);
+    layout->addLayout(d->buttonLayout, 0);
+    d->view = new VBreadcrumbViewList(this);
+    layout->addWidget(d->view, 1);
     d->addCrumb(QModelIndex());
-}
 
-QSize VBreadcrumbView::sizeHint() const
-{
-    int border = style()->pixelMetric(QStyle::PM_DefaultFrameWidth) * 2;
-    return QSize(border, border);
-}
-
-QSize VBreadcrumbView::minimumSizeHint() const
-{
-    return sizeHint();
-}
-
-QSize VBreadcrumbView::maximumSizeHint() const
-{
-    return minimumSizeHint();
+    QObject::connect(d->view, SIGNAL(activated(QModelIndex)), this, SLOT(enterTree(QModelIndex)));
+    QObject::connect(backButton, SIGNAL(clicked()), this, SLOT(back()));
 }
 
 void VBreadcrumbView::setModel(QAbstractItemModel *model)
 {
     Q_D(VBreadcrumbView);
 
+    d->view->setModel(model);
     QAbstractItemView::setModel(model);
-    setItemDelegate(new VBreadcrumbViewDelegate(this));
+    delete d->view->itemDelegate();
+    d->view->setItemDelegate(new VBreadcrumbViewDelegate(itemDelegate(), this));
 }
 
 void VBreadcrumbView::reset()
@@ -264,57 +244,70 @@ void VBreadcrumbView::reset()
     d->crumbs.clear();
     d->buttons.clear();
     d->addCrumb(QModelIndex());
+    d->view->reset();
 }
 
 int VBreadcrumbView::horizontalOffset() const
 {
     Q_D(const VBreadcrumbView);
-    return 0;
+    return d->view->horizontalOffset();
 }
 
 int VBreadcrumbView::verticalOffset() const
 {
     Q_D(const VBreadcrumbView);
-    return 0;
+    return d->view->verticalOffset();
 }
 
 QModelIndex VBreadcrumbView::indexAt(const QPoint &point) const
 {
-    return QModelIndex();
+    Q_D(const VBreadcrumbView);
+    return d->view->indexAt(d->view->mapFromParent(point));
 }
 
 bool VBreadcrumbView::isIndexHidden(const QModelIndex &index) const
 {
     Q_D(const VBreadcrumbView);
-    return false;
+    return d->view->isIndexHidden(index);
 }
 
 QModelIndex VBreadcrumbView::moveCursor(CursorAction action, Qt::KeyboardModifiers mods)
 {
-    return QModelIndex();
+    Q_D(VBreadcrumbView);
+    return d->view->moveCursor(action, mods);
 }
 
 void VBreadcrumbView::scrollTo(const QModelIndex &index, ScrollHint hint)
 {
+    Q_D(VBreadcrumbView);
+
+    if (index.parent() != d->view->rootIndex())
+        // TODO: set the breadcrumbs and the view's root index correctly
+        d->view->scrollTo(index, hint);
 }
 
 void VBreadcrumbView::setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags flags)
 {
+    Q_D(VBreadcrumbView);
+
+    QPoint tl = d->view->mapFromParent(rect.topLeft());
+    d->view->setSelection(QRect(tl, rect.size()), flags);
 }
 
 QRect VBreadcrumbView::visualRect(const QModelIndex &index) const
 {
     Q_D(const VBreadcrumbView);
 
-    foreach(VBreadcrumbViewButton * b, d->buttons) {
-        if (b->index == index)
-            return b->geometry();
-    }
+    QRect rect = d->view->visualRect(index);
+    return QRect(d->view->mapToParent(rect.topLeft()), rect.size());
 }
 
 QRegion VBreadcrumbView::visualRegionForSelection(const QItemSelection &selection) const
 {
-    return QRegion();
+    Q_D(const VBreadcrumbView);
+
+    QRegion region = d->view->visualRegionForSelection(selection);
+    return region.translated(d->view->pos());
 }
 
 void VBreadcrumbView::enterTree(const QModelIndex &index)
@@ -327,11 +320,10 @@ void VBreadcrumbView::enterTree(const QModelIndex &index)
         emit activated(index);
         return;
     }
-    if (index == rootIndex()) {
+    if (index == d->view->rootIndex()) {
         // do nothing but reload the view
-    } else if (index.parent() != rootIndex()) {
-        foreach(VBreadcrumbViewButton * b, d->buttons)
-        b->deleteLater();
+    } else if (index.parent() != d->view->rootIndex()) {
+        foreach(VBreadcrumbViewButton * b, d->buttons) b->deleteLater();
         d->crumbs.clear();
         d->buttons.clear();
         d->addCrumb(QModelIndex());
@@ -348,7 +340,7 @@ void VBreadcrumbView::enterTree(const QModelIndex &index)
     } else {
         d->addCrumb(index);
     }
-    setRootIndex(index);
+    d->view->setRootIndex(index);
 }
 
 void VBreadcrumbView::back()
@@ -360,11 +352,65 @@ void VBreadcrumbView::back()
     d->buttons.last()->deleteLater();
     d->buttons.removeLast();
     d->crumbs.removeLast();
-    setRootIndex(d->crumbs.last());
+    d->view->setRootIndex(d->crumbs.last());
 }
 
-void VBreadcrumbView::next()
+void VBreadcrumbView::setItemDelegate(QAbstractItemDelegate *delegate)
 {
+    QAbstractItemView::setItemDelegate(delegate);
+    //delete d->view->itemDelegate();
+    //d->view->setItemDelegate(new VBreadcrumbViewDelegate(itemDelegate(), this));
 }
 
-#include "moc_vbreadcrumbview.cpp"
+QAbstractItemView *VBreadcrumbView::itemView() const
+{
+    Q_D(const VBreadcrumbView);
+    return d->view;
+}
+
+void VBreadcrumbView::showEvent(QShowEvent *event)
+{
+    Q_D(VBreadcrumbView);
+
+    VBreadcrumbViewDelegate *viewDelegate = qobject_cast<VBreadcrumbViewDelegate *>(d->view->itemDelegate());
+    if (viewDelegate->delegate != itemDelegate()) {
+        d->view->setItemDelegate(new VBreadcrumbViewDelegate(itemDelegate(), this));
+        delete viewDelegate;
+        d->view->reset();
+    }
+    QAbstractItemView::showEvent(event);
+}
+
+void VBreadcrumbView::paintEvent(QPaintEvent *event)
+{
+    Q_D(VBreadcrumbView);
+
+    VBreadcrumbViewDelegate *viewDelegate = qobject_cast<VBreadcrumbViewDelegate *>(d->view->itemDelegate());
+    if (viewDelegate->delegate != itemDelegate()) {
+        d->view->setItemDelegate(new VBreadcrumbViewDelegate(itemDelegate(), this));
+        delete viewDelegate;
+        d->view->reset();
+    }
+    QAbstractItemView::paintEvent(event);
+}
+
+QAbstractItemDelegate *VBreadcrumbView::crumbDelegate() const
+{
+    Q_D(const VBreadcrumbView);
+
+    QAbstractItemDelegate *rv = d->crumbDelegate;
+    if (!rv)
+        return itemDelegate();
+    return rv;
+}
+
+void VBreadcrumbView::setCrumbDelegate(QAbstractItemDelegate *delegate)
+{
+    Q_D(VBreadcrumbView);
+
+    d->crumbDelegate = delegate;
+    update();
+    foreach(VBreadcrumbViewButton * button, d->buttons) {
+        button->update();
+    }
+}
