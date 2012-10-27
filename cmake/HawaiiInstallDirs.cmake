@@ -7,7 +7,7 @@
 # define additional directories for Hawaii applications:
 #  PLUGINSDIR       - object code plugin libraries (plugins)
 #  IMPORTSDIR       - Qml modules (imports)
-#  APPSDIR          - applications' desktop files (DATAROOTDIR/applications)
+#  APPLICATIONSDIR  - applications' desktop files (DATAROOTDIR/applications)
 #  SETTINGSDIR      - settings (DATAROOTDIR/settings)
 #
 # Each CMAKE_INSTALL_<dir> value may be passed to the DESTINATION options of
@@ -19,6 +19,8 @@
 # of CMAKE_INSTALL_PREFIX.
 
 #=============================================================================
+# Copyright 2011 Nikita Krupen'ko <krnekit@gmail.com>
+# Copyright 2011 Kitware, Inc.
 # Copyright 2012 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
 #
 # Distributed under the OSI-approved BSD License (the "License").
@@ -66,9 +68,9 @@ endif()
 # the cache and store the defaults in local variables if the cache values are
 # not set explicitly.  This auto-updates the defaults as DATAROOTDIR changes.
 
-if(NOT DEFINED CMAKE_INSTALL_APPSDIR)
-  set(CMAKE_INSTALL_APPSDIR "" CACHE PATH "applications' desktop files (DATAROOTDIR/applications)")
-  set(CMAKE_INSTALL_APPSDIR "${CMAKE_INSTALL_DATAROOTDIR}/applications")
+if(NOT DEFINED CMAKE_INSTALL_APPLICATIONSDIR)
+  set(CMAKE_INSTALL_APPLICATIONSDIR "" CACHE PATH "applications' desktop files (DATAROOTDIR/applications)")
+  set(CMAKE_INSTALL_APPLICATIONSDIR "${CMAKE_INSTALL_DATAROOTDIR}/applications")
 endif()
 
 if(NOT CMAKE_INSTALL_SETTINGSDIR)
@@ -79,7 +81,7 @@ endif()
 #-----------------------------------------------------------------------------
 
 mark_as_advanced(
-  CMAKE_INSTALL_APPSDIR
+  CMAKE_INSTALL_APPLICATIONSDIR
   CMAKE_INSTALL_PLUGINSDIR
   CMAKE_INSTALL_IMPORTSDIR
   CMAKE_INSTALL_SETTINGSDIR
@@ -88,7 +90,7 @@ mark_as_advanced(
 # Result directories
 #
 foreach(dir
-    APPSDIR
+    APPLICATIONSDIR
     PLUGINSDIR
     IMPORTSDIR
     SETTINGSDIR
