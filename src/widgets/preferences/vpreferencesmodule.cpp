@@ -1,7 +1,7 @@
 /****************************************************************************
  * This file is part of Vibe.
  *
- * Copyright (c) 2011-2012 Pier Luigi Fiorini
+ * Copyright (c) 2012 Pier Luigi Fiorini
  *
  * Author(s):
  *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
@@ -26,61 +26,15 @@
  ***************************************************************************/
 
 #include "vpreferencesmodule.h"
-#include "vpreferencesmodule_p.h"
 
-/*
- * VPreferencesModulePrivate
- */
-
-VPreferencesModulePrivate::VPreferencesModulePrivate() :
-    firstShow(true)
+VPreferencesModule::VPreferencesModule()
+    : QWidget()
 {
 }
 
-/*
- * VPreferencesModule
- */
-
-VPreferencesModule::VPreferencesModule(QWidget *parent) :
-    QWidget(parent),
-    d_ptr(new VPreferencesModulePrivate)
-{
-}
-
-bool VPreferencesModule::requireAdministrativePrivileges() const
+bool VPreferencesModule::requiresAdministrativePrivileges() const
 {
     return false;
-}
-
-QString VPreferencesModule::useAdministratorOnlyMessage() const
-{
-    return QString("<b>Changes are locked!</b>");
-}
-
-void VPreferencesModule::load()
-{
-}
-
-void VPreferencesModule::save()
-{
-}
-
-void VPreferencesModule::defaults()
-{
-}
-
-void VPreferencesModule::showEvent(QShowEvent *event)
-{
-    Q_D(VPreferencesModule);
-
-    // When this module is first shown, load settings and emit changed(bool) signal
-    if (d->firstShow) {
-        d->firstShow = false;
-        QMetaObject::invokeMethod(this, "load", Qt::QueuedConnection);
-        QMetaObject::invokeMethod(this, "changed", Qt::QueuedConnection, Q_ARG(bool, false));
-    }
-
-    QWidget::showEvent(event);
 }
 
 #include "moc_vpreferencesmodule.cpp"

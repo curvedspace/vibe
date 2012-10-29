@@ -1,7 +1,7 @@
 /****************************************************************************
  * This file is part of Vibe.
  *
- * Copyright (c) 2011-2012 Pier Luigi Fiorini
+ * Copyright (c) 2012 Pier Luigi Fiorini
  *
  * Author(s):
  *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
@@ -32,67 +32,109 @@
 
 #include <VibeWidgets/VibeWidgetsExport>
 
-class VPreferencesModulePrivate;
-
-/** \addtogroup gui Gui Kit
- *  @{
- */
-
 /**
- * \class VPreferencesModule vpreferencesmodule.h <VPreferencesModule>
+ * \brief Base class for all preferences modules.
  *
- * The base class for all preferences modules.
+ * Preferences modules are realized as plugins that are loaded by the
+ * the System Preferences application.
  *
- * Preferences modules are realized as plugins that are loaded only
- * when needed.
+ * To write a preferences module you have to create two classes, one that
+ * inherits from VPreferencesPlugin and another that implements the
+ * module user interface and inherits from VPreferencesModule.
  *
- * All the necessary glue logic and layout management are handled by
- * the Preferences application and must not concern the module author.
+ * Plugin header file:
  *
- * To write a preferences module you have to create a plugin that
- * contains a class that derives from VPreferencesPlugin like in the following
- * example.
+ * @code
+ * #include <VPreferencesPlugin>
  *
- * Header file:
+ * class MyPreferencesPlugin : public VPreferencesModulePlugin
+ * {
+ *     Q_OBJECT
+ *     Q_PLUGIN_METADATA(IID "org.hawaii.Vibe.VPreferencesModuleFactoryInterface" FILE "mypreferences.json")
+ * public:
+ *     explicit MyPreferencesPlugin(QObject *parent = 0);
+ *
+ *     QStringList keys() const;
+ *     VPreferencesModule *create(const QString &key) const;
+ * };
+ * @endcode
+ *
+ * Module header file:
  *
  * @code
  * #include <VPreferencesModule>
- * #include <VPreferencesPlugin>
  *
  * class MyPreferences : public VPreferencesModule
  * {
  *     Q_OBJECT
  *     Q_INTERFACES(VPreferencesModule)
  * public:
- *     explicit MyPreferences(QWidget *parent = 0);
+ *     explicit MyPreferences();
  *
- *     virtual void load();
- *     virtual void save();
+ *     QString name() const;
+ *     QString comment() const;
+ *     QString iconName() const;
+ *     QStringList keywords() const;
+ *     VPreferencesModule::Category category() const;
  * };
  * @endcode
  *
- * C++ source code file:
+ * Plugin C++ source code file:
+ *
+ * @code
+ * MyPreferencesPlugin::MyPreferencesPlugin(QObject *parent)
+ *     : VPreferencesModulePlugin(parent)
+ * {
+ * }
+ *
+ * QStringList MyPreferencesPlugin::keys() const
+ * {
+ *     return QStringList() << "mypreferences";
+ * }
+ *
+ * VPreferencesModule *MyPreferencesPlugin::create(const QString &key) const
+ * {
+ *     if (key.toLower() == "mypreferences")
+ *         return new MyPreferences();
+ *     return 0;
+ * }
+ * @endcode
+ *
+ * Module C++ source code file:
  *
  * @code
  * #include "mypreferences.h"
  *
- * MyPreferences::MyPreferences(QWidget *parent) :
- *     VPreferencesModule(parent)
+ * MyPreferences::MyPreferences()
+ *     : VPreferencesModule(parent)
  * {
- *     // ... GUI creation code goes here ...
+ *     // ... Create the UI here ...
  * }
  *
- * void MyPreferences::load()
+ * QString MyPreferences::name() const
  * {
- *     // ... preferences loading code here ...
+ *     return tr("Name");
  * }
  *
- * void MyPreferences::save()
+ * QString MyPreferences::comment() const
  * {
- *     // ... preferences saving code here ...
+ *     return tr("Configure something.");
  * }
  *
- * Q_EXPORT_PLUGIN2(my_preferences, MyPreferences)
+ * QString MyPreferences::iconName() const
+ * {
+ *     return QLatin1String("preferences-something");
+ * }
+ *
+ * QStringList MyPreferences::keywords() const
+ * {
+ *     return tr("something;something else").split(QLatin1Char(';'));
+ * }
+ *
+ * VPreferencesModule::Category category() const
+ * {
+ *     return VPreferencesModule::PersonalCategory;
+ * }
  * @endcode
  *
  * \author Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
@@ -100,9 +142,8 @@ class VPreferencesModulePrivate;
 class VIBEWIDGETS_EXPORT VPreferencesModule : public QWidget
 {
     Q_OBJECT
-    Q_PROPERTY(bool requireAdministrativePrivileges READ requireAdministrativePrivileges)
+    Q_PROPERTY(bool requiresAdministrativePrivileges READ requiresAdministrativePrivileges)
     Q_ENUMS(Category)
-    Q_DECLARE_PRIVATE(VPreferencesModule)
 public:
     enum Category {
         //! Personal preferences.
@@ -118,7 +159,7 @@ public:
     /**
      * Constructs a VPreferencesModule object.
      */
-    explicit VPreferencesModule(QWidget *parent = 0);
+    explicit VPreferencesModule();
 
     /**
      * @returns the module's name.
@@ -146,94 +187,12 @@ public:
     virtual Category category() const = 0;
 
     /**
-     * @returns the module's weight.
+     * Some preference modules requires administrative privileges
+     * to configure their settings.  If your preferences modules
+     * requires administrative privileges return true.
+     * This method returns false by default.
      */
-    virtual int weight() const = 0;
-
-    /**
-     * When a module must be run with administrative privileges, or acts
-     * differently for administrators and normal users, this method
-     * must return true.
-     */
-    bool requireAdministrativePrivileges() const;
-
-    /**
-     * When a module must be run with administrative privileges, or acts
-     * differently for administrators and normal users, it's sometimes useful
-     * to customize the message that appears at the top of the module when
-     * used as a normal user. This method returns the customized message.
-     * If none has been set, a default message will be used.
-     */
-    QString useAdministratorOnlyMessage() const;
-
-public slots:
-    /**
-     * Loads the configuration data into the module.
-     *
-     * This method sets the user interface elements of the module to reflect
-     * the current settings stored in the configuration file(s).
-     *
-     * This method is invoked whenever the module should read its configuration
-     * and update the user interface. This happens right after construction.
-     *
-     * Module authors may also call this method when the user clicks the
-     * "Reset" button, in order to restore settings the way they were before
-     * changes in the user interface occurred.
-     *
-     * When this method is called, the changed() signal is emitted.
-     *
-     * \see changed(bool)
-     */
-    virtual void load();
-
-    /**
-     * Saves the configuration data.
-     *
-     * This method stores the configuration information as shown in the user
-     * interface to the configuration file(s).
-     *
-     * Module authors must call this method when the user clicks the "Apply"
-     * button.
-     */
-    virtual void save();
-
-    /**
-     * Sets the configuration to sensible default values.
-     *
-     * Module authors must call this method when the user clicks the "Default"
-     * button.
-     *
-     * When this method is called, the changed() signal is emitted.
-     *
-     * \see changed(bool)
-     */
-    virtual void defaults();
-
-signals:
-    /**
-     * Indicates that the state of the module's contents has changed.
-     *
-     * This signal is emitted whenever the state of the configuration shown
-     * in the module changes. It allows the module container to keep track
-     * of unsaved changes.
-     */
-    void changed(bool state);
-
-protected:
-    /**
-     * Show event override.
-     * If it's the first time that the Preferences application loads the
-     * the preferences module, it calls load() and emits the changed(bool) signal.
-     *
-     * \see load()
-     * \see changed(bool)
-     */
-    virtual void showEvent(QShowEvent *event);
-
-private:
-    VPreferencesModulePrivate *const d_ptr;
+    virtual bool requiresAdministrativePrivileges() const;
 };
-
-/** @}*/
 
 #endif // VPREFERENCESMODULE_H
