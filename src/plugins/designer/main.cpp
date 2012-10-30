@@ -28,7 +28,6 @@
 
 #include "fileplacesviewplugin.h"
 #include "lineeditplugin.h"
-#include "navigationbarplugin.h"
 #include "titlewidgetplugin.h"
 
 class VibeWidgets : public QObject, QDesignerCustomWidgetCollectionInterface
@@ -40,7 +39,6 @@ public:
     explicit VibeWidgets(QObject *parent = 0) {
         //m_plugins.append(new FilePlacesViewPlugin(icon, this));
         m_plugins.append(new LineEditPlugin(this));
-        m_plugins.append(new NavigationBarPlugin(this));
         m_plugins.append(new TitleWidgetPlugin(this));
     }
 

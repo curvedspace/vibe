@@ -50,10 +50,8 @@ set(SOURCES
     widgets/vbreadcrumbview.cpp
     widgets/vcolorbutton.cpp
     widgets/vlineedit.cpp
-    widgets/vnavigationbar.cpp
     widgets/vtitlewidget.cpp
     widgets/private/iconbutton.cpp
-    widgets/private/navigationitemdelegate.cpp
 )
 
 # Headers
@@ -75,7 +73,6 @@ set(HEADERS
     widgets/vbreadcrumbview.h
     widgets/vcolorbutton.h
     widgets/vlineedit.h
-    widgets/vnavigationbar.h
     widgets/vtitlewidget.h
 )
 

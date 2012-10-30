@@ -14,7 +14,6 @@ set(SOURCES
     main.cpp
     fileplacesviewplugin.cpp
     lineeditplugin.cpp
-    navigationbarplugin.cpp
     titlewidgetplugin.cpp
 )
 

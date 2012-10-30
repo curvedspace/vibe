@@ -11,7 +11,6 @@ set(HEADERS
     VFileSystemModel
     VibeWidgetsExport
     VLineEdit
-    VNavigationBar
     VPageModel
     VPageView
     VPageWidget

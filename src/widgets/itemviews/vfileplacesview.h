@@ -30,7 +30,9 @@
 #ifndef VFILEPLACESVIEW_H
 #define VFILEPLACESVIEW_H
 
-#include <VibeWidgets/VNavigationBar>
+#include <QTreeView>
+
+#include <VibeWidgets/VibeWidgetsExport>
 
 class QUrl;
 
