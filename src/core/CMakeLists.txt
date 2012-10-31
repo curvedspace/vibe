@@ -51,6 +51,7 @@ set(SOURCES
     vapplicationinfo.cpp
     vcommandoptions.cpp
     vstringhandler.cpp
+    vdesktopfile.cpp
 
     accounts/vaccountsmanager.cpp
     accounts/vuseraccount.cpp
@@ -80,8 +81,6 @@ set(SOURCES
     settings/vsettings.cpp
     settings/vsettingsschema.cpp
 
-    standards/vdesktopfile.cpp
-
     ${VibeCore_OPTIONAL_SRCS}
 )
 
@@ -91,6 +90,7 @@ set(HEADERS
     vcommandoptions.h
     vstringhandler.h
     vsharedpointer.h
+    vdesktopfile.h
 
     accounts/vaccountsmanager.h
     accounts/vuseraccount.h
@@ -115,8 +115,6 @@ set(HEADERS
     jobs/vjobuidelegate.h
 
     settings/vsettings.h
-
-    standards/vdesktopfile.h
 )
 
 # Add library
