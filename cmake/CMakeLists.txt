@@ -1,8 +1,5 @@
 set(cmakeFiles
     check_installed_exports_file.cmake
-    CheckPointerMember.cmake
-    CheckPrototypeExists.cmake
-    CheckStructMember.cmake
     FindPAM.cmake
     FindSharedMimeInfo.cmake
     HandleImportedTargetsInCMakeRequiredLibraries.cmake
