@@ -50,7 +50,8 @@ VDesktopFilePrivate::VDesktopFilePrivate(const QString &_fileName, VDesktopFile 
 {
     // Read desktop file
     file = new QSettings(fileName, QSettings::IniFormat);
-    isValid = file->contains("Desktop Entry");
+    file->beginGroup("Desktop Entry");
+    isValid = file->allKeys().size() > 0;
 
     // Watch for changes
     watcher = new QFileSystemWatcher(q_ptr);
@@ -67,17 +68,18 @@ void VDesktopFilePrivate::read()
     // Read desktop file
     delete file;
     file = new QSettings(fileName, QSettings::IniFormat);
-    isValid = file->contains("Desktop Entry");
+    file->beginGroup("Desktop Entry");
+    isValid = file->allKeys().size() > 0;
 }
 
 bool VDesktopFilePrivate::contains(const QString &key) const
 {
-    return file->contains(QLatin1String("Desktop Entry/") + key);
+    return file->contains(key);
 }
 
 QVariant VDesktopFilePrivate::value(const QString &key, const QVariant &defaultValue) const
 {
-    QVariant val = file->value(QLatin1String("Desktop Entry/") + key, defaultValue);
+    QVariant val = file->value(key, defaultValue);
     return val.toString().replace(QLatin1Char('&'), QLatin1String("&&"));
 }
 
