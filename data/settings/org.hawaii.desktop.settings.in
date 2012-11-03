@@ -79,7 +79,7 @@
     <key name="theme" type="String">
       <summary>User Interface Theme</summary>
       <description>Theme to draw all desktop user interface elements.</description>
-      <default>air</default>
+      <default>elegant</default>
     </key>
     <key name="color-scheme" type="String">
       <summary>User Interface Color Scheme</summary>
