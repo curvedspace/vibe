@@ -274,10 +274,13 @@ bool VDesktopFile::isExecutable() const
 
     QString tryExec = tryExecutePath();
 
-    // If TryExec is empty we can't be sure the application is executable,
-    // so we just say no
-    if (tryExec.isEmpty())
-        return false;
+    // If TryExec is empty fallback to the first Exec argument
+    if (tryExec.isEmpty()) {
+        QStringList args = executeCommand().split(QLatin1Char(' '), QString::SkipEmptyParts);
+        if (args.size() == 0)
+            return false;
+        tryExec = args.at(0);
+    }
 
     return d->checkTryExec(tryExec);
 }
