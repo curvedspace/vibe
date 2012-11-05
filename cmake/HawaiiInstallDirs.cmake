@@ -68,7 +68,7 @@ endif()
 # the cache and store the defaults in local variables if the cache values are
 # not set explicitly.  This auto-updates the defaults as DATAROOTDIR changes.
 
-if(NOT DEFINED CMAKE_INSTALL_APPLICATIONSDIR)
+if(NOT CMAKE_INSTALL_APPLICATIONSDIR)
   set(CMAKE_INSTALL_APPLICATIONSDIR "" CACHE PATH "applications' desktop files (DATAROOTDIR/applications)")
   set(CMAKE_INSTALL_APPLICATIONSDIR "${CMAKE_INSTALL_DATAROOTDIR}/applications")
 endif()
