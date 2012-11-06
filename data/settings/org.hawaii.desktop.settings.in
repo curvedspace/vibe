@@ -89,7 +89,7 @@
     <key name="icon-theme" type="String">
       <summary>Icon Theme</summary>
       <description>Theme used for all the icons.</description>
-      <default>Elegant</default>
+      <default>elegant</default>
     </key>
     <key name="small-icon-size" type="UInt">
       <summary>Small Icon Size</summary>
