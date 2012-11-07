@@ -93,13 +93,33 @@
     </key>
     <key name="small-icon-size" type="UInt">
       <summary>Small Icon Size</summary>
-      <description>Size of the small icons.</description>
-      <default>22</default>
+      <description>Size of small icons.</description>
+      <default>16</default>
+    </key>
+    <key name="small-medium-icon-size" type="UInt">
+      <summary>Small Medium Icon Size</summary>
+      <description>Size of small medium icons.</description>
+      <default>24</default>
+    </key>
+    <key name="medium-icon-size" type="UInt">
+      <summary>Medium Icon Size</summary>
+      <description>Size of medium icons.</description>
+      <default>32</default>
     </key>
     <key name="large-icon-size" type="UInt">
       <summary>Large Icon Size</summary>
-      <description>Size of the large icons.</description>
+      <description>Size of large icons.</description>
       <default>48</default>
+    </key>
+    <key name="huge-icon-size" type="UInt">
+      <summary>Huge Icon Size</summary>
+      <description>Size of huge icons.</description>
+      <default>64</default>
+    </key>
+    <key name="enormous-icon-size" type="UInt">
+      <summary>Enormouse Icon Size</summary>
+      <description>Size of enormouse icons.</description>
+      <default>128</default>
     </key>
     <key name="toolbar-icon-size" type="UInt">
       <summary>Toolbar Icon Size</summary>
