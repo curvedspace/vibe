@@ -56,6 +56,26 @@
       <description>Point size of the font used to display user interface elements, such as check box labels, menu items, etc.</description>
       <default>11</default>
     </key>
+    <key name="small-font-name" type="String">
+      <summary>Font</summary>
+      <description>Font used to display user interface elements, such as check box labels, menu items, etc.</description>
+      <default>Cantarell</default>
+    </key>
+    <key name="small-font-size" type="UInt">
+      <summary>Font Size</summary>
+      <description>Point size of the font used to display user interface elements, such as check box labels, menu items, etc.</description>
+      <default>9</default>
+    </key>
+    <key name="mini-font-name" type="String">
+      <summary>Font</summary>
+      <description>Font used to display user interface elements, such as check box labels, menu items, etc.</description>
+      <default>Cantarell</default>
+    </key>
+    <key name="mini-font-size" type="UInt">
+      <summary>Font Size</summary>
+      <description>Point size of the font used to display user interface elements, such as check box labels, menu items, etc.</description>
+      <default>8</default>
+    </key>
     <key name="monospace-font-name" type="String">
       <summary>Fixed-width Font</summary>
       <description>Font used to display fixed-width characters, mostly used by terminal windows.</description>

@@ -78,8 +78,24 @@ const QPalette *HawaiiTheme::palette(Palette type) const
 
 const QFont *HawaiiTheme::font(Font type) const
 {
-    QString fontName = m_settings->value("interface/font-name").toString();
-    int fontSize = m_settings->value("interface/font-size").toInt();
+    QString fontNameKey = QLatin1String("interface/font-name");
+    QString fontSizeKey = QLatin1String("interface/font-size");
+
+    switch (type) {
+        case SmallFont:
+            fontNameKey = QLatin1String("interface/small-font-name");
+            fontSizeKey = QLatin1String("interface/small-font-size");
+            break;
+        case MiniFont:
+            fontNameKey = QLatin1String("interface/mini-font-name");
+            fontSizeKey = QLatin1String("interface/mini-font-size");
+            break;
+        default:
+            break;
+    }
+
+    QString fontName = m_settings->value(fontNameKey).toString();
+    int fontSize = m_settings->value(fontSizeKey).toInt();
     QFont *font = new QFont(fontName, fontSize);
 
     switch (type) {
@@ -87,12 +103,6 @@ const QFont *HawaiiTheme::font(Font type) const
         case MdiSubWindowTitleFont:
         case DockWidgetTitleFont:
             font->setBold(true);
-            break;
-        case SmallFont:
-            font->setPointSize(fontSize / 1.10);
-            break;
-        case MiniFont:
-            font->setPointSize(fontSize / 1.25);
             break;
         default:
             break;
