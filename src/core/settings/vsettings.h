@@ -48,9 +48,11 @@ public:
     void setValue(const QString &key, const QVariant &value);
 
 signals:
-    void changed(const QString &key);
+    void changed();
 
 private:
+    Q_PRIVATE_SLOT(d_ptr, void _q_fileChanged(const QString &fileName))
+
     VSettingsPrivate *const d_ptr;
 };
 

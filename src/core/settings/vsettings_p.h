@@ -49,7 +49,11 @@ public:
     QString schemaName;
     QString fileName;
     QSettings *storage;
+    QFileSystemWatcher *watcher;
     VSettingsSchema *schema;
+
+public slots:
+    void _q_fileChanged(const QString &fileName);
 
 protected:
     VSettings *const q_ptr;

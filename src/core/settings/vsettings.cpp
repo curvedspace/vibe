@@ -27,6 +27,7 @@
 
 #include <QSettings>
 #include <QStandardPaths>
+#include <QFileSystemWatcher>
 
 #include "vsettingsschema_p.h"
 #include "vsettings.h"
@@ -46,6 +47,8 @@ VSettingsPrivate::VSettingsPrivate(VSettings *parent, const QString &_schema)
 
     // Create the storage
     storage = new QSettings(fileName, QSettings::IniFormat);
+    watcher = new QFileSystemWatcher();
+    watcher->addPath(fileName);
 
     // Schema
     schema = new VSettingsSchema(_schema);
@@ -53,8 +56,16 @@ VSettingsPrivate::VSettingsPrivate(VSettings *parent, const QString &_schema)
 
 VSettingsPrivate::~VSettingsPrivate()
 {
+    delete watcher;
     delete schema;
     delete storage;
+}
+
+void VSettingsPrivate::_q_fileChanged(const QString &fileName)
+{
+    Q_UNUSED(fileName);
+    Q_Q(VSettings);
+    emit q->changed();
 }
 
 /*
@@ -65,6 +76,8 @@ VSettings::VSettings(const QString &schemaName)
     : QObject()
     , d_ptr(new VSettingsPrivate(this, schemaName))
 {
+    connect(d_ptr->watcher, SIGNAL(fileChanged(QString)),
+            this, SLOT(_q_fileChanged(QString)));
 }
 
 VSettings::~VSettings()
