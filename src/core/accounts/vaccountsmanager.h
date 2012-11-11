@@ -41,6 +41,8 @@ public:
 
     VUserAccountList listUsers(bool systemUsers);
 
+    VUserAccount *defaultUser();
+
     VUserAccount *findUserById(uid_t uid);
     VUserAccount *findUserByName(const QString &userName);
 

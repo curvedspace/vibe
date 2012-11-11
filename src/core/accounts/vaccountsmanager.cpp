@@ -97,6 +97,16 @@ VUserAccountList VAccountsManager::listUsers(bool systemUsers)
 }
 
 /*!
+    Returns the currently logged in user.
+    \return a VUserAccount object representing the currently logged
+            in user.
+*/
+VUserAccount *VAccountsManager::defaultUser()
+{
+    return findUserById(getuid());
+}
+
+/*!
     Finds a user by \a uid.
 
     \param uid The uid to look up.
