@@ -65,6 +65,7 @@ void VSettingsPrivate::_q_fileChanged(const QString &fileName)
 {
     Q_UNUSED(fileName);
     Q_Q(VSettings);
+    storage->sync();
     emit q->changed();
 }
 
