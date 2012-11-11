@@ -36,6 +36,7 @@
 class VIBECORE_EXPORT VAccountsManager : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(VUserAccount *defaultUser READ defaultUser CONSTANT)
 public:
     explicit VAccountsManager();
 
