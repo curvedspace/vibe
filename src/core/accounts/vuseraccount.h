@@ -28,6 +28,7 @@
 #ifndef VUSERACCOUNT_H
 #define VUSERACCOUNT_H
 
+#include <QtCore/QObject>
 #include <QtCore/QString>
 
 #include <VibeCore/VibeCoreExport>
@@ -35,8 +36,19 @@
 class VAccountsManager;
 class VUserAccountPrivate;
 
-class VIBECORE_EXPORT VUserAccount
+class VIBECORE_EXPORT VUserAccount : public QObject
 {
+    Q_OBJECT
+    Q_PROPERTY(bool valid READ isValid CONSTANT)
+    Q_PROPERTY(int uid READ userId CONSTANT)
+    Q_PROPERTY(int gid READ groupId CONSTANT)
+    Q_PROPERTY(QString userName READ userName CONSTANT)
+    Q_PROPERTY(QString realName READ realName CONSTANT)
+    Q_PROPERTY(QString displayName READ displayName CONSTANT)
+    Q_PROPERTY(QString homeDirectory READ homeDirectory CONSTANT)
+    Q_PROPERTY(QString shell READ shell CONSTANT)
+    Q_PROPERTY(QString image READ imageFileName CONSTANT)
+    Q_PROPERTY(bool loggedIn READ isLoggedIn CONSTANT)
 public:
     enum AccountType {
         StandardAccountType,

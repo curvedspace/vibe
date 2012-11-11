@@ -32,9 +32,9 @@
  * VUserAccountPrivate
  */
 
-VUserAccountPrivate::VUserAccountPrivate() :
-    uid(-1),
-    gid(-1)
+VUserAccountPrivate::VUserAccountPrivate()
+    : uid(-1)
+    , gid(-1)
 {
 }
 
@@ -163,3 +163,5 @@ bool VUserAccount::isLoggedIn() const
     // TODO: Not yet implemented
     return false;
 }
+
+#include "moc_vuseraccount.cpp"
