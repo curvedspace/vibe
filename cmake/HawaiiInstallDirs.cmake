@@ -6,7 +6,7 @@
 # A lot of directories are defined by GNUInstallDirs.cmake we only
 # define additional directories for Hawaii applications:
 #  PLUGINSDIR       - object code plugin libraries (plugins)
-#  IMPORTSDIR       - Qml modules (imports)
+#  QMLDIR           - QML modules (qml)
 #  APPLICATIONSDIR  - applications' desktop files (DATAROOTDIR/applications)
 #  SETTINGSDIR      - settings (DATAROOTDIR/settings)
 #
@@ -59,8 +59,8 @@ if(NOT DEFINED CMAKE_INSTALL_PLUGINSDIR)
   set(CMAKE_INSTALL_PLUGINSDIR "plugins" CACHE PATH "object code plugins libraries (plugins)")
 endif()
 
-if(NOT DEFINED CMAKE_INSTALL_IMPORTSDIR)
-  set(CMAKE_INSTALL_IMPORTSDIR "imports" CACHE PATH "Qml modules (imports)")
+if(NOT DEFINED CMAKE_INSTALL_QMLDIR)
+  set(CMAKE_INSTALL_QMLDIR "qml" CACHE PATH "QML modules (qml)")
 endif()
 
 #-----------------------------------------------------------------------------
@@ -83,7 +83,7 @@ endif()
 mark_as_advanced(
   CMAKE_INSTALL_APPLICATIONSDIR
   CMAKE_INSTALL_PLUGINSDIR
-  CMAKE_INSTALL_IMPORTSDIR
+  CMAKE_INSTALL_QMLDIR
   CMAKE_INSTALL_SETTINGSDIR
   )
 
@@ -92,7 +92,7 @@ mark_as_advanced(
 foreach(dir
     APPLICATIONSDIR
     PLUGINSDIR
-    IMPORTSDIR
+    QMLDIR
     SETTINGSDIR
     )
   if(NOT IS_ABSOLUTE ${CMAKE_INSTALL_${dir}})
