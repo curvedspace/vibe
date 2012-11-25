@@ -169,7 +169,9 @@ QVariant HawaiiTheme::themeHint(ThemeHint hint) const
         case UseFullScreenForPopupMenu:
             return QVariant(true);
         case KeyboardScheme:
-            return QVariant(int(MacKeyboardScheme));
+             // TODO: Use the Mac keyboard scheme only if an Apple keyboard is detected
+            //return QVariant(int(MacKeyboardScheme));
+            return QVariant(int(GnomeKeyboardScheme));
         case UiEffects:
             return AnimateMenuUiEffect | FadeMenuUiEffect |
                    AnimateComboUiEffect | AnimateTooltipUiEffect |
