@@ -96,7 +96,7 @@ VFilePlacesModelPrivate::VFilePlacesModelPrivate(VFilePlacesModel *parent) :
         FilePlacesItem::createSystemBookmark(bookmarkManager,
                                              "Home", QT_TRANSLATE_NOOP("Places Bookmarks", "Home"),
                                              QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)),
-                                             "user-home");
+                                             "user-home-symbolic");
         FilePlacesItem::createSystemBookmark(bookmarkManager,
                                              "Applications", QT_TRANSLATE_NOOP("Places Bookmarks", "Applications"),
                                              QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation)),
@@ -104,23 +104,23 @@ VFilePlacesModelPrivate::VFilePlacesModelPrivate(VFilePlacesModel *parent) :
         FilePlacesItem::createSystemBookmark(bookmarkManager,
                                              "Documents", QT_TRANSLATE_NOOP("Places Bookmarks", "Documents"),
                                              QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)),
-                                             "folder-documents");
+                                             "folder-documents-symbolic");
         FilePlacesItem::createSystemBookmark(bookmarkManager,
                                              "Music", QT_TRANSLATE_NOOP("Places Bookmarks", "Music"),
                                              QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::MusicLocation)),
-                                             "folder-sound");
+                                             "folder-music-symbolic");
         FilePlacesItem::createSystemBookmark(bookmarkManager,
                                              "Movies", QT_TRANSLATE_NOOP("Places Bookmarks", "Movies"),
                                              QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation)),
-                                             "folder-video");
+                                             "folder-videos-symbolic");
         FilePlacesItem::createSystemBookmark(bookmarkManager,
                                              "Pictures", QT_TRANSLATE_NOOP("Places Bookmarks", "Pictures"),
                                              QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)),
-                                             "folder-image");
+                                             "folder-pictures-symbolic");
         FilePlacesItem::createSystemBookmark(bookmarkManager,
                                              "Downloads", QT_TRANSLATE_NOOP("Places Bookmarks", "Downloads"),
                                              QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation)),
-                                             "folder-download");
+                                             "folder-download-symbolic");
 
         // Force bookmarks to be saved so that open/save dialogs or applications
         // using these bookmarks won't have to create the items above
