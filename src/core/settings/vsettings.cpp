@@ -25,9 +25,9 @@
  * $END_LICENSE$
  ***************************************************************************/
 
+#include <QFileSystemWatcher>
 #include <QSettings>
 #include <QStandardPaths>
-#include <QFileSystemWatcher>
 
 #include "vsettingsschema_p.h"
 #include "vsettings.h"
@@ -105,7 +105,8 @@ QVariant VSettings::value(const QString &key) const
     Q_D(const VSettings);
 
     VSettingsKey *rawKey = d->schema->lookupKey(key);
-    return d->storage->value(key, rawKey ? rawKey->defaultValue() : QVariant());
+    QVariant defaultValue = rawKey ? rawKey->defaultValue : QVariant();
+    return d->storage->value(key, defaultValue);
 }
 
 /*!
