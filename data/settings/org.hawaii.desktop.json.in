@@ -1,203 +1,203 @@
 {
-	"schema": "org.hawaii.desktop",
-	"groups": [
-		{
-			"name": "background",
-			"keys": {
-				"type": {
-					"type": "enum",
-					"summary": "Background Type",
-					"description": "Determines the background type. Possible values are \"color\", \"wallpaper\".",
-					"default": "color",
-					"choices": ["color", "wallpaper"]
-				},
-				"primary-color": {
-					"type": "color",
-					"summary": "Primary Color",
-					"description": "Left or Top color when draring gradients, or the solid color.",
-					"default": "#336699"
-				},
-				"secondary-color": {
-					"type": "color",
-					"summary": "Secondary Color",
-					"description": "Right or Bottom color when draring gradients, not used for solid color.",
-					"default": "#2e5d8c"
-				},
-				"color-shading-type": {
-					"type": "enum",
-					"summary": "Color Shading Type",
-					"description": "How to shade the background color. Possible values are \"solid\", \"horizontal\" or \"vertical\".",
-					"default": "solid",
-					"choices": ["solid", "horizontal", "vertical"]
-				},
-				"wallpaper-uri": {
-					"type": "url",
-					"description": "URI to use for the background wallpaper.",
-					"default": "file://@CMAKE_INSTALL_FULL_DATADIR@/wallpapers/Nature/Evening/contents/images/1920x1200.jpg"
-				}
-			}
-		},
-		{
-			"name": "interface",
-			"keys": {
-				"enable-animations": {
-					"type": "bool",
-					"summary": "Enable Animations",
-					"description": "Whether animations should be displayed. Note: This is a global key, it changes the behaviour of the window manager, the panel etc.",
-					"default": true
-				},
-				"font-name": {
-					"type": "string",
-					"summary": "Font",
-					"description": "Font used to display user interface elements, such as check box labels, menu items, etc.",
-					"default": "Cantarell"
-				},
-				"font-size": {
-					"type": "int",
-					"summary": "Font Size",
-					"description": "Point size of the font used to display user interface elements, such as check box labels, menu items, etc.",
-					"default": 11
-				},
-				"small-font-name": {
-					"type": "string",
-					"summary": "Font",
-					"description": "Font used to display user interface elements, such as check box labels, menu items, etc.",
-					"default": "Cantarell"
-				},
-				"small-font-size": {
-					"type": "int",
-					"summary": "Font Size",
-					"description": "Point size of the font used to display user interface elements, such as check box labels, menu items, etc.",
-					"default": 9
-				},
-				"mini-font-name": {
-					"type": "string",
-					"summary": "Font",
-					"description": "Font used to display user interface elements, such as check box labels, menu items, etc.",
-					"default": "Cantarell"
-				},
-				"mini-font-size": {
-					"type": "int",
-					"summary": "Font Size",
-					"description": "Point size of the font used to display user interface elements, such as check box labels, menu items, etc.",
-					"default": 8
-				},
-				"monospace-font-name": {
-					"type": "string",
-					"summary": "Fixed-width Font",
-					"description": "Font used to display fixed-width characters, mostly used by terminal windows.",
-					"default": "DejaVu Sans Mono"
-				},
-				"monospace-font-size": {
-					"type": "int",
-					"summary": "Fixed-width Font Size",
-					"description": "Point size of the font used to display fixed-width characters, mostly used by terminal windows.",
-					"default": 11
-				},
-				"decorator": {
-					"type": "string",
-					"summary": "Window Decorator Style",
-					"description": "Style used to draw window decorations.",
-					"default": "elegant"
-				},
-				"style": {
-					"type": "string",
-					"summary": "User Interface Style",
-					"description": "Style used to draw all user interface elements.",
-					"default": "fusion"
-				},
-				"theme": {
-					"type": "string",
-					"summary": "Desktop Theme",
-					"description": "Theme used to draw all desktop interface elements.",
-					"default": "elegant"
-				},
-				"color-scheme": {
-					"type": "string",
-					"summary": "User Interface Color Scheme",
-					"description": "Color scheme to be applied to the user interface style. If empty, the default style's palette is used.",
-					"default": "default"
-				},
-				"icon-theme": {
-					"type": "string",
-					"summary": "Icon Theme",
-					"description": "Theme used for all the icons.",
-					"default": "elegant"
-				},
-				"small-icon-size": {
-					"type": "int",
-					"summary": "Small Icon Size",
-					"description": "Size of small icons.",
-					"default": 16
-				},
-				"small-medium-icon-size": {
-					"type": "int",
-					"summary": "Small Medium Icon Size",
-					"description": "Size of small medium icons.",
-					"default": 24
-				},
-				"medium-icon-size": {
-					"type": "int",
-					"summary": "Medium Icon Size",
-					"description": "Size of medium icons.",
-					"default": 32
-				},
-				"large-icon-size": {
-					"type": "int",
-					"summary": "Large Icon Size",
-					"description": "Size of large icons.",
-					"default": 48
-				},
-				"huge-icon-size": {
-					"type": "int",
-					"summary": "Huge Icon Size",
-					"description": "Size of huge icons.",
-					"default": 64
-				},
-				"enormous-icon-size": {
-					"type": "int",
-					"summary": "Enormous Icon Size",
-					"description": "Size of enormous icons.",
-					"default": 128
-				},
-				"toolbar-icon-size": {
-					"type": "int",
-					"summary": "Toolbar Icon Size",
-					"description": "Size of toolbar icons.",
-					"default": 24
-				},
-				"button-icon-size": {
-					"type": "int",
-					"summary": "Button Icon Size",
-					"description": "Size of button icons.",
-					"default": 16
-				},
-				"iconview-icon-size": {
-					"type": "int",
-					"summary": "Icon View Icon Size",
-					"description": "Size of icon view icons.",
-					"default": 48
-				},
-				"cursor-theme": {
-					"type": "string",
-					"summary": "Cursor Theme",
-					"description": "Cursor theme name.",
-					"default": "elegant"
-				},
-				"cursor-size": {
-					"type": "int",
-					"summary": "Cursor Size",
-					"description": "Size of the cursor used as cursor theme.",
-					"default": 24
-				},
-				"toolbutton-style": {
-					"type": "enum",
-					"summary": "Toolbar Buttons Style",
-					"description": "Style of toolbar buttons. Valid values are \"icon-only\", \"text-only\", \"text-beside-icon\" or \"text-under-icon\".",
-					"default": "icon-only",
-					"choices": ["icon-only", "text-only", "text-beside-icon", "text-under-icon"]
-				}
-			}
+    "schema": "org.hawaii.desktop",
+    "groups": [
+        {
+            "name": "background",
+            "keys": {
+                "type": {
+                    "type": "enum",
+                    "summary": "Background Type",
+                    "description": "Determines the background type. Possible values are \"color\", \"wallpaper\".",
+                    "default": "color",
+                    "choices": ["color", "wallpaper"]
+                },
+                "primary-color": {
+                    "type": "color",
+                    "summary": "Primary Color",
+                    "description": "Left or Top color when draring gradients, or the solid color.",
+                    "default": "#336699"
+                },
+                "secondary-color": {
+                    "type": "color",
+                    "summary": "Secondary Color",
+                    "description": "Right or Bottom color when draring gradients, not used for solid color.",
+                    "default": "#2e5d8c"
+                },
+                "color-shading-type": {
+                    "type": "enum",
+                    "summary": "Color Shading Type",
+                    "description": "How to shade the background color. Possible values are \"solid\", \"horizontal\" or \"vertical\".",
+                    "default": "solid",
+                    "choices": ["solid", "horizontal", "vertical"]
+                },
+                "wallpaper-uri": {
+                    "type": "url",
+                    "description": "URI to use for the background wallpaper.",
+                    "default": "file://@CMAKE_INSTALL_FULL_DATADIR@/wallpapers/Nature/Evening/contents/images/1920x1200.jpg"
                 }
-        ]
+            }
+        },
+        {
+            "name": "interface",
+            "keys": {
+                "enable-animations": {
+                    "type": "bool",
+                    "summary": "Enable Animations",
+                    "description": "Whether animations should be displayed. Note: This is a global key, it changes the behaviour of the window manager, the panel etc.",
+                    "default": true
+                },
+                "font-name": {
+                    "type": "string",
+                    "summary": "Font",
+                    "description": "Font used to display user interface elements, such as check box labels, menu items, etc.",
+                    "default": "Cantarell"
+                },
+                "font-size": {
+                    "type": "int",
+                    "summary": "Font Size",
+                    "description": "Point size of the font used to display user interface elements, such as check box labels, menu items, etc.",
+                    "default": 11
+                },
+                "small-font-name": {
+                    "type": "string",
+                    "summary": "Font",
+                    "description": "Font used to display user interface elements, such as check box labels, menu items, etc.",
+                    "default": "Cantarell"
+                },
+                "small-font-size": {
+                    "type": "int",
+                    "summary": "Font Size",
+                    "description": "Point size of the font used to display user interface elements, such as check box labels, menu items, etc.",
+                    "default": 9
+                },
+                "mini-font-name": {
+                    "type": "string",
+                    "summary": "Font",
+                    "description": "Font used to display user interface elements, such as check box labels, menu items, etc.",
+                    "default": "Cantarell"
+                },
+                "mini-font-size": {
+                    "type": "int",
+                    "summary": "Font Size",
+                    "description": "Point size of the font used to display user interface elements, such as check box labels, menu items, etc.",
+                    "default": 8
+                },
+                "monospace-font-name": {
+                    "type": "string",
+                    "summary": "Fixed-width Font",
+                    "description": "Font used to display fixed-width characters, mostly used by terminal windows.",
+                    "default": "DejaVu Sans Mono"
+                },
+                "monospace-font-size": {
+                    "type": "int",
+                    "summary": "Fixed-width Font Size",
+                    "description": "Point size of the font used to display fixed-width characters, mostly used by terminal windows.",
+                    "default": 11
+                },
+                "decorator": {
+                    "type": "string",
+                    "summary": "Window Decorator Style",
+                    "description": "Style used to draw window decorations.",
+                    "default": "elegant"
+                },
+                "style": {
+                    "type": "string",
+                    "summary": "User Interface Style",
+                    "description": "Style used to draw all user interface elements.",
+                    "default": "fusion"
+                },
+                "theme": {
+                    "type": "string",
+                    "summary": "Desktop Theme",
+                    "description": "Theme used to draw all desktop interface elements.",
+                    "default": "elegant"
+                },
+                "color-scheme": {
+                    "type": "string",
+                    "summary": "User Interface Color Scheme",
+                    "description": "Color scheme to be applied to the user interface style. If empty, the default style's palette is used.",
+                    "default": "default"
+                },
+                "icon-theme": {
+                    "type": "string",
+                    "summary": "Icon Theme",
+                    "description": "Theme used for all the icons.",
+                    "default": "elegant"
+                },
+                "small-icon-size": {
+                    "type": "int",
+                    "summary": "Small Icon Size",
+                    "description": "Size of small icons.",
+                    "default": 16
+                },
+                "small-medium-icon-size": {
+                    "type": "int",
+                    "summary": "Small Medium Icon Size",
+                    "description": "Size of small medium icons.",
+                    "default": 24
+                },
+                "medium-icon-size": {
+                    "type": "int",
+                    "summary": "Medium Icon Size",
+                    "description": "Size of medium icons.",
+                    "default": 32
+                },
+                "large-icon-size": {
+                    "type": "int",
+                    "summary": "Large Icon Size",
+                    "description": "Size of large icons.",
+                    "default": 48
+                },
+                "huge-icon-size": {
+                    "type": "int",
+                    "summary": "Huge Icon Size",
+                    "description": "Size of huge icons.",
+                    "default": 64
+                },
+                "enormous-icon-size": {
+                    "type": "int",
+                    "summary": "Enormous Icon Size",
+                    "description": "Size of enormous icons.",
+                    "default": 128
+                },
+                "toolbar-icon-size": {
+                    "type": "int",
+                    "summary": "Toolbar Icon Size",
+                    "description": "Size of toolbar icons.",
+                    "default": 24
+                },
+                "button-icon-size": {
+                    "type": "int",
+                    "summary": "Button Icon Size",
+                    "description": "Size of button icons.",
+                    "default": 16
+                },
+                "iconview-icon-size": {
+                    "type": "int",
+                    "summary": "Icon View Icon Size",
+                    "description": "Size of icon view icons.",
+                    "default": 48
+                },
+                "cursor-theme": {
+                    "type": "string",
+                    "summary": "Cursor Theme",
+                    "description": "Cursor theme name.",
+                    "default": "elegant"
+                },
+                "cursor-size": {
+                    "type": "int",
+                    "summary": "Cursor Size",
+                    "description": "Size of the cursor used as cursor theme.",
+                    "default": 24
+                },
+                "toolbutton-style": {
+                    "type": "enum",
+                    "summary": "Toolbar Buttons Style",
+                    "description": "Style of toolbar buttons. Valid values are \"icon-only\", \"text-only\", \"text-beside-icon\" or \"text-under-icon\".",
+                    "default": "icon-only",
+                    "choices": ["icon-only", "text-only", "text-beside-icon", "text-under-icon"]
+                }
+            }
+        }
+    ]
 }
