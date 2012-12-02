@@ -106,6 +106,12 @@
 					"description": "Style used to draw all user interface elements.",
 					"default": "fusion"
 				},
+				"theme": {
+					"type": "string",
+					"summary": "Desktop Theme",
+					"description": "Theme used to draw all desktop interface elements.",
+					"default": "elegant"
+				},
 				"color-scheme": {
 					"type": "string",
 					"summary": "User Interface Color Scheme",
