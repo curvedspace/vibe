@@ -134,7 +134,7 @@ bool VSettingsSchema::process(const QString &fileName)
                     settingsKey->defaultValue = QVariant(QSize(list.at(0).toInt(), list.at(1).toInt()));
             } else if (settingsKey->type == QLatin1String("url"))
                 settingsKey->defaultValue = QVariant(QUrl::fromUserInput(defaultValue.toString()));
-            else if (settingsKey->type == QLatin1String("urlList")) {
+            else if (settingsKey->type == QLatin1String("urls")) {
                 QStringList list = defaultValue.toStringList();
                 QList<QUrl> urlList;
                 foreach(QString url, list)
