@@ -1,6 +1,5 @@
 set(HEADERS
     VAboutDialog
-    VApplication
     VCategorizedSortFilterProxyModel
     VCategorizedView
     VCategoryDrawer

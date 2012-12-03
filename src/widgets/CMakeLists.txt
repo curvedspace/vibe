@@ -39,7 +39,6 @@ set(SOURCES
     itemviews/vfileplacesviewdelegate.cpp
     itemviews/vfileplacesview.cpp
     itemviews/vfilesystemmodel.cpp
-    kernel/vapplication.cpp
     paged/vpagemodel.cpp
     paged/vpageview.cpp
     paged/vpageview_p.cpp
@@ -63,7 +62,6 @@ set(HEADERS
     itemviews/vfileplacesmodel.h
     itemviews/vfileplacesview.h
     itemviews/vfilesystemmodel.h
-    kernel/vapplication.h
     paged/vpagemodel.h
     paged/vpageview.h
     paged/vpagewidget.h
