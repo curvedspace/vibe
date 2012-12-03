@@ -19,14 +19,11 @@ include_directories(
 # Sources
 set(SOURCES
     vcolorscheme.cpp
-    vguiapplication.cpp
-    vmainapplicationadaptor.cpp
 )
 
 # Headers
 set(HEADERS
     vcolorscheme.h
-    vguiapplication.h
 )
 
 # Add library

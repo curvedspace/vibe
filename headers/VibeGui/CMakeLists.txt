@@ -1,6 +1,5 @@
 set(HEADERS
     VColorScheme
-    VGuiApplication
     VibeGuiExport
 )
 
