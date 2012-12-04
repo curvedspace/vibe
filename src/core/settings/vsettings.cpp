@@ -44,7 +44,7 @@ VSettingsPrivate::VSettingsPrivate(VSettings *parent, const QString &_schema)
 {
     // Determine the file path
     fileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) +
-               QLatin1String("/hawaii/") + schemaName;
+            QLatin1String("/hawaii/") + schemaName + ".ini";
 
     // Create the storage
     storage = new QSettings(fileName, QSettings::IniFormat);
