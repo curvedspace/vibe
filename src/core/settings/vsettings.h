@@ -51,7 +51,7 @@ signals:
     void changed();
 
 private:
-    Q_PRIVATE_SLOT(d_ptr, void _q_fileChanged(const QString &fileName))
+    Q_PRIVATE_SLOT(d_ptr, void _q_fileChanged())
 
     VSettingsPrivate *const d_ptr;
 };

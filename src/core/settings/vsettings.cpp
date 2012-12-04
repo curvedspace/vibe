@@ -25,9 +25,10 @@
  * $END_LICENSE$
  ***************************************************************************/
 
-#include <QFileSystemWatcher>
 #include <QSettings>
 #include <QStandardPaths>
+
+#include <VibeCore/VFileSystemWatcher>
 
 #include "vsettingsschema_p.h"
 #include "vsettings.h"
@@ -47,8 +48,8 @@ VSettingsPrivate::VSettingsPrivate(VSettings *parent, const QString &_schema)
 
     // Create the storage
     storage = new QSettings(fileName, QSettings::IniFormat);
-    watcher = new QFileSystemWatcher();
-    watcher->addPath(fileName);
+    watcher = new VFileSystemWatcher();
+    watcher->addFile(fileName);
 
     // Schema
     schema = new VSettingsSchema(_schema);
@@ -57,15 +58,18 @@ VSettingsPrivate::VSettingsPrivate(VSettings *parent, const QString &_schema)
 VSettingsPrivate::~VSettingsPrivate()
 {
     delete watcher;
-    delete schema;
     delete storage;
+    delete schema;
 }
 
-void VSettingsPrivate::_q_fileChanged(const QString &fileName)
+void VSettingsPrivate::_q_fileChanged()
 {
-    Q_UNUSED(fileName);
     Q_Q(VSettings);
-    storage->sync();
+
+    // Reload the file
+    delete storage;
+    storage = new QSettings(fileName, QSettings::IniFormat);
+
     emit q->changed();
 }
 
@@ -77,8 +81,12 @@ VSettings::VSettings(const QString &schemaName)
     : QObject()
     , d_ptr(new VSettingsPrivate(this, schemaName))
 {
-    connect(d_ptr->watcher, SIGNAL(fileChanged(QString)),
-            this, SLOT(_q_fileChanged(QString)));
+    connect(d_ptr->watcher, SIGNAL(created(QString)),
+            this, SLOT(_q_fileChanged()));
+    connect(d_ptr->watcher, SIGNAL(deleted(QString)),
+            this, SLOT(_q_fileChanged()));
+    connect(d_ptr->watcher, SIGNAL(dirty(QString)),
+            this, SLOT(_q_fileChanged()));
 }
 
 VSettings::~VSettings()
