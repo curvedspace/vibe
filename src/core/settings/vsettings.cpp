@@ -25,10 +25,10 @@
  * $END_LICENSE$
  ***************************************************************************/
 
+#include <QDebug>
+#include <QFileSystemWatcher>
 #include <QSettings>
 #include <QStandardPaths>
-
-#include <VibeCore/VFileSystemWatcher>
 
 #include "vsettingsschema_p.h"
 #include "vsettings.h"
@@ -43,13 +43,15 @@ VSettingsPrivate::VSettingsPrivate(VSettings *parent, const QString &_schema)
     , q_ptr(parent)
 {
     // Determine the file path
-    fileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) +
-            QLatin1String("/hawaii/") + schemaName + ".ini";
+    QString pathName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) +
+               QLatin1String("/hawaii/");
+    fileName = pathName + schemaName + ".ini";
 
     // Create the storage
     storage = new QSettings(fileName, QSettings::IniFormat);
-    watcher = new VFileSystemWatcher();
-    watcher->addFile(fileName);
+    watcher = new QFileSystemWatcher();
+    watcher->addPath(pathName);
+    watcher->addPath(fileName);
 
     // Schema
     schema = new VSettingsSchema(_schema);
@@ -62,13 +64,16 @@ VSettingsPrivate::~VSettingsPrivate()
     delete schema;
 }
 
-void VSettingsPrivate::_q_fileChanged()
+void VSettingsPrivate::_q_fileChanged(const QString &_fileName)
 {
     Q_Q(VSettings);
 
     // Reload the file
     delete storage;
     storage = new QSettings(fileName, QSettings::IniFormat);
+
+    // TODO: Detect only what keys have been changed and emit
+    // a changed(QString) signal for each of them
 
     emit q->changed();
 }
@@ -81,12 +86,10 @@ VSettings::VSettings(const QString &schemaName)
     : QObject()
     , d_ptr(new VSettingsPrivate(this, schemaName))
 {
-    connect(d_ptr->watcher, SIGNAL(created(QString)),
-            this, SLOT(_q_fileChanged()));
-    connect(d_ptr->watcher, SIGNAL(deleted(QString)),
-            this, SLOT(_q_fileChanged()));
-    connect(d_ptr->watcher, SIGNAL(dirty(QString)),
-            this, SLOT(_q_fileChanged()));
+    connect(d_ptr->watcher, SIGNAL(directoryChanged(QString)),
+            this, SLOT(_q_fileChanged(QString)));
+    connect(d_ptr->watcher, SIGNAL(fileChanged(QString)),
+            this, SLOT(_q_fileChanged(QString)));
 }
 
 VSettings::~VSettings()
@@ -113,8 +116,14 @@ QVariant VSettings::value(const QString &key) const
     Q_D(const VSettings);
 
     VSettingsKey *rawKey = d->schema->lookupKey(key);
-    QVariant defaultValue = rawKey ? rawKey->defaultValue : QVariant();
-    return d->storage->value(key, defaultValue);
+    if (!rawKey) {
+        qWarning("Couldn't find \"%s\" key from \"%s\" settings schema",
+                 key.toLatin1().constData(), d->schemaName.toLatin1().constData());
+        return QVariant();
+    }
+
+    QVariant defaultValue = rawKey->defaultValue.isValid() ? rawKey->defaultValue : QVariant();
+    return d->storage->value(key, defaultValue);;
 }
 
 /*!
@@ -126,6 +135,14 @@ void VSettings::setValue(const QString &key, const QVariant &value)
 {
     Q_D(VSettings);
 
+    VSettingsKey *rawKey = d->schema->lookupKey(key);
+    if (!rawKey) {
+        qWarning("Couldn't find \"%s\" key from \"%s\" settings schema",
+                 key.toLatin1().constData(), d->schemaName.toLatin1().constData());
+        return;
+    }
+
+    // Set the value
     d->storage->setValue(key, value);
 }
 
