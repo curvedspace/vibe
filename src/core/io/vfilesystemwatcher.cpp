@@ -93,6 +93,8 @@ VFileSystemWatcherPrivate::VFileSystemWatcherPrivate() :
             this, SLOT(slotRescan()));
 
     m_inotify_fd = inotify_init();
+    if (m_inotify_fd <= 0)
+        qWarning("Couldn't initialize inotify: %s", strerror(errno));
     Q_ASSERT(m_inotify_fd > 0);
 
     fcntl(m_inotify_fd, F_SETFD, FD_CLOEXEC);
