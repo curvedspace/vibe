@@ -130,4 +130,37 @@ namespace VFileString
 
         return QString::fromLatin1(buffer);
     }
+
+    QString forPermissions(const QFileInfo &info)
+    {
+        mode_t p = 0;
+
+        if (info.isDir())
+            p |= S_IFDIR;
+        if (info.isSymLink())
+            p |= S_IFLNK;
+
+        if (info.permission(QFile::ReadUser))
+            p |= S_IRWXU & S_IRUSR;
+        if (info.permission(QFile::WriteUser))
+            p |= S_IRWXU & S_IWUSR;
+        if (info.permission(QFile::ExeUser))
+            p |= S_IRWXU & S_IXUSR;
+
+        if (info.permission(QFile::ReadGroup))
+            p |= S_IRWXG & S_IRGRP;
+        if (info.permission(QFile::WriteGroup))
+            p |= S_IRWXG & S_IWGRP;
+        if (info.permission(QFile::ExeGroup))
+            p |= S_IRWXG & S_IXGRP;
+
+        if (info.permission(QFile::ReadOther))
+            p |= S_IRWXO & S_IROTH;
+        if (info.permission(QFile::WriteOther))
+            p |= S_IRWXO & S_IWOTH;
+        if (info.permission(QFile::ExeOther))
+            p |= S_IRWXO & S_IXOTH;
+
+        return forPermissions(p);
+    }
 }

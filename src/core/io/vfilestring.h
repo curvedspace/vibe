@@ -31,6 +31,7 @@
 #include <sys/types.h>
 
 #include <QString>
+#include <QFileInfo>
 
 #include <VibeCore/VibeCoreExport>
 
@@ -38,6 +39,7 @@ namespace VFileString
 {
     VIBECORE_EXPORT QString forSize(qreal size);
     VIBECORE_EXPORT QString forPermissions(mode_t perm);
+    VIBECORE_EXPORT QString forPermissions(const QFileInfo &info);
 }
 
 #endif // VFILESTRING_H
