@@ -1,18 +1,4 @@
-add_definitions(
-    -DVIBE_BUILDING
-    ${Qt5Core_DEFINITIONS}
-    ${Qt5DBus_DEFINITIONS}
-    ${Qt5Gui_DEFINITIONS}
-    ${Qt5Widgets_DEFINITIONS}
-)
-
-set(CMAKE_CXX_FLAGS "${Qt5Widgets_LIBRARY_COMPILE_FLAGS}")
-
 include_directories(
-    ${Qt5Core_INCLUDE_DIRS}
-    ${Qt5DBus_INCLUDE_DIRS}
-    ${Qt5Gui_INCLUDE_DIRS}
-    ${Qt5Widgets_INCLUDE_DIRS}
     ${solid_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_SOURCE_DIR}/src/gui
@@ -81,9 +67,12 @@ generate_export_header(VibeWidgets
     BASE_NAME vibewidgets
     DEPRECATED_MACRO_NAME VIBE_DEPRECATED
 )
-target_link_libraries(VibeWidgets ${Qt5DBus_LIBRARIES} ${Qt5Widgets_LIBRARIES}
-    VibeCore VibeGui
-    -L${solid_LIBRARY_DIR} ${solid_LIBRARY})
+qt5_use_modules(VibeWidgets DBus Widgets)
+target_link_libraries(VibeWidgets
+    VibeCore
+    VibeGui
+    -L${solid_LIBRARY_DIR} ${solid_LIBRARY}
+)
 set_target_properties(VibeWidgets PROPERTIES
     VERSION ${VIBE_VERSION_STRING}
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_PATCH})

@@ -1,15 +1,4 @@
-add_definitions(
-    -DVIBE_BUILDING -Wno-multichar
-    ${Qt5Core_DEFINITIONS}
-    ${Qt5DBus_DEFINITIONS}
-    ${Qt5Xml_DEFINITIONS}
-)
-
 include_directories(
-    ${Qt5Core_INCLUDE_DIRS}
-    ${Qt5DBus_INCLUDE_DIRS}
-    ${Qt5Xml_INCLUDE_DIRS}
-    ${AccountsService_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/accounts
@@ -131,13 +120,8 @@ generate_export_header(VibeCore
     BASE_NAME vibecore
     DEPRECATED_MACRO_NAME VIBE_DEPRECATED
 )
-target_link_libraries(VibeCore
-    ${Qt5Core_LIBRARIES}
-    ${Qt5DBus_LIBRARIES}
-    ${Qt5Xml_LIBRARIES}
-    ${VibeCore_OPTIONAL_LIBS}
-    ${AccountsService_LIBRARIES}
-)
+qt5_use_modules(VibeCore Core DBus Xml)
+target_link_libraries(VibeCore ${VibeCore_OPTIONAL_LIBS})
 set_target_properties(VibeCore PROPERTIES
     VERSION ${VIBE_VERSION_STRING}
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_PATCH})

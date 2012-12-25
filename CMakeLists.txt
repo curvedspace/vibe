@@ -2,9 +2,11 @@ project(Vibe)
 
 cmake_minimum_required(VERSION 2.8.9)
 
-# Enable automoc and include current directory
-set(CMAKE_AUTOMOC ON)
+# Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+# Instruct CMake to run moc automatically when needed
+set(CMAKE_AUTOMOC ON)
 
 # Set Vibe version
 set(VIBE_VERSION_MAJOR 0)
@@ -17,6 +19,9 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 # Installation directories
 include(HawaiiInstallDirs)
+
+# Log features
+include(MacroLogFeature)
 
 # Add custom uninstall target
 configure_file(
@@ -55,7 +60,6 @@ include(MacroBoolTo01)
 include(GenerateExportHeader)
 
 # Find Qt
-set(QT_MIN_VERSION "5.0.0")
 find_package(Qt5Core REQUIRED)
 if(NOT Qt5Core_FOUND)
     message(FATAL_ERROR "Qt5Core module is required!")
@@ -110,13 +114,6 @@ macro_log_feature(solid_FOUND "Solid" "Support for Solid" "http://solid.kde.org"
 
 # Find pkg-config
 find_package(PkgConfig "0.22" REQUIRED)
-
-# Find AccountsService
-pkg_check_modules(AccountsService accountsservice REQUIRED)
-if(NOT AccountsService_FOUND)
-    message(FATAL_ERROR "AccountsService is required!")
-endif()
-macro_log_feature(AccountsService_FOUND "AccountsService" "Support for the AccountsService API" "http://www.freedesktop.org/wiki/Software/AccountsService" "")
 
 # Find DBus interfaces directory
 execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=interfaces_dir dbus-1
