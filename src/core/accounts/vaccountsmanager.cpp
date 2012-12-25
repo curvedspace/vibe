@@ -26,17 +26,29 @@
  ***************************************************************************/
 
 #include <QDebug>
-#include <QFile>
-#include <QRegExp>
 
 #include "vaccountsmanager.h"
-#include "vuseraccount_p.h"
-#include "cmakedirs.h"
+#include "vaccountsmanager_p.h"
+#include "vuseraccount.h"
 
-#include <pwd.h>
 #include <unistd.h>
 
-const uid_t kMinimalUid = 1000;
+/*
+ * VAccountsManagerPrivate
+ */
+
+VAccountsManagerPrivate::VAccountsManagerPrivate()
+{
+    interface = new OrgFreedesktopAccountsInterface(
+                "org.freedesktop.Accounts",
+                "/org/freedesktop/Accounts",
+                QDBusConnection::systemBus());
+}
+
+VAccountsManagerPrivate::~VAccountsManagerPrivate()
+{
+    delete interface;
+}
 
 /*!
     \class VAccountsManager
@@ -54,7 +66,68 @@ const uid_t kMinimalUid = 1000;
     Constructs a VAccountsManager object.
 */
 VAccountsManager::VAccountsManager()
+    : d_ptr(new VAccountsManagerPrivate)
 {
+}
+
+/*!
+    Destroy a VAccountsManager object.
+*/
+VAccountsManager::~VAccountsManager()
+{
+    delete d_ptr;
+}
+
+/*!
+    Caches a user account, so that it shows up in listCachedUsers() output.
+    The user name may be a remote user, but the system must be able to lookup
+    the user name and resolve the user information.
+
+    \param userName The user name for the user.
+*/
+VUserAccount *VAccountsManager::cacheUser(const QString &userName)
+{
+    Q_D(VAccountsManager);
+
+    QDBusPendingReply<QDBusObjectPath> reply = d->interface->CacheUser(userName);
+    reply.waitForFinished();
+
+    if (reply.isError()) {
+        QDBusError error = reply.error();
+        qWarning("Couldn't cache user %s: %s",
+                 userName.toUtf8().constData(),
+                 error.errorString(error.type()).toUtf8().constData());
+        return 0;
+    }
+
+    QDBusObjectPath path = reply.argumentAt<0>();
+    return new VUserAccount(path.path());
+}
+
+/*!
+    Releases all metadata about a user account, including icon, language and session.
+    If the user account is from a remote server and the user has never logged in
+    before, then that account will no longer show up in listCachedUsers() output.
+
+    \param userName The user name for the user.
+*/
+void VAccountsManager::uncacheUser(const QString &userName)
+{
+    Q_D(VAccountsManager);
+
+    d->interface->UncacheUser(userName);
+}
+
+/*!
+    Releases all metadata about a user account, including icon, language and session.
+    If the user account is from a remote server and the user has never logged in
+    before, then that account will no longer show up in listCachedUsers() output.
+
+    \param account The account for the user.
+*/
+void VAccountsManager::uncacheUser(VUserAccount *account)
+{
+    return uncacheUser(account->userName());
 }
 
 /*!
@@ -62,36 +135,25 @@ VAccountsManager::VAccountsManager()
 
     \param systemUsers If true, returns also system users.
 */
-VUserAccountList VAccountsManager::listUsers(bool systemUsers)
+VUserAccountList VAccountsManager::listCachedUsers()
 {
-    struct passwd pwd, *pwp;
-    char buf[4096];
+    Q_D(VAccountsManager);
+
     VUserAccountList list;
 
-    setpwent();
-    while (1) {
-        if (getpwent_r(&pwd, buf, 4096, &pwp))
-            break;
+    QDBusPendingReply<QList<QDBusObjectPath>> reply = d->interface->ListCachedUsers();
+    reply.waitForFinished();
 
-        // Include system users only if specified
-        if (!systemUsers && pwp->pw_uid < minimalUid())
-            continue;
-
-        // The nobody user is a system user but it often has a uid > minimal uid,
-        // we need to take core of this
-        if (!systemUsers && strcmp(pwp->pw_name, "nobody") == 0)
-            continue;
-
-        VUserAccount *user = new VUserAccount();
-        user->d_ptr->uid = pwp->pw_uid;
-        user->d_ptr->gid = pwp->pw_gid;
-        user->d_ptr->userName = QString::fromLocal8Bit(pwp->pw_name);
-        user->d_ptr->realName = QString::fromLocal8Bit(pwp->pw_gecos);
-        user->d_ptr->homeDirectory = QString::fromLocal8Bit(pwp->pw_dir);
-        user->d_ptr->shell = QString::fromLocal8Bit(pwp->pw_shell);
-        list.append(user);
+    if (reply.isError()) {
+        QDBusError error = reply.error();
+        qWarning("Couldn't list cached users: %s",
+                 error.errorString(error.type()).toUtf8().constData());
+        return list;
     }
-    endpwent();
+
+    QList<QDBusObjectPath> value = reply.argumentAt<0>();
+    for (int i = 0; i < value.size(); i++)
+        list.append(new VUserAccount(value.at(i).path()));
 
     return list;
 }
@@ -114,95 +176,71 @@ VUserAccount *VAccountsManager::defaultUser()
 */
 VUserAccount *VAccountsManager::findUserById(uid_t uid)
 {
-    struct passwd pwd;
-    struct passwd *result;
+    Q_D(VAccountsManager);
 
-    long bufsize = sysconf(_SC_GETPW_R_SIZE_MAX);
-    if (bufsize == -1)
-        bufsize = 16384;
+    QDBusPendingReply<QDBusObjectPath> reply = d->interface->FindUserById(uid);
+    reply.waitForFinished();
 
-    char *buf = new char[bufsize];
-    if (!buf) {
-        qWarning() << "Can't search for" << uid << "user: out of memory!";
-    } else {
-        int s = getpwuid_r(uid, &pwd, buf, bufsize, &result);
-        if (result) {
-            VUserAccount *user = new VUserAccount();
-            user->d_ptr->uid = uid;
-            user->d_ptr->gid = pwd.pw_gid;
-            user->d_ptr->userName = QString::fromLocal8Bit(pwd.pw_name);
-            user->d_ptr->realName = QString::fromLocal8Bit(pwd.pw_gecos);
-            user->d_ptr->homeDirectory = QString::fromLocal8Bit(pwd.pw_dir);
-            user->d_ptr->shell = QString::fromLocal8Bit(pwd.pw_shell);
-            return user;
-        } else {
-            if (s == 0)
-                qWarning() << "User" << uid << "not found!";
-            else
-                qWarning() << "Couldn't find user" << uid << ":" << QString(strerror(s));
-        }
-
-        delete buf;
+    if (reply.isError()) {
+        QDBusError error = reply.error();
+        qWarning("Couldn't find user by uid %d: %s", uid,
+                 error.errorString(error.type()).toUtf8().constData());
+        return 0;
     }
 
-    return 0;
+    QDBusObjectPath path = reply.argumentAt<0>();
+    return new VUserAccount(path.path());
 }
 
 /*!
     Finds a user by user \a userName
 
     \param uid The user name to look up.
-    \param ok Returns whether the user was found.
+    \return the corresponding VUserAccount object.
 */
 VUserAccount *VAccountsManager::findUserByName(const QString &userName)
 {
-    struct passwd pwd;
-    struct passwd *result;
+    Q_D(VAccountsManager);
 
-    long bufsize = sysconf(_SC_GETPW_R_SIZE_MAX);
-    if (bufsize == -1)
-        bufsize = 16384;
+    QDBusPendingReply<QDBusObjectPath> reply = d->interface->FindUserByName(userName);
+    reply.waitForFinished();
 
-    char *buf = new char[bufsize];
-    if (!buf) {
-        qWarning() << "Can't search for" << userName << "user: out of memory!";
-    } else {
-        int s = getpwnam_r(qPrintable(userName), &pwd, buf, bufsize, &result);
-        if (result) {
-            VUserAccount *user = new VUserAccount();
-            user->d_ptr->uid = pwd.pw_uid;
-            user->d_ptr->gid = pwd.pw_gid;
-            user->d_ptr->userName = userName;
-            user->d_ptr->realName = QString::fromLocal8Bit(pwd.pw_gecos);
-            user->d_ptr->homeDirectory = QString::fromLocal8Bit(pwd.pw_dir);
-            user->d_ptr->shell = QString::fromLocal8Bit(pwd.pw_shell);
-            return user;
-        } else {
-            if (s == 0)
-                qWarning() << "User" << userName << "not found!";
-            else
-                qWarning() << "Couldn't find user" << userName << ":" << QString(strerror(s));
-        }
-
-        delete buf;
+    if (reply.isError()) {
+        QDBusError error = reply.error();
+        qWarning("Couldn't find user by user name %s: %s",
+                 userName.toUtf8().constData(),
+                 error.errorString(error.type()).toUtf8().constData());
+        return 0;
     }
 
-    return 0;
+    QDBusObjectPath path = reply.argumentAt<0>();
+    return new VUserAccount(path.path());
 }
 
 /*!
-    Creates a new user account whose name is \a userName.
-
-    If creation was successfull, a VUserAccount instance is return.
-    Account details such as the real name can be changed or set calling the
-    appropriate methods on such instance.
+    Creates a new \a accountType type user account whose name is \a userName,
+    real name is \a fullName.
 
     \param userName The name of the new user to be created.
-    \param ok Returns whether the creation was successfull.
+    \param fullName First name and last name.
+    \param accountType The account type.
+    \return whether the user was created successfully.
 */
-VUserAccount *VAccountsManager::createUser(const QString &userName)
+bool VAccountsManager::createUser(const QString &userName,
+                                  const QString &fullName,
+                                  VUserAccount::AccountType accountType)
 {
-    return 0;
+    Q_D(VAccountsManager);
+
+    QDBusPendingReply<QDBusObjectPath> reply = d->interface->CreateUser(userName, fullName, accountType);
+    if (reply.isError()) {
+        QDBusError error = reply.error();
+        qWarning("Couldn't create user %s: %s", userName.toUtf8().constData(),
+                 error.errorString(error.type()).toUtf8().constData());
+        return false;
+    }
+
+    return true;
 }
 
 /*!
@@ -214,53 +252,17 @@ VUserAccount *VAccountsManager::createUser(const QString &userName)
 */
 bool VAccountsManager::deleteUser(uid_t uid, bool removeFiles)
 {
-    return false;
-}
+    Q_D(VAccountsManager);
 
-/*!
-    Deletes the user designated by \a userName.
-
-    \param userName The user name.
-    \param removeFiles If true all files owned by the user will be removed.
-    \return whether the user was deleted successfully.
-*/
-bool VAccountsManager::deleteUser(const QString &userName, bool removeFiles)
-{
-    return false;
-}
-
-/*!
-    Deletes a user account.
-
-    \param user User to delete.
-    \param removeFiles Whether to remove the user's files.
-*/
-bool VAccountsManager::deleteUser(VUserAccount *user, bool removeFiles)
-{
-    return false;
-}
-
-uid_t VAccountsManager::minimalUid() const
-{
-    uid_t uid = kMinimalUid;
-    QString fileName = QString("%1/login.defs").arg(INSTALL_SYSCONFDIR);
-    QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly))
-        return kMinimalUid;
-
-    while (!file.atEnd()) {
-        QString line = QString::fromLocal8Bit(file.readLine()).trimmed();
-
-        QRegExp rx("UID_MIN\\s*(\\d+)");
-        if (rx.exactMatch(line)) {
-            uid = rx.cap(1).toInt();
-            break;
-        }
+    QDBusPendingReply<QDBusObjectPath> reply = d->interface->DeleteUser(uid, removeFiles);
+    if (reply.isError()) {
+        QDBusError error = reply.error();
+        qWarning("Couldn't delete user %d: %s", uid,
+                 error.errorString(error.type()).toUtf8().constData());
+        return false;
     }
 
-    file.close();
-
-    return uid;
+    return true;
 }
 
 #include "moc_vaccountsmanager.cpp"

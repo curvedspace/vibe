@@ -41,17 +41,14 @@
 // We mean it.
 //
 
+class OrgFreedesktopAccountsUserInterface;
+
 class VUserAccountPrivate
 {
 public:
     explicit VUserAccountPrivate();
 
-    uid_t uid;
-    gid_t gid;
-    QString userName;
-    QString realName;
-    QString homeDirectory;
-    QString shell;
+    OrgFreedesktopAccountsUserInterface *user;
 };
 
 #endif // VUSERACCOUNT_P_H

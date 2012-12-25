@@ -9,6 +9,7 @@ include_directories(
     ${Qt5Core_INCLUDE_DIRS}
     ${Qt5DBus_INCLUDE_DIRS}
     ${Qt5Xml_INCLUDE_DIRS}
+    ${AccountsService_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/accounts
@@ -117,6 +118,12 @@ set(HEADERS
     settings/vsettings.h
 )
 
+# AccountsService DBus adaptors
+qt5_add_dbus_interfaces(SOURCES
+    ${CMAKE_SOURCE_DIR}/data/interfaces/org.freedesktop.Accounts.xml
+    ${CMAKE_SOURCE_DIR}/data/interfaces/org.freedesktop.Accounts.User.xml
+)
+
 # Add library
 add_compiler_export_flags()
 add_library(VibeCore SHARED ${SOURCES})
@@ -124,7 +131,13 @@ generate_export_header(VibeCore
     BASE_NAME vibecore
     DEPRECATED_MACRO_NAME VIBE_DEPRECATED
 )
-target_link_libraries(VibeCore ${Qt5Core_LIBRARIES} ${Qt5DBus_LIBRARIES} ${Qt5Xml_LIBRARIES} ${VibeCore_OPTIONAL_LIBS})
+target_link_libraries(VibeCore
+    ${Qt5Core_LIBRARIES}
+    ${Qt5DBus_LIBRARIES}
+    ${Qt5Xml_LIBRARIES}
+    ${VibeCore_OPTIONAL_LIBS}
+    ${AccountsService_LIBRARIES}
+)
 set_target_properties(VibeCore PROPERTIES
     VERSION ${VIBE_VERSION_STRING}
     SOVERSION ${VIBE_VERSION_MAJOR}.${VIBE_VERSION_MINOR}.${VIBE_VERSION_PATCH})

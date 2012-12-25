@@ -27,14 +27,14 @@
 
 #include "vuseraccount.h"
 #include "vuseraccount_p.h"
+#include "userinterface.h"
 
 /*
  * VUserAccountPrivate
  */
 
 VUserAccountPrivate::VUserAccountPrivate()
-    : uid(-1)
-    , gid(-1)
+    : user(0)
 {
 }
 
@@ -52,12 +52,34 @@ VUserAccountPrivate::VUserAccountPrivate()
 */
 
 /*!
-    Constructs a VUserAccount object initialized with default property values
-    that indicates an invalid user account.
+    Constructs a VUserAccount object for the specified \a uid.
+
+    \param uid User identifier.
 */
-VUserAccount::VUserAccount() :
-    d_ptr(new VUserAccountPrivate)
+VUserAccount::VUserAccount(uid_t uid)
+    : d_ptr(new VUserAccountPrivate)
 {
+    d_ptr->user =
+            new OrgFreedesktopAccountsUserInterface("org.freedesktop.Accounts",
+                                                    QString("/org/freedesktop/Accounts/User%1").arg(uid),
+                                                    QDBusConnection::systemBus(),
+                                                    this);
+}
+
+/*!
+    Constructs a VUserAccount object from a specific objectPath in the form of
+    /org/freedesktop/Accounts/UserUID where UID is user's uid.
+
+    \param objectPath Accounts Service object path for the user account.
+*/
+VUserAccount::VUserAccount(const QString &objectPath)
+    : d_ptr(new VUserAccountPrivate)
+{
+    d_ptr->user =
+            new OrgFreedesktopAccountsUserInterface("org.freedesktop.Accounts",
+                                                    objectPath,
+                                                    QDBusConnection::systemBus(),
+                                                    this);
 }
 
 /*!
@@ -69,32 +91,139 @@ VUserAccount::~VUserAccount()
 }
 
 /*!
-    Returns true if the VUserAccount object contains valid data, otherwise
-    returns false.
-    A valid object has positive uid() and gid() and non-empty userName().
-*/
-bool VUserAccount::isValid() const
-{
-    Q_D(const VUserAccount);
-    return (d->uid >= 0 && d->gid >= 0 && !d->userName.isEmpty());
-}
-
-/*!
     Returns the user identifier.
 */
 uid_t VUserAccount::userId() const
 {
     Q_D(const VUserAccount);
-    return d->uid;
+    return d->user->uid();
 }
 
 /*!
-    Returns the group identifier.
+    Returns the account type.
 */
-gid_t VUserAccount::groupId() const
+VUserAccount::AccountType VUserAccount::accountType() const
 {
     Q_D(const VUserAccount);
-    return d->gid;
+    return (VUserAccount::AccountType)d->user->accountType();
+}
+
+/*!
+    Sets the account type to \a type.
+
+    \param type Account type.
+*/
+void VUserAccount::setAccountType(AccountType type)
+{
+    Q_D(VUserAccount);
+    d->user->SetAccountType((int)type);
+}
+
+/*!
+    Returns whether this account is locked or not.
+*/
+bool VUserAccount::isLocked() const
+{
+    Q_D(const VUserAccount);
+    return d->user->locked();
+}
+
+/*!
+    Returns whether the user account will automatically log in when the
+    system starts up.
+*/
+bool VUserAccount::automaticLogin() const
+{
+    Q_D(const VUserAccount);
+    return d->user->automaticLogin();
+}
+
+/*!
+    Sets whether the user account will automatically log in when
+    the system starts up.
+
+    \param automaticLogin Whether automatic login is enabled for the user.
+*/
+void VUserAccount::setAutomaticLogin(bool automaticLogin)
+{
+    Q_D(VUserAccount);
+    d->user->SetAutomaticLogin(automaticLogin);
+}
+
+/*!
+    Returns how often the user has logged in.
+*/
+qlonglong VUserAccount::loginFrequency() const
+{
+    Q_D(const VUserAccount);
+    return d->user->loginFrequency();
+}
+
+/*!
+    Returns the last login time.
+*/
+qlonglong VUserAccount::loginTime() const
+{
+    Q_D(const VUserAccount);
+    return d->user->loginTime();
+}
+
+/*!
+    Returns the password mode for the user account.
+*/
+VUserAccount::PasswordMode VUserAccount::passwordMode() const
+{
+    Q_D(const VUserAccount);
+    return (VUserAccount::PasswordMode)d->user->passwordMode();
+}
+
+/*!
+    Returns the password hint for the user.
+*/
+QString VUserAccount::passwordHint() const
+{
+    Q_D(const VUserAccount);
+    return d->user->passwordHint();
+}
+
+/*!
+    Returns whether the user is a local account or not.
+*/
+bool VUserAccount::isLocalAccount() const
+{
+    Q_D(const VUserAccount);
+    return d->user->localAccount();
+}
+
+/*!
+    Returns whether the user is a system account or not.
+*/
+bool VUserAccount::isSystemAccount() const
+{
+    Q_D(const VUserAccount);
+    return d->user->systemAccount();
+}
+
+/*!
+    Sets the password mode for the user account.
+
+    \param mode Password mode.
+*/
+void VUserAccount::setPasswordMode(VUserAccount::PasswordMode mode)
+{
+    Q_D(VUserAccount);
+    d->user->SetPasswordMode((int)mode);
+}
+
+/*!
+    Locks or unlocks this account.
+
+    \param locked Whether this account must be locked or not.
+*/
+void VUserAccount::setLocked(bool locked)
+{
+    Q_D(VUserAccount);
+    d->user->SetLocked(locked);
 }
 
 /*!
@@ -103,7 +232,18 @@ gid_t VUserAccount::groupId() const
 QString VUserAccount::userName() const
 {
     Q_D(const VUserAccount);
-    return d->userName;
+    return d->user->userName();
+}
+
+/*!
+    Sets the user name to \a userName.
+
+    \param userName The new user name.
+*/
+void VUserAccount::setUserName(const QString &userName)
+{
+    Q_D(VUserAccount);
+    d->user->SetUserName(userName);
 }
 
 /*!
@@ -112,7 +252,18 @@ QString VUserAccount::userName() const
 QString VUserAccount::realName() const
 {
     Q_D(const VUserAccount);
-    return d->realName;
+    return d->user->realName();
+}
+
+/*!
+    Sets the user's real name to \a realName.
+
+    \param realName Real name.
+*/
+void VUserAccount::setRealName(const QString &realName)
+{
+    Q_D(VUserAccount);
+    d->user->SetRealName(realName);
 }
 
 /*!
@@ -120,10 +271,9 @@ QString VUserAccount::realName() const
 */
 QString VUserAccount::displayName() const
 {
-    Q_D(const VUserAccount);
-    if (d->realName.isEmpty())
-        return d->userName;
-    return d->realName;
+    if (realName().isEmpty())
+        return userName();
+    return realName();
 }
 
 /*!
@@ -132,7 +282,18 @@ QString VUserAccount::displayName() const
 QString VUserAccount::homeDirectory() const
 {
     Q_D(const VUserAccount);
-    return d->homeDirectory;
+    return d->user->homeDirectory();
+}
+
+/*!
+    Sets the home directory to \a homeDirectory.
+
+    \param homeDirectory Home directory.
+*/
+void VUserAccount::setHomeDirectory(const QString &homeDirectory)
+{
+    Q_D(VUserAccount);
+    d->user->SetHomeDirectory(homeDirectory);
 }
 
 /*!
@@ -141,27 +302,118 @@ QString VUserAccount::homeDirectory() const
 QString VUserAccount::shell() const
 {
     Q_D(const VUserAccount);
-    return d->shell;
+    return d->user->shell();
+}
+
+/*!
+    Sets the login shell to \a shell.
+
+    \param shell Login shell absolute path.
+*/
+void VUserAccount::setShell(const QString &shell)
+{
+    Q_D(VUserAccount);
+    d->user->SetShell(shell);
 }
 
 /*!
     Returns user's picture absoulte path.
 */
-QString VUserAccount::imageFileName() const
+QString VUserAccount::iconFileName() const
 {
     Q_D(const VUserAccount);
-    if (!d->homeDirectory.isEmpty())
-        return QString("%1/.face").arg(d->homeDirectory);
-    return QStringLiteral("");
+    return d->user->iconFile();
 }
 
 /*!
-    Retutns whether this user is logged in or not.
+    Sets users' picture absolute path to \a fileName.
+
+    \param fileName Picture absolute path.
 */
-bool VUserAccount::isLoggedIn() const
+void VUserAccount::setIconFileName(const QString &fileName)
 {
-    // TODO: Not yet implemented
-    return false;
+    Q_D(VUserAccount);
+    d->user->SetIconFile(fileName);
+}
+
+/*!
+    Returns user's email address.
+*/
+QString VUserAccount::email() const
+{
+    Q_D(const VUserAccount);
+    return d->user->email();
+}
+
+/*!
+    Sets user's email address to \a email.
+
+    \param email Email address.
+*/
+void VUserAccount::setEmail(const QString &email)
+{
+    Q_D(VUserAccount);
+    d->user->SetEmail(email);
+}
+
+/*!
+    Returns user language.
+*/
+QString VUserAccount::language() const
+{
+    Q_D(const VUserAccount);
+    return d->user->language();
+}
+
+/*!
+    Sets user language to \a language.
+
+    \param language Language.
+*/
+void VUserAccount::setLanguage(const QString &language)
+{
+    Q_D(VUserAccount);
+    d->user->SetLanguage(language);
+}
+
+/*!
+    Returns user location.
+*/
+QString VUserAccount::location() const
+{
+    Q_D(const VUserAccount);
+    return d->user->location();
+}
+
+/*!
+    Sets user \a location.
+
+    \param location Location.
+*/
+void VUserAccount::setLocation(const QString &location)
+{
+    Q_D(VUserAccount);
+    d->user->SetLocation(location);
+}
+
+/*!
+    Returns the X11 session for the user account.
+*/
+QString VUserAccount::xsession() const
+{
+    Q_D(const VUserAccount);
+    return d->user->xSession();
+}
+
+/*!
+    Sets the X11 session for the user account.
+
+    \param session X11 session name.
+*/
+void VUserAccount::setXSession(const QString &session)
+{
+    Q_D(VUserAccount);
+    d->user->SetXSession(session);
 }
 
 #include "moc_vuseraccount.cpp"

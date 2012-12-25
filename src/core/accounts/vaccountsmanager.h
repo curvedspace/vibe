@@ -33,31 +33,40 @@
 #include <VibeCore/VibeCoreExport>
 #include <VibeCore/VUserAccountList>
 
+class VAccountsManagerPrivate;
+
 class VIBECORE_EXPORT VAccountsManager : public QObject
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(VAccountsManager)
     Q_PROPERTY(VUserAccount *defaultUser READ defaultUser CONSTANT)
 public:
     explicit VAccountsManager();
+    ~VAccountsManager();
 
-    VUserAccountList listUsers(bool systemUsers);
+    VUserAccount *cacheUser(const QString &userName);
+    void uncacheUser(const QString &userName);
+    void uncacheUser(VUserAccount *account);
+
+    VUserAccountList listCachedUsers();
 
     VUserAccount *defaultUser();
 
     VUserAccount *findUserById(uid_t uid);
     VUserAccount *findUserByName(const QString &userName);
 
-    VUserAccount *createUser(const QString &userName);
-
+    bool createUser(const QString &userName,
+                    const QString &fullName,
+                    VUserAccount::AccountType accountType);
     bool deleteUser(uid_t uid, bool removeFiles);
-    bool deleteUser(const QString &userName, bool removeFiles);
-    bool deleteUser(VUserAccount *user, bool removeFiles);
 
 signals:
     void userAdded(VUserAccount *);
     void userDeleted(VUserAccount *);
 
 private:
+    VAccountsManagerPrivate *const d_ptr;
+
     uid_t minimalUid() const;
 };
 

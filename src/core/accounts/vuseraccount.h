@@ -39,54 +39,102 @@ class VUserAccountPrivate;
 class VIBECORE_EXPORT VUserAccount : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool valid READ isValid CONSTANT)
+    Q_DECLARE_PRIVATE(VUserAccount)
     Q_PROPERTY(int uid READ userId CONSTANT)
-    Q_PROPERTY(int gid READ groupId CONSTANT)
-    Q_PROPERTY(QString userName READ userName CONSTANT)
-    Q_PROPERTY(QString realName READ realName CONSTANT)
-    Q_PROPERTY(QString displayName READ displayName CONSTANT)
-    Q_PROPERTY(QString homeDirectory READ homeDirectory CONSTANT)
-    Q_PROPERTY(QString shell READ shell CONSTANT)
-    Q_PROPERTY(QString image READ imageFileName CONSTANT)
-    Q_PROPERTY(bool loggedIn READ isLoggedIn CONSTANT)
+    Q_PROPERTY(AccountType accountType READ accountType WRITE setAccountType)
+    Q_PROPERTY(bool locked READ isLocked WRITE setLocked)
+    Q_PROPERTY(bool automaticLogin READ automaticLogin WRITE setAutomaticLogin)
+    Q_PROPERTY(qlonglong loginFrequency READ loginFrequency)
+    Q_PROPERTY(qlonglong loginTime READ loginTime)
+    Q_PROPERTY(PasswordMode passwordMode READ passwordMode WRITE setPasswordMode)
+    Q_PROPERTY(QString passwordHint READ passwordHint)
+    Q_PROPERTY(bool localAccount READ isLocalAccount)
+    Q_PROPERTY(bool systemAccount READ isSystemAccount)
+    Q_PROPERTY(QString userName READ userName WRITE setUserName)
+    Q_PROPERTY(QString realName READ realName WRITE setRealName)
+    Q_PROPERTY(QString displayName READ displayName)
+    Q_PROPERTY(QString homeDirectory READ homeDirectory WRITE setHomeDirectory)
+    Q_PROPERTY(QString shell READ shell WRITE setShell)
+    Q_PROPERTY(QString iconFileName READ iconFileName WRITE setIconFileName)
+    Q_PROPERTY(QString email READ email WRITE setEmail)
+    Q_PROPERTY(QString language READ language WRITE setLanguage)
+    Q_PROPERTY(QString location READ location WRITE setLocation)
+    Q_PROPERTY(QString xsession READ xsession WRITE setXSession)
+    Q_ENUMS(AccountType PasswordMode)
 public:
     enum AccountType {
-        StandardAccountType,
+        StandardAccountType = 0,
         AdministratorAccountType
     };
 
     enum PasswordMode {
-        RegularPasswordMode,
+        RegularPasswordMode = 0,
         SetAtLoginPasswordMode,
         NonePasswordMode
     };
 
-    explicit VUserAccount();
+    explicit VUserAccount(uid_t uid);
     ~VUserAccount();
 
-    bool isValid() const;
-
     uid_t userId() const;
-    gid_t groupId() const;
+
+    AccountType accountType() const;
+    void setAccountType(AccountType type);
+
+    bool isLocked() const;
+    void setLocked(bool locked);
+
+    bool automaticLogin() const;
+    void setAutomaticLogin(bool automaticLogin);
+
+    qlonglong loginFrequency() const;
+
+    qlonglong loginTime() const;
+
+    PasswordMode passwordMode() const;
+    void setPasswordMode(PasswordMode mode);
+
+    QString passwordHint() const;
+
+    bool isLocalAccount() const;
+
+    bool isSystemAccount() const;
 
     QString userName() const;
+    void setUserName(const QString &userName);
+
     QString realName() const;
+    void setRealName(const QString &realName);
+
     QString displayName() const;
+
     QString homeDirectory() const;
+    void setHomeDirectory(const QString &homeDirectory);
+
     QString shell() const;
+    void setShell(const QString &shell);
 
-    QString imageFileName() const;
+    QString iconFileName() const;
+    void setIconFileName(const QString &fileName);
 
-    bool isLoggedIn() const;
+    QString email() const;
+    void setEmail(const QString &email);
 
-    //QList<VGroup> groups() const;
+    QString language() const;
+    void setLanguage(const QString &language);
+
+    QString location() const;
+    void setLocation(const QString &location);
+
+    QString xsession() const;
+    void setXSession(const QString &session);
 
 private:
     friend class VAccountsManager;
 
-    Q_DECLARE_PRIVATE(VUserAccount)
+    VUserAccountPrivate *const d_ptr;
 
-    VUserAccountPrivate *d_ptr;
+    VUserAccount(const QString &objectPath);
 };
 
 typedef QList<VUserAccount *> VUserAccountList;
