@@ -28,8 +28,6 @@
 #ifndef VACCOUNTSMANAGER_H
 #define VACCOUNTSMANAGER_H
 
-#include <QList>
-
 #include <VibeCore/VibeCoreExport>
 #include <VibeCore/VUserAccountList>
 
@@ -60,14 +58,12 @@ public:
                     VUserAccount::AccountType accountType);
     bool deleteUser(uid_t uid, bool removeFiles);
 
-signals:
+Q_SIGNALS:
     void userAdded(VUserAccount *);
     void userDeleted(VUserAccount *);
 
 private:
     VAccountsManagerPrivate *const d_ptr;
-
-    uid_t minimalUid() const;
 };
 
 #endif // VACCOUNTSMANAGER_H
