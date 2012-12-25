@@ -64,6 +64,9 @@ Q_SIGNALS:
 
 private:
     VAccountsManagerPrivate *const d_ptr;
+
+    Q_PRIVATE_SLOT(d_ptr, void _q_userAdded(const QDBusObjectPath &path))
+    Q_PRIVATE_SLOT(d_ptr, void _q_userDeleted(const QDBusObjectPath &path))
 };
 
 #endif // VACCOUNTSMANAGER_H

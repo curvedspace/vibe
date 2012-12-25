@@ -34,6 +34,7 @@
 #include <VibeCore/VibeCoreExport>
 
 class VAccountsManager;
+class VAccountsManagerPrivate;
 class VUserAccountPrivate;
 
 class VIBECORE_EXPORT VUserAccount : public QObject
@@ -147,6 +148,7 @@ Q_SIGNALS:
 
 private:
     friend class VAccountsManager;
+    friend class VAccountsManagerPrivate;
 
     VUserAccountPrivate *const d_ptr;
 

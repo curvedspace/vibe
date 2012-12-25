@@ -37,7 +37,8 @@
  * VAccountsManagerPrivate
  */
 
-VAccountsManagerPrivate::VAccountsManagerPrivate()
+VAccountsManagerPrivate::VAccountsManagerPrivate(VAccountsManager *self)
+    : q_ptr(self)
 {
     interface = new OrgFreedesktopAccountsInterface(
                 "org.freedesktop.Accounts",
@@ -48,6 +49,18 @@ VAccountsManagerPrivate::VAccountsManagerPrivate()
 VAccountsManagerPrivate::~VAccountsManagerPrivate()
 {
     delete interface;
+}
+
+void VAccountsManagerPrivate::_q_userAdded(const QDBusObjectPath &path)
+{
+    Q_Q(VAccountsManager);
+    emit q->userAdded(new VUserAccount(path.path()));
+}
+
+void VAccountsManagerPrivate::_q_userDeleted(const QDBusObjectPath &path)
+{
+    Q_Q(VAccountsManager);
+    emit q->userDeleted(new VUserAccount(path.path()));
 }
 
 /*!
@@ -66,8 +79,12 @@ VAccountsManagerPrivate::~VAccountsManagerPrivate()
     Constructs a VAccountsManager object.
 */
 VAccountsManager::VAccountsManager()
-    : d_ptr(new VAccountsManagerPrivate)
+    : d_ptr(new VAccountsManagerPrivate(this))
 {
+    connect(d_ptr->interface, SIGNAL(UserAdded(QDBusObjectPath)),
+            this, SLOT(_q_userAdded(QDBusObjectPath)));
+    connect(d_ptr->interface, SIGNAL(UserDeleted(QDBusObjectPath)),
+            this, SLOT(_q_userDeleted(QDBusObjectPath)));
 }
 
 /*!
