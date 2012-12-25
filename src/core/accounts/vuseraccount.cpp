@@ -117,6 +117,7 @@ void VUserAccount::setAccountType(AccountType type)
 {
     Q_D(VUserAccount);
     d->user->SetAccountType((int)type);
+    emit accountTypeChanged();
 }
 
 /*!
@@ -126,6 +127,19 @@ bool VUserAccount::isLocked() const
 {
     Q_D(const VUserAccount);
     return d->user->locked();
+}
+
+/*!
+    Locks or unlocks the user account.
+    Locking an account prevents the user from logging in.
+
+    \param locked Whether to lock or unlock the user account.
+*/
+void VUserAccount::setLocked(bool locked)
+{
+    Q_D(VUserAccount);
+    d->user->SetLocked(locked);
+    emit lockedChanged();
 }
 
 /*!
@@ -148,6 +162,7 @@ void VUserAccount::setAutomaticLogin(bool automaticLogin)
 {
     Q_D(VUserAccount);
     d->user->SetAutomaticLogin(automaticLogin);
+    emit automaticLoginChanged();
 }
 
 /*!
@@ -178,6 +193,18 @@ VUserAccount::PasswordMode VUserAccount::passwordMode() const
 }
 
 /*!
+    Sets the password mode for the user account.
+
+    \param mode Password mode.
+*/
+void VUserAccount::setPasswordMode(VUserAccount::PasswordMode mode)
+{
+    Q_D(VUserAccount);
+    d->user->SetPasswordMode((int)mode);
+    emit passwordModeChanged();
+}
+
+/*!
     Returns the password hint for the user.
 */
 QString VUserAccount::passwordHint() const
@@ -205,28 +232,6 @@ bool VUserAccount::isSystemAccount() const
 }
 
 /*!
-    Sets the password mode for the user account.
-
-    \param mode Password mode.
-*/
-void VUserAccount::setPasswordMode(VUserAccount::PasswordMode mode)
-{
-    Q_D(VUserAccount);
-    d->user->SetPasswordMode((int)mode);
-}
-
-/*!
-    Locks or unlocks this account.
-
-    \param locked Whether this account must be locked or not.
-*/
-void VUserAccount::setLocked(bool locked)
-{
-    Q_D(VUserAccount);
-    d->user->SetLocked(locked);
-}
-
-/*!
     Returns the user name.
 */
 QString VUserAccount::userName() const
@@ -244,6 +249,8 @@ void VUserAccount::setUserName(const QString &userName)
 {
     Q_D(VUserAccount);
     d->user->SetUserName(userName);
+    emit userNameChanged();
+    emit displayNameChanged();
 }
 
 /*!
@@ -264,6 +271,8 @@ void VUserAccount::setRealName(const QString &realName)
 {
     Q_D(VUserAccount);
     d->user->SetRealName(realName);
+    emit realNameChanged();
+    emit displayNameChanged();
 }
 
 /*!
@@ -294,6 +303,7 @@ void VUserAccount::setHomeDirectory(const QString &homeDirectory)
 {
     Q_D(VUserAccount);
     d->user->SetHomeDirectory(homeDirectory);
+    emit homeDirectoryChanged();
 }
 
 /*!
@@ -314,6 +324,7 @@ void VUserAccount::setShell(const QString &shell)
 {
     Q_D(VUserAccount);
     d->user->SetShell(shell);
+    emit shellChanged();
 }
 
 /*!
@@ -334,6 +345,7 @@ void VUserAccount::setIconFileName(const QString &fileName)
 {
     Q_D(VUserAccount);
     d->user->SetIconFile(fileName);
+    emit iconFileNameChanged();
 }
 
 /*!
@@ -354,6 +366,7 @@ void VUserAccount::setEmail(const QString &email)
 {
     Q_D(VUserAccount);
     d->user->SetEmail(email);
+    emit emailChanged();
 }
 
 /*!
@@ -374,6 +387,7 @@ void VUserAccount::setLanguage(const QString &language)
 {
     Q_D(VUserAccount);
     d->user->SetLanguage(language);
+    emit languageChanged();
 }
 
 /*!
@@ -394,6 +408,7 @@ void VUserAccount::setLocation(const QString &location)
 {
     Q_D(VUserAccount);
     d->user->SetLocation(location);
+    emit locationChanged();
 }
 
 /*!
@@ -414,6 +429,7 @@ void VUserAccount::setXSession(const QString &session)
 {
     Q_D(VUserAccount);
     d->user->SetXSession(session);
+    emit xsessionChanged();
 }
 
 #include "moc_vuseraccount.cpp"
