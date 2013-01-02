@@ -10,7 +10,7 @@ A number of classes was forked or taken verbatim from kdelibs (frameworks branch
 our changes will be sent to the KDE Project which in turns will probably
 push some of their work to the Qt Project as well.
 
-Bulding
+Building
 =======
 
 Assuming you are in the source directory, just create a build directory
